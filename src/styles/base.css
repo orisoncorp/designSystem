@@ -1,0 +1,63 @@
+@import '../tokens/tokens.css';
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Body ─── */
+body {
+  background: var(--color-black);
+  color: var(--color-offwhite);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── App layout (with sidebar) ─── */
+#app {
+  margin-left: var(--sidebar-width);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-crimson);
+  color: var(--color-offwhite);
+}
+
+/* ─── Scrollbar ─── */
+html { scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-black); }
+::-webkit-scrollbar-thumb { background: var(--color-slate); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gray); }
+
+/* ─── Copy notification ─── */
+.copy-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-crimson);
+  color: var(--color-offwhite);
+  padding: 10px 20px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.copy-notification.show { opacity: 1; }
+
+/* ─── Responsive: remove sidebar offset on mobile ─── */
+@media (max-width: 900px) {
+  #app { margin-left: 0; }
+}

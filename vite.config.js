@@ -3,6 +3,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: './',
   server: {
-    open: '/core.html'
+    open: '/index.html'
   }
 });

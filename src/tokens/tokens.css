@@ -1,0 +1,95 @@
+:root {
+  /* ─── Colors: Identity ─── */
+  --color-black:    #0a0a0a;
+  --color-midnight: #111113;
+  --color-surface:  #0d0d0f;
+  --color-slate:    #2a2a2a;
+  --color-border:   #1e1e1e;
+  --color-gray:     #4a4a4a;
+  --color-crimson:  #8B1A1A;
+  --color-red:      #A52020;
+  --color-offwhite: #e8e6e1;
+
+  /* ─── Colors: Data Visualization ─── */
+  --color-negative-hi: #8B1A1A;
+  --color-negative-md: #C0392B;
+  --color-alert-hi:    #8B4A1A;
+  --color-alert-md:    #C0622B;
+  --color-positive-hi: #1A5C2E;
+  --color-positive-md: #27834A;
+
+  /* ─── Opacity: Semantic scale ─── */
+  --opacity-primary:    1;
+  --opacity-secondary:  0.65;
+  --opacity-tertiary:   0.45;
+  --opacity-muted:      0.35;
+  --opacity-faint:      0.2;
+  --opacity-decoration: 0.05;
+
+  /* ─── Typography: Families ─── */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body:    'Montserrat', sans-serif;
+
+  /* ─── Typography: Weights ─── */
+  --font-weight-light:   300;
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+
+  /* ─── Typography: Scale ─── */
+  --text-hero:  56px;
+  --text-xl:    52px;
+  --text-lg:    36px;
+  --text-md:    28px;
+  --text-sm:    20px;
+  --text-xs:    18px;
+  --text-base:  11px;
+  --text-label:  8px;
+  --text-micro:  7px;
+
+  /* ─── Typography: Letter-spacing ─── */
+  --tracking-tight:  1px;
+  --tracking-base:   2px;
+  --tracking-wide:   4px;
+  --tracking-wider:  6px;
+  --tracking-widest: 8px;
+  --tracking-loose:  10px;
+  --tracking-hero:   16px;
+  --tracking-epic:   18px;
+
+  /* ─── Spacing: Base 8px scale ─── */
+  --space-1:  4px;   /* XS */
+  --space-2:  8px;   /* S  */
+  --space-3:  16px;  /* M  */
+  --space-4:  24px;  /* ML */
+  --space-5:  32px;  /* L  */
+  --space-6:  48px;  /* XL */
+  --space-7:  64px;  /* 2XL */
+  --space-8:  80px;  /* 3XL */
+
+  /* ─── Borders ─── */
+  --border-thin:   1px;
+  --border-accent: 2px;
+  --border-bar:    3px;
+  --border-color:         var(--color-border);
+  --border-color-strong:  var(--color-slate);
+  --border-color-accent:  var(--color-crimson);
+
+  /* ─── Shadows ─── */
+  --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 16px 32px rgba(0, 0, 0, 0.5);
+
+  /* ─── Transitions ─── */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ─── Layout ─── */
+  --container-max:    1080px;
+  --sidebar-width:    240px;
+  --section-padding:  var(--space-8) 60px;
+  --panel-padding:    60px var(--space-7);
+
+  /* ─── Symbol ─── */
+  --symbol-inner-opacity: 0.28;
+  --symbol-line-opacity:  0.9;
+}

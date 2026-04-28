@@ -1,0 +1,53 @@
+<section id="sec-donts">
+  <div class="sec-div">
+    <span class="sec-num">10</span>
+    <span class="sec-title">Uso Incorreto · Don'ts</span>
+    <span class="sec-sub">Proibições de Uso da Marca</span>
+  </div>
+
+  <div class="dont-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Don'ts · Uso Incorreto</span>
+      <span class="block-header-sub">Nunca violar estas regras</span>
+    </div>
+    <div class="dont-grid">
+      <div class="dont-item">
+        <span class="dont-badge">✕ Proibido</span>
+        <!-- Color violation: using green instead of offwhite/crimson -->
+        <svg width="70" height="70" viewBox="0 0 110 110" fill="none" role="img" aria-label="Exemplo proibido: cor alterada">
+          <circle cx="55" cy="55" r="46" stroke="#4a8B4a" stroke-width="1.2" fill="none"/>
+          <circle cx="55" cy="55" r="29" stroke="#4a8B4a" stroke-width="0.55" fill="none" opacity="0.28"/>
+          <line x1="55" y1="9" x2="55" y2="101" stroke="#4a8B4a" stroke-width="1.1" opacity="0.9"/>
+        </svg>
+        <span class="dont-desc">Nunca alterar as cores. Círculo sempre Off-White ou preto. Linha sempre Crimson #8B1A1A.</span>
+      </div>
+      <div class="dont-item">
+        <span class="dont-badge">✕ Proibido</span>
+        <!-- Rotation violation -->
+        <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: símbolo rotacionado" style="color: var(--color-offwhite); transform: rotate(45deg)">
+          <use href="#symbol-full"/>
+        </svg>
+        <span class="dont-desc">Nunca rotacionar o símbolo. A linha vertical é sempre perpendicular ao plano horizontal.</span>
+      </div>
+      <div class="dont-item">
+        <span class="dont-badge">✕ Proibido</span>
+        <!-- Distortion violation -->
+        <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: símbolo distorcido" style="color: var(--color-offwhite); transform: scaleX(1.6)">
+          <use href="#symbol-full"/>
+        </svg>
+        <span class="dont-desc">Nunca distorcer ou esticar o símbolo. Sempre manter proporção 1:1 ao redimensionar.</span>
+      </div>
+      <div class="dont-item">
+        <span class="dont-badge">✕ Proibido</span>
+        <!-- Effects violation -->
+        <div style="position:relative; display:inline-flex;">
+          <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: efeito aplicado sobre o símbolo" style="color: var(--color-offwhite)">
+            <use href="#symbol-full"/>
+          </svg>
+          <div style="position:absolute; inset:0; background:rgba(80,80,200,0.4); border-radius:50%;"></div>
+        </div>
+        <span class="dont-desc">Nunca aplicar sombra, glow, gradiente ou filtros sobre o símbolo. Sempre fundo plano.</span>
+      </div>
+    </div>
+  </div>
+</section>

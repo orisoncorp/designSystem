@@ -1,0 +1,87 @@
+/* ─── Keyframes ─── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Scroll-triggered animations ─── */
+.cover,
+.block-2col,
+.scale-bar,
+.favicon-bar,
+.palette-wrap,
+.type-wrap,
+.spacing-wrap,
+.clearspace-wrap,
+.dont-wrap,
+.vt-wrap,
+.app-wrap,
+.full-block {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.sec-div {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.in-view {
+  opacity: 1 !important;
+  transform: translate(0) !important;
+}
+
+/* ─── Hover interactions ─── */
+.panel,
+.panel-light,
+.swatch,
+.pu-item,
+.su-item,
+.dont-item,
+.vt-panel,
+.vt-words-panel,
+.card-preview,
+.card-preview-light,
+.email-sig,
+.slide-preview {
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.panel:hover,
+.panel-light:hover,
+.dont-item:hover,
+.vt-panel:hover,
+.vt-words-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.swatch:hover,
+.pu-item:hover,
+.su-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.swatch:active { transform: translateY(0); }
+
+/* ─── Symbol inner circle hover ─── */
+svg circle:nth-child(2) {
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+.panel:hover svg circle:nth-child(2),
+.panel-light:hover svg circle:nth-child(2),
+.card-preview:hover svg circle:nth-child(2),
+.card-preview-light:hover svg circle:nth-child(2),
+.email-sig:hover svg circle:nth-child(2),
+.slide-preview:hover svg circle:nth-child(2) {
+  opacity: 0.45;
+  transform: scale(1.05);
+}
