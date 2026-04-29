@@ -6,6 +6,8 @@
   --color-slate:    #2a2a2a;
   --color-border:   #1e1e1e;
   --color-gray:     #4a4a4a;
+  --color-subtle:   #3a3a3a;
+  --color-text-dim: rgba(232, 230, 225, 0.55);
   --color-crimson:  #8B1A1A;
   --color-red:      #A52020;
   --color-offwhite: #e8e6e1;
@@ -21,9 +23,9 @@
   /* ─── Opacity: Semantic scale ─── */
   --opacity-primary:    1;
   --opacity-secondary:  0.65;
-  --opacity-tertiary:   0.45;
-  --opacity-muted:      0.35;
-  --opacity-faint:      0.2;
+  --opacity-tertiary:   0.55;
+  --opacity-muted:      0.50;
+  --opacity-faint:      0.35;
   --opacity-decoration: 0.05;
 
   /* ─── Typography: Families ─── */
@@ -43,8 +45,8 @@
   --text-sm:    20px;
   --text-xs:    18px;
   --text-base:  11px;
-  --text-label:  8px;
-  --text-micro:  7px;
+  --text-label:  9px;
+  --text-micro:  8px;
 
   /* ─── Typography: Letter-spacing ─── */
   --tracking-tight:  1px;
@@ -77,11 +79,15 @@
   /* ─── Shadows ─── */
   --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.6);
   --shadow-md: 0 16px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg:    0 24px 48px rgba(0, 0, 0, 0.7);
+  --shadow-inner: inset 0 1px 0 rgba(232, 230, 225, 0.04);
 
   /* ─── Transitions ─── */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
-  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow:    0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-instant: 0.1s ease;
+  --easing-spring:      cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ─── Layout ─── */
   --container-max:    1080px;

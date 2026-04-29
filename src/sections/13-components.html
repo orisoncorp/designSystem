@@ -1,0 +1,302 @@
+<section id="sec-components">
+  <div class="sec-div">
+    <span class="sec-num">13</span>
+    <span class="sec-title">Componentes de Interface</span>
+    <span class="sec-sub">UI Components · States · Motion</span>
+  </div>
+
+  <!-- ── BOTÕES ── -->
+  <div class="comp-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Botões</span>
+      <span class="block-header-sub">Primary · Ghost · States</span>
+    </div>
+
+    <div class="comp-row">
+      <span class="comp-row-title">Botão Primário · Primary</span>
+      <div class="comp-stage">
+        <button class="btn-orison">Iniciar Diagnóstico</button>
+        <button class="btn-orison-ghost">Ver Detalhes</button>
+      </div>
+
+      <div class="states-grid">
+        <div class="state-cell">
+          <span class="state-label">Default</span>
+          <button class="btn-orison" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Hover</span>
+          <button class="btn-orison" style="background: var(--color-red); transform: translateY(-1px);" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Active</span>
+          <button class="btn-orison" style="background: var(--color-crimson); transform: translateY(0);" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Focus</span>
+          <button class="btn-orison" style="outline: 2px solid var(--color-red); outline-offset: 3px;" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Disabled</span>
+          <button class="btn-orison" disabled tabindex="-1">Ação</button>
+        </div>
+      </div>
+
+      <div class="states-grid" style="margin-top: 2px;">
+        <div class="state-cell">
+          <span class="state-label">Default</span>
+          <button class="btn-orison-ghost" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Hover</span>
+          <button class="btn-orison-ghost" style="border-color: var(--color-offwhite); transform: translateY(-1px);" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Active</span>
+          <button class="btn-orison-ghost" style="transform: translateY(0);" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Focus</span>
+          <button class="btn-orison-ghost" style="outline: 2px solid var(--color-offwhite); outline-offset: 3px;" tabindex="-1">Ação</button>
+        </div>
+        <div class="state-cell">
+          <span class="state-label">Disabled</span>
+          <button class="btn-orison-ghost" disabled tabindex="-1">Ação</button>
+        </div>
+      </div>
+
+      <div class="comp-spec-row">
+        <div class="comp-spec">
+          <span class="comp-spec-key">Padding Primary</span>
+          <span class="comp-spec-val">12px 28px</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Font</span>
+          <span class="comp-spec-val">Montserrat · 9px · 5px tracking</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Background</span>
+          <span class="comp-spec-val">--color-crimson → --color-red (hover)</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Transition</span>
+          <span class="comp-spec-val">--transition-fast (0.2s ease)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BADGES ── -->
+  <div class="comp-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Badges · Tags</span>
+      <span class="block-header-sub">Status · Categorias · Dados</span>
+    </div>
+
+    <div class="comp-row">
+      <span class="comp-row-title">Variantes de Badge</span>
+      <div class="comp-stage" style="gap: var(--space-3);">
+        <span class="badge-orison badge-orison--crimson">Crítico</span>
+        <span class="badge-orison badge-orison--alert">Atenção</span>
+        <span class="badge-orison badge-orison--positive">Atingido</span>
+        <span class="badge-orison badge-orison--neutral">Padrão</span>
+      </div>
+      <div class="comp-spec-row">
+        <div class="comp-spec">
+          <span class="comp-spec-key">Padding</span>
+          <span class="comp-spec-val">4px 10px</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Font</span>
+          <span class="comp-spec-val">Montserrat · 8px · 3px tracking</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Uso</span>
+          <span class="comp-spec-val">Status de métricas · Data viz · Categorias</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Cores</span>
+          <span class="comp-spec-val">Crimson · Alert · Positive · Neutral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INPUT ── -->
+  <div class="comp-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Campos de Input</span>
+      <span class="block-header-sub">Text Input · States · Validation</span>
+    </div>
+
+    <div class="comp-row">
+      <span class="comp-row-title">Input · Variantes de Estado</span>
+      <div class="comp-stage" style="flex-wrap: wrap; gap: var(--space-5); align-items: flex-start;">
+        <div class="input-orison-wrap">
+          <label class="input-orison-label">Empresa</label>
+          <input class="input-orison" type="text" placeholder="Nome da empresa" />
+          <span class="input-orison-hint">Estado padrão</span>
+        </div>
+        <div class="input-orison-wrap">
+          <label class="input-orison-label">Empresa</label>
+          <input class="input-orison" type="text" value="Orison LTDA" style="border-color: var(--color-crimson);" />
+          <span class="input-orison-hint">Focus</span>
+        </div>
+        <div class="input-orison-wrap">
+          <label class="input-orison-label" style="color: var(--color-red); opacity:0.9;">Email</label>
+          <input class="input-orison input-orison--error" type="email" value="email-invalido" />
+          <span class="input-orison-hint input-orison-hint--error">Formato de email inválido</span>
+        </div>
+        <div class="input-orison-wrap">
+          <label class="input-orison-label">Desabilitado</label>
+          <input class="input-orison" type="text" disabled placeholder="Não disponível" />
+          <span class="input-orison-hint">Disabled</span>
+        </div>
+      </div>
+      <div class="comp-spec-row">
+        <div class="comp-spec">
+          <span class="comp-spec-key">Padding</span>
+          <span class="comp-spec-val">12px 16px</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Border default</span>
+          <span class="comp-spec-val">--color-border (#1e1e1e)</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Border focus</span>
+          <span class="comp-spec-val">--color-crimson (#8B1A1A)</span>
+        </div>
+        <div class="comp-spec">
+          <span class="comp-spec-key">Border error</span>
+          <span class="comp-spec-val">--color-red (#A52020)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DATA TABLE ── -->
+  <div class="comp-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Tabela de Dados</span>
+      <span class="block-header-sub">Data Table · Dashboard · Relatórios</span>
+    </div>
+
+    <div class="comp-row">
+      <span class="comp-row-title">Tabela · KPIs de Exemplo</span>
+      <div class="comp-stage" style="padding: 0; overflow-x: auto;">
+        <table class="table-orison" style="min-width: 540px;">
+          <thead>
+            <tr>
+              <th>Métrica</th>
+              <th>Atual</th>
+              <th>Meta</th>
+              <th>Variação</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tempo de Resposta</td>
+              <td class="td-metric">1.8s</td>
+              <td class="td-muted">≤ 2.0s</td>
+              <td class="td-positive">−12%</td>
+              <td><span class="badge-orison badge-orison--positive">Atingido</span></td>
+            </tr>
+            <tr>
+              <td>Custo Operacional</td>
+              <td class="td-metric">R$ 48.2k</td>
+              <td class="td-muted">≤ R$ 52k</td>
+              <td class="td-positive">−7%</td>
+              <td><span class="badge-orison badge-orison--positive">Atingido</span></td>
+            </tr>
+            <tr>
+              <td>Taxa de Erro</td>
+              <td class="td-metric">3.4%</td>
+              <td class="td-muted">≤ 2.0%</td>
+              <td class="td-negative">+70%</td>
+              <td><span class="badge-orison badge-orison--crimson">Crítico</span></td>
+            </tr>
+            <tr>
+              <td>Volume Processado</td>
+              <td class="td-metric">12.4k</td>
+              <td class="td-muted">≥ 10k</td>
+              <td class="td-positive">+24%</td>
+              <td><span class="badge-orison badge-orison--positive">Atingido</span></td>
+            </tr>
+            <tr>
+              <td>SLA Cumprimento</td>
+              <td class="td-metric">91%</td>
+              <td class="td-muted">≥ 95%</td>
+              <td class="td-negative">−4pp</td>
+              <td><span class="badge-orison badge-orison--alert">Atenção</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MOTION TOKENS ── -->
+  <div class="motion-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Motion · Tokens de Animação</span>
+      <span class="block-header-sub">Transições · Easing · Uso · Clique para demonstrar</span>
+    </div>
+
+    <div class="motion-row">
+      <span class="motion-token">--transition-instant</span>
+      <div>
+        <span class="motion-value">0.1s ease</span>
+        <div class="motion-bar-track">
+          <div class="motion-demo motion-demo--instant" title="Clique para animar"></div>
+        </div>
+      </div>
+      <span class="motion-use">Tooltip · Feedback imediato · Micro-reações</span>
+    </div>
+
+    <div class="motion-row">
+      <span class="motion-token">--transition-fast</span>
+      <div>
+        <span class="motion-value">0.2s ease</span>
+        <div class="motion-bar-track">
+          <div class="motion-demo motion-demo--fast" title="Clique para animar"></div>
+        </div>
+      </div>
+      <span class="motion-use">Hover de botão · Mudança de cor · Bordas</span>
+    </div>
+
+    <div class="motion-row">
+      <span class="motion-token">--transition-base</span>
+      <div>
+        <span class="motion-value">0.3s ease</span>
+        <div class="motion-bar-track">
+          <div class="motion-demo motion-demo--base" title="Clique para animar"></div>
+        </div>
+      </div>
+      <span class="motion-use">Expansão de componente · Fade de painel · Sidebar</span>
+    </div>
+
+    <div class="motion-row">
+      <span class="motion-token">--transition-slow</span>
+      <div>
+        <span class="motion-value">0.6s cubic-bezier(0.16, 1, 0.3, 1)</span>
+        <div class="motion-bar-track">
+          <div class="motion-demo motion-demo--slow" title="Clique para animar"></div>
+        </div>
+      </div>
+      <span class="motion-use">Scroll reveal · Abertura de modal · Animações de hero</span>
+    </div>
+
+    <div style="margin-top: var(--space-5); display: flex; gap: 2px; flex-wrap: wrap;">
+      <div class="comp-spec" style="min-width: 220px; flex: none;">
+        <span class="comp-spec-key">Easing Spring</span>
+        <span class="comp-spec-val">cubic-bezier(0.16, 1, 0.3, 1)</span>
+      </div>
+      <div class="comp-spec" style="flex: 1; min-width: 240px;">
+        <span class="comp-spec-key">Princípio de Motion</span>
+        <span class="comp-spec-val" style="font-family: var(--font-body); font-size: 9px; color: var(--color-offwhite); opacity: 0.55; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.8;">Entrada rápida, saída suave. Nunca linear em elementos de identidade. O spring é a assinatura de movimento da Orison.</span>
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -86,6 +86,22 @@
 .text-faint   { color: var(--color-offwhite); opacity: var(--opacity-faint); }
 .text-mono    { font-family: monospace; }
 
+.text-dim {
+  color: var(--color-text-dim);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-base);
+  text-transform: uppercase;
+}
+
+.text-mono-label {
+  font-family: monospace;
+  font-size: var(--text-label);
+  letter-spacing: 1.5px;
+  color: var(--color-crimson);
+  opacity: 0.85;
+}
+
 @media (max-width: 600px) {
   .text-display-hero { font-size: 32px; letter-spacing: 12px; }
   .text-display-xl   { font-size: 34px; letter-spacing: 4px; }

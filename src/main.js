@@ -21,6 +21,7 @@ import section9  from './sections/09-clearspace.html?raw';
 import section10 from './sections/10-donts.html?raw';
 import section11 from './sections/11-voice.html?raw';
 import section12 from './sections/12-applications.html?raw';
+import section13 from './sections/13-components.html?raw';
 
 /* ── Sidebar nav config ── */
 const NAV_ITEMS = [
@@ -36,7 +37,8 @@ const NAV_ITEMS = [
   { id: 'sec-clear',    num: '09', label: 'Clearspace' },
   { id: 'sec-donts',    num: '10', label: "Don'ts" },
   { id: 'sec-voice',    num: '11', label: 'Voz e Tom' },
-  { id: 'sec-apps',     num: '12', label: 'Aplicações' },
+  { id: 'sec-apps',        num: '12', label: 'Aplicações' },
+  { id: 'sec-components',  num: '13', label: 'Componentes UI' },
 ];
 
 /* ── Build sidebar HTML ── */
@@ -53,6 +55,7 @@ function buildSidebar() {
       <div class="sidebar-header">
         <span class="sidebar-brand">Orison</span>
         <span class="sidebar-version">Brand System · V 2.0</span>
+        <span class="sidebar-count">${NAV_ITEMS.length} seções</span>
       </div>
       <nav class="sidebar-nav">${navLinks}</nav>
     </aside>
@@ -72,7 +75,7 @@ document.body.insertAdjacentHTML('afterbegin', symbolSprite);
 app.innerHTML = [
   section0, section1, section2, section3, section4,
   section5, section6, section7, section8, section9,
-  section10, section11, section12,
+  section10, section11, section12, section13,
 ].join('');
 
 /* ── Sidebar toggle (mobile) ── */
@@ -140,7 +143,8 @@ const animObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll(
   '.cover, .block-2col, .scale-bar, .favicon-bar, .palette-wrap, ' +
   '.type-wrap, .spacing-wrap, .clearspace-wrap, .dont-wrap, ' +
-  '.vt-wrap, .app-wrap, .full-block, .sec-div'
+  '.vt-wrap, .app-wrap, .full-block, .sec-div, ' +
+  '.comp-wrap, .motion-wrap'
 ).forEach(el => animObserver.observe(el));
 
 /* Trigger cover immediately */
@@ -165,5 +169,16 @@ document.querySelectorAll('.swatch').forEach(swatch => {
       notification.classList.add('show');
       setTimeout(() => notification.classList.remove('show'), 2000);
     });
+  });
+});
+
+/* ── Motion demos (section 13) ── */
+document.querySelectorAll('.motion-demo').forEach(demo => {
+  demo.addEventListener('click', () => {
+    if (demo.classList.contains('is-playing')) return;
+    demo.classList.add('is-playing');
+    demo.addEventListener('animationend', () => {
+      demo.classList.remove('is-playing');
+    }, { once: true });
   });
 });

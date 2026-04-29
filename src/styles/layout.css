@@ -3,6 +3,7 @@
 .grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
 .grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
 .grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; }
+.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 
 /* ─── Flex utilities ─── */
 .flex-row    { display: flex; flex-direction: row; }
@@ -98,7 +99,8 @@
   .sec-div, .cover, .block-2col, .scale-bar,
   .favicon-bar, .palette-wrap, .type-wrap,
   .spacing-wrap, .clearspace-wrap, .dont-wrap,
-  .vt-wrap, .app-wrap, .full-block {
+  .vt-wrap, .app-wrap, .full-block,
+  .comp-wrap, .motion-wrap {
     margin-left: 20px;
     margin-right: 20px;
     width: auto;
@@ -110,6 +112,8 @@
   .block-2col, .type-grid, .vt-grid,
   .app-grid, .app-grid-3 { grid-template-columns: 1fr; }
 
+  .grid-3col { grid-template-columns: 1fr 1fr; }
+
   .grid-6col, .swatches, .spacing-grid { grid-template-columns: repeat(4, 1fr); }
 
   .grid-4col,
@@ -117,7 +121,7 @@
 }
 
 @media (max-width: 600px) {
-  .grid-2col, .grid-4col, .grid-6col, .grid-8col,
+  .grid-2col, .grid-3col, .grid-4col, .grid-6col, .grid-8col,
   .swatches, .spacing-grid, .palette-usage,
   .spacing-usage, .dont-grid { grid-template-columns: 1fr; }
 
