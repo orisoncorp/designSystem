@@ -35,17 +35,15 @@
 .block-header-title {
   font-size: 10px;
   letter-spacing: 5px;
-  color: var(--color-offwhite);
+  color: var(--text-body);
   text-transform: uppercase;
-  opacity: var(--opacity-secondary);
 }
 
 .block-header-sub {
   font-size: 8px;
   letter-spacing: 3px;
-  color: var(--color-offwhite);
+  color: var(--text-muted);
   text-transform: uppercase;
-  opacity: var(--opacity-muted);
 }
 
 /* ─── Dividers ─── */
@@ -76,8 +74,7 @@
   font-family: var(--font-body);
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-base);
-  color: var(--color-offwhite);
-  opacity: var(--opacity-secondary);
+  color: var(--text-body);
   text-transform: uppercase;
   margin-bottom: 6px;
   display: block;
@@ -87,8 +84,7 @@
   font-family: var(--font-body);
   font-size: var(--text-label);
   letter-spacing: var(--tracking-tight);
-  color: var(--color-offwhite);
-  opacity: var(--opacity-tertiary);
+  color: var(--text-body);
   text-transform: uppercase;
   line-height: 1.8;
 }

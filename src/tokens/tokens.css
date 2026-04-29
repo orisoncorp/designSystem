@@ -12,6 +12,12 @@
   --color-red:      #A52020;
   --color-offwhite: #e8e6e1;
 
+  /* ─── Text: Concrete color scale (sem opacity stacking) ─── */
+  --text-primary:   #e8e6e1;   /* Full brightness — headings, wordmarks */
+  --text-body:      #c8c6c1;   /* Descrições, parágrafos — claro mas hierárquico */
+  --text-secondary: #a8a6a2;   /* Labels, specs, metadata */
+  --text-muted:     #888580;   /* Texto de suporte, hints — mínimo legível */
+
   /* ─── Colors: Data Visualization ─── */
   --color-negative-hi: #8B1A1A;
   --color-negative-md: #C0392B;

@@ -56,7 +56,7 @@
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-base);
   line-height: 1.9;
-  opacity: var(--opacity-secondary);
+  color: var(--text-body);
 }
 
 .text-label {
@@ -65,7 +65,7 @@
   font-weight: var(--font-weight-regular);
   letter-spacing: 5px;
   text-transform: uppercase;
-  opacity: var(--opacity-tertiary);
+  color: var(--text-secondary);
 }
 
 .text-micro {
@@ -74,17 +74,17 @@
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  opacity: var(--opacity-muted);
+  color: var(--text-muted);
 }
 
 /* ─── Semantic text colors ─── */
-.text-accent  { color: var(--color-crimson); }
-.text-primary { color: var(--color-offwhite); opacity: var(--opacity-primary); }
-.text-secondary { color: var(--color-offwhite); opacity: var(--opacity-secondary); }
-.text-tertiary { color: var(--color-offwhite); opacity: var(--opacity-tertiary); }
-.text-muted   { color: var(--color-offwhite); opacity: var(--opacity-muted); }
-.text-faint   { color: var(--color-offwhite); opacity: var(--opacity-faint); }
-.text-mono    { font-family: monospace; }
+.text-accent    { color: var(--color-crimson); }
+.text-primary   { color: var(--text-primary); }
+.text-secondary { color: var(--text-body); }
+.text-tertiary  { color: var(--text-secondary); }
+.text-muted     { color: var(--text-muted); }
+.text-faint     { color: var(--text-muted); }
+.text-mono      { font-family: monospace; }
 
 .text-dim {
   color: var(--color-text-dim);
