@@ -7,7 +7,7 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "C:\\Users\\nobel\\Orison\\01_tatico\\Orison - Design System\\dist"
+publish = "C:\\Users\\nobel\\orison\\01-tatico\\design-system\\dist"
 publishOrigin = "ui"
 commandOrigin = "ui"
 command = "npm run build"
