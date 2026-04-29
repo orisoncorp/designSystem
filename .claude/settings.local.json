@@ -4,5 +4,7 @@
       "Bash(git config *)",
       "Bash(git commit -m ' *)"
     ]
-  }
+  },
+  "spinnerTipsEnabled": false,
+  "prefersReducedMotion": true
 }
