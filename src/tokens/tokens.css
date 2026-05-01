@@ -10,14 +10,14 @@
   --color-text-dim: rgba(232, 230, 225, 0.55);
   --color-crimson:  #8B1A1A;
   --color-red:      #A52020;
-  --color-crimson-text: #D95050; /* vermelho legível sobre fundos escuros — ratio ≥ 5:1 */
+  --color-crimson-text: #F06070; /* vermelho legível sobre fundos escuros — ratio ≥ 5.5:1 */
   --color-offwhite: #e8e6e1;
 
   /* ─── Text: Concrete color scale (sem opacity stacking) ─── */
-  --text-primary:   #e8e6e1;   /* Full brightness — headings, wordmarks */
-  --text-body:      #d8d6d1;   /* Descrições, parágrafos — legível e hierárquico */
-  --text-secondary: #b8b6b2;   /* Labels, specs, metadata */
-  --text-muted:     #9e9c98;   /* Texto de suporte, hints — mínimo legível */
+  --text-primary:   #f2f0eb;   /* Full brightness — headings, wordmarks */
+  --text-body:      #e8e6e1;   /* Descrições, parágrafos — legível e hierárquico */
+  --text-secondary: #cac8c4;   /* Labels, specs, metadata */
+  --text-muted:     #b0aea9;   /* Texto de suporte, hints — mínimo legível */
 
   /* ─── Colors: Data Visualization ─── */
   --color-negative-hi: #8B1A1A;
