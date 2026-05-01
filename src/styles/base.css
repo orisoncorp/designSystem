@@ -13,6 +13,7 @@ body {
   color: var(--color-offwhite);
   font-family: var(--font-body);
   font-weight: var(--font-weight-light);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -60,4 +61,12 @@ html { scroll-behavior: smooth; }
 /* ─── Responsive: remove sidebar offset on mobile ─── */
 @media (max-width: 900px) {
   #app { margin-left: 0; }
+}
+
+/* ─── Accessibility: respeita preferência de movimento reduzido ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

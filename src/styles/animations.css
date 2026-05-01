@@ -72,7 +72,7 @@
 
 /* ─── Symbol inner circle hover ─── */
 svg circle:nth-child(2) {
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
   transform-origin: center;
 }
 

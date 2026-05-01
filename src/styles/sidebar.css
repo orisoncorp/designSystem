@@ -42,9 +42,8 @@
 .sidebar-version {
   font-size: var(--text-micro);
   letter-spacing: 3px;
-  color: var(--color-crimson);
+  color: var(--color-crimson-text);
   text-transform: uppercase;
-  opacity: 0.8;
 }
 
 .sidebar-count {
@@ -52,8 +51,7 @@
   margin-top: 6px;
   font-size: 7px;
   letter-spacing: 3px;
-  color: var(--color-offwhite);
-  opacity: 0.28;
+  color: var(--text-muted);
   text-transform: uppercase;
   font-family: var(--font-body);
 }
@@ -91,7 +89,7 @@
 .sidebar-num {
   font-size: var(--text-label);
   letter-spacing: 2px;
-  color: var(--color-crimson);
+  color: var(--color-crimson-text);
   font-family: monospace;
   min-width: 20px;
 }
