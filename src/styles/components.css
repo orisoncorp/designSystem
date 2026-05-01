@@ -765,7 +765,7 @@
   font-weight: var(--font-weight-regular);
   letter-spacing: 5px;
   text-transform: uppercase;
-  border: 1px solid var(--color-slate);
+  border: 1px solid var(--color-gray);
   cursor: pointer;
   transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
@@ -788,10 +788,10 @@
   text-transform: uppercase;
   font-weight: var(--font-weight-regular);
 }
-.badge-orison--crimson  { background: rgba(139,26,26,0.18);   color: var(--color-red); border: 1px solid rgba(139,26,26,0.35); }
-.badge-orison--neutral  { background: rgba(232,230,225,0.06); color: var(--color-offwhite); border: 1px solid var(--color-border); opacity: 0.8; }
-.badge-orison--positive { background: rgba(39,131,74,0.15);   color: #6fcf97; border: 1px solid rgba(39,131,74,0.3); }
-.badge-orison--alert    { background: rgba(192,98,43,0.15);   color: #f2994a; border: 1px solid rgba(192,98,43,0.3); }
+.badge-orison--crimson  { background: rgba(139,26,26,0.28);   color: var(--color-crimson-text); border: 1px solid rgba(240,96,112,0.45); }
+.badge-orison--neutral  { background: rgba(232,230,225,0.10); color: var(--text-primary);      border: 1px solid var(--color-subtle); }
+.badge-orison--positive { background: rgba(39,131,74,0.22);   color: #7ddfa7;                  border: 1px solid rgba(39,131,74,0.5); }
+.badge-orison--alert    { background: rgba(192,98,43,0.22);   color: #f5a962;                  border: 1px solid rgba(192,98,43,0.5); }
 
 /* ── Input field ── */
 .input-orison-wrap  { display: flex; flex-direction: column; gap: var(--space-1); }
@@ -817,7 +817,7 @@
   -webkit-appearance: none;
 }
 .input-orison::placeholder { color: var(--color-offwhite); opacity: 0.25; }
-.input-orison:hover    { border-color: var(--color-subtle); }
+.input-orison:hover    { border-color: var(--color-gray); }
 .input-orison:focus    { border-color: var(--color-crimson); }
 .input-orison:disabled { opacity: 0.30; cursor: not-allowed; }
 .input-orison--error   { border-color: var(--color-red); }
@@ -848,7 +848,7 @@
 .table-orison tbody tr:hover td { background: rgba(255,255,255,0.02); }
 .table-orison tbody tr:last-child td { border-bottom: none; }
 .table-orison .td-metric   { font-family: monospace; font-size: 12px; letter-spacing: 1px; color: var(--color-offwhite); opacity: 1; }
-.table-orison .td-positive { color: #6fcf97; opacity: 1; font-family: monospace; }
+.table-orison .td-positive { color: #7ddfa7; opacity: 1; font-family: monospace; }
 .table-orison .td-negative { color: var(--color-crimson-text); opacity: 1; font-family: monospace; }
 .table-orison .td-muted    { color: var(--text-muted); font-size: 10px; }
 
