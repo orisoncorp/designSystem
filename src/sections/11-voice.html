@@ -1,26 +1,37 @@
+<!-- Seção 11: voz e tom da marca — narrativa, atributos, exemplos e vocabulário -->
 <section id="sec-voice">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">11</span>
     <span class="sec-title">Voz e Tom · Voice &amp; Tone</span>
     <span class="sec-sub">Como a Orison fala · Narrativa · Posicionamento</span>
   </div>
 
+  <!-- Bloco de narrativa central: premissa da marca e posicionamento lado a lado -->
   <div class="full-block">
     <div class="block-header">
       <span class="block-header-title">Narrativa Central</span>
       <span class="block-header-sub">O Paralelo Biológico</span>
     </div>
+    <!-- Grade de duas colunas: esquerda = texto de premissa, direita = blocos de posicionamento -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px;">
+      <!-- Coluna esquerda: parágrafo de premissa em fonte display + parágrafo secundário -->
       <div style="display:flex; flex-direction:column; gap:16px;">
         <span class="text-accent text-label">A Premissa</span>
+        <!-- Texto principal da premissa: edite o conteúdo do <p> para mudar a narrativa -->
         <p style="font-family: var(--font-display); font-size:18px; font-weight:300; letter-spacing:1px; color: var(--color-offwhite); line-height:1.7;">
           Uma empresa é um organismo vivo. Tem metabolismo, sistema nervoso, pontos de falha e capacidade de evolução. A Orison atua como um agente de transformação preciso — sistemas de IA implementados cirurgicamente nos vetores certos, produzindo mutação mensurável e irreversível no organismo-empresa.</p>
+        <!-- Divisor decorativo crimson — elemento puramente visual, não remova -->
         <div style="width:32px; height:1px; background: var(--color-crimson); opacity:0.5;"></div>
+        <!-- Parágrafo secundário: edite o texto do <p> para mudar o complemento da premissa -->
         <p class="text-body text-tertiary">Assim como a Umbrella Corporation não vendia remédios — vendia evolução — a Orison não vende software. Vende a transformação do estado operacional de uma empresa para um nível que antes era impossível.</p>
       </div>
+      <!-- Coluna direita: declarações de posicionamento via .info-block -->
+      <!-- Para adicionar uma declaração: duplique um .info-block; para remover, delete-o -->
       <div style="display:flex; flex-direction:column; gap:16px;">
         <span class="text-accent text-label">O Posicionamento</span>
         <div style="display:flex; flex-direction:column; gap:12px;">
+          <!-- .info-block__label: título da declaração; .info-block__text: explicação — edite os textos aqui -->
           <div class="info-block">
             <span class="info-block__label">Não somos uma ferramenta</span>
             <span class="info-block__text">Somos o agente de transformação. O cliente não nos contrata para usar um software — nos convoca para mudar o estado do seu organismo.</span>
@@ -38,14 +49,19 @@
     </div>
   </div>
 
+  <!-- Bloco de atributos de voz: grade "É" vs "Nunca É" -->
   <div class="vt-wrap">
     <div class="block-header">
       <span class="block-header-title">Atributos de Voz</span>
       <span class="block-header-sub">Como soamos em qualquer canal</span>
     </div>
+    <!-- .vt-grid: dois painéis lado a lado (atributos positivos e negativos) -->
     <div class="vt-grid">
+      <!-- Painel "A Orison É": lista de atributos que devem estar presentes na voz -->
+      <!-- Para adicionar um atributo: duplique um .vt-item; para remover, delete-o -->
       <div class="vt-panel">
         <span class="vt-panel-title">A Orison É</span>
+        <!-- .vt-attr: nome do atributo; .vt-def: definição expandida — edite os textos aqui -->
         <div class="vt-item">
           <span class="vt-attr">Calculada</span>
           <span class="vt-def">Cada palavra tem peso. Frases curtas, densas, sem ornamento. Não explicamos o óbvio. Não nos desculpamos por existir.</span>
@@ -67,6 +83,8 @@
           <span class="vt-def">Vamos ao ponto sem preâmbulo. Sem "Olá, tudo bem?" institucional. Sem rodeios antes da informação principal.</span>
         </div>
       </div>
+      <!-- Painel "A Orison Nunca É": atributos que devem ser evitados na voz -->
+      <!-- O opacity:0.4 + text-decoration:line-through no .vt-attr indica visualmente que é proibido — mantenha esse padrão -->
       <div class="vt-panel">
         <span class="vt-panel-title">A Orison Nunca É</span>
         <div class="vt-item">
@@ -93,15 +111,20 @@
     </div>
   </div>
 
+  <!-- Bloco de exemplos práticos e vocabulário -->
   <div class="full-block">
     <div class="block-header">
       <span class="block-header-title">Exemplos · Certo vs Errado</span>
       <span class="block-header-sub">Aplicação prática da voz</span>
     </div>
+    <!-- Grade de dois lados: exemplos corretos à esquerda, proibidos à direita -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+      <!-- Coluna de exemplos corretos: cada .vt-ex-right é um parágrafo de exemplo aprovado -->
+      <!-- Para adicionar um exemplo: duplique um .vt-ex-right; para remover, delete-o -->
       <div class="vt-example-block">
         <span class="vt-ex-label">✓ Orison fala assim</span>
         <div class="vt-ex-right">
+          <!-- .vt-ex-text: texto do exemplo correto — edite o conteúdo do <p> aqui -->
           <p class="vt-ex-text">"O processo de implementação leva 30 dias. No 60º dia, seu custo operacional cai. Esses são os únicos números que importam."</p>
         </div>
         <div class="vt-ex-right">
@@ -111,9 +134,12 @@
           <p class="vt-ex-text">"Trabalhamos com empresas que já decidiram evoluir. Se ainda há dúvida sobre o timing, o timing errado é agora."</p>
         </div>
       </div>
+      <!-- Coluna de exemplos proibidos: cada .vt-ex-wrong é um parágrafo de linguagem a evitar -->
+      <!-- Para adicionar um exemplo: duplique um .vt-ex-wrong; para remover, delete-o -->
       <div class="vt-example-block">
         <span class="vt-ex-label">✕ Orison nunca fala assim</span>
         <div class="vt-ex-wrong">
+          <!-- .vt-ex-text-wrong: texto do exemplo proibido — edite o conteúdo do <p> aqui -->
           <p class="vt-ex-text-wrong">"Somos especialistas em soluções de inteligência artificial inovadoras para transformar digitalmente seu negócio!"</p>
         </div>
         <div class="vt-ex-wrong">
@@ -125,7 +151,10 @@
       </div>
     </div>
 
+    <!-- Painéis de vocabulário: permitido e proibido lado a lado via .vt-words-grid -->
     <div style="margin-top:2px;" class="vt-words-grid">
+      <!-- Painel de vocabulário permitido: cada .vt-word é um termo aprovado -->
+      <!-- Para adicionar um termo: duplique um <span class="vt-word">; para remover, delete o span -->
       <div class="vt-words-panel">
         <span class="vt-words-title">Vocabulário · Permitido</span>
         <div class="vt-word-list">
@@ -143,6 +172,8 @@
           <span class="vt-word">Permanente</span>
         </div>
       </div>
+      <!-- Painel de vocabulário proibido: cada .vt-word-no é um termo banido -->
+      <!-- Para adicionar um termo: duplique um <span class="vt-word-no">; para remover, delete o span -->
       <div class="vt-words-panel">
         <span class="vt-words-title">Vocabulário · Proibido</span>
         <div class="vt-word-list">

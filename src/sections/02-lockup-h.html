@@ -1,24 +1,33 @@
+<!-- Seção 02: lockup horizontal — símbolo + divisor + wordmark lado a lado -->
 <section id="sec-lockup-h">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">02</span>
     <span class="sec-title">Lockup Horizontal</span>
     <span class="sec-sub">Symbol + Wordmark · Side by Side</span>
   </div>
 
+  <!-- Grade de dois painéis: versão escura e versão clara -->
   <div class="block-2col">
+    <!-- Painel escuro: .lh é o container flex do lockup horizontal -->
     <div class="panel" style="justify-content:center;">
       <span class="panel-label">Versão Escura</span>
       <div class="lh">
+        <!-- Símbolo: altere width/height para escalar; não mude a proporção -->
         <svg class="symbol" width="60" height="60" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
           <use href="#symbol-full"/>
         </svg>
+        <!-- Divisor vertical entre símbolo e wordmark — posição/altura definida em .lh-divider -->
         <div class="lh-divider"></div>
         <div class="lh-text">
+          <!-- Nome da marca: .lh-name-dark = cor offwhite; altere só o texto se precisar mudar o wordmark -->
           <div class="lh-name-dark">Orison</div>
+          <!-- Subtítulo abaixo do wordmark: edite o texto aqui para mudar o tagline -->
           <div class="lh-sub">AI Infrastructure</div>
         </div>
       </div>
     </div>
+    <!-- Painel claro: mesma estrutura — .lh-name-light usa cor midnight para contraste -->
     <div class="panel-light" style="justify-content:center;">
       <span class="panel-label-light">Versão Clara</span>
       <div class="lh">
@@ -27,6 +36,7 @@
         </svg>
         <div class="lh-divider-light"></div>
         <div class="lh-text">
+          <!-- .lh-name-light = cor midnight para uso em fundo claro -->
           <div class="lh-name-light">Orison</div>
           <div class="lh-sub">AI Infrastructure</div>
         </div>

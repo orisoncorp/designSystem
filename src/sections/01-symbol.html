@@ -1,17 +1,23 @@
+<!-- Seção 01: exibe o símbolo isolado em fundo escuro e claro lado a lado -->
 <section id="sec-symbol">
+  <!-- Cabeçalho de seção: número (.sec-num), título (.sec-title) e subtítulo (.sec-sub) -->
   <div class="sec-div">
     <span class="sec-num">01</span>
     <span class="sec-title">Símbolo Isolado</span>
     <span class="sec-sub">Primary Mark · Dark &amp; Light</span>
   </div>
 
+  <!-- Grade de dois painéis via .block-2col — um painel escuro e um painel claro -->
   <div class="block-2col">
+    <!-- Painel escuro: fundo preto/midnight (.panel); label de uso acima do símbolo -->
     <div class="panel">
       <span class="panel-label">Fundo Escuro · Uso Principal</span>
+      <!-- SVG do símbolo: altere width/height para mudar o tamanho; color herda do CSS via currentColor -->
       <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo escuro" style="color: var(--color-offwhite)">
         <use href="#symbol-full"/>
       </svg>
     </div>
+    <!-- Painel claro: fundo off-white (.panel-light); symbol usa cor midnight para contraste -->
     <div class="panel-light">
       <span class="panel-label-light">Fundo Claro · Uso Alternativo</span>
       <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo claro" style="color: var(--color-midnight)">

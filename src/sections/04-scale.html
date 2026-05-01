@@ -1,14 +1,18 @@
+<!-- Seção 04: escala de tamanhos do símbolo de 16px a 200px -->
 <section id="sec-scale">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">04</span>
     <span class="sec-title">Comportamento em Escala</span>
     <span class="sec-sub">16px → 200px</span>
   </div>
 
+  <!-- Barra de escala: cada .si é um item de tamanho — para adicionar um tamanho, duplique um .si e ajuste width/height/stroke-width e o texto do .si-label -->
   <div class="scale-bar">
+    <!-- 16px e 24px: anel interno suprimido abaixo de 48px para garantir legibilidade -->
     <div class="si">
       <span class="si-label">16px</span>
-      <!-- favicon: inner circle removed below 48px -->
+      <!-- SVG inline: stroke-width mais grosso em tamanhos pequenos para manter visibilidade -->
       <svg width="16" height="16" viewBox="0 0 110 110" fill="none" role="img" aria-label="Símbolo 16px">
         <circle cx="55" cy="55" r="46" stroke="#e8e6e1" stroke-width="5.5" fill="none"/>
         <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="8"/>
@@ -21,6 +25,7 @@
         <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="5"/>
       </svg>
     </div>
+    <!-- 32px em diante: anel interno (r=29) reintroduzido com opacidade crescente conforme o tamanho aumenta -->
     <div class="si">
       <span class="si-label">32px</span>
       <svg width="32" height="32" viewBox="0 0 110 110" fill="none" role="img" aria-label="Símbolo 32px">
@@ -45,6 +50,7 @@
         <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="1.4"/>
       </svg>
     </div>
+    <!-- 120px e 200px: usam o sprite #symbol-full via <use> para incluir todos os detalhes do símbolo completo -->
     <div class="si">
       <span class="si-label">120px</span>
       <svg class="symbol" width="120" height="120" role="img" aria-label="Símbolo 120px" style="color: var(--color-offwhite)">

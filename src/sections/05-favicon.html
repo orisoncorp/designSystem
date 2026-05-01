@@ -1,14 +1,21 @@
+<!-- Seção 05: documentação do favicon — o arquivo real está em /public/favicon.svg -->
 <section id="sec-favicon">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">05</span>
     <span class="sec-title">Favicon · Versão Mínima</span>
     <span class="sec-sub">Anel interno removido abaixo de 48px</span>
   </div>
 
+  <!-- Barra de exibição do favicon: label à esquerda, itens de tamanho no centro, nota à direita -->
   <div class="favicon-bar">
+    <!-- Label descritivo da barra: .favicon-bar-label — edite o texto para mudar a descrição -->
     <span class="favicon-bar-label">Favicon · Simplificado</span>
+    <!-- Container dos três tamanhos — para adicionar um tamanho, duplique um .si e ajuste o SVG e o .si-label -->
     <div class="favicon-items">
+      <!-- Cada .si: SVG renderizado no tamanho real + label abaixo -->
       <div class="si">
+        <!-- 16px: stroke mais grosso para compensar o tamanho reduzido -->
         <svg width="16" height="16" viewBox="0 0 110 110" fill="none" role="img" aria-label="Favicon 16px">
           <circle cx="55" cy="55" r="46" stroke="#e8e6e1" stroke-width="5.5" fill="none"/>
           <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="8"/>
@@ -16,6 +23,7 @@
         <span class="si-label">16px</span>
       </div>
       <div class="si">
+        <!-- 24px: stroke intermediário -->
         <svg width="24" height="24" viewBox="0 0 110 110" fill="none" role="img" aria-label="Favicon 24px">
           <circle cx="55" cy="55" r="46" stroke="#e8e6e1" stroke-width="3.5" fill="none"/>
           <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="5"/>
@@ -23,6 +31,7 @@
         <span class="si-label">24px</span>
       </div>
       <div class="si">
+        <!-- 32px: versão usada como favicon.svg em /public — sem anel interno -->
         <svg width="32" height="32" viewBox="0 0 110 110" fill="none" role="img" aria-label="Favicon 32px">
           <circle cx="55" cy="55" r="46" stroke="#e8e6e1" stroke-width="2.5" fill="none"/>
           <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="3.5"/>
@@ -30,6 +39,7 @@
         <span class="si-label">32px</span>
       </div>
     </div>
+    <!-- Nota explicativa: .favicon-note — edite o texto aqui para atualizar a regra de uso -->
     <span class="favicon-note">Abaixo de 48px o anel interno é suprimido para garantir legibilidade em contextos reduzidos.</span>
   </div>
 </section>

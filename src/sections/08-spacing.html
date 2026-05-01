@@ -1,4 +1,6 @@
+<!-- Seção 08: sistema de espaçamento — escala visual de barras + descrições de uso -->
 <section id="sec-spacing">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">08</span>
     <span class="sec-title">Sistema de Espaçamento</span>
@@ -6,14 +8,21 @@
   </div>
 
   <div class="spacing-wrap">
+    <!-- Cabeçalho do bloco de escala visual -->
     <div class="block-header">
       <span class="block-header-title">Spacing Scale</span>
       <span class="block-header-sub">Base 8px · Múltiplos</span>
     </div>
+    <!-- Grade de barras: cada .sp-item mostra uma barra proporcional ao valor do espaçamento -->
+    <!-- Para adicionar um passo: duplique um .sp-item e ajuste a height da div interna, .sp-value e .sp-label -->
+    <!-- Para remover um passo: delete o .sp-item correspondente -->
     <div class="spacing-grid">
+      <!-- Barra: height = valor em px; opacity aumenta progressivamente para criar profundidade visual -->
       <div class="sp-item">
         <div style="height:4px; width:100%; background: var(--color-crimson); opacity:0.3;"></div>
+        <!-- .sp-value: valor numérico do espaçamento — edite para coincidir com a height acima -->
         <span class="sp-value">4px</span>
+        <!-- .sp-label: categoria (XS, S, M, etc.) — edite o texto aqui -->
         <span class="sp-label">XS</span>
       </div>
       <div class="sp-item">
@@ -52,7 +61,10 @@
         <span class="sp-label">3XL</span>
       </div>
     </div>
+    <!-- Descrições de uso: cada .su-item cobre uma categoria de espaçamento -->
+    <!-- Para adicionar uma categoria: duplique um .su-item; para remover, delete-o -->
     <div class="spacing-usage">
+      <!-- .su-label: nome da categoria; .su-val: intervalo de valores; .su-desc: descrição de uso -->
       <div class="su-item">
         <span class="su-label">Micro</span>
         <span class="su-val">4px / 8px</span>

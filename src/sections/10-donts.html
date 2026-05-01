@@ -1,4 +1,6 @@
+<!-- Seção 10: usos proibidos da marca — grade de cards de violação -->
 <section id="sec-donts">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">10</span>
     <span class="sec-title">Uso Incorreto · Don'ts</span>
@@ -6,14 +8,21 @@
   </div>
 
   <div class="dont-wrap">
+    <!-- Cabeçalho do bloco de proibições -->
     <div class="block-header">
       <span class="block-header-title">Don'ts · Uso Incorreto</span>
       <span class="block-header-sub">Nunca violar estas regras</span>
     </div>
+    <!-- Grade de cards: cada .dont-item documenta uma violação — para adicionar, duplique um .dont-item; para remover, delete-o -->
     <div class="dont-grid">
+      <!-- Cada .dont-item: badge de proibição + SVG com o exemplo incorreto + descrição da violação -->
+      <!-- .dont-badge: label "✕ Proibido" — não altere o texto, é parte da identidade do documento -->
+      <!-- .dont-desc: texto explicativo da violação — edite aqui para mudar a descrição -->
+
+      <!-- Violação 1: cor incorreta (verde em vez de offwhite/crimson) -->
       <div class="dont-item">
         <span class="dont-badge">✕ Proibido</span>
-        <!-- Color violation: using green instead of offwhite/crimson -->
+        <!-- SVG inline com cores incorretas para ilustrar a violação; não use <use href="#symbol-full"/> aqui -->
         <svg width="70" height="70" viewBox="0 0 110 110" fill="none" role="img" aria-label="Exemplo proibido: cor alterada">
           <circle cx="55" cy="55" r="46" stroke="#4a8B4a" stroke-width="1.2" fill="none"/>
           <circle cx="55" cy="55" r="29" stroke="#4a8B4a" stroke-width="0.55" fill="none" opacity="0.28"/>
@@ -21,25 +30,31 @@
         </svg>
         <span class="dont-desc">Nunca alterar as cores. Círculo sempre Off-White ou preto. Linha sempre Crimson #8B1A1A.</span>
       </div>
+
+      <!-- Violação 2: símbolo rotacionado -->
       <div class="dont-item">
         <span class="dont-badge">✕ Proibido</span>
-        <!-- Rotation violation -->
+        <!-- transform inline simula a violação de rotação -->
         <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: símbolo rotacionado" style="color: var(--color-offwhite); transform: rotate(45deg)">
           <use href="#symbol-full"/>
         </svg>
         <span class="dont-desc">Nunca rotacionar o símbolo. A linha vertical é sempre perpendicular ao plano horizontal.</span>
       </div>
+
+      <!-- Violação 3: símbolo distorcido (esticado) -->
       <div class="dont-item">
         <span class="dont-badge">✕ Proibido</span>
-        <!-- Distortion violation -->
+        <!-- scaleX simula a distorção horizontal -->
         <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: símbolo distorcido" style="color: var(--color-offwhite); transform: scaleX(1.6)">
           <use href="#symbol-full"/>
         </svg>
         <span class="dont-desc">Nunca distorcer ou esticar o símbolo. Sempre manter proporção 1:1 ao redimensionar.</span>
       </div>
+
+      <!-- Violação 4: efeito aplicado sobre o símbolo (glow/gradiente/filtro) -->
       <div class="dont-item">
         <span class="dont-badge">✕ Proibido</span>
-        <!-- Effects violation -->
+        <!-- Overlay com rgba azul simula a aplicação de efeito de cor sobre o símbolo -->
         <div style="position:relative; display:inline-flex;">
           <svg class="symbol" width="70" height="70" role="img" aria-label="Exemplo proibido: efeito aplicado sobre o símbolo" style="color: var(--color-offwhite)">
             <use href="#symbol-full"/>

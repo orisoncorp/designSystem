@@ -1,4 +1,6 @@
+<!-- Seção 07: sistema tipográfico — famílias, specimen e tabela de escala completa -->
 <section id="sec-type">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">07</span>
     <span class="sec-title">Tipografia</span>
@@ -6,25 +8,35 @@
   </div>
 
   <div class="type-wrap">
+    <!-- Cabeçalho de bloco: identifica o grupo "Display + Body" -->
     <div class="block-header">
       <span class="block-header-title">Typography System</span>
       <span class="block-header-sub">Display + Body</span>
     </div>
+    <!-- Grade de specimens: dois .type-item lado a lado (Display e Body) -->
     <div class="type-grid">
+      <!-- Specimen da família Display (Cormorant Garamond) -->
       <div class="type-item">
+        <!-- .type-name: nome da família exibido acima do specimen -->
         <span class="type-name">Display · Cormorant Garamond</span>
+        <!-- Amostras de texto em três tamanhos — edite o texto das divs para mudar o conteúdo do specimen -->
         <div class="type-sample-xl">Orison</div>
         <div class="type-sample-lg" style="margin-top:8px;">Transformação</div>
         <div class="type-sample-md" style="margin-top:4px;">AI Infrastructure B2B</div>
+        <!-- Divisor horizontal entre specimen e especificações -->
         <div class="divider-h"></div>
+        <!-- Specs da família: cada .type-spec é uma linha de especificação — duplique para adicionar, delete para remover -->
         <span class="type-spec">Família · Cormorant Garamond</span>
         <span class="type-spec">Peso · Light 300 / Regular 400</span>
         <span class="type-spec">Uso · Wordmark, headlines, títulos</span>
         <span class="type-spec">Letter-spacing · 6px – 18px</span>
       </div>
+      <!-- Specimen da família Body (Montserrat) -->
       <div class="type-item">
         <span class="type-name">Body · Montserrat</span>
+        <!-- .type-sample-body: parágrafo de corpo de texto — edite o texto aqui -->
         <div class="type-sample-body" style="margin-top:8px;">Orison implementa sistemas de inteligência artificial com precisão cirúrgica em organismos empresariais. O resultado é transformação mensurável e irreversível.</div>
+        <!-- .type-sample-label: exemplo de label em caixa alta — edite o texto aqui -->
         <div class="type-sample-label" style="margin-top:12px;">AI INFRASTRUCTURE · RESULTS DRIVEN · B2B</div>
         <div class="divider-h"></div>
         <span class="type-spec">Família · Montserrat</span>
@@ -36,22 +48,28 @@
 
     <div class="divider-h" style="margin: 40px 0 32px;"></div>
 
+    <!-- Cabeçalho do bloco de tabela de escala -->
     <div class="block-header">
       <span class="block-header-title">Type Scale · Referência Completa</span>
       <span class="block-header-sub">9 tamanhos · tokens · usos</span>
     </div>
 
+    <!-- Tabela de escala tipográfica: cada <tr> no <tbody> é um passo da escala -->
+    <!-- Para adicionar um tamanho: duplique um <tr> e ajuste token, tamanho, specimen (span inline), família e uso -->
+    <!-- Para remover um tamanho: delete o <tr> correspondente -->
     <table class="type-scale-table">
       <thead>
         <tr>
           <th style="width:160px;">Token</th>
           <th style="width:60px;">Tam.</th>
+          <!-- Coluna Amostra: span inline com font-family, font-size e letter-spacing ajustados por linha -->
           <th>Amostra</th>
           <th style="width:160px;">Família</th>
           <th>Uso Principal</th>
         </tr>
       </thead>
       <tbody>
+        <!-- .tst-token: nome do token CSS; .tst-size: valor em px; .tst-use: família e uso principal -->
         <tr>
           <td><span class="tst-token">--text-hero</span></td>
           <td><span class="tst-size">56px</span></td>

@@ -1,4 +1,6 @@
+<!-- Seção 06: paleta de cores completa — identidade + data visualization + regras de uso -->
 <section id="sec-palette">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">06</span>
     <span class="sec-title">Paleta de Cores</span>
@@ -6,18 +8,27 @@
   </div>
 
   <div class="palette-wrap">
+    <!-- Cabeçalho de bloco: título (.block-header-title) e subtítulo (.block-header-sub) -->
     <div class="block-header">
       <span class="block-header-title">Color Palette</span>
       <span class="block-header-sub">8 cores · Sistema completo + Data Visualization</span>
     </div>
 
+    <!-- Grupo da paleta de identidade -->
     <div style="margin-bottom: 30px;">
       <span class="text-label" style="margin-bottom: 12px; display: block; opacity: 0.6;">Paleta Principal · Identidade</span>
+      <!-- Grade de swatches: para adicionar uma cor, duplique um .swatch; para remover, delete o .swatch inteiro -->
       <div class="swatches" style="margin-bottom: 0;">
+        <!-- Cada .swatch: data-hex é usado pelo JS para copiar o valor; style="background:..." define a cor de fundo -->
+        <!-- .swatch--dark = texto claro (offwhite); .swatch--light = texto escuro (midnight) -->
         <div class="swatch swatch--dark" data-hex="#0a0a0a" style="background:#0a0a0a;" title="Clique para copiar">
+          <!-- .sw-contrast: ratio WCAG — atualize o texto se mudar a cor -->
           <span class="sw-contrast sw-contrast--pass">17.9:1 AAA</span>
+          <!-- .sw-role: função semântica da cor — edite o texto aqui -->
           <span class="sw-role">Background</span>
+          <!-- .sw-name: nome da cor — edite o texto aqui -->
           <span class="sw-name">Black</span>
+          <!-- .sw-hex: valor hexadecimal exibido — mantenha igual ao data-hex e ao background -->
           <span class="sw-hex">#0a0a0a</span>
         </div>
         <div class="swatch swatch--dark" data-hex="#111113" style="background:#111113;" title="Clique para copiar">
@@ -53,13 +64,16 @@
       </div>
     </div>
 
+    <!-- Nota de referência WCAG — .info-block com borda esquerda; edite o texto de .info-block__text para atualizar -->
     <div class="info-block" style="margin-bottom: 30px;">
       <span class="info-block__label" style="color: var(--color-crimson); opacity:1;">Contraste · Referência WCAG 2.1</span>
       <span class="info-block__text">AAA = 7:1+ · AA = 4.5:1+ · AA Grande = 3:1+. Crimson como fundo deve usar Off-White apenas acima de 14px. Nunca usar Crimson como fundo de texto pequeno de interface.</span>
     </div>
 
+    <!-- Grupo da paleta de data visualization -->
     <div style="margin-bottom: 40px;">
       <span class="text-label" style="margin-bottom: 12px; display: block; opacity: 0.6;">Paleta Data Visualization · Dashboards · Relatórios de Resultados</span>
+      <!-- Para adicionar uma cor de dado, duplique um .swatch e atualize data-hex, background, role, name e hex -->
       <div class="swatches" style="margin-bottom: 0;">
         <div class="swatch swatch--dark" data-hex="#8B1A1A" style="background:#8B1A1A;" title="Clique para copiar">
           <span class="sw-role">Negativo · Alto</span>
@@ -94,6 +108,8 @@
       </div>
     </div>
 
+    <!-- Explicações de uso das cores de dado: grade de 3 .pu-item — para adicionar/remover, duplique/delete um .pu-item -->
+    <!-- .pu-dot: ponto de cor ilustrativo; .pu-label: nome da família; .pu-desc: descrição de uso -->
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 2px;">
       <div class="pu-item">
         <div style="display: flex; gap: 4px; align-items: center; margin-bottom: 4px;">
@@ -121,6 +137,7 @@
       </div>
     </div>
 
+    <!-- Regras de uso das cores de identidade: para adicionar uma regra, duplique um .pu-item; para remover, delete-o -->
     <div class="palette-usage">
       <div class="pu-item">
         <div class="pu-dot" style="background: var(--color-black); border: 1px solid var(--color-slate);"></div>

@@ -1,11 +1,15 @@
+<!-- Seção 13: componentes de interface — botões, badges, input, tabela e motion tokens -->
 <section id="sec-components">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">13</span>
     <span class="sec-title">Componentes de Interface</span>
     <span class="sec-sub">UI Components · States · Motion</span>
   </div>
 
-  <!-- ── BOTÕES ── -->
+  <!-- Cada .comp-wrap é um grupo de componente — para adicionar um grupo, duplique um .comp-wrap -->
+
+  <!-- Grupo 1: Botões -->
   <div class="comp-wrap">
     <div class="block-header">
       <span class="block-header-title">Botões</span>
@@ -13,19 +17,26 @@
     </div>
 
     <div class="comp-row">
+      <!-- .comp-row-title: título do sub-grupo de componente — edite o texto aqui -->
       <span class="comp-row-title">Botão Primário · Primary</span>
+      <!-- .comp-stage: área de preview ao vivo dos componentes — adicione/remova botões aqui para mostrar variantes -->
       <div class="comp-stage">
         <button class="btn-orison">Iniciar Diagnóstico</button>
         <button class="btn-orison-ghost">Ver Detalhes</button>
       </div>
 
+      <!-- Grade de estados do botão primário (.btn-orison): cada .state-cell é um estado -->
+      <!-- Para adicionar um estado: duplique um .state-cell; para remover, delete-o -->
+      <!-- tabindex="-1" impede que os botões de documentação sejam focados durante a navegação normal -->
       <div class="states-grid">
+        <!-- .state-label: nome do estado exibido acima do botão — edite o texto aqui -->
         <div class="state-cell">
           <span class="state-label">Default</span>
           <button class="btn-orison" tabindex="-1">Ação</button>
         </div>
         <div class="state-cell">
           <span class="state-label">Hover</span>
+          <!-- Estado Hover simulado com inline style: background muda para --color-red e translateY(-1px) -->
           <button class="btn-orison" style="background: var(--color-red); transform: translateY(-1px);" tabindex="-1">Ação</button>
         </div>
         <div class="state-cell">
@@ -38,10 +49,12 @@
         </div>
         <div class="state-cell">
           <span class="state-label">Disabled</span>
+          <!-- Estado Disabled: use o atributo disabled nativo do HTML — não simule com inline style -->
           <button class="btn-orison" disabled tabindex="-1">Ação</button>
         </div>
       </div>
 
+      <!-- Grade de estados do botão ghost (.btn-orison-ghost): mesma estrutura acima -->
       <div class="states-grid" style="margin-top: 2px;">
         <div class="state-cell">
           <span class="state-label">Default</span>
@@ -65,6 +78,9 @@
         </div>
       </div>
 
+      <!-- Especificações técnicas do botão: cada .comp-spec é um par chave/valor -->
+      <!-- Para adicionar uma spec: duplique um .comp-spec; para remover, delete-o -->
+      <!-- .comp-spec-key: nome da propriedade; .comp-spec-val: valor — edite os textos aqui -->
       <div class="comp-spec-row">
         <div class="comp-spec">
           <span class="comp-spec-key">Padding Primary</span>
@@ -86,7 +102,7 @@
     </div>
   </div>
 
-  <!-- ── BADGES ── -->
+  <!-- Grupo 2: Badges -->
   <div class="comp-wrap">
     <div class="block-header">
       <span class="block-header-title">Badges · Tags</span>
@@ -95,6 +111,8 @@
 
     <div class="comp-row">
       <span class="comp-row-title">Variantes de Badge</span>
+      <!-- Preview das variantes de badge: para adicionar uma variante, duplique um <span class="badge-orison ..."> -->
+      <!-- Modificadores de cor: badge-orison--crimson · badge-orison--alert · badge-orison--positive · badge-orison--neutral -->
       <div class="comp-stage" style="gap: var(--space-3);">
         <span class="badge-orison badge-orison--crimson">Crítico</span>
         <span class="badge-orison badge-orison--alert">Atenção</span>
@@ -122,7 +140,7 @@
     </div>
   </div>
 
-  <!-- ── INPUT ── -->
+  <!-- Grupo 3: Input -->
   <div class="comp-wrap">
     <div class="block-header">
       <span class="block-header-title">Campos de Input</span>
@@ -131,22 +149,30 @@
 
     <div class="comp-row">
       <span class="comp-row-title">Input · Variantes de Estado</span>
+      <!-- Cada .input-orison-wrap é um estado do input — para adicionar um estado, duplique um .input-orison-wrap -->
       <div class="comp-stage" style="flex-wrap: wrap; gap: var(--space-5); align-items: flex-start;">
+        <!-- Estado Default: sem value preenchido; .input-orison-hint mostra o nome do estado -->
         <div class="input-orison-wrap">
+          <!-- .input-orison-label: rótulo do campo — edite o texto aqui -->
           <label class="input-orison-label">Empresa</label>
+          <!-- .input-orison: classe base do campo; placeholder define o texto de exemplo -->
           <input class="input-orison" type="text" placeholder="Nome da empresa" />
+          <!-- .input-orison-hint: mensagem de ajuda abaixo do campo — edite o texto aqui -->
           <span class="input-orison-hint">Estado padrão</span>
         </div>
+        <!-- Estado Focus: border-color crimson via inline style simula o visual de foco -->
         <div class="input-orison-wrap">
           <label class="input-orison-label">Empresa</label>
           <input class="input-orison" type="text" value="Orison LTDA" style="border-color: var(--color-crimson);" />
           <span class="input-orison-hint">Focus</span>
         </div>
+        <!-- Estado Error: .input-orison--error aplica a borda vermelha; .input-orison-hint--error aplica texto de erro -->
         <div class="input-orison-wrap">
           <label class="input-orison-label" style="color: var(--color-red); opacity:0.9;">Email</label>
           <input class="input-orison input-orison--error" type="email" value="email-invalido" />
           <span class="input-orison-hint input-orison-hint--error">Formato de email inválido</span>
         </div>
+        <!-- Estado Disabled: atributo disabled nativo — não simule com inline style -->
         <div class="input-orison-wrap">
           <label class="input-orison-label">Desabilitado</label>
           <input class="input-orison" type="text" disabled placeholder="Não disponível" />
@@ -174,7 +200,7 @@
     </div>
   </div>
 
-  <!-- ── DATA TABLE ── -->
+  <!-- Grupo 4: Tabela de dados -->
   <div class="comp-wrap">
     <div class="block-header">
       <span class="block-header-title">Tabela de Dados</span>
@@ -183,9 +209,11 @@
 
     <div class="comp-row">
       <span class="comp-row-title">Tabela · KPIs de Exemplo</span>
+      <!-- .table-orison: classe principal da tabela; overflow-x: auto garante scroll em telas pequenas -->
       <div class="comp-stage" style="padding: 0; overflow-x: auto;">
         <table class="table-orison" style="min-width: 540px;">
           <thead>
+            <!-- Cabeçalhos das colunas: edite o texto dos <th> para mudar os títulos -->
             <tr>
               <th>Métrica</th>
               <th>Atual</th>
@@ -195,6 +223,8 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Cada <tr> é uma linha de dado — para adicionar uma linha, duplique um <tr>; para remover, delete-o -->
+            <!-- Classes de célula: .td-metric (valor primário) · .td-muted (meta) · .td-positive (variação positiva) · .td-negative (variação negativa) -->
             <tr>
               <td>Tempo de Resposta</td>
               <td class="td-metric">1.8s</td>
@@ -236,18 +266,23 @@
     </div>
   </div>
 
-  <!-- ── MOTION TOKENS ── -->
+  <!-- Grupo 5: Motion tokens -->
+  <!-- .motion-wrap: container sem .comp-wrap pois segue layout próprio de linhas horizontais -->
   <div class="motion-wrap">
     <div class="block-header">
       <span class="block-header-title">Motion · Tokens de Animação</span>
       <span class="block-header-sub">Transições · Easing · Uso · Clique para demonstrar</span>
     </div>
 
+    <!-- Cada .motion-row é um token de animação — para adicionar um token, duplique um .motion-row -->
+    <!-- .motion-token: nome do token CSS; .motion-value: valor da transição; .motion-use: contexto de uso -->
+    <!-- A barra animada (.motion-demo) responde a cliques via JS em main.js — a classe .motion-demo--{variante} define a velocidade -->
     <div class="motion-row">
       <span class="motion-token">--transition-instant</span>
       <div>
         <span class="motion-value">0.1s ease</span>
         <div class="motion-bar-track">
+          <!-- .motion-demo--instant: anima em 0.1s ao clique — altere a classe para mudar a duração demonstrada -->
           <div class="motion-demo motion-demo--instant" title="Clique para animar"></div>
         </div>
       </div>
@@ -287,6 +322,7 @@
       <span class="motion-use">Scroll reveal · Abertura de modal · Animações de hero</span>
     </div>
 
+    <!-- Specs adicionais de motion: easing spring e princípio geral -->
     <div style="margin-top: var(--space-5); display: flex; gap: 2px; flex-wrap: wrap;">
       <div class="comp-spec" style="min-width: 220px; flex: none;">
         <span class="comp-spec-key">Easing Spring</span>
@@ -294,6 +330,7 @@
       </div>
       <div class="comp-spec" style="flex: 1; min-width: 240px;">
         <span class="comp-spec-key">Princípio de Motion</span>
+        <!-- Texto do princípio de motion: edite aqui para atualizar a diretriz -->
         <span class="comp-spec-val" style="font-family: var(--font-body); font-size: 9px; color: var(--color-offwhite); opacity: 0.55; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.8;">Entrada rápida, saída suave. Nunca linear em elementos de identidade. O spring é a assinatura de movimento da Orison.</span>
       </div>
     </div>

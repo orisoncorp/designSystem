@@ -1,11 +1,15 @@
+<!-- Seção 12: aplicações reais da marca — templates de uso em contexto -->
 <section id="sec-apps">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">12</span>
     <span class="sec-title">Aplicações Reais</span>
     <span class="sec-sub">Brand in Context · Templates</span>
   </div>
 
-  <!-- Cartão de visita -->
+  <!-- Cada .app-wrap é um bloco de template — para adicionar um template, duplique um .app-wrap inteiro -->
+
+  <!-- Template 1: Cartão de visita -->
   <div class="app-wrap">
     <div class="block-header">
       <span class="block-header-title">Cartão de Visita</span>
@@ -13,20 +17,27 @@
     </div>
     <div style="display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap;">
 
+      <!-- Preview da frente do cartão (fundo escuro) -->
       <div style="display:flex; flex-direction:column; gap:12px;">
         <span class="text-label">Frente · Escuro</span>
+        <!-- .card-preview: container que simula as dimensões do cartão — não mude o tamanho -->
         <div class="card-preview">
+          <!-- .card-top: área superior com símbolo e nome/cargo lado a lado -->
           <div class="card-top">
             <svg class="symbol" width="28" height="28" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
               <use href="#symbol-full"/>
             </svg>
             <div>
+              <!-- .card-name: nome da pessoa — edite o texto aqui -->
               <div class="card-name">Nobel</div>
+              <!-- .card-role: cargo/função — edite o texto aqui -->
               <div class="card-role">Founder · CEO · Orison</div>
             </div>
           </div>
           <div>
+            <!-- .card-rule: linha horizontal crimson que divide topo e rodapé do cartão -->
             <div class="card-rule"></div>
+            <!-- .card-bottom: área de contatos; cada .card-contact é uma linha — duplique para adicionar, delete para remover -->
             <div class="card-bottom">
               <div class="card-contact">nobel@orison.com.br</div>
               <div class="card-contact">orison.com.br</div>
@@ -36,10 +47,13 @@
         </div>
       </div>
 
+      <!-- Preview do verso do cartão (fundo claro com símbolo centrado) -->
       <div style="display:flex; flex-direction:column; gap:12px;">
         <span class="text-label">Verso · Claro</span>
+        <!-- .card-preview-light: mesmas dimensões do cartão, fundo off-white -->
         <div class="card-preview-light">
           <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+            <!-- Símbolo centralizado no verso: altere width/height para mudar o tamanho relativo -->
             <svg class="symbol" width="60" height="60" role="img" aria-label="Símbolo Orison" style="color: var(--color-midnight)">
               <use href="#symbol-full"/>
             </svg>
@@ -50,49 +64,65 @@
     </div>
   </div>
 
-  <!-- Assinatura de email -->
+  <!-- Template 2: Assinatura de email -->
   <div class="app-wrap">
     <div class="block-header">
       <span class="block-header-title">Assinatura de Email</span>
       <span class="block-header-sub">Gmail · Outlook · Formato HTML</span>
     </div>
     <div style="display:flex; flex-direction:column; gap:16px;">
+      <!-- .email-sig: container flex horizontal da assinatura completa -->
       <div class="email-sig">
+        <!-- Símbolo à esquerda da assinatura: não mude o tamanho mínimo (32px conforme regra abaixo) -->
         <svg class="symbol" width="36" height="36" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
           <use href="#symbol-full"/>
         </svg>
+        <!-- Bloco de texto: nome e cargo -->
         <div class="email-sig-text">
+          <!-- .email-sig-name: nome da pessoa — edite o texto aqui -->
           <div class="email-sig-name">Nobel</div>
+          <!-- .email-sig-role: cargo — edite o texto aqui -->
           <div class="email-sig-role">Founder · CEO · Orison</div>
         </div>
+        <!-- Divisor vertical crimson entre o bloco de texto e os contatos — elemento estrutural, não remova -->
         <div class="email-sig-rule"></div>
+        <!-- Bloco de contatos: cada .email-sig-line é uma linha — duplique para adicionar, delete para remover -->
         <div class="email-sig-contact">
           <div class="email-sig-line">nobel@orison.com.br</div>
           <div class="email-sig-line">orison.com.br</div>
         </div>
       </div>
+      <!-- Nota de uso: edite o texto aqui para atualizar as instruções de uso da assinatura -->
       <p class="text-label" style="line-height:1.8;">Nota de uso · Fundo sempre preto ou midnight. Nunca usar em fundo branco puro. Tamanho mínimo do símbolo na assinatura: 32px.</p>
     </div>
   </div>
 
-  <!-- Capa de apresentação -->
+  <!-- Template 3: Slide de capa de apresentação -->
   <div class="app-wrap">
     <div class="block-header">
       <span class="block-header-title">Apresentação · Slide de Capa</span>
       <span class="block-header-sub">16:9 · PowerPoint / Google Slides</span>
     </div>
+    <!-- .slide-preview: container de proporção 16:9 que simula o slide -->
     <div class="slide-preview">
+      <!-- .slide-left-bar: barra crimson vertical fixa à esquerda — elemento estrutural obrigatório -->
       <div class="slide-left-bar"></div>
+      <!-- .slide-deco: símbolo decorativo de fundo com baixa opacidade — não remova -->
       <div class="slide-deco">
         <svg class="symbol" width="400" height="400" role="presentation" style="color: var(--color-offwhite)">
           <use href="#symbol-decoration"/>
         </svg>
       </div>
+      <!-- .slide-content: área de conteúdo principal do slide -->
       <div class="slide-content">
+        <!-- .slide-eyebrow: linha de categoria acima do título — edite o texto aqui -->
         <span class="slide-eyebrow">Proposta Comercial · Confidencial</span>
+        <!-- .slide-title: título principal do slide — use <br/> para forçar quebras de linha -->
         <div class="slide-title">Diagnóstico e<br/>Implementação<br/>Orison</div>
+        <!-- .slide-sub: subtítulo abaixo do título — edite o texto aqui (cliente e data) -->
         <span class="slide-sub">Nome do Cliente · Março 2026</span>
       </div>
+      <!-- .slide-logo: lockup de rodapé no canto inferior direito — não reposicione -->
       <div class="slide-logo">
         <svg class="symbol" width="28" height="28" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
           <use href="#symbol-full"/>
@@ -103,7 +133,7 @@
     <p class="text-label" style="margin-top:14px; line-height:1.8;">Nota de uso · Fundo sempre preto ou midnight. Barra crimson esquerda como elemento estrutural padrão. Símbolo sempre no canto inferior direito.</p>
   </div>
 
-  <!-- Capa de proposta -->
+  <!-- Template 4: Capa de proposta comercial A4 -->
   <div class="app-wrap">
     <div class="block-header">
       <span class="block-header-title">Capa de Proposta Comercial</span>
@@ -111,27 +141,36 @@
     </div>
     <div style="display:flex; gap:40px; align-items:flex-start;">
 
+      <!-- Preview da capa A4 em escala reduzida — apenas visual, não é editável como PDF -->
       <div style="display:flex; flex-direction:column; gap:14px; flex-shrink:0;">
         <span class="text-label">Preview · A4 Vertical</span>
         <div style="width:240px; height:340px; background: var(--color-midnight); border:1px solid var(--color-border); display:flex; flex-direction:column; justify-content:space-between; padding:28px 28px 24px 28px; position:relative; overflow:hidden; flex-shrink:0;">
+          <!-- Símbolo decorativo de fundo: opacidade 4% — não aumente além disso -->
           <div style="position:absolute; right:-50px; bottom:-50px; opacity:0.04; pointer-events:none;">
             <svg class="symbol" width="240" height="240" role="presentation" style="color: var(--color-offwhite)">
               <use href="#symbol-decoration"/>
             </svg>
           </div>
+          <!-- Barra crimson esquerda: elemento estrutural obrigatório em todos os documentos Orison -->
           <div style="position:absolute; left:0; top:0; bottom:0; width:2px; background: var(--color-crimson); opacity:0.5;"></div>
+          <!-- Topo: símbolo + wordmark — edite o texto do <span> para mudar o nome no header -->
           <div style="display:flex; align-items:center; gap:10px;">
             <svg class="symbol" width="20" height="20" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
               <use href="#symbol-full"/>
             </svg>
             <span style="font-family: var(--font-display); font-size:11px; letter-spacing:5px; text-transform:uppercase; color: var(--color-offwhite); opacity:0.65;">Orison</span>
           </div>
+          <!-- Área central: label de seção, título principal e traço crimson -->
           <div style="display:flex; flex-direction:column; gap:10px;">
+            <!-- Label de categoria em crimson: edite o texto aqui -->
             <span style="font-size:7px; letter-spacing:4px; color: var(--color-crimson); text-transform:uppercase; opacity:0.8;">Proposta Comercial</span>
+            <!-- Título principal em Cormorant Garamond: edite o texto aqui, use <br/> para quebras de linha -->
             <div style="font-family: var(--font-display); font-size:20px; font-weight:300; letter-spacing:1px; color: var(--color-offwhite); line-height:1.3;">Implementação<br/>de Infraestrutura<br/>de IA</div>
             <div style="width:28px; height:1px; background: var(--color-crimson); opacity:0.5;"></div>
+            <!-- Nome do cliente e ano: edite o texto aqui -->
             <span style="font-size:7px; letter-spacing:3px; color: var(--color-offwhite); opacity:0.50; text-transform:uppercase;">Nome do Cliente · 2026</span>
           </div>
+          <!-- Rodapé: confidencialidade e data — edite os textos aqui -->
           <div style="display:flex; justify-content:space-between; align-items:flex-end;">
             <span style="font-size:7px; letter-spacing:2px; color: var(--color-offwhite); opacity:0.38; text-transform:uppercase;">Confidencial</span>
             <span style="font-size:7px; letter-spacing:2px; color: var(--color-offwhite); opacity:0.38; text-transform:uppercase;">Março 2026</span>
@@ -139,9 +178,11 @@
         </div>
       </div>
 
+      <!-- Regras de uso do template: cada .info-block é uma regra — duplique para adicionar, delete para remover -->
       <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
         <span class="text-label">Regras de Uso</span>
         <div style="display:flex; flex-direction:column; gap:2px;">
+          <!-- .info-block__label: título da regra; .info-block__text: descrição — edite os textos aqui -->
           <div class="info-block">
             <span class="info-block__label" style="color: var(--color-crimson); opacity:1;">Estrutura</span>
             <span class="info-block__text">Sempre três blocos verticais: logo no topo, título no meio, data e confidencialidade no rodapé. Barra crimson esquerda é elemento estrutural obrigatório.</span>
@@ -160,31 +201,39 @@
     </div>
   </div>
 
-  <!-- LinkedIn -->
+  <!-- Template 5: Banner LinkedIn -->
   <div class="app-wrap">
     <div class="block-header">
       <span class="block-header-title">Banner LinkedIn</span>
       <span class="block-header-sub">1584 × 396px · Perfil Profissional</span>
     </div>
     <div style="display:flex; flex-direction:column; gap:14px;">
+      <!-- .linkedin-preview: container de proporção 4:1 que simula o banner do LinkedIn -->
       <div class="linkedin-preview">
+        <!-- .li-deco: símbolo decorativo no lado direito com baixa opacidade — não remova -->
         <div class="li-deco">
           <svg class="symbol" width="300" height="300" role="presentation" style="color: var(--color-offwhite)">
             <use href="#symbol-decoration"/>
           </svg>
         </div>
+        <!-- .li-left: lockup horizontal à esquerda do banner -->
         <div class="li-left">
           <svg class="symbol" width="32" height="32" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
             <use href="#symbol-full"/>
           </svg>
+          <!-- .li-rule: linha horizontal separadora entre símbolo e nome -->
           <div class="li-rule"></div>
+          <!-- .li-name: nome da marca no banner — edite o texto aqui -->
           <span class="li-name">Orison</span>
           <div class="li-rule"></div>
+          <!-- .li-tagline: tagline do banner — edite o texto aqui -->
           <span class="li-tagline">AI Infrastructure · B2B · Brazil</span>
         </div>
       </div>
+      <!-- Regras de uso do LinkedIn: .info-block único com label crimson -->
       <div class="info-block">
         <span class="info-block__label" style="color: var(--color-crimson); opacity:1;">Regras LinkedIn</span>
+        <!-- Edite o texto de .info-block__text para atualizar as instruções de uso -->
         <span class="info-block__text">Foto de perfil: símbolo Orison em fundo preto, centrado. Banner: lockup horizontal à esquerda, fundo midnight, símbolo decorativo direita com opacidade 5%. Headline: cargo + "Orison · AI Infrastructure B2B". Sem hashtags em posts formais.</span>
       </div>
     </div>

@@ -1,23 +1,33 @@
+<!-- Seção 09: área de proteção (clear space) ao redor do símbolo -->
 <section id="sec-clear">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">09</span>
     <span class="sec-title">Área de Proteção · Clear Space</span>
     <span class="sec-sub">Minimum Clearance Around Logo</span>
   </div>
 
+  <!-- Layout: diagrama à esquerda, regras de uso à direita — definido por .clearspace-wrap em components.css -->
   <div class="clearspace-wrap">
+    <!-- Diagrama: símbolo centralizado dentro da caixa de proteção com setas de distância -->
     <div class="cs-diagram">
+      <!-- .cs-box: container quadrado que representa a área de proteção -->
       <div class="cs-box">
+        <!-- Setas de distância: .cs-top, .cs-bottom, .cs-left, .cs-right posicionam os labels "1×" nos quatro lados -->
         <span class="cs-arrow cs-top">1×</span>
         <span class="cs-arrow cs-bottom">1×</span>
         <span class="cs-arrow cs-left">1×</span>
         <span class="cs-arrow cs-right">1×</span>
+        <!-- Símbolo no centro do diagrama: não mude o tamanho (80px) — as proporções do diagrama são fixas -->
         <svg class="symbol" width="80" height="80" role="img" aria-label="Símbolo Orison com área de proteção" style="color: var(--color-offwhite)">
           <use href="#symbol-full"/>
         </svg>
       </div>
     </div>
+    <!-- Lista de regras: cada .cs-rule é uma regra de clearspace ou lockup -->
+    <!-- Para adicionar uma regra: duplique um .cs-rule; para remover, delete-o -->
     <div class="cs-info">
+      <!-- .cs-rule-label: título da regra; .cs-rule-val: valor mensurável; .cs-rule-desc: explicação -->
       <div class="cs-rule">
         <span class="cs-rule-label">Unidade de Proteção</span>
         <span class="cs-rule-val">X = altura do símbolo ÷ 4</span>

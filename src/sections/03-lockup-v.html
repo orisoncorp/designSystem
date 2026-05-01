@@ -1,23 +1,31 @@
+<!-- Seção 03: lockup vertical — símbolo empilhado acima de traço + wordmark -->
 <section id="sec-lockup-v">
+  <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">03</span>
     <span class="sec-title">Lockup Vertical</span>
     <span class="sec-sub">Symbol + Wordmark · Stacked</span>
   </div>
 
+  <!-- Grade de dois painéis: versão escura e versão clara -->
   <div class="block-2col">
+    <!-- Painel escuro: .lv é o container stack (coluna) do lockup vertical -->
     <div class="panel" style="justify-content:center;">
       <span class="panel-label">Versão Escura</span>
       <div class="lv">
+        <!-- .lv-symbol: wrapper do SVG — altere width/height no svg para escalar -->
         <div class="lv-symbol">
           <svg class="symbol" width="80" height="80" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite)">
             <use href="#symbol-full"/>
           </svg>
         </div>
+        <!-- Traço crimson horizontal entre símbolo e wordmark — estilo definido em .lv-rule -->
         <div class="lv-rule"></div>
+        <!-- Wordmark: .lv-name-dark = cor offwhite; altere só o texto se necessário -->
         <span class="lv-name-dark">Orison</span>
       </div>
     </div>
+    <!-- Painel claro: mesma estrutura — .lv-name-light usa cor midnight -->
     <div class="panel-light" style="justify-content:center;">
       <span class="panel-label-light">Versão Clara</span>
       <div class="lv">
@@ -27,6 +35,7 @@
           </svg>
         </div>
         <div class="lv-rule"></div>
+        <!-- .lv-name-light = cor midnight para uso em fundo claro -->
         <span class="lv-name-light">Orison</span>
       </div>
     </div>
