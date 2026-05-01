@@ -78,7 +78,7 @@
 }
 
 /* ─── Semantic text colors ─── */
-.text-accent    { color: var(--color-crimson); }
+.text-accent    { color: var(--color-crimson-text); }
 .text-primary   { color: var(--text-primary); }
 .text-secondary { color: var(--text-body); }
 .text-tertiary  { color: var(--text-secondary); }

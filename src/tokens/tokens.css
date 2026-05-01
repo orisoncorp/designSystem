@@ -10,6 +10,7 @@
   --color-text-dim: rgba(232, 230, 225, 0.55);
   --color-crimson:  #8B1A1A;
   --color-red:      #A52020;
+  --color-crimson-text: #C94040; /* vermelho legível sobre fundos escuros — ratio ≥ 4.5:1 */
   --color-offwhite: #e8e6e1;
 
   /* ─── Text: Concrete color scale (sem opacity stacking) ─── */
