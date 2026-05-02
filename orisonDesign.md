@@ -1,6 +1,6 @@
 ---
-version: "2.0"
-name: Orison Brand System
+version: "1.0"
+name: Orison Brand System Prompt
 description: >
   Sistema de design e identidade visual da Orison — empresa de infraestrutura
   de IA para negócios. Este documento é a fonte normativa de todos os ativos
