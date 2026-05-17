@@ -1,0 +1,86 @@
+<!-- Seção 23: Loading States — skeleton, pulse, bar -->
+<section id="sec-loading">
+  <div class="sec-div">
+    <span class="sec-num">23</span>
+    <span class="sec-title">Loading States</span>
+    <span class="sec-sub">Molecules · Skeleton · Pulse · Bar</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Estados de Loading</span>
+      <span class="block-header-sub">Nunca usar spinner rotativo — feedback linear, direcional e coerente com a identidade</span>
+    </div>
+
+    <div class="loading-grid m-reveal">
+
+      <!-- Skeleton -->
+      <div class="loading-card">
+        <span class="loading-card-title">loading-skeleton</span>
+        <div class="skeleton-card">
+          <div class="skeleton-line skeleton-line--short is-shimmer"></div>
+          <div class="skeleton-line skeleton-line--long is-shimmer" style="animation-delay: 0.1s;"></div>
+          <div class="skeleton-line skeleton-line--medium is-shimmer" style="animation-delay: 0.2s;"></div>
+          <div class="skeleton-line skeleton-line--long is-shimmer" style="animation-delay: 0.3s;"></div>
+          <div class="skeleton-line skeleton-line--short is-shimmer" style="animation-delay: 0.4s;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+          <div class="mol-spec-row"><span class="mol-spec-key">Gradiente</span><span class="mol-spec-val">surface → midnight → surface</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">1400ms (cinematic) · loop infinito</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">linear</span></div>
+        </div>
+        <span class="mol-context">Conteúdo estruturado — tabelas, cards, seções. Padrão padrão de loading.</span>
+      </div>
+
+      <!-- Pulse -->
+      <div class="loading-card">
+        <span class="loading-card-title">loading-pulse</span>
+        <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); background: var(--color-midnight); border: 1px solid var(--color-border);">
+          <div class="pulse-dot is-pulsing"></div>
+          <span style="font-size: 9px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Processando</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">opacity: 0.4 → 1.0 → 0.4</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">600ms (slow) · loop · alternate</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>
+        </div>
+        <span class="mol-context">Indicadores pontuais — status de conexão, heartbeat de agente</span>
+      </div>
+
+      <!-- Bar -->
+      <div class="loading-card">
+        <span class="loading-card-title">loading-bar</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <div style="position: relative; height: 2px; background: var(--color-border); overflow: hidden; margin-bottom: var(--space-2);">
+            <div class="loading-bar-fill is-running"></div>
+          </div>
+          <div style="display: flex; gap: var(--space-2);">
+            <button class="m-play-btn" id="loading-bar-toggle">Stop</button>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+          <div class="mol-spec-row"><span class="mol-spec-key">Altura</span><span class="mol-spec-val">2px · cor crimson</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">1.8s · loop infinito</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>
+        </div>
+        <span class="mol-context">Ações globais — navegação de página, submit de formulário</span>
+      </div>
+
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: var(--space-4);">
+      <div class="comp-spec">
+        <span class="comp-spec-key">Skeleton = padrão</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Conteúdo estruturado — sempre</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Pulse = indicadores</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Status isolados — dots e ícones</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Bar = global</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Ações de página — nunca mais de 1 padrão simultâneo</span>
+      </div>
+    </div>
+  </div>
+</section>

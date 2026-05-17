@@ -1,0 +1,95 @@
+<!-- Seção 15: Easing — 6 curvas com demo interativo -->
+<section id="sec-easing">
+  <div class="sec-div">
+    <span class="sec-num">15</span>
+    <span class="sec-title">Easing</span>
+    <span class="sec-sub">Atoms · Curvas · 6 tokens</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Curvas de Easing</span>
+      <span class="block-header-sub">Clique em cada card para disparar a demo · Play All para comparação simultânea</span>
+    </div>
+
+    <div style="margin-bottom: var(--space-3);">
+      <button class="m-play-btn" id="easing-play-all">Disparar Todos</button>
+    </div>
+
+    <div class="easing-grid m-reveal">
+
+      <!-- Enter -->
+      <div class="easing-card" data-easing-card="enter">
+        <span class="easing-label">Enter</span>
+        <span class="easing-value">cubic-bezier(0.25, 0.1, 0.25, 1.0)</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-enter" style="--easing-curve: cubic-bezier(0.25, 0.1, 0.25, 1.0);"></div>
+        </div>
+        <span class="easing-context">Scroll reveals · Aparições de painel · Entradas de conteúdo</span>
+      </div>
+
+      <!-- Exit -->
+      <div class="easing-card" data-easing-card="exit">
+        <span class="easing-label">Exit</span>
+        <span class="easing-value">cubic-bezier(0.25, 0.1, 0.25, 1.0)</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-exit" style="--easing-curve: cubic-bezier(0.25, 0.1, 0.25, 1.0);"></div>
+        </div>
+        <span class="easing-context">Remoção de elementos · Dismiss · Saída de página</span>
+      </div>
+
+      <!-- State -->
+      <div class="easing-card" data-easing-card="state">
+        <span class="easing-label">State</span>
+        <span class="easing-value">cubic-bezier(0.4, 0.0, 0.2, 1.0)</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-state" style="--easing-curve: cubic-bezier(0.4, 0.0, 0.2, 1.0);"></div>
+        </div>
+        <span class="easing-context">Hover · Focus · Active · Mudanças de cor · Transições internas</span>
+      </div>
+
+      <!-- Emphasis -->
+      <div class="easing-card" data-easing-card="emphasis">
+        <span class="easing-label">Emphasis</span>
+        <span class="easing-value">cubic-bezier(0.16, 1, 0.3, 1)</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-emphasis" style="--easing-curve: cubic-bezier(0.16, 1, 0.3, 1);"></div>
+        </div>
+        <span class="easing-context">Modais · Cards críticos · Abertura de painéis · Alto impacto</span>
+      </div>
+
+      <!-- Linear -->
+      <div class="easing-card" data-easing-card="linear">
+        <span class="easing-label">Linear</span>
+        <span class="easing-value">linear</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-linear" style="--easing-curve: linear;"></div>
+        </div>
+        <span class="easing-context">Barras de progresso · Shimmer de skeleton · Contadores numéricos</span>
+      </div>
+
+      <!-- Micro -->
+      <div class="easing-card" data-easing-card="micro">
+        <span class="easing-label">Micro</span>
+        <span class="easing-value">cubic-bezier(0.0, 0.0, 0.2, 1.0)</span>
+        <div class="easing-track">
+          <div class="easing-ball" id="easing-ball-micro" style="--easing-curve: cubic-bezier(0.0, 0.0, 0.2, 1.0);"></div>
+        </div>
+        <span class="easing-context">Active/Press · Checkmarks · Toggles · Feedback instantâneo</span>
+      </div>
+
+    </div>
+
+    <!-- Regras -->
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: var(--space-4);">
+      <div class="comp-spec">
+        <span class="comp-spec-key">Nunca use</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">ease-in isolado · ease-in-out genérico</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Emphasis é o crimson do motion</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Uma ocorrência por tela ou fluxo</span>
+      </div>
+    </div>
+  </div>
+</section>

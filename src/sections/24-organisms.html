@@ -1,0 +1,110 @@
+<!-- Seção 24: Organisms — coreografias compostas -->
+<section id="sec-organisms">
+  <div class="sec-div">
+    <span class="sec-num">24</span>
+    <span class="sec-title">Organisms</span>
+    <span class="sec-sub">Sequências compostas · Modal · Scroll · Data · Charts</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Organismos de Motion</span>
+      <span class="block-header-sub">Sequências compostas — múltiplas camadas coordenadas</span>
+    </div>
+
+    <div class="org-grid m-reveal">
+
+      <!-- Modal choreography -->
+      <div class="org-card">
+        <span class="org-card-title">modal-choreography</span>
+        <span class="org-card-desc">Overlay + backdrop simultâneos → modal após 100ms</span>
+        <button class="m-play-btn" id="modal-open-btn">Abrir Modal Demo</button>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+          <div class="mol-spec-row"><span class="mol-spec-key">1. Overlay</span><span class="mol-spec-val">enter-fade · 0ms delay</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">2. Backdrop</span><span class="mol-spec-val">scale(0.98) + blur(2px) · 0ms delay</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">3. Modal</span><span class="mol-spec-val">enter-materialize · 100ms delay</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Saída</span><span class="mol-spec-val">modal → overlay → backdrop</span></div>
+        </div>
+      </div>
+
+      <!-- Scroll Reveal -->
+      <div class="org-card">
+        <span class="org-card-title">scroll-reveal</span>
+        <span class="org-card-desc">IntersectionObserver · threshold 0.15 · once: true · stagger base</span>
+        <div class="scroll-reveal-grid" id="scroll-reveal-demo">
+          <div class="scroll-reveal-card m-stagger-1">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 01</span>
+          </div>
+          <div class="scroll-reveal-card m-stagger-2">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 02</span>
+          </div>
+          <div class="scroll-reveal-card m-stagger-3">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 03</span>
+          </div>
+          <div class="scroll-reveal-card m-stagger-4">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 04</span>
+          </div>
+          <div class="scroll-reveal-card m-stagger-5">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 05</span>
+          </div>
+          <div class="scroll-reveal-card m-stagger-6">
+            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 06</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Population: Table -->
+      <div class="org-card">
+        <span class="org-card-title">data-population · table</span>
+        <span class="org-card-desc">enter-data · stagger dense 40ms · cap 12 itens</span>
+        <div style="overflow-x: auto;">
+          <table class="table-orison" id="org-data-table" style="min-width: 340px;">
+            <thead>
+              <tr><th>Processo</th><th>Status</th><th>Ganho</th></tr>
+            </thead>
+            <tbody>
+              <tr class="org-table-row"><td>Atendimento</td><td><span class="badge-orison badge-orison--positive">Ativo</span></td><td class="td-positive">−38%</td></tr>
+              <tr class="org-table-row"><td>Onboarding</td><td><span class="badge-orison badge-orison--positive">Ativo</span></td><td class="td-positive">−52%</td></tr>
+              <tr class="org-table-row"><td>Relatórios</td><td><span class="badge-orison badge-orison--alert">Parcial</span></td><td class="td-positive">−24%</td></tr>
+              <tr class="org-table-row"><td>Compliance</td><td><span class="badge-orison badge-orison--crimson">Crítico</span></td><td class="td-negative">+12%</td></tr>
+              <tr class="org-table-row"><td>Analytics</td><td><span class="badge-orison badge-orison--neutral">Padrão</span></td><td class="td-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="m-play-btn" id="org-table-play" style="margin-top: var(--space-2);">Re-animar</button>
+      </div>
+
+      <!-- Chart Bars -->
+      <div class="org-card">
+        <span class="org-card-title">data-population · chart-bars</span>
+        <span class="org-card-desc">scaleY(0→1) · origin bottom · stagger base 60ms · emphasis easing</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <div style="display: flex; gap: 4px; height: 100px; align-items: flex-end;" id="chart-bars-demo">
+            <div class="chart-bar" style="height: 40%;"></div>
+            <div class="chart-bar" style="height: 75%;"></div>
+            <div class="chart-bar" style="height: 55%;"></div>
+            <div class="chart-bar" style="height: 90%;"></div>
+            <div class="chart-bar" style="height: 65%;"></div>
+            <div class="chart-bar" style="height: 85%;"></div>
+          </div>
+          <button class="m-play-btn" id="chart-bars-play">Re-animar</button>
+        </div>
+        <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">transform: scaleY</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Origin</span><span class="mol-spec-val">bottom — metáfora natural de crescimento</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">emphasis — sem bounce no topo</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal DOM (fora do flow) -->
+  <div class="modal-demo-overlay" id="modal-demo-overlay">
+    <div class="modal-demo-box">
+      <h3 class="modal-demo-title">Modal Orison</h3>
+      <p class="modal-demo-body">Overlay + backdrop entram juntos. O modal materializa 100ms depois — o fundo está parcialmente preparado antes que o conteúdo apareça.</p>
+      <button class="btn-orison" id="modal-close-btn">Fechar</button>
+    </div>
+  </div>
+</section>

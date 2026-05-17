@@ -1,0 +1,91 @@
+<!-- Seção 20: Exits — 3 moléculas de saída com exit ratio visual -->
+<section id="sec-exits">
+  <div class="sec-div">
+    <span class="sec-num">20</span>
+    <span class="sec-title">Exits</span>
+    <span class="sec-sub">Molecules · 3 padrões · Exit ratio 0.7×</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Moléculas de Saída</span>
+      <span class="block-header-sub">Saída sempre 70% da duração de entrada — usuário já absorveu o conteúdo</span>
+    </div>
+
+    <div class="mol-grid m-reveal">
+
+      <!-- Dismiss -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">exit-dismiss</span>
+          <button class="m-play-btn" data-exit-trigger="dismiss">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-dismiss-stage">
+          <div class="demo-card anim-target" id="demo-dismiss" style="opacity:1;">
+            <span class="demo-card-title">Dismiss</span>
+            <span class="demo-card-sub">translateY(-8px) + fade</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms (fast)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Exit ratio</span><span class="mol-spec-val">0.7× entrada</span></div>
+        </div>
+        <span class="mol-context">Remoção de elementos · Dismiss de notifications · Toasts</span>
+      </div>
+
+      <!-- Exit Fade -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">exit-fade</span>
+          <button class="m-play-btn" data-exit-trigger="exit-fade">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-exit-fade-stage">
+          <div class="demo-card anim-target" id="demo-exit-fade" style="opacity:1;">
+            <span class="demo-card-title">Exit Fade</span>
+            <span class="demo-card-sub">opacity apenas</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms (fast)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Exit ratio</span><span class="mol-spec-val">0.6× entrada</span></div>
+        </div>
+        <span class="mol-context">Overlays · Transições de página (camada antiga)</span>
+      </div>
+
+      <!-- Exit Slide X -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">exit-slide-x</span>
+          <button class="m-play-btn" data-exit-trigger="exit-slide-x">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-exit-slide-x-stage">
+          <div class="demo-card anim-target" id="demo-exit-slide-x" style="opacity:1;">
+            <span class="demo-card-title">Exit Slide X</span>
+            <span class="demo-card-sub">translateX(-16px) + fade</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">250ms (base)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Exit ratio</span><span class="mol-spec-val">0.7× entrada</span></div>
+        </div>
+        <span class="mol-context">Sidebar e drawers fechando · Direção inverte a entrada</span>
+      </div>
+
+    </div>
+
+    <!-- Regras -->
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: var(--space-4);">
+      <div class="comp-spec">
+        <span class="comp-spec-key">Nunca scale-down na saída</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Parece "sugar" o elemento — cria sensação de erro</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Direção reversa é opcional</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Se entrada usou translate, saída pode usar só opacity</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,73 @@
+<!-- Seção 18: Stagger — decay system com demo interativo de 8 cards -->
+<section id="sec-stagger">
+  <div class="sec-div">
+    <span class="sec-num">18</span>
+    <span class="sec-title">Stagger</span>
+    <span class="sec-sub">Atoms · Delay decrescente · Cap em 8 itens</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Sistema de Stagger</span>
+      <span class="block-header-sub">Delay decrescente × 0.9 — cada item subsequente espera menos que o anterior</span>
+    </div>
+
+    <div class="stagger-controls">
+      <button class="stagger-mode-btn is-active" data-stagger-mode="base">Base · 60ms</button>
+      <button class="stagger-mode-btn" data-stagger-mode="dense">Dense · 40ms</button>
+      <button class="stagger-mode-btn" data-stagger-mode="dramatic">Dramatic · 120ms</button>
+      <button class="m-play-btn" id="stagger-play" style="margin-left: auto;">Disparar</button>
+      <button class="m-play-btn" id="stagger-reset">Reset</button>
+    </div>
+
+    <div class="stagger-grid" id="stagger-grid">
+      <div class="stagger-card" data-stagger-index="0">
+        <span class="stagger-card-num">01</span>
+        <span class="stagger-card-delay" id="stagger-delay-0">0ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="1">
+        <span class="stagger-card-num">02</span>
+        <span class="stagger-card-delay" id="stagger-delay-1">60ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="2">
+        <span class="stagger-card-num">03</span>
+        <span class="stagger-card-delay" id="stagger-delay-2">114ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="3">
+        <span class="stagger-card-num">04</span>
+        <span class="stagger-card-delay" id="stagger-delay-3">163ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="4">
+        <span class="stagger-card-num">05</span>
+        <span class="stagger-card-delay" id="stagger-delay-4">207ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="5">
+        <span class="stagger-card-num">06</span>
+        <span class="stagger-card-delay" id="stagger-delay-5">246ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="6">
+        <span class="stagger-card-num">07</span>
+        <span class="stagger-card-delay" id="stagger-delay-6">281ms</span>
+      </div>
+      <div class="stagger-card" data-stagger-index="7">
+        <span class="stagger-card-num">08</span>
+        <span class="stagger-card-delay" id="stagger-delay-7">313ms</span>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: var(--space-4);">
+      <div class="comp-spec">
+        <span class="comp-spec-key">Fórmula</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">delay(n) = base × 0.9^(n-1)</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Cap de itens</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">8 itens — restantes aparecem simultaneamente</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Delay máximo</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">480ms — cap absoluto acumulado</span>
+      </div>
+    </div>
+  </div>
+</section>

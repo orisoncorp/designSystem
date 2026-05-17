@@ -1,0 +1,175 @@
+<!-- Seção 25: Templates — 4 contextos de aplicação -->
+<section id="sec-templates">
+  <div class="sec-div">
+    <span class="sec-num">25</span>
+    <span class="sec-title">Templates</span>
+    <span class="sec-sub">Elpis CLI · Apresentação · Landing Page · Dashboard</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Contextos de Aplicação</span>
+      <span class="block-header-sub">Cada contexto tem moléculas permitidas e restrições próprias</span>
+    </div>
+
+    <div class="template-grid m-reveal">
+
+      <!-- Elpis CLI -->
+      <div class="template-card">
+        <span class="template-card-title">Elpis · CLI / Terminal</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Moléculas permitidas</span>
+          <div class="template-tag-list">
+            <span class="template-tag">loading-pulse</span>
+            <span class="template-tag">loading-bar</span>
+            <span class="template-tag">micro-progress</span>
+            <span class="template-tag">micro-counter</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Status indicators</span>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div class="mol-spec-row"><span class="mol-spec-key">thinking</span><span class="mol-spec-val">pulse</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">processing</span><span class="mol-spec-val">bar</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">complete</span><span class="mol-spec-val">instant-appear</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Typewriter</span><span class="mol-spec-val">char: 20ms · line: 80ms · linear</span></div>
+          </div>
+        </div>
+        <div class="comp-spec" style="margin-top: 0;">
+          <span class="comp-spec-key">Teto</span>
+          <span class="comp-spec-val" style="color: var(--text-secondary);">400ms — redução de 40% vs web</span>
+        </div>
+        <div class="template-constraint-list">
+          <span class="template-constraint">Sem translateY/X — terminal é sequencial</span>
+          <span class="template-constraint">Sem scale — não aplicável em text output</span>
+          <span class="template-constraint">Feedback funcional, nunca decorativo</span>
+        </div>
+      </div>
+
+      <!-- Client Presentation -->
+      <div class="template-card">
+        <span class="template-card-title">Client Presentation</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Multiplicadores</span>
+          <div style="display: flex; gap: var(--space-2);">
+            <div class="comp-spec" style="flex: 1;">
+              <span class="comp-spec-key">Duração</span>
+              <span class="comp-spec-val" style="color: var(--text-secondary);">× 1.4</span>
+            </div>
+            <div class="comp-spec" style="flex: 1;">
+              <span class="comp-spec-key">Stagger</span>
+              <span class="comp-spec-val" style="color: var(--text-secondary);">× 1.5</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Sequência de título</span>
+          <div class="hero-timeline">
+            <div class="hero-step">
+              <span class="hero-step-delay">200ms</span>
+              <span class="hero-step-name">Eyebrow</span>
+              <span class="hero-step-mol">letter-spacing</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">after</span>
+              <span class="hero-step-name">Título</span>
+              <span class="hero-step-mol">slide-x</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">after</span>
+              <span class="hero-step-name">Subtítulo</span>
+              <span class="hero-step-mol">fade</span>
+            </div>
+          </div>
+        </div>
+        <div class="template-constraint-list">
+          <span class="template-constraint">Máx. 3 elementos animando por slide</span>
+          <span class="template-constraint">Sem loops — tudo executa uma vez</span>
+          <span class="template-constraint">Sem fly-ins, bounces, zooms de software</span>
+        </div>
+      </div>
+
+      <!-- Landing Page -->
+      <div class="template-card">
+        <span class="template-card-title">Landing Page</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Hero sequence (above-the-fold)</span>
+          <div class="hero-timeline">
+            <div class="hero-step" style="border-left-color: var(--color-crimson);">
+              <span class="hero-step-delay">200ms</span>
+              <span class="hero-step-name">Eyebrow</span>
+              <span class="hero-step-mol">opacity</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">400ms</span>
+              <span class="hero-step-name">Headline</span>
+              <span class="hero-step-mol">reveal 48px</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">700ms</span>
+              <span class="hero-step-name">Subheadline</span>
+              <span class="hero-step-mol">fade</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">1000ms</span>
+              <span class="hero-step-name">CTA</span>
+              <span class="hero-step-mol">materialize</span>
+            </div>
+          </div>
+        </div>
+        <div class="template-constraint-list">
+          <span class="template-constraint">Só transform e opacity — GPU budget</span>
+          <span class="template-constraint">Nenhuma animação acima de 1400ms</span>
+          <span class="template-constraint">Scroll-reveals: IntersectionObserver.unobserve()</span>
+          <span class="template-constraint">Sem parallax — ortogonal</span>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="template-card">
+        <span class="template-card-title">Dashboard</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Moléculas permitidas</span>
+          <div class="template-tag-list">
+            <span class="template-tag">enter-data</span>
+            <span class="template-tag">micro-counter</span>
+            <span class="template-tag">loading-skeleton</span>
+            <span class="template-tag">loading-bar</span>
+            <span class="template-tag template-tag--muted">hover-surface</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Loading sequence</span>
+          <div class="hero-timeline">
+            <div class="hero-step">
+              <span class="hero-step-delay">mount</span>
+              <span class="hero-step-name">Skeleton</span>
+              <span class="hero-step-mol">imediato</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">data</span>
+              <span class="hero-step-name">Skeleton out</span>
+              <span class="hero-step-mol">exit-fade</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">data</span>
+              <span class="hero-step-name">Populate</span>
+              <span class="hero-step-mol">stagger dense</span>
+            </div>
+            <div class="hero-step">
+              <span class="hero-step-delay">data</span>
+              <span class="hero-step-name">KPIs</span>
+              <span class="hero-step-mol">counter</span>
+            </div>
+          </div>
+        </div>
+        <div class="template-constraint-list">
+          <span class="template-constraint">Sem stagger em tabelas +20 linhas</span>
+          <span class="template-constraint">Skeleton em vez de spinners — sempre</span>
+          <span class="template-constraint">Duração máxima: 400ms</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

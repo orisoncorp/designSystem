@@ -1,0 +1,106 @@
+<!-- Seção 16: Duration — 7 tokens com barra animada e exit ratio -->
+<section id="sec-duration">
+  <div class="sec-div">
+    <span class="sec-num">16</span>
+    <span class="sec-title">Duration</span>
+    <span class="sec-sub">Atoms · Duração · Exit Ratio · 7 tokens</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Escala de Duração</span>
+      <span class="block-header-sub">Barra primária = duração de entrada · Barra secundária = saída × 0.7</span>
+    </div>
+
+    <div style="margin-bottom: var(--space-3); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
+      <button class="m-play-btn" id="duration-play-all">Disparar Todos</button>
+      <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Crimson = entrada · Cinza = saída (70%)</span>
+    </div>
+
+    <div class="duration-list m-reveal">
+
+      <div class="duration-row">
+        <span class="duration-token">instant</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="80" style="--dur: 80ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" data-dur-exit="56" style="--dur: 80ms; --dur-exit: 56ms;"></div></div>
+        </div>
+        <span class="duration-ms">80ms</span>
+        <span class="duration-use">Feedback de press/active · Focus ring · Toggles</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">fast</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="150" style="--dur: 150ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 150ms; --dur-exit: 105ms;"></div></div>
+        </div>
+        <span class="duration-ms">150ms</span>
+        <span class="duration-use">Hover states · Mudanças de cor · Exits rápidos</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">base</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="250" style="--dur: 250ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 250ms; --dur-exit: 175ms;"></div></div>
+        </div>
+        <span class="duration-ms">250ms</span>
+        <span class="duration-use">Transições padrão · Fades · Mudanças de página</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">moderate</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="400" style="--dur: 400ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 400ms; --dur-exit: 280ms;"></div></div>
+        </div>
+        <span class="duration-ms">400ms</span>
+        <span class="duration-use">Materialização de cards · Abertura de overlays · Dashboard max</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">slow</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="600" style="--dur: 600ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 600ms; --dur-exit: 420ms;"></div></div>
+        </div>
+        <span class="duration-ms">600ms</span>
+        <span class="duration-use">Scroll reveals · Entradas de painel · Slides · UI max</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">dramatic</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="900" style="--dur: 900ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 900ms; --dur-exit: 630ms;"></div></div>
+        </div>
+        <span class="duration-ms">900ms</span>
+        <span class="duration-use">Desenho de linhas de chart · Sequências de apresentação</span>
+      </div>
+
+      <div class="duration-row">
+        <span class="duration-token">cinematic</span>
+        <div class="duration-track-wrap">
+          <div class="duration-track"><div class="duration-bar" data-dur="1400" style="--dur: 1400ms;"></div></div>
+          <div class="duration-exit-track"><div class="duration-exit-bar" style="--dur: 1400ms; --dur-exit: 980ms;"></div></div>
+        </div>
+        <span class="duration-ms">1400ms</span>
+        <span class="duration-use">Shimmer de skeleton · Hero sequences de landing page</span>
+      </div>
+
+    </div>
+
+    <!-- Exit ratio note -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: var(--space-4);">
+      <div class="comp-spec">
+        <span class="comp-spec-key">Exit Ratio</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Saída = duração × 0.7 — usuário já absorveu o conteúdo</span>
+      </div>
+      <div class="comp-spec">
+        <span class="comp-spec-key">Teto por contexto</span>
+        <span class="comp-spec-val" style="color: var(--text-secondary);">Dashboard: 400ms · UI: 600ms · Apresentação: × 1.4</span>
+      </div>
+    </div>
+  </div>
+</section>

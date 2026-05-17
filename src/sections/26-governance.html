@@ -1,0 +1,136 @@
+<!-- Seção 26: Governance — performance, accessibility, composition, naming -->
+<section id="sec-governance">
+  <div class="sec-div">
+    <span class="sec-num">26</span>
+    <span class="sec-title">Governance</span>
+    <span class="sec-sub">Performance · Accessibility · Composition · Naming</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Regras Transversais</span>
+      <span class="block-header-sub">Governança do sistema — regras que previnem combinações caóticas</span>
+    </div>
+
+    <div class="gov-grid m-reveal">
+
+      <!-- Performance -->
+      <div class="gov-card">
+        <span class="gov-card-title">Performance · 60fps</span>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+          <div>
+            <span style="font-size: 7px; letter-spacing: 3px; color: #7ddfa7; text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Permitidas</span>
+            <div class="prop-list">
+              <div class="prop-item"><span class="prop-name">transform</span><span class="prop-badge-ok">GPU</span></div>
+              <div class="prop-item"><span class="prop-name">opacity</span><span class="prop-badge-ok">GPU</span></div>
+              <div class="prop-item"><span class="prop-name">filter</span><span class="prop-badge-ok">OK</span></div>
+              <div class="prop-item"><span class="prop-name">clip-path</span><span class="prop-badge-ok">OK</span></div>
+              <div class="prop-item"><span class="prop-name">background-position</span><span class="prop-badge-ok">OK</span></div>
+              <div class="prop-item"><span class="prop-name">stroke-dashoffset</span><span class="prop-badge-ok">OK</span></div>
+            </div>
+          </div>
+          <div>
+            <span style="font-size: 7px; letter-spacing: 3px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Proibidas (reflow)</span>
+            <div class="prop-list">
+              <div class="prop-item"><span class="prop-name">width / height</span><span class="prop-badge-no">reflow</span></div>
+              <div class="prop-item"><span class="prop-name">margin / padding</span><span class="prop-badge-no">reflow</span></div>
+              <div class="prop-item"><span class="prop-name">top / right</span><span class="prop-badge-no">reflow</span></div>
+              <div class="prop-item"><span class="prop-name">bottom / left</span><span class="prop-badge-no">reflow</span></div>
+              <div class="prop-item"><span class="prop-name">border-width</span><span class="prop-badge-no">reflow</span></div>
+              <div class="prop-item"><span class="prop-name">font-size</span><span class="prop-badge-no">reflow</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="comp-spec" style="margin-top: var(--space-2);">
+          <span class="comp-spec-key">will-change</span>
+          <span class="comp-spec-val" style="color: var(--text-secondary);">Declarar apenas durante a animação ativa — remover imediatamente após</span>
+        </div>
+      </div>
+
+      <!-- Accessibility -->
+      <div class="gov-card">
+        <span class="gov-card-title">Accessibility · prefers-reduced-motion</span>
+        <div class="rm-toggle-row">
+          <span class="rm-toggle-label">Simular reduced-motion (afeta toda a página)</span>
+          <div class="toggle-switch" id="rm-toggle">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="rm-status" id="rm-status">Inativo</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-3);">
+          <span style="font-size: 7px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Quando ativo:</span>
+          <div class="mol-spec-row"><span class="mol-spec-key">Durações</span><span class="mol-spec-val">0.01s — não zero (zero causa flash)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Transforms</span><span class="mol-spec-val">removidos — elemento aparece na posição final</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Opacity</span><span class="mol-spec-val">mantida — é informação, não decoração</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Stagger</span><span class="mol-spec-val">eliminado — todos aparecem simultaneamente</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Skeleton</span><span class="mol-spec-val">placeholder estático com opacidade reduzida</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Counter</span><span class="mol-spec-val">valor final instantâneo</span></div>
+        </div>
+      </div>
+
+      <!-- Composition -->
+      <div class="gov-card">
+        <span class="gov-card-title">Composition · Máx. 2 propriedades</span>
+        <table class="composition-table">
+          <thead>
+            <tr><th>Combinação</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>translateY + opacity</td><td class="td-ok">Permitida</td></tr>
+            <tr><td>scale + opacity</td><td class="td-ok">Permitida</td></tr>
+            <tr><td>translateX + opacity</td><td class="td-ok">Permitida</td></tr>
+            <tr><td>background-color + transform</td><td class="td-ok">Permitida</td></tr>
+            <tr><td>translateX + translateY + scale</td><td class="td-no">Proibida</td></tr>
+            <tr><td>opacity + scale + translate</td><td class="td-no">Proibida</td></tr>
+            <tr><td>transform + width/height</td><td class="td-no">Proibida</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Naming -->
+      <div class="gov-card">
+        <span class="gov-card-title">Naming Convention</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <div class="naming-example">motion-[camada]-[tipo]-[variante]</div>
+          <div style="display: flex; flex-direction: column; gap: 2px; margin-top: var(--space-2);">
+            <div class="naming-example">motion-atom-easing-enter</div>
+            <div class="naming-example">motion-atom-duration-slow</div>
+            <div class="naming-example">motion-mol-enter-reveal</div>
+            <div class="naming-example">motion-mol-state-hover-primary</div>
+            <div class="naming-example">motion-org-scroll-reveal</div>
+            <div class="naming-example">motion-org-data-chart-bar</div>
+            <div class="naming-example">motion-tpl-landing-hero</div>
+            <div class="naming-example">motion-tpl-dashboard-loading</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+            <div class="mol-spec-row"><span class="mol-spec-key">atom</span><span class="mol-spec-val">easing · duration · transform</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">mol</span><span class="mol-spec-val">enter · exit · state · micro · loading</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">org</span><span class="mol-spec-val">page · modal · scroll · data · nav</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">tpl</span><span class="mol-spec-val">elpis · presentation · landing · dashboard</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Crimson in motion -->
+    <div style="background: var(--color-surface); padding: 28px 24px; margin-top: 2px; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5);">
+      <div>
+        <span style="font-size: 9px; letter-spacing: 4px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: var(--space-3);">Crimson em Motion — usos permitidos</span>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Loading bar linear 2px no topo da viewport</span></div>
+          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Border-left accent animado em slide covers</span></div>
+          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Focus ring em botão primary</span></div>
+        </div>
+      </div>
+      <div>
+        <span style="font-size: 9px; letter-spacing: 4px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: var(--space-3);">Usos proibidos</span>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Pulsação de fundo crimson</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Glow ou sombra colorida animada</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Partículas, trails ou efeitos de emissão</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

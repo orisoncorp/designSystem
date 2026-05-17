@@ -1,0 +1,90 @@
+<!-- Seção 21: States — componentes reais com estados animados -->
+<section id="sec-states">
+  <div class="sec-div">
+    <span class="sec-num">21</span>
+    <span class="sec-title">State Transitions</span>
+    <span class="sec-sub">Molecules · Hover · Focus · Active · Disabled</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Transições de Estado</span>
+      <span class="block-header-sub">Componentes reais — interaja para ver as animações em tempo real</span>
+    </div>
+
+    <div class="states-live-grid m-reveal">
+
+      <!-- Botão Primary -->
+      <div class="states-live-card">
+        <span class="states-live-title">Botão Primary</span>
+        <div class="states-live-body">
+          <button class="btn-orison">Interaja comigo</button>
+          <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+            <div class="mol-spec-row"><span class="mol-spec-key">Hover</span><span class="mol-spec-val">crimson → red · translateY(-1px)</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Active</span><span class="mol-spec-val">translateY(0) · crimson</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Focus</span><span class="mol-spec-val">2px red outline · 3px offset</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms state</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Ghost -->
+      <div class="states-live-card">
+        <span class="states-live-title">Botão Ghost</span>
+        <div class="states-live-body">
+          <button class="btn-orison-ghost">Interaja comigo</button>
+          <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+            <div class="mol-spec-row"><span class="mol-spec-key">Hover</span><span class="mol-spec-val">border gray → offwhite · translateY(-1px)</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Active</span><span class="mol-spec-val">translateY(0)</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Focus</span><span class="mol-spec-val">2px offwhite outline</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms state</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="states-live-card">
+        <span class="states-live-title">Input Field</span>
+        <div class="states-live-body">
+          <input class="input-orison" type="text" placeholder="Focus aqui" style="max-width: 100%;" />
+          <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+            <div class="mol-spec-row"><span class="mol-spec-key">Hover</span><span class="mol-spec-val">border → gray</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Focus</span><span class="mol-spec-val">border → crimson</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">border-color only</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms state</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table row -->
+      <div class="states-live-card">
+        <span class="states-live-title">Linha de Tabela</span>
+        <div class="states-live-body" style="width: 100%;">
+          <table class="table-orison" style="width: 100%;">
+            <tbody>
+              <tr><td>Hover aqui</td><td class="td-metric">1.8s</td></tr>
+              <tr><td>E aqui</td><td class="td-positive">+24%</td></tr>
+              <tr><td>E aqui</td><td class="td-negative">−7%</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+            <div class="mol-spec-row"><span class="mol-spec-key">Hover</span><span class="mol-spec-val">rgba(255,255,255,0.02)</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms state</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Disabled states -->
+    <div style="margin-top: 2px; background: var(--color-surface); padding: 24px; display: flex; flex-direction: column; gap: var(--space-3);">
+      <span style="font-size: 9px; letter-spacing: 4px; color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);">Estado Disabled</span>
+      <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+        <button class="btn-orison" disabled>Disabled</button>
+        <button class="btn-orison-ghost" disabled>Disabled</button>
+        <input class="input-orison" disabled placeholder="Disabled" style="max-width: 200px;" />
+      </div>
+      <div class="mol-spec-row"><span class="mol-spec-key">Opacity</span><span class="mol-spec-val">0.35 (disabled) / 0.30 (ghost) · transition: base (250ms)</span></div>
+    </div>
+  </div>
+</section>

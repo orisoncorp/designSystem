@@ -1,0 +1,100 @@
+:root {
+  /* ─── Easing ─── */
+  --motion-easing-enter:    cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  --motion-easing-exit:     cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  --motion-easing-state:    cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --motion-easing-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-easing-linear:   linear;
+  --motion-easing-micro:    cubic-bezier(0.0, 0.0, 0.2, 1.0);
+
+  /* ─── Duration ─── */
+  --motion-duration-instant:   80ms;
+  --motion-duration-fast:      150ms;
+  --motion-duration-base:      250ms;
+  --motion-duration-moderate:  400ms;
+  --motion-duration-slow:      600ms;
+  --motion-duration-dramatic:  900ms;
+  --motion-duration-cinematic: 1400ms;
+
+  /* ─── Transform: TranslateY ─── */
+  --motion-ty-micro: 4px;
+  --motion-ty-sm:    8px;
+  --motion-ty-md:    16px;
+  --motion-ty-base:  24px;
+  --motion-ty-lg:    48px;
+  --motion-ty-xl:    80px;
+
+  /* ─── Transform: TranslateX ─── */
+  --motion-tx-sm:     8px;
+  --motion-tx-md:     16px;
+  --motion-tx-base:   24px;
+  --motion-tx-lg:     48px;
+  --motion-tx-drawer: 240px;
+
+  /* ─── Transform: Scale ─── */
+  --motion-scale-min:      0.96;
+  --motion-scale-base:     1.0;
+  --motion-scale-max:      1.02;
+  --motion-scale-backdrop: 0.98;
+
+  /* ─── Transform: Opacity ─── */
+  --motion-opacity-start:    0;
+  --motion-opacity-mid:      0.55;
+  --motion-opacity-end:      1;
+  --motion-opacity-disabled: 0.35;
+  --motion-opacity-overlay:  0.75;
+
+  /* ─── Stagger ─── */
+  --motion-stagger-base:      60ms;
+  --motion-stagger-dense:     40ms;
+  --motion-stagger-dramatic:  120ms;
+  --motion-stagger-max-delay: 480ms;
+
+  /* ─── Exit Ratio ─── */
+  --motion-exit-ratio: 0.7;
+}
+
+/* ─── Reduced Motion (system preference) ─── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-instant:   0.01s;
+    --motion-duration-fast:      0.01s;
+    --motion-duration-base:      0.01s;
+    --motion-duration-moderate:  0.01s;
+    --motion-duration-slow:      0.01s;
+    --motion-duration-dramatic:  0.01s;
+    --motion-duration-cinematic: 0.01s;
+    --motion-ty-micro: 0px;
+    --motion-ty-sm:    0px;
+    --motion-ty-md:    0px;
+    --motion-ty-base:  0px;
+    --motion-ty-lg:    0px;
+    --motion-ty-xl:    0px;
+    --motion-tx-sm:    0px;
+    --motion-tx-md:    0px;
+    --motion-tx-base:  0px;
+    --motion-tx-lg:    0px;
+  }
+}
+
+/* ─── Reduced Motion (interactive toggle via JS) ─── */
+.reduced-motion,
+.reduced-motion * {
+  --motion-duration-instant:   0.01s;
+  --motion-duration-fast:      0.01s;
+  --motion-duration-base:      0.01s;
+  --motion-duration-moderate:  0.01s;
+  --motion-duration-slow:      0.01s;
+  --motion-duration-dramatic:  0.01s;
+  --motion-duration-cinematic: 0.01s;
+  --motion-ty-micro: 0px;
+  --motion-ty-sm:    0px;
+  --motion-ty-md:    0px;
+  --motion-ty-base:  0px;
+  --motion-ty-lg:    0px;
+  --motion-ty-xl:    0px;
+  --motion-tx-sm:    0px;
+  --motion-tx-md:    0px;
+  --motion-tx-base:  0px;
+  --motion-tx-lg:    0px;
+}

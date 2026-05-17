@@ -1,0 +1,119 @@
+<!-- Seção 19: Entrances — 5 moléculas de entrada com demos interativos -->
+<section id="sec-entrances">
+  <div class="sec-div">
+    <span class="sec-num">19</span>
+    <span class="sec-title">Entrances</span>
+    <span class="sec-sub">Molecules · 5 padrões · Clique para disparar</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Moléculas de Entrada</span>
+      <span class="block-header-sub">Receitas completas de como um elemento aparece na tela</span>
+    </div>
+
+    <div class="mol-grid m-reveal">
+
+      <!-- Reveal -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">enter-reveal</span>
+          <button class="m-play-btn" data-entrance-trigger="reveal">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-reveal-stage">
+          <div class="demo-card anim-target" id="demo-reveal">
+            <span class="demo-card-title">Reveal</span>
+            <span class="demo-card-sub">translateY(24px) + opacity</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">600ms (slow)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">enter</span></div>
+        </div>
+        <span class="mol-context">Scroll reveals · Seções · Padrão de entrada mais comum</span>
+      </div>
+
+      <!-- Materialize -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">enter-materialize</span>
+          <button class="m-play-btn" data-entrance-trigger="materialize">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-materialize-stage">
+          <div class="demo-card anim-target" id="demo-materialize">
+            <span class="demo-card-title">Materialize</span>
+            <span class="demo-card-sub">scale(0.96→1) + opacity</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">400ms (moderate)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">emphasis (spring)</span></div>
+        </div>
+        <span class="mol-context">Cards em grids · Modais · Elementos in-place</span>
+      </div>
+
+      <!-- Slide X -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">enter-slide-x</span>
+          <button class="m-play-btn" data-entrance-trigger="slide-x">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-slide-x-stage">
+          <div class="demo-card anim-target" id="demo-slide-x">
+            <span class="demo-card-title">Slide X</span>
+            <span class="demo-card-sub">translateX(-24px) + opacity</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">600ms (slow)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">enter</span></div>
+        </div>
+        <span class="mol-context">Sidebar · Drawers · Painéis laterais</span>
+      </div>
+
+      <!-- Fade -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">enter-fade</span>
+          <button class="m-play-btn" data-entrance-trigger="fade">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-fade-stage">
+          <div class="demo-card anim-target" id="demo-fade">
+            <span class="demo-card-title">Fade</span>
+            <span class="demo-card-sub">opacity apenas</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">250ms (base)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>
+        </div>
+        <span class="mol-context">Tooltips · Overlays · Elementos sem deslocamento</span>
+      </div>
+
+      <!-- Data -->
+      <div class="mol-card">
+        <div class="mol-card-header">
+          <span class="mol-name">enter-data</span>
+          <button class="m-play-btn" data-entrance-trigger="data">Disparar</button>
+        </div>
+        <div class="demo-stage" id="demo-data-stage">
+          <div class="demo-card anim-target" id="demo-data">
+            <span class="demo-card-title">Data</span>
+            <span class="demo-card-sub">translateY(8px) + opacity</span>
+          </div>
+        </div>
+        <div class="mol-specs">
+          <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity, transform</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms (fast)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">micro</span></div>
+        </div>
+        <span class="mol-context">Linhas de tabela · Itens de lista · Dados populando</span>
+      </div>
+
+    </div>
+  </div>
+</section>

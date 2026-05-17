@@ -1,0 +1,94 @@
+<!-- Seção 27: Motion Do's & Don'ts -->
+<section id="sec-motion-donts">
+  <div class="sec-div">
+    <span class="sec-num">27</span>
+    <span class="sec-title">Do's &amp; Don'ts</span>
+    <span class="sec-sub">Motion · Regras visuais · Comparações ao vivo</span>
+  </div>
+
+  <div class="motion-sec-wrap">
+    <div class="block-header">
+      <span class="block-header-title">Do's e Don'ts de Motion</span>
+      <span class="block-header-sub">Comparações ao vivo — clique nos cards para ver o comportamento certo vs errado</span>
+    </div>
+
+    <div class="dnd-grid m-reveal">
+
+      <!-- ✓ enter-reveal vs ✗ bounce exagerado -->
+      <div class="dnd-do">
+        <span class="dnd-label">✓ Correto</span>
+        <div class="dnd-demo-card" id="dnd-do-1" style="cursor: pointer;">
+          <span>enter-reveal suave — clique</span>
+        </div>
+        <p class="dnd-desc">translateY(24px) + opacity com easing enter. Chega com autoridade, sem overshoot.</p>
+      </div>
+      <div class="dnd-dont">
+        <span class="dnd-label">✗ Proibido</span>
+        <div class="dnd-demo-card" id="dnd-dont-1" style="cursor: pointer;">
+          <span>Bounce exagerado — clique</span>
+        </div>
+        <p class="dnd-desc">Spring exagerado com overshoot visível. Playful, não calculado. Antitético à identidade.</p>
+      </div>
+
+      <!-- ✓ stagger decrescente vs ✗ stagger linear -->
+      <div class="dnd-do">
+        <span class="dnd-label">✓ Correto</span>
+        <div style="display: flex; gap: 4px;" id="dnd-do-2-wrap">
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-a"><span>01</span></div>
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-b"><span>02</span></div>
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-c"><span>03</span></div>
+        </div>
+        <button class="m-play-btn" id="dnd-do-2-btn" style="margin-top: var(--space-2);">Disparar</button>
+        <p class="dnd-desc">Stagger decrescente × 0.9 — ganha momentum, sistema carregando com eficiência.</p>
+      </div>
+      <div class="dnd-dont">
+        <span class="dnd-label">✗ Proibido</span>
+        <div style="display: flex; gap: 4px;" id="dnd-dont-2-wrap">
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-a"><span>01</span></div>
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-b"><span>02</span></div>
+          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-c"><span>03</span></div>
+        </div>
+        <button class="m-play-btn" id="dnd-dont-2-btn" style="margin-top: var(--space-2);">Disparar</button>
+        <p class="dnd-desc">Stagger linear 200ms fixo — monótono, sem ritmo, sem aceleração perceptual.</p>
+      </div>
+
+      <!-- ✓ exit-fade rápido vs ✗ exit scale-down -->
+      <div class="dnd-do">
+        <span class="dnd-label">✓ Correto</span>
+        <div class="dnd-demo-card" id="dnd-do-3" style="cursor: pointer; opacity: 1; transition: opacity 0.15s ease, transform 0.15s ease;">
+          <span>exit-fade · clique para dispensar</span>
+        </div>
+        <p class="dnd-desc">Fade simples na saída. Rápido, 70% da entrada. Sem scale-down.</p>
+      </div>
+      <div class="dnd-dont">
+        <span class="dnd-label">✗ Proibido</span>
+        <div class="dnd-demo-card" id="dnd-dont-3" style="cursor: pointer; opacity: 1; transition: opacity 0.3s ease, transform 0.3s ease;">
+          <span>exit scale-down · clique para dispensar</span>
+        </div>
+        <p class="dnd-desc">Scale para 0 na saída. Parece "sugar" o elemento — cria sensação de erro.</p>
+      </div>
+
+      <!-- ✓ skeleton vs ✗ spinner -->
+      <div class="dnd-do">
+        <span class="dnd-label">✓ Correto</span>
+        <div class="skeleton-card">
+          <div class="skeleton-line skeleton-line--short is-shimmer"></div>
+          <div class="skeleton-line skeleton-line--long is-shimmer" style="animation-delay: 0.1s;"></div>
+          <div class="skeleton-line skeleton-line--medium is-shimmer" style="animation-delay: 0.2s;"></div>
+        </div>
+        <p class="dnd-desc">Skeleton shimmer com as cores do sistema. Preserva estrutura do conteúdo.</p>
+      </div>
+      <div class="dnd-dont">
+        <span class="dnd-label">✗ Proibido</span>
+        <div style="display: flex; align-items: center; justify-content: center; padding: var(--space-4); background: var(--color-midnight); border: 1px solid var(--color-border); min-height: 80px;">
+          <div style="width: 24px; height: 24px; border: 2px solid var(--color-subtle); border-top-color: var(--color-crimson); border-radius: 50%; animation: motionSpinForbidden 1s linear infinite;"></div>
+        </div>
+        <p class="dnd-desc">Spinner rotativo. Proibido em qualquer contexto — sem exceções.</p>
+      </div>
+
+    </div>
+
+    <!-- Spinner keyframe proibido apenas para demonstração do dont -->
+    <style>@keyframes motionSpinForbidden { to { transform: rotate(360deg); } }</style>
+  </div>
+</section>
