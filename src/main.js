@@ -681,6 +681,17 @@ dndDont3?.addEventListener('click', () => {
    JS resets stroke-dashoffset via setAttribute to guarantee clean re-trigger.
    ════════════════════════════════════════════ */
 
+/* Garantia de estado inicial limpo — remove .animate de qualquer elemento da
+   seção 28 que possa ter ficado no DOM por HMR ou navegação sem reload. */
+document.querySelectorAll(
+  '#sec-logo-motion .lm-symbol, ' +
+  '#sec-logo-motion .lm-h-divider, ' +
+  '#sec-logo-motion .lm-wordmark, ' +
+  '#sec-logo-motion .lm-subtitle, ' +
+  '#sec-logo-motion .lm-v-rule, ' +
+  '#sec-logo-motion .lm-v-wordmark'
+).forEach(el => el.classList.remove('animate'));
+
 function lmFireSymbol(svgEl) {
   svgEl.classList.remove('animate');
   svgEl.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', '289.03'));

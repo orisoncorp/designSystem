@@ -70,8 +70,8 @@
 
 .swatch:active { transform: translateY(0); }
 
-/* ─── Symbol inner circle hover ─── */
-svg circle:nth-child(2) {
+/* ─── Symbol inner circle hover (design system sections only) ─── */
+:not(#sec-logo-motion) svg circle:nth-child(2) {
   transition: opacity var(--transition-slow), transform var(--transition-slow);
   transform-origin: center;
 }
