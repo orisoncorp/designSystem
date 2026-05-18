@@ -1001,7 +1001,8 @@ Valor numérico anima de 0 ao target com duração moderate e easing state. Para
 KPIs e métricas. A contagem comunica magnitude — o usuário percebe se o número
 é grande ou pequeno pela velocidade com que o counter se move. O counter pode
 receber um indicador direcional discreto ao lado do número; na interface de
-referência, uma seta para cima crimson reforça crescimento sem transformar a
+referência, o valor e a seta diagonal usam `positive-md`, sem moldura, com
+micro-movimento ascendente para reforçar crescimento sem transformar a
 micro-interaction em celebração.
 
 ---
