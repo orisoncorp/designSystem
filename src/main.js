@@ -40,6 +40,7 @@ import section24 from './sections/24-organisms.html?raw';
 import section25 from './sections/25-templates.html?raw';
 import section26 from './sections/26-governance.html?raw';
 import section27 from './sections/27-motion-donts.html?raw';
+import section28 from './sections/28-logo-motion.html?raw';
 
 /* ── Sidebar nav config ── */
 const NAV_ITEMS = [
@@ -72,6 +73,7 @@ const NAV_ITEMS = [
   { id: 'sec-templates',    num: '25', label: 'Templates',    group: 'motion' },
   { id: 'sec-governance',   num: '26', label: 'Governance',   group: 'motion' },
   { id: 'sec-motion-donts', num: '27', label: "Do's & Don'ts",group: 'motion' },
+  { id: 'sec-logo-motion',  num: '28', label: 'Logo Motion',   group: 'motion' },
 ];
 
 /* ── Build sidebar HTML ── */
@@ -124,7 +126,7 @@ app.innerHTML = [
   section10, section11, section12, section13,
   section14, section15, section16, section17, section18,
   section19, section20, section21, section22, section23,
-  section24, section25, section26, section27,
+  section24, section25, section26, section27, section28,
 ].join('');
 
 /* ── Sidebar toggle (mobile) ── */
@@ -672,3 +674,299 @@ dndDont3?.addEventListener('click', () => {
     dndDont3.style.transform = 'scale(1)';
   }, 900);
 });
+
+/* ════════════════════════════════════════════
+   LOGO MOTION — Section 28 (concept: "Incisão")
+   ════════════════════════════════════════════ */
+
+const LM_EASING = {
+  micro:    'cubic-bezier(0.0, 0.0, 0.2, 1.0)',
+  enter:    'cubic-bezier(0.25, 0.1, 0.25, 1.0)',
+  emphasis: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  state:    'cubic-bezier(0.4, 0.0, 0.2, 1.0)',
+};
+
+const LM_DUR = {
+  instant:  80,
+  fast:     150,
+  base:     250,
+  moderate: 400,
+  slow:     600,
+  dramatic: 900,
+};
+
+function isReducedMotion() {
+  return document.documentElement.classList.contains('reduced-motion')
+    || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/* ── Core symbol animation (3 SVG elements) ──
+   line    = Beat 1 (incision)
+   inner   = Beat 3 (inner circle draw)
+   outer   = Beat 4 (outer circle draw)
+   Returns a promise that resolves after Beat 5 (settle) completes.
+*/
+function animateSymbol(lineEl, innerEl, outerEl) {
+  return new Promise(resolve => {
+    if (isReducedMotion()) {
+      // Show everything immediately at final state
+      lineEl.style.transition = 'none';
+      lineEl.style.transform = 'scaleY(1)';
+      innerEl.style.transition = 'none';
+      innerEl.style.strokeDashoffset = '0';
+      outerEl.style.transition = 'none';
+      outerEl.style.strokeDashoffset = '0';
+      resolve();
+      return;
+    }
+
+    // Reset to initial state
+    lineEl.style.transition = 'none';
+    lineEl.style.transform = 'scaleY(0)';
+    innerEl.style.transition = 'none';
+    innerEl.style.strokeDashoffset = '182.21';
+    outerEl.style.transition = 'none';
+    outerEl.style.strokeDashoffset = '289.03';
+    void lineEl.getBoundingClientRect(); // force reflow
+
+    // Beat 1 — Incision: line grows from center (80ms, micro easing)
+    lineEl.style.transition = `transform ${LM_DUR.instant}ms ${LM_EASING.micro}`;
+    lineEl.style.transform = 'scaleY(1)';
+
+    // Beat 2 — Pause 200ms, then Beat 3 starts at 280ms
+    const t3Start = LM_DUR.instant + 200; // 280ms
+
+    setTimeout(() => {
+      // Beat 3 — Inner circle draws (900ms, enter easing)
+      innerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
+      innerEl.style.strokeDashoffset = '0';
+    }, t3Start);
+
+    // Beat 4 — Outer circle draws, delay 200ms after Beat 3 (starts at 480ms)
+    const t4Start = t3Start + 200; // 480ms
+    setTimeout(() => {
+      outerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
+      outerEl.style.strokeDashoffset = '0';
+    }, t4Start);
+
+    // Beat 5 — Settle: line pulse (starts at end of outer circle = 480+900=1380ms)
+    const t5Start = t4Start + LM_DUR.dramatic; // 1380ms
+    setTimeout(() => {
+      lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
+      lineEl.style.opacity = '0.55';
+      setTimeout(() => {
+        lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
+        lineEl.style.opacity = '0.9';
+        setTimeout(resolve, 100);
+      }, 100);
+    }, t5Start);
+  });
+}
+
+/* ── Reset a symbol SVG to initial state ── */
+function resetSymbolEls(lineEl, innerEl, outerEl) {
+  lineEl.style.transition = 'none';
+  lineEl.style.transform = 'scaleY(0)';
+  lineEl.style.opacity = '0.9';
+  innerEl.style.transition = 'none';
+  innerEl.style.strokeDashoffset = '182.21';
+  outerEl.style.transition = 'none';
+  outerEl.style.strokeDashoffset = '289.03';
+}
+
+/* ── Theme toggle ── */
+function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerEl, vRuleEl, vWordmarkEl) {
+  const isLight = theme === 'light';
+  stageInner.classList.toggle('lm-stage-inner--light', isLight);
+
+  if (svgEl) {
+    svgEl.style.color = isLight ? 'var(--color-midnight)' : 'var(--color-offwhite)';
+  }
+  if (wordmarkEl) {
+    wordmarkEl.classList.toggle('lm-wordmark--light', isLight);
+    wordmarkEl.style.color = isLight ? 'var(--color-midnight)' : '';
+  }
+  if (subtitleEl) {
+    subtitleEl.classList.toggle('lm-subtitle--light', isLight);
+  }
+  if (dividerEl) {
+    dividerEl.style.background = isLight ? 'var(--color-slate)' : '';
+  }
+  if (vRuleEl) {
+    // crimson rule stays crimson on both themes
+  }
+  if (vWordmarkEl) {
+    vWordmarkEl.classList.toggle('lm-v-wordmark--light', isLight);
+    vWordmarkEl.style.color = isLight ? 'var(--color-midnight)' : '';
+  }
+}
+
+/* ── Variation 1: Symbol ── */
+(function setupLogoSymbol() {
+  const lineEl  = document.getElementById('lm-s-line');
+  const innerEl = document.getElementById('lm-s-inner');
+  const outerEl = document.getElementById('lm-s-outer');
+  const stageEl = document.getElementById('lm-stage-symbol');
+  const svgEl   = document.getElementById('lm-svg-symbol');
+  if (!lineEl || !innerEl || !outerEl) return;
+
+  let running = false;
+  let theme = 'dark';
+
+  document.querySelector('[data-lm-fire="symbol"]')?.addEventListener('click', () => {
+    if (running) return;
+    running = true;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+    void lineEl.getBoundingClientRect();
+    animateSymbol(lineEl, innerEl, outerEl).then(() => { running = false; });
+  });
+
+  document.querySelector('[data-lm-reset="symbol"]')?.addEventListener('click', () => {
+    running = false;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+  });
+
+  document.querySelector('[data-lm-theme="symbol"]')?.addEventListener('click', function() {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
+    applyLmTheme(stageEl, svgEl, theme);
+  });
+})();
+
+/* ── Variation 2: Lockup Horizontal ── */
+(function setupLogoHorizontal() {
+  const lineEl     = document.getElementById('lm-h-line');
+  const innerEl    = document.getElementById('lm-h-inner');
+  const outerEl    = document.getElementById('lm-h-outer');
+  const dividerEl  = document.getElementById('lm-h-divider');
+  const wordmarkEl = document.getElementById('lm-h-wordmark');
+  const subtitleEl = document.getElementById('lm-h-subtitle');
+  const stageEl    = document.getElementById('lm-stage-horizontal');
+  const svgEl      = document.getElementById('lm-svg-horizontal');
+  if (!lineEl || !innerEl || !outerEl) return;
+
+  let running = false;
+  let theme = 'dark';
+
+  function resetH() {
+    running = false;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+    if (dividerEl)  { dividerEl.style.transition = 'none'; dividerEl.style.opacity = '0'; }
+    if (wordmarkEl) { wordmarkEl.style.transition = 'none'; wordmarkEl.style.opacity = '0'; wordmarkEl.style.letterSpacing = '12px'; }
+    if (subtitleEl) { subtitleEl.style.transition = 'none'; subtitleEl.style.opacity = '0'; }
+  }
+
+  document.querySelector('[data-lm-fire="horizontal"]')?.addEventListener('click', () => {
+    if (running) return;
+    running = true;
+    resetH();
+    void lineEl.getBoundingClientRect();
+    running = true;
+
+    animateSymbol(lineEl, innerEl, outerEl).then(() => {
+      if (isReducedMotion()) {
+        if (dividerEl)  { dividerEl.style.transition = 'none'; dividerEl.style.opacity = '1'; }
+        if (wordmarkEl) { wordmarkEl.style.transition = 'none'; wordmarkEl.style.opacity = '1'; wordmarkEl.style.letterSpacing = '6px'; }
+        if (subtitleEl) { subtitleEl.style.transition = 'none'; subtitleEl.style.opacity = '1'; }
+        running = false;
+        return;
+      }
+
+      // Beat 6 — Divider fade (250ms, state easing), starts at ~1580ms
+      if (dividerEl) {
+        dividerEl.style.transition = `opacity ${LM_DUR.base}ms ${LM_EASING.state}`;
+        dividerEl.style.opacity = '1';
+      }
+
+      // Beat 7 — Wordmark converge (600ms, emphasis), delay 200ms after beat 6
+      setTimeout(() => {
+        if (wordmarkEl) {
+          wordmarkEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
+          wordmarkEl.style.opacity = '1';
+          wordmarkEl.style.letterSpacing = '6px';
+        }
+      }, 200);
+
+      // Beat 8 — Subtitle fade (400ms, state), delay 600ms after beat 6
+      setTimeout(() => {
+        if (subtitleEl) {
+          subtitleEl.style.transition = `opacity ${LM_DUR.moderate}ms ${LM_EASING.state}`;
+          subtitleEl.style.opacity = '1';
+        }
+        running = false;
+      }, 600);
+    });
+  });
+
+  document.querySelector('[data-lm-reset="horizontal"]')?.addEventListener('click', resetH);
+
+  document.querySelector('[data-lm-theme="horizontal"]')?.addEventListener('click', function() {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
+    applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, dividerEl);
+  });
+})();
+
+/* ── Variation 3: Lockup Vertical ── */
+(function setupLogoVertical() {
+  const lineEl     = document.getElementById('lm-v-line');
+  const innerEl    = document.getElementById('lm-v-inner');
+  const outerEl    = document.getElementById('lm-v-outer');
+  const vRuleEl    = document.getElementById('lm-v-rule');
+  const vWordEl    = document.getElementById('lm-v-wordmark');
+  const stageEl    = document.getElementById('lm-stage-vertical');
+  const svgEl      = document.getElementById('lm-svg-vertical');
+  if (!lineEl || !innerEl || !outerEl) return;
+
+  let running = false;
+  let theme = 'dark';
+
+  function resetV() {
+    running = false;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+    if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(0)'; vRuleEl.style.opacity = '0'; }
+    if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity = '0'; vWordEl.style.letterSpacing = '14px'; }
+  }
+
+  document.querySelector('[data-lm-fire="vertical"]')?.addEventListener('click', () => {
+    if (running) return;
+    running = true;
+    resetV();
+    void lineEl.getBoundingClientRect();
+    running = true;
+
+    animateSymbol(lineEl, innerEl, outerEl).then(() => {
+      if (isReducedMotion()) {
+        if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(1)'; vRuleEl.style.opacity = '1'; }
+        if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity = '1'; vWordEl.style.letterSpacing = '8px'; }
+        running = false;
+        return;
+      }
+
+      // Beat 6v — Horizontal rule grows from center (250ms, micro easing)
+      if (vRuleEl) {
+        vRuleEl.style.transition = `transform ${LM_DUR.base}ms ${LM_EASING.micro}, opacity ${LM_DUR.base}ms ${LM_EASING.micro}`;
+        vRuleEl.style.transform = 'scaleX(1)';
+        vRuleEl.style.opacity = '1';
+      }
+
+      // Beat 7v — Wordmark (600ms, emphasis), after rule completes (250ms)
+      setTimeout(() => {
+        if (vWordEl) {
+          vWordEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
+          vWordEl.style.opacity = '1';
+          vWordEl.style.letterSpacing = '8px';
+        }
+        setTimeout(() => { running = false; }, LM_DUR.slow);
+      }, LM_DUR.base);
+    });
+  });
+
+  document.querySelector('[data-lm-reset="vertical"]')?.addEventListener('click', resetV);
+
+  document.querySelector('[data-lm-theme="vertical"]')?.addEventListener('click', function() {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
+    applyLmTheme(stageEl, svgEl, theme, null, null, null, null, vWordEl);
+  });
+})();

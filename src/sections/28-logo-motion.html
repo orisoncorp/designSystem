@@ -1,0 +1,281 @@
+<!-- Seção 28: Logo Motion — conceito "Incisão" -->
+<section id="sec-logo-motion">
+
+  <div class="sec-div">
+    <span class="sec-num">28</span>
+    <span class="sec-title">Logo Motion</span>
+    <span class="sec-sub">Conceito "Incisão" · 3 variações · Símbolo · Lockup Horizontal · Lockup Vertical</span>
+  </div>
+
+  <!-- ── Intro block ── -->
+  <div class="lm-wrap m-reveal">
+    <div class="lm-block-header">
+      <span class="lm-block-title">Conceito: Incisão</span>
+      <p class="lm-block-sub">
+        A Orison não se constrói — ela se revela. A linha crimson corta o silêncio como uma declaração de intenção.<br>
+        Os círculos se formam ao redor dela como consequência inevitável. A linha existe primeiro. Ela é a âncora.
+      </p>
+    </div>
+
+    <!-- Beat legend -->
+    <div class="lm-legend">
+      <span class="lm-beat"><span class="lm-beat-dot lm-beat-dot--crimson"></span>Beat 1 — A Incisão (80ms · micro)</span>
+      <span class="lm-beat"><span class="lm-beat-dot"></span>Beat 2 — Pausa (200ms · silêncio)</span>
+      <span class="lm-beat"><span class="lm-beat-dot lm-beat-dot--offwhite"></span>Beat 3 — Círculo interno (900ms · enter)</span>
+      <span class="lm-beat"><span class="lm-beat-dot lm-beat-dot--offwhite"></span>Beat 4 — Círculo externo (900ms · enter · delay 200ms)</span>
+      <span class="lm-beat"><span class="lm-beat-dot lm-beat-dot--crimson"></span>Beat 5 — Settle (200ms · state pulse)</span>
+    </div>
+
+    <!-- ── 3 stage grid ── -->
+    <div class="lm-stages">
+
+      <!-- ── Stage A: Símbolo Isolado ── -->
+      <div class="lm-stage">
+        <div class="lm-stage-header">
+          <span class="lm-stage-num">VAR 1</span>
+          <span class="lm-stage-title">Símbolo Isolado</span>
+          <span class="lm-stage-dur">~1.6s</span>
+        </div>
+
+        <div class="lm-stage-inner" id="lm-stage-symbol">
+          <!-- Inline SVG — each element individually addressable -->
+          <svg class="lm-svg" id="lm-svg-symbol" width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison animado" style="color: var(--color-offwhite)">
+            <!-- Line: scaleY(0)→scaleY(1) from center, Beat 1 -->
+            <line
+              id="lm-s-line"
+              x1="55" y1="9" x2="55" y2="101"
+              stroke="#8B1A1A"
+              stroke-width="1.8"
+              style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+            />
+            <!-- Inner circle: stroke-dashoffset draw, Beat 3 -->
+            <circle
+              id="lm-s-inner"
+              cx="55" cy="55" r="29"
+              stroke="currentColor"
+              stroke-width="0.9"
+              fill="none"
+              opacity="0.28"
+              stroke-dasharray="182.21"
+              stroke-dashoffset="182.21"
+              style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+            />
+            <!-- Outer circle: stroke-dashoffset draw, Beat 4 -->
+            <circle
+              id="lm-s-outer"
+              cx="55" cy="55" r="46"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-dasharray="289.03"
+              stroke-dashoffset="289.03"
+              style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+            />
+          </svg>
+        </div>
+
+        <div class="lm-controls">
+          <button class="lm-ctrl-btn lm-ctrl-btn--fire" data-lm-fire="symbol">Disparar</button>
+          <button class="lm-ctrl-btn" data-lm-reset="symbol">Reset</button>
+          <button class="lm-ctrl-btn lm-theme-btn" data-lm-theme="symbol">Fundo claro</button>
+        </div>
+      </div>
+
+      <!-- ── Stage B: Lockup Horizontal ── -->
+      <div class="lm-stage">
+        <div class="lm-stage-header">
+          <span class="lm-stage-num">VAR 2</span>
+          <span class="lm-stage-title">Lockup Horizontal</span>
+          <span class="lm-stage-dur">~2.6s</span>
+        </div>
+
+        <div class="lm-stage-inner" id="lm-stage-horizontal">
+          <div class="lm-h-lockup">
+            <!-- Symbol SVG -->
+            <svg class="lm-svg" id="lm-svg-horizontal" width="70" height="70" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite); flex-shrink: 0;">
+              <line
+                id="lm-h-line"
+                x1="55" y1="9" x2="55" y2="101"
+                stroke="#8B1A1A"
+                stroke-width="1.8"
+                style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+              />
+              <circle
+                id="lm-h-inner"
+                cx="55" cy="55" r="29"
+                stroke="currentColor"
+                stroke-width="0.9"
+                fill="none"
+                opacity="0.28"
+                stroke-dasharray="182.21"
+                stroke-dashoffset="182.21"
+                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              />
+              <circle
+                id="lm-h-outer"
+                cx="55" cy="55" r="46"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-dasharray="289.03"
+                stroke-dashoffset="289.03"
+                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              />
+            </svg>
+
+            <!-- Divider: Beat 6 -->
+            <div id="lm-h-divider" class="lm-h-divider"></div>
+
+            <!-- Text block: Beats 7 & 8 -->
+            <div class="lm-h-text" id="lm-h-text">
+              <div id="lm-h-wordmark" class="lm-wordmark">Orison</div>
+              <div id="lm-h-subtitle" class="lm-subtitle">AI Infrastructure</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lm-controls">
+          <button class="lm-ctrl-btn lm-ctrl-btn--fire" data-lm-fire="horizontal">Disparar</button>
+          <button class="lm-ctrl-btn" data-lm-reset="horizontal">Reset</button>
+          <button class="lm-ctrl-btn lm-theme-btn" data-lm-theme="horizontal">Fundo claro</button>
+        </div>
+      </div>
+
+      <!-- ── Stage C: Lockup Vertical ── -->
+      <div class="lm-stage">
+        <div class="lm-stage-header">
+          <span class="lm-stage-num">VAR 3</span>
+          <span class="lm-stage-title">Lockup Vertical</span>
+          <span class="lm-stage-dur">~2.5s</span>
+        </div>
+
+        <div class="lm-stage-inner" id="lm-stage-vertical">
+          <div class="lm-v-lockup">
+            <!-- Symbol SVG -->
+            <svg class="lm-svg" id="lm-svg-vertical" width="80" height="80" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite);">
+              <line
+                id="lm-v-line"
+                x1="55" y1="9" x2="55" y2="101"
+                stroke="#8B1A1A"
+                stroke-width="1.8"
+                style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+              />
+              <circle
+                id="lm-v-inner"
+                cx="55" cy="55" r="29"
+                stroke="currentColor"
+                stroke-width="0.9"
+                fill="none"
+                opacity="0.28"
+                stroke-dasharray="182.21"
+                stroke-dashoffset="182.21"
+                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              />
+              <circle
+                id="lm-v-outer"
+                cx="55" cy="55" r="46"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-dasharray="289.03"
+                stroke-dashoffset="289.03"
+                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              />
+            </svg>
+
+            <!-- Horizontal rule: Beat 6v -->
+            <div id="lm-v-rule" class="lm-v-rule"></div>
+
+            <!-- Wordmark: Beat 7v -->
+            <div id="lm-v-wordmark" class="lm-v-wordmark">Orison</div>
+          </div>
+        </div>
+
+        <div class="lm-controls">
+          <button class="lm-ctrl-btn lm-ctrl-btn--fire" data-lm-fire="vertical">Disparar</button>
+          <button class="lm-ctrl-btn" data-lm-reset="vertical">Reset</button>
+          <button class="lm-ctrl-btn lm-theme-btn" data-lm-theme="vertical">Fundo claro</button>
+        </div>
+      </div>
+
+    </div><!-- /lm-stages -->
+
+    <!-- ── Timeline spec ── -->
+    <div class="lm-timeline m-reveal">
+      <div class="lm-timeline-title">Sequência de beats — Variação 1 (símbolo isolado · ~1600ms total)</div>
+
+      <!-- 2600ms total scale. Each row: label | bar | time -->
+      <div class="lm-timeline-row">
+        <span class="lm-timeline-label">B1 — Incisão</span>
+        <div class="lm-timeline-track">
+          <div class="lm-timeline-fill lm-timeline-fill--crimson" style="left:0%; width:5%;"></div>
+        </div>
+        <span class="lm-timeline-time">0 → 80ms</span>
+      </div>
+      <div class="lm-timeline-row">
+        <span class="lm-timeline-label">B2 — Pausa</span>
+        <div class="lm-timeline-track">
+          <div class="lm-timeline-fill" style="left:5%; width:12%;"></div>
+        </div>
+        <span class="lm-timeline-time">80 → 280ms</span>
+      </div>
+      <div class="lm-timeline-row">
+        <span class="lm-timeline-label">B3 — Círculo interno</span>
+        <div class="lm-timeline-track">
+          <div class="lm-timeline-fill lm-timeline-fill--offwhite" style="left:17%; width:56%;"></div>
+        </div>
+        <span class="lm-timeline-time">280 → 1180ms</span>
+      </div>
+      <div class="lm-timeline-row">
+        <span class="lm-timeline-label">B4 — Círculo externo</span>
+        <div class="lm-timeline-track">
+          <div class="lm-timeline-fill lm-timeline-fill--offwhite" style="left:29%; width:56%;"></div>
+        </div>
+        <span class="lm-timeline-time">480 → 1380ms</span>
+      </div>
+      <div class="lm-timeline-row">
+        <span class="lm-timeline-label">B5 — Settle</span>
+        <div class="lm-timeline-track">
+          <div class="lm-timeline-fill lm-timeline-fill--crimson" style="left:86%; width:14%;"></div>
+        </div>
+        <span class="lm-timeline-time">1380 → 1580ms</span>
+      </div>
+    </div>
+
+    <!-- ── Spec table ── -->
+    <div class="lm-spec-grid m-reveal">
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Técnica — linha</span>
+        <span class="lm-spec-value">scaleY(0) → scaleY(1)</span>
+        <p class="lm-spec-desc">transform-origin: center (55px 55px). Ambas as metades crescem simultaneamente. Easing: micro.</p>
+      </div>
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Técnica — círculos</span>
+        <span class="lm-spec-value">stroke-dashoffset: 100% → 0</span>
+        <p class="lm-spec-desc">Ponto de início: topo (rotate -90°). Sentido horário. Easing: enter. Duração: dramatic (900ms).</p>
+      </div>
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Técnica — wordmark</span>
+        <span class="lm-spec-value">opacity + letter-spacing</span>
+        <p class="lm-spec-desc">Letras convergem de 12px → 6px (horizontal) ou 14px → 8px (vertical). Easing: emphasis (spring).</p>
+      </div>
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Contextos</span>
+        <span class="lm-spec-value">4 aplicações</span>
+        <p class="lm-spec-desc">Slide cover: lockup completo × 1×. Site header: símbolo, primeiro load. Vídeo: × 1.4 multiplicador.</p>
+      </div>
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Propriedades animadas</span>
+        <span class="lm-spec-value">transform · opacity · stroke-dashoffset · letter-spacing</span>
+        <p class="lm-spec-desc">Dentro das restrições de governance. letter-spacing é exceção justificada (wordmark, uma vez).</p>
+      </div>
+      <div class="lm-spec-cell">
+        <span class="lm-spec-label">Reduced motion</span>
+        <span class="lm-spec-value">Estado final instantâneo</span>
+        <p class="lm-spec-desc">Todos os elementos aparecem no estado final em 0.01s. Nenhum translate, sem contagem, sem stagger.</p>
+      </div>
+    </div>
+
+  </div><!-- /lm-wrap -->
+
+</section>

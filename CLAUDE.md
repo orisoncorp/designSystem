@@ -48,6 +48,19 @@ This is a **static brand book / design system** for Orison, rendered as a single
 | `25-templates.html` | `sec-templates` | Elpis CLI, Presentation, Landing, Dashboard |
 | `26-governance.html` | `sec-governance` | Performance, accessibility, composition, naming |
 | `27-motion-donts.html` | `sec-motion-donts` | Do's & Don'ts with live comparisons |
+| `28-logo-motion.html` | `sec-logo-motion` | Logo Motion — concept "Incisão", 3 variations |
+
+**Section 28 — Logo Motion:**
+- Concept: "Incisão" — the crimson line exists first, circles form around it as inevitable consequence
+- 3 variations: Símbolo Isolado (~1.6s), Lockup Horizontal (~2.6s), Lockup Vertical (~2.5s)
+- Each stage has Fire / Reset buttons and a dark/light theme toggle
+- Uses inline SVG (not `<use>`) so individual elements (`lm-s-line`, `lm-s-inner`, `lm-s-outer`, etc.) are addressable by JS
+- Technique: `scaleY` from center for the crimson line; `stroke-dashoffset` for both circles; `opacity + letter-spacing` for wordmarks
+- New SVG: `src/assets/symbol-animated.svg` — decomposed symbol (not used at runtime, reference only; section 28 embeds inline SVG)
+- JS functions: `animateSymbol()`, `resetSymbolEls()`, `applyLmTheme()` + 3 IIFE setup blocks
+- New keyframes in `motion-animations.css`: `logoIncision`, `logoCircleDraw`, `logoSettle`, `logoDividerFade`, `logoWordmark`, `logoSubtitle`, `logoDividerScale`, `logoWordmarkV`
+- New CSS classes in `motion-components.css`: `.lm-*` namespace
+- Respects `prefers-reduced-motion` and `.reduced-motion` toggle from section 26
 
 Adding a new section: create the HTML file, add an import + `NAV_ITEMS` entry in `main.js` with the correct `group` property.
 

@@ -1267,4 +1267,385 @@
   .scroll-reveal-grid  { grid-template-columns: 1fr; }
   .motion-cover { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
   .motion-cover-meta { align-items: flex-start; }
+
+  /* Logo motion responsive */
+  .lm-stages { grid-template-columns: 1fr; }
+  .lm-stage-inner { min-height: 220px; }
+  .lm-h-lockup { gap: var(--space-2); }
+  .lm-wordmark { font-size: 18px; }
+}
+
+/* ══════════════════════════════════════════
+   LOGO MOTION — Section 28
+   ══════════════════════════════════════════ */
+
+/* ─── Section wrapper ─── */
+.lm-wrap {
+  max-width: var(--container-max);
+  margin: 0 auto 2px;
+  background: var(--color-midnight);
+  padding: 60px;
+}
+
+.lm-block-header {
+  margin-bottom: var(--space-5);
+}
+
+.lm-block-title {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 5px;
+  color: var(--color-crimson-text);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.lm-block-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  line-height: 1.9;
+}
+
+/* ─── Timeline legend ─── */
+.lm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.lm-beat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.lm-beat-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-subtle);
+  flex-shrink: 0;
+}
+
+.lm-beat-dot--crimson { background: var(--color-crimson); }
+.lm-beat-dot--offwhite { background: var(--color-offwhite); opacity: 0.5; }
+
+/* ─── Three-column stage grid ─── */
+.lm-stages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: var(--space-5);
+}
+
+.lm-stage {
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.lm-stage-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.lm-stage-num {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--color-crimson-text);
+  text-transform: uppercase;
+}
+
+.lm-stage-title {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--color-offwhite);
+  text-transform: uppercase;
+}
+
+.lm-stage-dur {
+  font-family: monospace;
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Canvas: the animation stage ─── */
+.lm-stage-inner {
+  flex: 1;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  position: relative;
+  transition: background var(--motion-duration-fast) var(--motion-easing-state);
+}
+
+.lm-stage-inner--light {
+  background: var(--color-offwhite);
+}
+
+/* ─── Controls bar ─── */
+.lm-controls {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.lm-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--color-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-easing-state),
+    color var(--motion-duration-fast) var(--motion-easing-state);
+}
+
+.lm-ctrl-btn:hover { border-color: var(--color-offwhite); color: var(--color-offwhite); }
+
+.lm-ctrl-btn--fire {
+  border-color: var(--color-crimson);
+  color: var(--color-crimson-text);
+}
+
+.lm-ctrl-btn--fire:hover {
+  border-color: var(--color-red);
+  color: var(--color-offwhite);
+}
+
+.lm-theme-btn {
+  margin-left: auto;
+  font-size: 7px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-color: var(--color-border);
+  color: var(--text-muted);
+}
+
+/* ─── The inline SVG for animation ─── */
+.lm-svg {
+  overflow: visible;
+}
+
+/* ─── Line element — scaleY from center ─── */
+.lm-svg .lm-line {
+  transform-origin: 55px 55px;
+  transform: scaleY(0);
+}
+
+/* ─── Circles — initially hidden via dashoffset ─── */
+.lm-svg .lm-inner,
+.lm-svg .lm-outer {
+  stroke-dasharray: 182.21;
+  stroke-dashoffset: 182.21;
+}
+
+.lm-svg .lm-outer {
+  stroke-dasharray: 289.03;
+  stroke-dashoffset: 289.03;
+}
+
+/* ─── Horizontal lockup elements ─── */
+.lm-h-lockup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.lm-h-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--color-slate);
+  opacity: 0;
+  flex-shrink: 0;
+}
+
+.lm-h-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lm-wordmark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 12px;
+  color: var(--color-offwhite);
+  line-height: 1;
+  opacity: 0;
+}
+
+.lm-wordmark--light {
+  color: var(--color-midnight);
+}
+
+.lm-subtitle {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--color-crimson-text);
+  opacity: 0;
+}
+
+.lm-subtitle--light {
+  color: var(--color-crimson);
+}
+
+/* ─── Vertical lockup elements ─── */
+.lm-v-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lm-v-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--color-crimson);
+  transform-origin: center;
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.lm-v-wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+  color: var(--color-offwhite);
+  line-height: 1;
+  opacity: 0;
+}
+
+.lm-v-wordmark--light {
+  color: var(--color-midnight);
+}
+
+/* ─── Beat timeline bar (visual spec) ─── */
+.lm-timeline {
+  margin-top: var(--space-5);
+  background: var(--color-surface);
+  padding: 28px 32px;
+}
+
+.lm-timeline-title {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.lm-timeline-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 10px;
+}
+
+.lm-timeline-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+}
+
+.lm-timeline-track {
+  height: 4px;
+  background: var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.lm-timeline-fill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  left: 0;
+  background: var(--color-subtle);
+}
+
+.lm-timeline-fill--crimson {
+  background: var(--color-crimson);
+}
+
+.lm-timeline-fill--offwhite {
+  background: var(--color-offwhite);
+  opacity: 0.4;
+}
+
+.lm-timeline-time {
+  font-family: monospace;
+  font-size: 8px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ─── Spec table ─── */
+.lm-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: var(--space-4);
+}
+
+.lm-spec-cell {
+  background: var(--color-surface);
+  padding: 20px 24px;
+}
+
+.lm-spec-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--color-crimson-text);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.lm-spec-value {
+  font-family: monospace;
+  font-size: 9px;
+  color: var(--color-offwhite);
+  letter-spacing: 0.5px;
+}
+
+.lm-spec-desc {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-top: 6px;
 }

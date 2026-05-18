@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" style="display:none" id="symbol-animated-defs">
+
+  <!--
+    Decomposed symbol for Logo Motion (section 28).
+    Each element is individually addressable for animation.
+    Outer circle circumference: 2π×46 ≈ 289.03px
+    Inner circle circumference: 2π×29 ≈ 182.21px
+    Stroke-dasharray set to full circumference so dashoffset can animate 100%→0.
+    The line is controlled via clip-path / scaleY from transform-origin: 55px 55px (center).
+    Original symbol.svg is NOT modified.
+  -->
+
+  <symbol id="lm-symbol" viewBox="0 0 110 110">
+    <!-- Crimson line: draw from center outward using scaleY -->
+    <line
+      id="lm-line"
+      class="lm-line"
+      x1="55" y1="9"
+      x2="55" y2="101"
+      stroke="#8B1A1A"
+      stroke-width="1.8"
+      opacity="0.9"
+    />
+    <!-- Inner circle: stroke-dashoffset draw, starts at top (rotate -90deg around center) -->
+    <circle
+      id="lm-inner"
+      class="lm-inner"
+      cx="55" cy="55" r="29"
+      stroke="currentColor"
+      stroke-width="0.9"
+      fill="none"
+      opacity="0.28"
+      stroke-dasharray="182.21"
+      stroke-dashoffset="182.21"
+      transform="rotate(-90 55 55)"
+    />
+    <!-- Outer circle: stroke-dashoffset draw, starts at top -->
+    <circle
+      id="lm-outer"
+      class="lm-outer"
+      cx="55" cy="55" r="46"
+      stroke="currentColor"
+      stroke-width="2"
+      fill="none"
+      stroke-dasharray="289.03"
+      stroke-dashoffset="289.03"
+      transform="rotate(-90 55 55)"
+    />
+  </symbol>
+
+</svg>

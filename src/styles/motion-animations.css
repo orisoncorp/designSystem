@@ -107,6 +107,60 @@
   transform: translateY(0);
 }
 
+/* ══════════════════════════════════════════
+   LOGO MOTION — Section 28 keyframes
+   Concept: "Incisão" — the crimson line cuts first.
+   ══════════════════════════════════════════ */
+
+/* Beat 1: line grows from center via scaleY */
+@keyframes logoIncision {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Beat 3 & 4: circle draws via stroke-dashoffset */
+@keyframes logoCircleDraw {
+  from { stroke-dashoffset: var(--lm-circumference); }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Beat 5: crimson line settle pulse */
+@keyframes logoSettle {
+  0%   { opacity: 0.9; }
+  50%  { opacity: 0.55; }
+  100% { opacity: 0.9; }
+}
+
+/* Beat 6 (horizontal): divider fade */
+@keyframes logoDividerFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Beat 7 (horizontal): wordmark converge */
+@keyframes logoWordmark {
+  from { opacity: 0; letter-spacing: 12px; }
+  to   { opacity: 1; letter-spacing: 6px; }
+}
+
+/* Beat 8 (horizontal): subtitle fade */
+@keyframes logoSubtitle {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Beat 6v (vertical): horizontal divider grows from center */
+@keyframes logoDividerScale {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Beat 7v (vertical): wordmark converge (tighter tracking) */
+@keyframes logoWordmarkV {
+  from { opacity: 0; letter-spacing: 14px; }
+  to   { opacity: 1; letter-spacing: 8px; }
+}
+
 /* ─── Stagger offsets (applied inline or via JS) ─── */
 .m-stagger-1 { transition-delay: 0ms; }
 .m-stagger-2 { transition-delay: 60ms; }

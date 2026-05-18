@@ -360,6 +360,104 @@ organisms:
       molecule: "{molecules.enter-fade}"
     description: "Drawer 240px desliza com spring na entrada, saída mais rápida"
 
+  logo-motion:
+    concept: "Incisão"
+    description: "A linha crimson existe primeiro. Os círculos se formam ao redor dela como consequência inevitável."
+    variants:
+      symbol:
+        total-duration: 1600
+        beats:
+          - name: "incision"
+            element: "crimson-line"
+            technique: "scaleY(0) → scaleY(1)"
+            transform-origin: "55px 55px (center)"
+            duration: "{duration.instant}"
+            easing: "{easing.micro}"
+            start: 0
+          - name: "pause"
+            duration: 200
+            start: 80
+            function: "silêncio visual — observador registra a intenção"
+          - name: "inner-circle"
+            element: "circle-inner"
+            technique: "stroke-dashoffset: 182.21 → 0"
+            dasharray: 182.21
+            duration: "{duration.dramatic}"
+            easing: "{easing.enter}"
+            start: 280
+          - name: "outer-circle"
+            element: "circle-outer"
+            technique: "stroke-dashoffset: 289.03 → 0"
+            dasharray: 289.03
+            duration: "{duration.dramatic}"
+            easing: "{easing.enter}"
+            start: 480
+            delay: 200
+          - name: "settle"
+            element: "crimson-line"
+            technique: "opacity: 0.9 → 0.55 → 0.9"
+            duration: 200
+            easing: "{easing.state}"
+            start: 1380
+            type: "opacity-pulse-once"
+      lockup-horizontal:
+        total-duration: 2600
+        extends: "symbol"
+        additional-beats:
+          - name: "divider"
+            element: "vertical-bar-slate"
+            technique: "opacity: 0 → 1"
+            duration: "{duration.base}"
+            easing: "{easing.state}"
+            start: 1600
+          - name: "wordmark"
+            element: "orison-text"
+            technique: "opacity: 0→1 + letter-spacing: 12px→6px"
+            duration: "{duration.slow}"
+            easing: "{easing.emphasis}"
+            start: 1800
+          - name: "subtitle"
+            element: "ai-infrastructure-text"
+            technique: "opacity: 0 → 1"
+            duration: "{duration.moderate}"
+            easing: "{easing.state}"
+            start: 2200
+      lockup-vertical:
+        total-duration: 2500
+        extends: "symbol"
+        additional-beats:
+          - name: "divider-h"
+            element: "horizontal-rule-crimson"
+            technique: "scaleX(0) → scaleX(1)"
+            transform-origin: "center"
+            duration: "{duration.base}"
+            easing: "{easing.micro}"
+            start: 1600
+          - name: "wordmark"
+            element: "orison-text-centered"
+            technique: "opacity: 0→1 + letter-spacing: 14px→8px"
+            duration: "{duration.slow}"
+            easing: "{easing.emphasis}"
+            start: 1850
+    contexts:
+      slide-cover: "Lockup completo, executa uma vez"
+      proposal-cover: "Estático — layout sugere sequência congelada no Beat 4"
+      site-header: "Símbolo isolado, primeiro load apenas"
+      video: "Lockup completo × 1.4 multiplicador, Beat 0 estendido a 1s"
+    accessibility:
+      prefers-reduced-motion: "Estado final de todos os elementos em 0.01s — sem translate, sem stagger, sem contagem"
+    implementation:
+      svg-technique: "SVG inline (não <use>) para acesso individual a cada path"
+      keyframes:
+        - "logoIncision — scaleY da linha crimson"
+        - "logoCircleDraw — stroke-dashoffset dos círculos"
+        - "logoSettle — pulse de opacidade da linha"
+        - "logoDividerFade — fade do divisor vertical"
+        - "logoWordmark — opacity + letter-spacing (horizontal)"
+        - "logoSubtitle — opacity fade do subtítulo"
+        - "logoDividerScale — scaleX do divisor horizontal"
+        - "logoWordmarkV — opacity + letter-spacing (vertical)"
+
 # ─────────────────────────────────────────────
 # TEMPLATES — Contextos de aplicação
 # ─────────────────────────────────────────────
@@ -1278,6 +1376,72 @@ uma ocorrência por contexto.
 - Glow ou sombra colorida animada
 - Partículas, trails ou efeitos de emissão
 - Qualquer uso que faça o crimson parecer decorativo em vez de funcional
+
+---
+
+## Organisms — Logo Motion
+
+O organismo de maior impacto identitário da Orison. Não é um componente de UI —
+é uma peça cinematográfica. Usada em slides de capa, capas de proposta, header
+de site e vídeos institucionais.
+
+**Conceito: "Incisão"**
+
+A Orison não se constrói — ela se revela. A logo não "monta" peça por peça.
+A linha crimson corta o silêncio como uma declaração de intenção, e os círculos
+se formam ao redor dela como consequência inevitável.
+
+**Princípio:** A linha crimson existe primeiro. Ela é a âncora.
+
+**Sequência — Símbolo Isolado (~1.6s):**
+
+| Beat | Elemento | Técnica | Duração | Easing | Início |
+|------|----------|---------|---------|--------|--------|
+| 1 — Incisão | Linha crimson | `scaleY(0→1)` de center | `instant` 80ms | `micro` | 0ms |
+| 2 — Pausa | — | silêncio visual | 200ms | — | 80ms |
+| 3 — Núcleo | Círculo interno | `stroke-dashoffset` 182.21→0 | `dramatic` 900ms | `enter` | 280ms |
+| 4 — Estrutura | Círculo externo | `stroke-dashoffset` 289.03→0 | `dramatic` 900ms | `enter` | 480ms |
+| 5 — Settle | Linha crimson | opacity pulse 0.9→0.55→0.9 | 200ms | `state` | 1380ms |
+
+**Beats adicionais — Lockup Horizontal (~2.6s):**
+
+| Beat | Elemento | Técnica | Duração | Easing | Início |
+|------|----------|---------|---------|--------|--------|
+| 6 — Divisor | Barra vertical slate | `opacity: 0→1` | `base` 250ms | `state` | 1600ms |
+| 7 — Wordmark | "ORISON" | `opacity: 0→1` + `letter-spacing: 12px→6px` | `slow` 600ms | `emphasis` | 1800ms |
+| 8 — Subtítulo | "AI INFRASTRUCTURE" | `opacity: 0→1` | `moderate` 400ms | `state` | 2200ms |
+
+**Beats adicionais — Lockup Vertical (~2.5s):**
+
+| Beat | Elemento | Técnica | Duração | Easing | Início |
+|------|----------|---------|---------|--------|--------|
+| 6v — Divisor | Barra horizontal crimson | `scaleX(0→1)` de center | `base` 250ms | `micro` | 1600ms |
+| 7v — Wordmark | "ORISON" centralizado | `opacity: 0→1` + `letter-spacing: 14px→8px` | `slow` 600ms | `emphasis` | 1850ms |
+
+**Por que `letter-spacing` anima (exceção ao governance):**
+Letter-spacing causa reflow, mas é permissível em duas condições: (1) o elemento é
+isolado no DOM — nenhum sibling é afetado pelo reflow; (2) a animação executa
+**uma única vez** por sessão, não em loops ou re-triggers frequentes. A convergência
+das letras é um gesto narrativo, não um estado de UI.
+
+**Implementação técnica:**
+- SVG inline (não `<use>`) — cada element (`line`, `circle`) é acessado pelo JS via `getElementById`
+- Círculo interno: `stroke-dasharray: 182.21` (2π×29), `stroke-dashoffset` anima de 182.21→0
+- Círculo externo: `stroke-dasharray: 289.03` (2π×46), `stroke-dashoffset` anima de 289.03→0
+- Início da draw no topo: `transform: rotate(-90deg)` no elemento (`transform-origin: center`)
+- Linha: `transform-origin: 55px 55px; scaleY(0→1)` — ambas as metades crescem do centro
+- Arquivo: `src/sections/28-logo-motion.html` + JS em `src/main.js`
+
+**Contexts de uso:**
+- **Slide cover:** Lockup completo, executa uma vez na abertura
+- **Proposta (A4):** Estático — layout sugere sequência congelada no Beat 4 (ambos os círculos visíveis, linha presente)
+- **Site header:** Símbolo isolado apenas, primeiro load da sessão
+- **Vídeo institucional:** Lockup completo com multiplicador × 1.4 (durações × 1.4), Beat 0 silêncio de 1s
+
+**Reduced motion:**
+Todos os elementos aparecem diretamente no estado final em `0.01s`. Nenhum
+translate, nenhuma contagem de dashoffset, sem pulse. O resultado é um logo
+estático imediato — funcional sem qualquer movimento.
 
 ---
 
