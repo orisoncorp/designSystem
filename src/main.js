@@ -677,213 +677,97 @@ dndDont3?.addEventListener('click', () => {
 
 /* ════════════════════════════════════════════
    LOGO MOTION — Section 28 (concept: "Incisão")
-   Strategy: all animation defined in CSS via .lm-symbol.animate class.
-   JS only toggles that class + handles lockup extras via style transitions.
+   Strategy: pure CSS animations via .animate class.
+   JS resets stroke-dashoffset via setAttribute to guarantee clean re-trigger.
    ════════════════════════════════════════════ */
 
-const LM_EASING = {
-  micro:    'cubic-bezier(0.0, 0.0, 0.2, 1.0)',
-  enter:    'cubic-bezier(0.25, 0.1, 0.25, 1.0)',
-  emphasis: 'cubic-bezier(0.16, 1, 0.3, 1)',
-  state:    'cubic-bezier(0.4, 0.0, 0.2, 1.0)',
-};
-
-const LM_DUR = {
-  base:     250,
-  slow:     600,
-  moderate: 400,
-};
-
-function isReducedMotion() {
-  return document.documentElement.classList.contains('reduced-motion')
-    || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-/* ── Fire symbol: remove .animate, force reflow, re-add .animate.
-   Returns a promise that resolves after Beat 5 settle completes (~1580ms).
-   Reduced-motion: adds a data attribute that collapses CSS durations to 0ms. ── */
-function fireSymbol(svgEl) {
-  return new Promise(resolve => {
-    svgEl.classList.remove('animate');
-    void svgEl.getBoundingClientRect(); // force reflow so removal is committed
-    svgEl.classList.add('animate');
-
-    if (isReducedMotion()) {
-      resolve();
-      return;
-    }
-    // Beats 1–5 complete at ~1580ms total
-    setTimeout(resolve, 1580);
-  });
-}
-
-/* ── Reset symbol: remove .animate so CSS initial state takes effect ── */
-function resetSymbol(svgEl) {
+function lmFireSymbol(svgEl) {
   svgEl.classList.remove('animate');
+  svgEl.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', '289.03'));
+  svgEl.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', '182.21'));
+  void svgEl.getBoundingClientRect();
+  svgEl.classList.add('animate');
 }
 
-/* ── Theme toggle ── */
-function applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, dividerEl, vWordEl) {
-  const isLight = theme === 'light';
-  stageEl.classList.toggle('lm-stage-inner--light', isLight);
-  svgEl.style.color = isLight ? 'var(--color-midnight)' : '';
-  if (wordmarkEl) wordmarkEl.classList.toggle('lm-wordmark--light', isLight);
-  if (subtitleEl) subtitleEl.classList.toggle('lm-subtitle--light', isLight);
-  if (vWordEl)    vWordEl.classList.toggle('lm-v-wordmark--light', isLight);
+function lmResetSymbol(svgEl) {
+  svgEl.classList.remove('animate');
+  svgEl.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', '289.03'));
+  svgEl.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', '182.21'));
 }
 
-/* ── Variation 1: Symbol ── */
-(function setupLogoSymbol() {
-  const svgEl   = document.getElementById('lm-symbol-a');
-  const stageEl = document.getElementById('lm-stage-symbol');
-  if (!svgEl) return;
-
-  let running = false;
-  let theme = 'dark';
-
-  document.querySelector('[data-lm-fire="symbol"]')?.addEventListener('click', () => {
-    if (running) return;
-    running = true;
-    fireSymbol(svgEl).then(() => { running = false; });
-  });
-
-  document.querySelector('[data-lm-reset="symbol"]')?.addEventListener('click', () => {
-    running = false;
-    resetSymbol(svgEl);
-  });
-
-  document.querySelector('[data-lm-theme="symbol"]')?.addEventListener('click', function() {
-    theme = theme === 'dark' ? 'light' : 'dark';
-    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
-    applyLmTheme(stageEl, svgEl, theme);
-  });
-})();
-
-/* ── Variation 2: Lockup Horizontal ── */
-(function setupLogoHorizontal() {
-  const svgEl      = document.getElementById('lm-symbol-b');
-  const dividerEl  = document.getElementById('lm-h-divider');
-  const wordmarkEl = document.getElementById('lm-h-wordmark');
-  const subtitleEl = document.getElementById('lm-h-subtitle');
-  const stageEl    = document.getElementById('lm-stage-horizontal');
-  if (!svgEl) return;
-
-  let running = false;
-  let theme = 'dark';
-
-  function resetHExtras() {
-    if (dividerEl)  { dividerEl.style.transition  = 'none'; dividerEl.style.opacity      = '0'; }
-    if (wordmarkEl) { wordmarkEl.style.transition  = 'none'; wordmarkEl.style.opacity     = '0'; wordmarkEl.style.letterSpacing = '12px'; }
-    if (subtitleEl) { subtitleEl.style.transition  = 'none'; subtitleEl.style.opacity     = '0'; }
+function lmFireVariant(variant) {
+  if (variant === 'symbol') {
+    lmFireSymbol(document.getElementById('lm-symbol-a'));
   }
-
-  document.querySelector('[data-lm-fire="horizontal"]')?.addEventListener('click', () => {
-    if (running) return;
-    running = true;
-    resetHExtras();
-
-    fireSymbol(svgEl).then(() => {
-      if (isReducedMotion()) {
-        if (dividerEl)  { dividerEl.style.transition  = 'none'; dividerEl.style.opacity      = '1'; }
-        if (wordmarkEl) { wordmarkEl.style.transition  = 'none'; wordmarkEl.style.opacity     = '1'; wordmarkEl.style.letterSpacing = '6px'; }
-        if (subtitleEl) { subtitleEl.style.transition  = 'none'; subtitleEl.style.opacity     = '1'; }
-        running = false;
-        return;
-      }
-
-      // Beat 6 — Divider fade (250ms · state)
-      if (dividerEl) {
-        dividerEl.style.transition = `opacity ${LM_DUR.base}ms ${LM_EASING.state}`;
-        dividerEl.style.opacity = '1';
-      }
-      // Beat 7 — Wordmark converge (600ms · emphasis · delay 200ms after beat 6)
-      setTimeout(() => {
-        if (wordmarkEl) {
-          wordmarkEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
-          wordmarkEl.style.opacity = '1';
-          wordmarkEl.style.letterSpacing = '6px';
-        }
-      }, 200);
-      // Beat 8 — Subtitle fade (400ms · state · delay 600ms after beat 6)
-      setTimeout(() => {
-        if (subtitleEl) {
-          subtitleEl.style.transition = `opacity ${LM_DUR.moderate}ms ${LM_EASING.state}`;
-          subtitleEl.style.opacity = '1';
-        }
-        running = false;
-      }, 600);
+  else if (variant === 'horizontal') {
+    const svg = document.getElementById('lm-symbol-b');
+    lmFireSymbol(svg);
+    const stage = document.getElementById('lm-stage-horizontal');
+    stage.querySelectorAll('.lm-h-divider, .lm-wordmark, .lm-subtitle').forEach(el => {
+      el.classList.remove('animate');
+      void el.getBoundingClientRect();
+      el.classList.add('animate');
     });
-  });
-
-  document.querySelector('[data-lm-reset="horizontal"]')?.addEventListener('click', () => {
-    running = false;
-    resetSymbol(svgEl);
-    resetHExtras();
-  });
-
-  document.querySelector('[data-lm-theme="horizontal"]')?.addEventListener('click', function() {
-    theme = theme === 'dark' ? 'light' : 'dark';
-    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
-    applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, null);
-  });
-})();
-
-/* ── Variation 3: Lockup Vertical ── */
-(function setupLogoVertical() {
-  const svgEl   = document.getElementById('lm-symbol-c');
-  const vRuleEl = document.getElementById('lm-v-rule');
-  const vWordEl = document.getElementById('lm-v-wordmark');
-  const stageEl = document.getElementById('lm-stage-vertical');
-  if (!svgEl) return;
-
-  let running = false;
-  let theme = 'dark';
-
-  function resetVExtras() {
-    if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(0)'; vRuleEl.style.opacity = '0'; }
-    if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity   = '0'; vWordEl.style.letterSpacing = '14px'; }
   }
-
-  document.querySelector('[data-lm-fire="vertical"]')?.addEventListener('click', () => {
-    if (running) return;
-    running = true;
-    resetVExtras();
-
-    fireSymbol(svgEl).then(() => {
-      if (isReducedMotion()) {
-        if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(1)'; vRuleEl.style.opacity = '1'; }
-        if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity   = '1'; vWordEl.style.letterSpacing = '8px'; }
-        running = false;
-        return;
-      }
-
-      // Beat 6v — Horizontal rule grows from center (250ms · micro)
-      if (vRuleEl) {
-        vRuleEl.style.transition = `transform ${LM_DUR.base}ms ${LM_EASING.micro}, opacity ${LM_DUR.base}ms ${LM_EASING.micro}`;
-        vRuleEl.style.transform = 'scaleX(1)';
-        vRuleEl.style.opacity = '1';
-      }
-      // Beat 7v — Wordmark converge (600ms · emphasis · after rule)
-      setTimeout(() => {
-        if (vWordEl) {
-          vWordEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
-          vWordEl.style.opacity = '1';
-          vWordEl.style.letterSpacing = '8px';
-        }
-        setTimeout(() => { running = false; }, LM_DUR.slow);
-      }, LM_DUR.base);
+  else if (variant === 'vertical') {
+    const svg = document.getElementById('lm-symbol-c');
+    lmFireSymbol(svg);
+    const stage = document.getElementById('lm-stage-vertical');
+    stage.querySelectorAll('.lm-v-rule, .lm-v-wordmark').forEach(el => {
+      el.classList.remove('animate');
+      void el.getBoundingClientRect();
+      el.classList.add('animate');
     });
-  });
+  }
+}
 
-  document.querySelector('[data-lm-reset="vertical"]')?.addEventListener('click', () => {
-    running = false;
-    resetSymbol(svgEl);
-    resetVExtras();
-  });
+function lmResetVariant(variant) {
+  if (variant === 'symbol') {
+    lmResetSymbol(document.getElementById('lm-symbol-a'));
+  }
+  else if (variant === 'horizontal') {
+    lmResetSymbol(document.getElementById('lm-symbol-b'));
+    const stage = document.getElementById('lm-stage-horizontal');
+    stage.querySelectorAll('.lm-h-divider, .lm-wordmark, .lm-subtitle').forEach(el => {
+      el.classList.remove('animate');
+    });
+    const wm = document.getElementById('lm-h-wordmark');
+    const st = document.getElementById('lm-h-subtitle');
+    const dv = document.getElementById('lm-h-divider');
+    if (wm) { wm.style.opacity = '0'; wm.style.letterSpacing = '12px'; }
+    if (st) { st.style.opacity = '0'; }
+    if (dv) { dv.style.opacity = '0'; }
+  }
+  else if (variant === 'vertical') {
+    lmResetSymbol(document.getElementById('lm-symbol-c'));
+    const stage = document.getElementById('lm-stage-vertical');
+    stage.querySelectorAll('.lm-v-rule, .lm-v-wordmark').forEach(el => {
+      el.classList.remove('animate');
+    });
+    const rl = document.getElementById('lm-v-rule');
+    const wm = document.getElementById('lm-v-wordmark');
+    if (rl) { rl.style.transform = 'scaleX(0)'; }
+    if (wm) { wm.style.opacity = '0'; wm.style.letterSpacing = '14px'; }
+  }
+}
 
-  document.querySelector('[data-lm-theme="vertical"]')?.addEventListener('click', function() {
-    theme = theme === 'dark' ? 'light' : 'dark';
-    this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
-    applyLmTheme(stageEl, svgEl, theme, null, null, null, vWordEl);
+document.querySelectorAll('[data-lm-fire]').forEach(btn => {
+  btn.addEventListener('click', () => lmFireVariant(btn.dataset.lmFire));
+});
+
+document.querySelectorAll('[data-lm-reset]').forEach(btn => {
+  btn.addEventListener('click', () => lmResetVariant(btn.dataset.lmReset));
+});
+
+document.querySelectorAll('[data-lm-theme]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const variant = btn.dataset.lmTheme;
+    const stageId = variant === 'symbol' ? 'lm-stage-symbol' :
+                    variant === 'horizontal' ? 'lm-stage-horizontal' : 'lm-stage-vertical';
+    const stage = document.getElementById(stageId);
+    if (stage) {
+      stage.classList.toggle('lm-stage-inner--light');
+      btn.textContent = stage.classList.contains('lm-stage-inner--light') ? 'Fundo escuro' : 'Fundo claro';
+    }
   });
-})();
+});

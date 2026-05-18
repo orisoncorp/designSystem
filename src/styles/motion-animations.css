@@ -112,59 +112,45 @@
    Concept: "Incisão" — the crimson line cuts first.
    ══════════════════════════════════════════ */
 
-/* Beat 1: line grows from center via scaleY */
 @keyframes logoIncision {
   from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
+  to { transform: scaleY(1); }
 }
 
-/* Beat 3: inner circle draws (r=29, circumference=182.21) */
-@keyframes logoInnerDraw {
-  from { stroke-dashoffset: 182.21; }
-  to   { stroke-dashoffset: 0; }
-}
-
-/* Beat 4: outer circle draws (r=46, circumference=289.03) */
-@keyframes logoOuterDraw {
+@keyframes logoDrawOuter {
   from { stroke-dashoffset: 289.03; }
-  to   { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 0; }
 }
 
-/* Beat 5: crimson line settle pulse */
+@keyframes logoDrawInner {
+  from { stroke-dashoffset: 182.21; }
+  to { stroke-dashoffset: 0; }
+}
+
 @keyframes logoSettle {
-  0%   { opacity: 0.9; }
-  50%  { opacity: 0.55; }
+  0% { opacity: 0.9; }
+  50% { opacity: 0.5; }
   100% { opacity: 0.9; }
 }
 
-/* Beat 6 (horizontal): divider fade */
-@keyframes logoDividerFade {
+@keyframes logoFadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
 
-/* Beat 7 (horizontal): wordmark converge */
-@keyframes logoWordmark {
+@keyframes logoWordmarkH {
   from { opacity: 0; letter-spacing: 12px; }
-  to   { opacity: 1; letter-spacing: 6px; }
+  to { opacity: 1; letter-spacing: 6px; }
 }
 
-/* Beat 8 (horizontal): subtitle fade */
-@keyframes logoSubtitle {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* Beat 6v (vertical): horizontal divider grows from center */
-@keyframes logoDividerScale {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 1; }
-}
-
-/* Beat 7v (vertical): wordmark converge (tighter tracking) */
 @keyframes logoWordmarkV {
   from { opacity: 0; letter-spacing: 14px; }
-  to   { opacity: 1; letter-spacing: 8px; }
+  to { opacity: 1; letter-spacing: 8px; }
+}
+
+@keyframes logoRuleScale {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* ─── Stagger offsets (applied inline or via JS) ─── */
