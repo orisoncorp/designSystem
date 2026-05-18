@@ -1451,22 +1451,26 @@
   overflow: visible;
 }
 
+/* ─── SVG color default (dark theme) ─── */
+.lm-svg {
+  color: var(--color-offwhite);
+}
+
 /* ─── Line element — scaleY from center ─── */
-.lm-svg .lm-line {
-  transform-origin: 55px 55px;
+/* transform-box: fill-box → transform-origin is relative to the element's
+   own bounding box, not the SVG viewport. Required in SVG or scaleY origin
+   is wrong and the browser sees no delta to animate. */
+.lm-line {
+  transform-box: fill-box;
+  transform-origin: center;
   transform: scaleY(0);
 }
 
-/* ─── Circles — initially hidden via dashoffset ─── */
-.lm-svg .lm-inner,
-.lm-svg .lm-outer {
-  stroke-dasharray: 182.21;
-  stroke-dashoffset: 182.21;
-}
-
-.lm-svg .lm-outer {
-  stroke-dasharray: 289.03;
-  stroke-dashoffset: 289.03;
+/* ─── Circles — initial state hidden via dashoffset (presentation attributes
+   in HTML; these CSS rules are a fallback / reset anchor used by JS) ─── */
+.lm-circle {
+  /* No CSS dashoffset here — controlled exclusively via SVG attributes + JS setAttribute.
+     Mixing CSS and presentation-attribute cascade causes specificity conflicts. */
 }
 
 /* ─── Horizontal lockup elements ─── */

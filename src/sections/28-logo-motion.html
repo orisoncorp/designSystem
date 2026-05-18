@@ -38,19 +38,26 @@
         </div>
 
         <div class="lm-stage-inner" id="lm-stage-symbol">
-          <!-- Inline SVG — each element individually addressable -->
-          <svg class="lm-svg" id="lm-svg-symbol" width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison animado" style="color: var(--color-offwhite)">
-            <!-- Line: scaleY(0)→scaleY(1) from center, Beat 1 -->
+          <!--
+            Inline SVG: NO style="" on animatable elements.
+            transform-box/transform-origin controlled entirely via CSS (.lm-line).
+            stroke-dasharray/offset set as SVG presentation attributes (initial state)
+            then overridden by JS via setAttribute() — no inline style conflict.
+            Rotation for circle start point uses SVG transform attribute (not CSS),
+            which is immune to the transform-box issue.
+          -->
+          <svg class="lm-svg" id="lm-svg-symbol" width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison animado">
             <line
               id="lm-s-line"
+              class="lm-line"
               x1="55" y1="9" x2="55" y2="101"
               stroke="#8B1A1A"
               stroke-width="1.8"
-              style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+              opacity="0.9"
             />
-            <!-- Inner circle: stroke-dashoffset draw, Beat 3 -->
             <circle
               id="lm-s-inner"
+              class="lm-circle"
               cx="55" cy="55" r="29"
               stroke="currentColor"
               stroke-width="0.9"
@@ -58,18 +65,18 @@
               opacity="0.28"
               stroke-dasharray="182.21"
               stroke-dashoffset="182.21"
-              style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              transform="rotate(-90 55 55)"
             />
-            <!-- Outer circle: stroke-dashoffset draw, Beat 4 -->
             <circle
               id="lm-s-outer"
+              class="lm-circle"
               cx="55" cy="55" r="46"
               stroke="currentColor"
               stroke-width="2"
               fill="none"
               stroke-dasharray="289.03"
               stroke-dashoffset="289.03"
-              style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+              transform="rotate(-90 55 55)"
             />
           </svg>
         </div>
@@ -91,17 +98,18 @@
 
         <div class="lm-stage-inner" id="lm-stage-horizontal">
           <div class="lm-h-lockup">
-            <!-- Symbol SVG -->
-            <svg class="lm-svg" id="lm-svg-horizontal" width="70" height="70" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite); flex-shrink: 0;">
+            <svg class="lm-svg" id="lm-svg-horizontal" width="70" height="70" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="flex-shrink: 0;">
               <line
                 id="lm-h-line"
+                class="lm-line"
                 x1="55" y1="9" x2="55" y2="101"
                 stroke="#8B1A1A"
                 stroke-width="1.8"
-                style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+                opacity="0.9"
               />
               <circle
                 id="lm-h-inner"
+                class="lm-circle"
                 cx="55" cy="55" r="29"
                 stroke="currentColor"
                 stroke-width="0.9"
@@ -109,17 +117,18 @@
                 opacity="0.28"
                 stroke-dasharray="182.21"
                 stroke-dashoffset="182.21"
-                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+                transform="rotate(-90 55 55)"
               />
               <circle
                 id="lm-h-outer"
+                class="lm-circle"
                 cx="55" cy="55" r="46"
                 stroke="currentColor"
                 stroke-width="2"
                 fill="none"
                 stroke-dasharray="289.03"
                 stroke-dashoffset="289.03"
-                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+                transform="rotate(-90 55 55)"
               />
             </svg>
 
@@ -127,7 +136,7 @@
             <div id="lm-h-divider" class="lm-h-divider"></div>
 
             <!-- Text block: Beats 7 & 8 -->
-            <div class="lm-h-text" id="lm-h-text">
+            <div class="lm-h-text">
               <div id="lm-h-wordmark" class="lm-wordmark">Orison</div>
               <div id="lm-h-subtitle" class="lm-subtitle">AI Infrastructure</div>
             </div>
@@ -151,17 +160,18 @@
 
         <div class="lm-stage-inner" id="lm-stage-vertical">
           <div class="lm-v-lockup">
-            <!-- Symbol SVG -->
-            <svg class="lm-svg" id="lm-svg-vertical" width="80" height="80" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="color: var(--color-offwhite);">
+            <svg class="lm-svg" id="lm-svg-vertical" width="80" height="80" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison">
               <line
                 id="lm-v-line"
+                class="lm-line"
                 x1="55" y1="9" x2="55" y2="101"
                 stroke="#8B1A1A"
                 stroke-width="1.8"
-                style="transform-origin: 55px 55px; transform: scaleY(0); opacity: 0.9;"
+                opacity="0.9"
               />
               <circle
                 id="lm-v-inner"
+                class="lm-circle"
                 cx="55" cy="55" r="29"
                 stroke="currentColor"
                 stroke-width="0.9"
@@ -169,17 +179,18 @@
                 opacity="0.28"
                 stroke-dasharray="182.21"
                 stroke-dashoffset="182.21"
-                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+                transform="rotate(-90 55 55)"
               />
               <circle
                 id="lm-v-outer"
+                class="lm-circle"
                 cx="55" cy="55" r="46"
                 stroke="currentColor"
                 stroke-width="2"
                 fill="none"
                 stroke-dasharray="289.03"
                 stroke-dashoffset="289.03"
-                style="transform: rotate(-90deg); transform-origin: 55px 55px;"
+                transform="rotate(-90 55 55)"
               />
             </svg>
 
@@ -204,7 +215,6 @@
     <div class="lm-timeline m-reveal">
       <div class="lm-timeline-title">Sequência de beats — Variação 1 (símbolo isolado · ~1600ms total)</div>
 
-      <!-- 2600ms total scale. Each row: label | bar | time -->
       <div class="lm-timeline-row">
         <span class="lm-timeline-label">B1 — Incisão</span>
         <div class="lm-timeline-track">
@@ -247,12 +257,12 @@
       <div class="lm-spec-cell">
         <span class="lm-spec-label">Técnica — linha</span>
         <span class="lm-spec-value">scaleY(0) → scaleY(1)</span>
-        <p class="lm-spec-desc">transform-origin: center (55px 55px). Ambas as metades crescem simultaneamente. Easing: micro.</p>
+        <p class="lm-spec-desc">transform-box: fill-box + transform-origin: center. Ambas as metades crescem simultaneamente. Easing: micro.</p>
       </div>
       <div class="lm-spec-cell">
         <span class="lm-spec-label">Técnica — círculos</span>
         <span class="lm-spec-value">stroke-dashoffset: 100% → 0</span>
-        <p class="lm-spec-desc">Ponto de início: topo (rotate -90°). Sentido horário. Easing: enter. Duração: dramatic (900ms).</p>
+        <p class="lm-spec-desc">Ponto de início: topo (SVG transform rotate -90°). Sentido horário. Easing: enter. Duração: dramatic (900ms).</p>
       </div>
       <div class="lm-spec-cell">
         <span class="lm-spec-label">Técnica — wordmark</span>

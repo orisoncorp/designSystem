@@ -709,69 +709,78 @@ function isReducedMotion() {
 function animateSymbol(lineEl, innerEl, outerEl) {
   return new Promise(resolve => {
     if (isReducedMotion()) {
-      // Show everything immediately at final state
       lineEl.style.transition = 'none';
       lineEl.style.transform = 'scaleY(1)';
+      lineEl.style.opacity = '0.9';
       innerEl.style.transition = 'none';
-      innerEl.style.strokeDashoffset = '0';
+      innerEl.setAttribute('stroke-dashoffset', '0');
       outerEl.style.transition = 'none';
-      outerEl.style.strokeDashoffset = '0';
+      outerEl.setAttribute('stroke-dashoffset', '0');
       resolve();
       return;
     }
 
-    // Reset to initial state
+    // ── Phase 1: hard-reset to initial state (no transitions) ──
     lineEl.style.transition = 'none';
     lineEl.style.transform = 'scaleY(0)';
+    lineEl.style.opacity = '0.9';
     innerEl.style.transition = 'none';
-    innerEl.style.strokeDashoffset = '182.21';
+    innerEl.setAttribute('stroke-dashoffset', '182.21');
     outerEl.style.transition = 'none';
-    outerEl.style.strokeDashoffset = '289.03';
-    void lineEl.getBoundingClientRect(); // force reflow
+    outerEl.setAttribute('stroke-dashoffset', '289.03');
 
-    // Beat 1 — Incision: line grows from center (80ms, micro easing)
-    lineEl.style.transition = `transform ${LM_DUR.instant}ms ${LM_EASING.micro}`;
-    lineEl.style.transform = 'scaleY(1)';
+    // ── Phase 2: double-rAF guarantees the reset frame has been painted
+    //    before we attach transitions. A single rAF fires in the same frame
+    //    as the style change; the second rAF fires after the browser commits
+    //    the new computed styles to the render tree. ──
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
 
-    // Beat 2 — Pause 200ms, then Beat 3 starts at 280ms
-    const t3Start = LM_DUR.instant + 200; // 280ms
+        // Beat 1 — Incision: line grows from center (80ms, micro easing)
+        lineEl.style.transition = `transform ${LM_DUR.instant}ms ${LM_EASING.micro}`;
+        lineEl.style.transform = 'scaleY(1)';
 
-    setTimeout(() => {
-      // Beat 3 — Inner circle draws (900ms, enter easing)
-      innerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
-      innerEl.style.strokeDashoffset = '0';
-    }, t3Start);
+        // Beat 3 — Inner circle draws (900ms, enter), delay 280ms from now
+        const t3 = LM_DUR.instant + 200; // 280ms
+        setTimeout(() => {
+          innerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
+          innerEl.setAttribute('stroke-dashoffset', '0');
+        }, t3);
 
-    // Beat 4 — Outer circle draws, delay 200ms after Beat 3 (starts at 480ms)
-    const t4Start = t3Start + 200; // 480ms
-    setTimeout(() => {
-      outerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
-      outerEl.style.strokeDashoffset = '0';
-    }, t4Start);
+        // Beat 4 — Outer circle draws (900ms, enter), 200ms after Beat 3 = 480ms
+        const t4 = t3 + 200;
+        setTimeout(() => {
+          outerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
+          outerEl.setAttribute('stroke-dashoffset', '0');
+        }, t4);
 
-    // Beat 5 — Settle: line pulse (starts at end of outer circle = 480+900=1380ms)
-    const t5Start = t4Start + LM_DUR.dramatic; // 1380ms
-    setTimeout(() => {
-      lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
-      lineEl.style.opacity = '0.55';
-      setTimeout(() => {
-        lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
-        lineEl.style.opacity = '0.9';
-        setTimeout(resolve, 100);
-      }, 100);
-    }, t5Start);
+        // Beat 5 — Settle pulse on line (opacity 0.9→0.55→0.9), starts when
+        // outer circle finishes: 480 + 900 = 1380ms
+        const t5 = t4 + LM_DUR.dramatic;
+        setTimeout(() => {
+          lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
+          lineEl.style.opacity = '0.55';
+          setTimeout(() => {
+            lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
+            lineEl.style.opacity = '0.9';
+            setTimeout(resolve, 100);
+          }, 100);
+        }, t5);
+
+      });
+    });
   });
 }
 
-/* ── Reset a symbol SVG to initial state ── */
+/* ── Reset a symbol SVG to initial state (sync, no transitions) ── */
 function resetSymbolEls(lineEl, innerEl, outerEl) {
   lineEl.style.transition = 'none';
   lineEl.style.transform = 'scaleY(0)';
   lineEl.style.opacity = '0.9';
   innerEl.style.transition = 'none';
-  innerEl.style.strokeDashoffset = '182.21';
+  innerEl.setAttribute('stroke-dashoffset', '182.21');
   outerEl.style.transition = 'none';
-  outerEl.style.strokeDashoffset = '289.03';
+  outerEl.setAttribute('stroke-dashoffset', '289.03');
 }
 
 /* ── Theme toggle ── */
@@ -816,8 +825,7 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
   document.querySelector('[data-lm-fire="symbol"]')?.addEventListener('click', () => {
     if (running) return;
     running = true;
-    resetSymbolEls(lineEl, innerEl, outerEl);
-    void lineEl.getBoundingClientRect();
+    // Reset is done inside animateSymbol (phase 1), then double-rAF before animating
     animateSymbol(lineEl, innerEl, outerEl).then(() => { running = false; });
   });
 
@@ -848,37 +856,33 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
   let running = false;
   let theme = 'dark';
 
-  function resetH() {
-    running = false;
-    resetSymbolEls(lineEl, innerEl, outerEl);
-    if (dividerEl)  { dividerEl.style.transition = 'none'; dividerEl.style.opacity = '0'; }
-    if (wordmarkEl) { wordmarkEl.style.transition = 'none'; wordmarkEl.style.opacity = '0'; wordmarkEl.style.letterSpacing = '12px'; }
-    if (subtitleEl) { subtitleEl.style.transition = 'none'; subtitleEl.style.opacity = '0'; }
+  function resetHExtras() {
+    if (dividerEl)  { dividerEl.style.transition  = 'none'; dividerEl.style.opacity      = '0'; }
+    if (wordmarkEl) { wordmarkEl.style.transition  = 'none'; wordmarkEl.style.opacity     = '0'; wordmarkEl.style.letterSpacing = '12px'; }
+    if (subtitleEl) { subtitleEl.style.transition  = 'none'; subtitleEl.style.opacity     = '0'; }
   }
 
   document.querySelector('[data-lm-fire="horizontal"]')?.addEventListener('click', () => {
     if (running) return;
     running = true;
-    resetH();
-    void lineEl.getBoundingClientRect();
-    running = true;
+    resetHExtras(); // reset lockup extras immediately (symbol reset is inside animateSymbol)
 
     animateSymbol(lineEl, innerEl, outerEl).then(() => {
       if (isReducedMotion()) {
-        if (dividerEl)  { dividerEl.style.transition = 'none'; dividerEl.style.opacity = '1'; }
-        if (wordmarkEl) { wordmarkEl.style.transition = 'none'; wordmarkEl.style.opacity = '1'; wordmarkEl.style.letterSpacing = '6px'; }
-        if (subtitleEl) { subtitleEl.style.transition = 'none'; subtitleEl.style.opacity = '1'; }
+        if (dividerEl)  { dividerEl.style.transition  = 'none'; dividerEl.style.opacity      = '1'; }
+        if (wordmarkEl) { wordmarkEl.style.transition  = 'none'; wordmarkEl.style.opacity     = '1'; wordmarkEl.style.letterSpacing = '6px'; }
+        if (subtitleEl) { subtitleEl.style.transition  = 'none'; subtitleEl.style.opacity     = '1'; }
         running = false;
         return;
       }
 
-      // Beat 6 — Divider fade (250ms, state easing), starts at ~1580ms
+      // Beat 6 — Divider fade (250ms, state)
       if (dividerEl) {
         dividerEl.style.transition = `opacity ${LM_DUR.base}ms ${LM_EASING.state}`;
         dividerEl.style.opacity = '1';
       }
 
-      // Beat 7 — Wordmark converge (600ms, emphasis), delay 200ms after beat 6
+      // Beat 7 — Wordmark converge (600ms, emphasis), 200ms after beat 6
       setTimeout(() => {
         if (wordmarkEl) {
           wordmarkEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
@@ -887,7 +891,7 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
         }
       }, 200);
 
-      // Beat 8 — Subtitle fade (400ms, state), delay 600ms after beat 6
+      // Beat 8 — Subtitle fade (400ms, state), 600ms after beat 6
       setTimeout(() => {
         if (subtitleEl) {
           subtitleEl.style.transition = `opacity ${LM_DUR.moderate}ms ${LM_EASING.state}`;
@@ -898,7 +902,11 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
     });
   });
 
-  document.querySelector('[data-lm-reset="horizontal"]')?.addEventListener('click', resetH);
+  document.querySelector('[data-lm-reset="horizontal"]')?.addEventListener('click', () => {
+    running = false;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+    resetHExtras();
+  });
 
   document.querySelector('[data-lm-theme="horizontal"]')?.addEventListener('click', function() {
     theme = theme === 'dark' ? 'light' : 'dark';
@@ -909,48 +917,44 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
 
 /* ── Variation 3: Lockup Vertical ── */
 (function setupLogoVertical() {
-  const lineEl     = document.getElementById('lm-v-line');
-  const innerEl    = document.getElementById('lm-v-inner');
-  const outerEl    = document.getElementById('lm-v-outer');
-  const vRuleEl    = document.getElementById('lm-v-rule');
-  const vWordEl    = document.getElementById('lm-v-wordmark');
-  const stageEl    = document.getElementById('lm-stage-vertical');
-  const svgEl      = document.getElementById('lm-svg-vertical');
+  const lineEl  = document.getElementById('lm-v-line');
+  const innerEl = document.getElementById('lm-v-inner');
+  const outerEl = document.getElementById('lm-v-outer');
+  const vRuleEl = document.getElementById('lm-v-rule');
+  const vWordEl = document.getElementById('lm-v-wordmark');
+  const stageEl = document.getElementById('lm-stage-vertical');
+  const svgEl   = document.getElementById('lm-svg-vertical');
   if (!lineEl || !innerEl || !outerEl) return;
 
   let running = false;
   let theme = 'dark';
 
-  function resetV() {
-    running = false;
-    resetSymbolEls(lineEl, innerEl, outerEl);
+  function resetVExtras() {
     if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(0)'; vRuleEl.style.opacity = '0'; }
-    if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity = '0'; vWordEl.style.letterSpacing = '14px'; }
+    if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity   = '0'; vWordEl.style.letterSpacing = '14px'; }
   }
 
   document.querySelector('[data-lm-fire="vertical"]')?.addEventListener('click', () => {
     if (running) return;
     running = true;
-    resetV();
-    void lineEl.getBoundingClientRect();
-    running = true;
+    resetVExtras();
 
     animateSymbol(lineEl, innerEl, outerEl).then(() => {
       if (isReducedMotion()) {
         if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(1)'; vRuleEl.style.opacity = '1'; }
-        if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity = '1'; vWordEl.style.letterSpacing = '8px'; }
+        if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity   = '1'; vWordEl.style.letterSpacing = '8px'; }
         running = false;
         return;
       }
 
-      // Beat 6v — Horizontal rule grows from center (250ms, micro easing)
+      // Beat 6v — Horizontal rule grows from center (250ms, micro)
       if (vRuleEl) {
         vRuleEl.style.transition = `transform ${LM_DUR.base}ms ${LM_EASING.micro}, opacity ${LM_DUR.base}ms ${LM_EASING.micro}`;
         vRuleEl.style.transform = 'scaleX(1)';
         vRuleEl.style.opacity = '1';
       }
 
-      // Beat 7v — Wordmark (600ms, emphasis), after rule completes (250ms)
+      // Beat 7v — Wordmark converge (600ms, emphasis), after rule (250ms)
       setTimeout(() => {
         if (vWordEl) {
           vWordEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
@@ -962,7 +966,11 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
     });
   });
 
-  document.querySelector('[data-lm-reset="vertical"]')?.addEventListener('click', resetV);
+  document.querySelector('[data-lm-reset="vertical"]')?.addEventListener('click', () => {
+    running = false;
+    resetSymbolEls(lineEl, innerEl, outerEl);
+    resetVExtras();
+  });
 
   document.querySelector('[data-lm-theme="vertical"]')?.addEventListener('click', function() {
     theme = theme === 'dark' ? 'light' : 'dark';
