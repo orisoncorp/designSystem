@@ -107,51 +107,6 @@
   transform: translateY(0);
 }
 
-/* ══════════════════════════════════════════
-   LOGO MOTION — Section 28 keyframes
-   Concept: "Incisão" — the crimson line cuts first.
-   ══════════════════════════════════════════ */
-
-@keyframes logoIncision {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
-}
-
-@keyframes logoDrawOuter {
-  from { stroke-dashoffset: 289.03; }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes logoDrawInner {
-  from { stroke-dashoffset: 182.21; }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes logoSettle {
-  0% { opacity: 0.9; }
-  50% { opacity: 0.5; }
-  100% { opacity: 0.9; }
-}
-
-@keyframes logoFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes logoWordmarkH {
-  from { opacity: 0; letter-spacing: 12px; }
-  to { opacity: 1; letter-spacing: 6px; }
-}
-
-@keyframes logoWordmarkV {
-  from { opacity: 0; letter-spacing: 14px; }
-  to { opacity: 1; letter-spacing: 8px; }
-}
-
-@keyframes logoRuleScale {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
 
 /* ─── Stagger offsets (applied inline or via JS) ─── */
 .m-stagger-1 { transition-delay: 0ms; }

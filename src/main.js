@@ -733,33 +733,27 @@ function lmFireVariant(variant) {
 }
 
 function lmResetVariant(variant) {
-  if (variant === 'symbol') {
-    lmResetSymbol(document.getElementById('lm-symbol-a'));
-  }
-  else if (variant === 'horizontal') {
-    lmResetSymbol(document.getElementById('lm-symbol-b'));
-    const stage = document.getElementById('lm-stage-horizontal');
-    stage.querySelectorAll('.lm-h-divider, .lm-wordmark, .lm-subtitle').forEach(el => {
+  const configs = {
+    symbol:     { svgId: 'lm-symbol-a', extras: [] },
+    horizontal: { svgId: 'lm-symbol-b', extras: ['lm-h-divider', 'lm-h-wordmark', 'lm-h-subtitle'] },
+    vertical:   { svgId: 'lm-symbol-c', extras: ['lm-v-rule', 'lm-v-wordmark'] },
+  };
+
+  const cfg = configs[variant];
+  const svg = document.getElementById(cfg.svgId);
+
+  svg.classList.remove('animate');
+  svg.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', c.getAttribute('stroke-dasharray')));
+  svg.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', c.getAttribute('stroke-dasharray')));
+  svg.querySelectorAll('.lm-outer, .lm-inner, .lm-line').forEach(el => el.removeAttribute('style'));
+
+  cfg.extras.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
       el.classList.remove('animate');
-    });
-    const wm = document.getElementById('lm-h-wordmark');
-    const st = document.getElementById('lm-h-subtitle');
-    const dv = document.getElementById('lm-h-divider');
-    if (wm) { wm.style.opacity = '0'; wm.style.letterSpacing = '12px'; }
-    if (st) { st.style.opacity = '0'; }
-    if (dv) { dv.style.opacity = '0'; }
-  }
-  else if (variant === 'vertical') {
-    lmResetSymbol(document.getElementById('lm-symbol-c'));
-    const stage = document.getElementById('lm-stage-vertical');
-    stage.querySelectorAll('.lm-v-rule, .lm-v-wordmark').forEach(el => {
-      el.classList.remove('animate');
-    });
-    const rl = document.getElementById('lm-v-rule');
-    const wm = document.getElementById('lm-v-wordmark');
-    if (rl) { rl.style.transform = 'scaleX(0)'; }
-    if (wm) { wm.style.opacity = '0'; wm.style.letterSpacing = '14px'; }
-  }
+      el.removeAttribute('style');
+    }
+  });
 }
 
 document.querySelectorAll('[data-lm-fire]').forEach(btn => {

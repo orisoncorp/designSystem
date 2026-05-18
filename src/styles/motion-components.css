@@ -1453,62 +1453,104 @@
   color: var(--color-offwhite);
 }
 
-/* ═══ LOGO MOTION — ESTADOS E ANIMAÇÕES ═══ */
+/* ═══ LOGO MOTION — ESTADO INICIAL ═══ */
+/* Tudo invisível via opacity. Não depender de stroke-dashoffset para ocultar. */
+svg.lm-symbol .lm-outer,
+svg.lm-symbol .lm-inner,
+svg.lm-symbol .lm-line {
+  opacity: 0;
+}
 
-/* Estado inicial: linha invisível */
-.lm-symbol .lm-line {
+svg.lm-symbol .lm-line {
   transform: scaleY(0);
   transform-box: fill-box;
   transform-origin: center;
-  opacity: 0.9;
 }
 
-/* Circles já estão invisíveis via stroke-dashoffset nos atributos SVG */
-/* Lockup extras: opacity/transform iniciais estão nas regras de layout abaixo */
-
-/* ── Beat 1: Incisão — 0ms, 80ms, micro */
-.lm-symbol.animate .lm-line {
-  animation: logoIncision 80ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 0ms both,
-             logoSettle 200ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1380ms both;
+/* ═══ LOGO MOTION — KEYFRAMES ═══ */
+@keyframes logoIncision {
+  0%   { opacity: 0; transform: scaleY(0); }
+  100% { opacity: 0.9; transform: scaleY(1); }
 }
 
-/* Beat 3: Círculo interno — 280ms delay, 900ms, enter */
-.lm-symbol.animate .lm-inner {
-  animation: logoDrawInner 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 280ms both;
+@keyframes logoDrawInner {
+  0%   { opacity: 0; stroke-dashoffset: 182.21; }
+  1%   { opacity: 0.28; stroke-dashoffset: 182.21; }
+  100% { opacity: 0.28; stroke-dashoffset: 0; }
 }
 
-/* Beat 4: Círculo externo — 480ms delay, 900ms, enter */
-.lm-symbol.animate .lm-outer {
-  animation: logoDrawOuter 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 480ms both;
+@keyframes logoDrawOuter {
+  0%   { opacity: 0; stroke-dashoffset: 289.03; }
+  1%   { opacity: 1; stroke-dashoffset: 289.03; }
+  100% { opacity: 1; stroke-dashoffset: 0; }
 }
 
-/* ── LOCKUP HORIZONTAL extras ── */
-.lm-stage-inner .lm-h-divider.animate {
-  animation: logoFadeIn 250ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1600ms both;
+@keyframes logoSettle {
+  0%   { opacity: 0.9; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 0.9; }
 }
 
-.lm-stage-inner .lm-wordmark.animate {
-  animation: logoWordmarkH 600ms cubic-bezier(0.16, 1, 0.3, 1) 1800ms both;
+@keyframes logoFadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-.lm-stage-inner .lm-subtitle.animate {
-  animation: logoFadeIn 400ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 2200ms both;
+@keyframes logoWordmarkH {
+  0%   { opacity: 0; letter-spacing: 12px; }
+  100% { opacity: 1; letter-spacing: 6px; }
 }
 
-/* ── LOCKUP VERTICAL extras ── */
-.lm-stage-inner .lm-v-rule.animate {
-  animation: logoRuleScale 250ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 1600ms both;
+@keyframes logoWordmarkV {
+  0%   { opacity: 0; letter-spacing: 14px; }
+  100% { opacity: 1; letter-spacing: 8px; }
 }
 
-.lm-stage-inner .lm-v-wordmark.animate {
-  animation: logoWordmarkV 600ms cubic-bezier(0.16, 1, 0.3, 1) 1850ms both;
+@keyframes logoRuleScale {
+  0%   { opacity: 0; transform: scaleX(0); }
+  100% { opacity: 1; transform: scaleX(1); }
 }
 
-/* ── REDUCED MOTION ── */
+/* ═══ LOGO MOTION — ANIMATE STATE ═══ */
+svg.lm-symbol.animate .lm-line {
+  animation: logoIncision 80ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 0ms forwards,
+             logoSettle 200ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1380ms forwards;
+}
+
+svg.lm-symbol.animate .lm-inner {
+  animation: logoDrawInner 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 280ms forwards;
+}
+
+svg.lm-symbol.animate .lm-outer {
+  animation: logoDrawOuter 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 480ms forwards;
+}
+
+.lm-h-divider.animate {
+  animation: logoFadeIn 250ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1600ms forwards;
+}
+
+.lm-wordmark.animate {
+  animation: logoWordmarkH 600ms cubic-bezier(0.16, 1, 0.3, 1) 1800ms forwards;
+}
+
+.lm-subtitle.animate {
+  animation: logoFadeIn 400ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 2200ms forwards;
+}
+
+.lm-v-rule.animate {
+  animation: logoRuleScale 250ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 1600ms forwards;
+  transform-origin: center;
+}
+
+.lm-v-wordmark.animate {
+  animation: logoWordmarkV 600ms cubic-bezier(0.16, 1, 0.3, 1) 1850ms forwards;
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .lm-symbol.animate .lm-line,
-  .lm-symbol.animate .lm-inner,
-  .lm-symbol.animate .lm-outer,
+  svg.lm-symbol.animate .lm-line,
+  svg.lm-symbol.animate .lm-inner,
+  svg.lm-symbol.animate .lm-outer,
   .lm-h-divider.animate,
   .lm-wordmark.animate,
   .lm-subtitle.animate,
@@ -1519,9 +1561,9 @@
   }
 }
 
-.reduced-motion .lm-symbol.animate .lm-line,
-.reduced-motion .lm-symbol.animate .lm-inner,
-.reduced-motion .lm-symbol.animate .lm-outer,
+.reduced-motion svg.lm-symbol.animate .lm-line,
+.reduced-motion svg.lm-symbol.animate .lm-inner,
+.reduced-motion svg.lm-symbol.animate .lm-outer,
 .reduced-motion .lm-h-divider.animate,
 .reduced-motion .lm-wordmark.animate,
 .reduced-motion .lm-subtitle.animate,
