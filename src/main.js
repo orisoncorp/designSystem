@@ -570,7 +570,7 @@ function animateCounter(el, from, to, dur) {
     const val = Math.round(from + (to - from) * easeOut(t));
     el.textContent = val >= 1000
       ? 'R$ ' + (val / 1000).toFixed(0) + 'k'
-      : val.toString();
+      : 'R$ ' + val.toString();
     if (t < 1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
@@ -589,7 +589,7 @@ document.getElementById('kpi-play')?.addEventListener('click', () => {
 document.getElementById('kpi-reset')?.addEventListener('click', () => {
   const el = document.getElementById('kpi-counter');
   const arrow = document.getElementById('kpi-trend-arrow');
-  if (el) el.textContent = '0';
+  if (el) el.textContent = 'R$ 0';
   if (arrow) arrow.classList.remove('is-active');
 });
 
