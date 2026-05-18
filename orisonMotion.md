@@ -217,15 +217,15 @@ molecules:
     context: "Checkmarks, ícones de confirmação — aparição precisa"
 
   micro-progress:
-    properties: "width"
+    properties: "width, numeric percent display"
     easing: "{easing.linear}"
-    context: "Barras de progresso — crescimento linear uniforme"
+    context: "Barras de progresso — crescimento linear uniforme com percentual destacado e reset manual"
 
   micro-counter:
-    properties: "numeric value"
+    properties: "numeric value, trend indicator"
     duration: "{duration.moderate}"
     easing: "{easing.state}"
-    context: "Contagem numérica animada (KPIs, métricas)"
+    context: "Contagem numérica animada (KPIs, métricas) com indicador direcional de crescimento"
 
   # ── Loading States ──
   loading-skeleton:
@@ -992,11 +992,17 @@ simplesmente aparecer.
 **Progress (`micro-progress`):**
 Barra cresce com width + easing linear. Progresso é a única situação onde
 linear é obrigatório — qualquer curva distorceria a percepção de completude.
+O percentual usa a mesma escala visual do counter (`32px`, monospace,
+tabular-nums) para leitura imediata. O reset é manual e retorna barra,
+percentual e botão ao estado inicial.
 
 **Counter (`micro-counter`):**
 Valor numérico anima de 0 ao target com duração moderate e easing state. Para
 KPIs e métricas. A contagem comunica magnitude — o usuário percebe se o número
-é grande ou pequeno pela velocidade com que o counter se move.
+é grande ou pequeno pela velocidade com que o counter se move. O counter pode
+receber um indicador direcional discreto ao lado do número; na interface de
+referência, uma seta para cima crimson reforça crescimento sem transformar a
+micro-interaction em celebração.
 
 ---
 

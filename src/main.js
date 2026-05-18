@@ -214,10 +214,15 @@ const mRevealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.m-reveal').forEach(el => mRevealObserver.observe(el));
 
 /* ── Scroll-reveal cards (organisms demo) ── */
+function revealScrollCard(card) {
+  card.style.opacity = '1';
+  card.style.transform = 'translateY(0)';
+}
+
 const scrollRevealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
+      revealScrollCard(entry.target);
       scrollRevealObserver.unobserve(entry.target);
     }
   });
@@ -242,14 +247,18 @@ function triggerOrgTableRows() {
   const rows = document.querySelectorAll('.org-table-row');
   rows.forEach((row, i) => {
     row.style.transitionDelay = `${i * 40}ms`;
-    setTimeout(() => row.classList.add('in-view'), i * 40);
+    setTimeout(() => {
+      row.style.opacity = '1';
+      row.style.transform = 'translateY(0)';
+    }, i * 40);
   });
 }
 
 document.getElementById('org-table-play')?.addEventListener('click', () => {
   document.querySelectorAll('.org-table-row').forEach(row => {
-    row.classList.remove('in-view');
     row.style.transitionDelay = '0ms';
+    row.style.opacity = '0';
+    row.style.transform = 'translateY(var(--motion-ty-sm))';
   });
   setTimeout(triggerOrgTableRows, 80);
 });
@@ -273,15 +282,17 @@ function triggerChartBars() {
     bar.style.transitionDelay = `${i * 60}ms`;
     bar.style.transitionDuration = '400ms';
     bar.style.transitionTimingFunction = 'cubic-bezier(0.16, 1, 0.3, 1)';
-    setTimeout(() => bar.classList.add('in-view'), i * 60);
+    setTimeout(() => {
+      bar.style.transform = 'scaleY(1)';
+    }, i * 60);
   });
 }
 
 document.getElementById('chart-bars-play')?.addEventListener('click', () => {
   const bars = document.querySelectorAll('#chart-bars-demo .chart-bar');
   bars.forEach(bar => {
-    bar.classList.remove('in-view');
     bar.style.transitionDelay = '0ms';
+    bar.style.transform = 'scaleY(0)';
   });
   setTimeout(triggerChartBars, 80);
 });
@@ -502,15 +513,35 @@ document.getElementById('check-2')?.addEventListener('click', function() {
 });
 
 let progressRunning = false;
+let progressFrame = null;
+
+function resetMicroProgress() {
+  const fill = document.getElementById('progress-fill');
+  const pct = document.getElementById('progress-pct');
+  const btn = document.getElementById('progress-play');
+  if (progressFrame) cancelAnimationFrame(progressFrame);
+  progressFrame = null;
+  progressRunning = false;
+  if (fill) {
+    fill.classList.remove('is-running');
+    fill.style.width = '0%';
+  }
+  if (pct) pct.textContent = '0%';
+  if (btn) btn.textContent = 'Iniciar';
+}
+
 document.getElementById('progress-play')?.addEventListener('click', function() {
   if (progressRunning) return;
   progressRunning = true;
+  const playBtn = this;
   const fill = document.getElementById('progress-fill');
   const pct  = document.getElementById('progress-pct');
   if (!fill) return;
+  fill.classList.remove('is-running');
   fill.style.width = '0%';
-  this.textContent = 'Processando…';
+  playBtn.textContent = 'Processando...';
   void fill.offsetWidth;
+  fill.style.width = '';
   fill.classList.add('is-running');
   let start = null;
   const dur = 900;
@@ -519,20 +550,17 @@ document.getElementById('progress-play')?.addEventListener('click', function() {
     const p = Math.min(((ts - start) / dur) * 100, 100);
     if (pct) pct.textContent = `${Math.round(p)}%`;
     if (p < 100) {
-      requestAnimationFrame(step);
+      progressFrame = requestAnimationFrame(step);
     } else {
-      this.textContent = 'Completo';
-      setTimeout(() => {
-        fill.classList.remove('is-running');
-        fill.style.width = '0%';
-        if (pct) pct.textContent = '0%';
-        this.textContent = 'Iniciar';
-        progressRunning = false;
-      }, 1200);
+      playBtn.textContent = 'Completo';
+      progressRunning = false;
+      progressFrame = null;
     }
   }
-  requestAnimationFrame(step.bind(this));
+  progressFrame = requestAnimationFrame(step);
 });
+
+document.getElementById('progress-reset')?.addEventListener('click', resetMicroProgress);
 
 function animateCounter(el, from, to, dur) {
   const start = performance.now();
@@ -550,12 +578,19 @@ function animateCounter(el, from, to, dur) {
 
 document.getElementById('kpi-play')?.addEventListener('click', () => {
   const el = document.getElementById('kpi-counter');
+  const arrow = document.getElementById('kpi-trend-arrow');
+  if (arrow) arrow.classList.add('is-active');
   if (el) animateCounter(el, 0, 100000, 400);
+  setTimeout(() => {
+    if (arrow) arrow.classList.remove('is-active');
+  }, 700);
 });
 
 document.getElementById('kpi-reset')?.addEventListener('click', () => {
   const el = document.getElementById('kpi-counter');
+  const arrow = document.getElementById('kpi-trend-arrow');
   if (el) el.textContent = '0';
+  if (arrow) arrow.classList.remove('is-active');
 });
 
 /* ── Loading bar toggle (section 23) ── */
