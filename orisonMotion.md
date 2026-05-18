@@ -223,7 +223,7 @@ molecules:
 
   micro-counter:
     properties: "numeric value, trend indicator"
-    duration: "{duration.moderate}"
+    duration: "{duration.dramatic}"
     easing: "{easing.state}"
     context: "Contagem numérica animada (KPIs, métricas) com indicador direcional de crescimento"
 
@@ -997,7 +997,7 @@ tabular-nums) para leitura imediata. O reset é manual e retorna barra,
 percentual e botão ao estado inicial.
 
 **Counter (`micro-counter`):**
-Valor numérico anima de 0 ao target com duração moderate e easing state. Para
+Valor numérico anima de 0 ao target com duração dramatic e easing state. Para
 KPIs e métricas. A contagem comunica magnitude — o usuário percebe se o número
 é grande ou pequeno pela velocidade com que o counter se move. O counter pode
 receber um indicador direcional discreto ao lado do número; na interface de
@@ -1131,7 +1131,7 @@ Duração dramatic (900ms), easing enter. A linha se revela da esquerda para a
 direita.
 
 **KPI counter:**
-Contagem numérica de 0 ao valor target com duração moderate (400ms), easing
+Contagem numérica de 0 ao valor target com duração dramatic (900ms), easing
 state. O counter comunica magnitude — números grandes parecem "maiores" porque
 o counter leva mais dígitos para percorrer.
 

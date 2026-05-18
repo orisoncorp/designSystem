@@ -580,10 +580,10 @@ document.getElementById('kpi-play')?.addEventListener('click', () => {
   const el = document.getElementById('kpi-counter');
   const arrow = document.getElementById('kpi-trend-arrow');
   if (arrow) arrow.classList.add('is-active');
-  if (el) animateCounter(el, 0, 100000, 400);
+  if (el) animateCounter(el, 0, 100000, 900);
   setTimeout(() => {
     if (arrow) arrow.classList.remove('is-active');
-  }, 700);
+  }, 1200);
 });
 
 document.getElementById('kpi-reset')?.addEventListener('click', () => {
