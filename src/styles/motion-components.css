@@ -1277,7 +1277,7 @@
 
 /* ══════════════════════════════════════════
    LOGO MOTION — Section 28
-   All animation state lives here. JS only adds/removes .animate on .lm-symbol.
+   Visual layout only. Motion is controlled by JavaScript inline styles.
    ══════════════════════════════════════════ */
 
 /* ─── Section wrapper ─── */
@@ -1396,7 +1396,8 @@
   transition: background var(--motion-duration-fast) var(--motion-easing-state);
 }
 
-.lm-stage-inner--light {
+.lm-stage-inner--light,
+.lm-stage-inner.lm-light {
   background: var(--color-offwhite);
 }
 
@@ -1462,115 +1463,8 @@ svg.lm-symbol .lm-line {
 }
 
 svg.lm-symbol .lm-line {
-  transform: scaleY(0);
   transform-box: fill-box;
   transform-origin: center;
-}
-
-/* ═══ LOGO MOTION — KEYFRAMES ═══ */
-@keyframes logoIncision {
-  0%   { opacity: 0; transform: scaleY(0); }
-  100% { opacity: 0.9; transform: scaleY(1); }
-}
-
-@keyframes logoDrawInner {
-  0%   { opacity: 0; stroke-dashoffset: 182.21; }
-  1%   { opacity: 0.28; stroke-dashoffset: 182.21; }
-  100% { opacity: 0.28; stroke-dashoffset: 0; }
-}
-
-@keyframes logoDrawOuter {
-  0%   { opacity: 0; stroke-dashoffset: 289.03; }
-  1%   { opacity: 1; stroke-dashoffset: 289.03; }
-  100% { opacity: 1; stroke-dashoffset: 0; }
-}
-
-@keyframes logoSettle {
-  0%   { opacity: 0.9; }
-  50%  { opacity: 0.5; }
-  100% { opacity: 0.9; }
-}
-
-@keyframes logoFadeIn {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes logoWordmarkH {
-  0%   { opacity: 0; letter-spacing: 12px; }
-  100% { opacity: 1; letter-spacing: 6px; }
-}
-
-@keyframes logoWordmarkV {
-  0%   { opacity: 0; letter-spacing: 14px; }
-  100% { opacity: 1; letter-spacing: 8px; }
-}
-
-@keyframes logoRuleScale {
-  0%   { opacity: 0; transform: scaleX(0); }
-  100% { opacity: 1; transform: scaleX(1); }
-}
-
-/* ═══ LOGO MOTION — ANIMATE STATE ═══ */
-svg.lm-symbol.animate .lm-line {
-  animation: logoIncision 80ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 0ms forwards,
-             logoSettle 200ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1380ms forwards;
-}
-
-svg.lm-symbol.animate .lm-inner {
-  animation: logoDrawInner 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 280ms forwards;
-}
-
-svg.lm-symbol.animate .lm-outer {
-  animation: logoDrawOuter 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 480ms forwards;
-}
-
-.lm-h-divider.animate {
-  animation: logoFadeIn 250ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1600ms forwards;
-}
-
-.lm-wordmark.animate {
-  animation: logoWordmarkH 600ms cubic-bezier(0.16, 1, 0.3, 1) 1800ms forwards;
-}
-
-.lm-subtitle.animate {
-  animation: logoFadeIn 400ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 2200ms forwards;
-}
-
-.lm-v-rule.animate {
-  animation: logoRuleScale 250ms cubic-bezier(0.0, 0.0, 0.2, 1.0) 1600ms forwards;
-  transform-origin: center;
-}
-
-.lm-v-wordmark.animate {
-  animation: logoWordmarkV 600ms cubic-bezier(0.16, 1, 0.3, 1) 1850ms forwards;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  svg.lm-symbol.animate .lm-line,
-  svg.lm-symbol.animate .lm-inner,
-  svg.lm-symbol.animate .lm-outer,
-  .lm-h-divider.animate,
-  .lm-wordmark.animate,
-  .lm-subtitle.animate,
-  .lm-v-rule.animate,
-  .lm-v-wordmark.animate {
-    animation-duration: 0.01s !important;
-    animation-delay: 0ms !important;
-  }
-}
-
-.reduced-motion svg.lm-symbol.animate .lm-line,
-.reduced-motion svg.lm-symbol.animate .lm-inner,
-.reduced-motion svg.lm-symbol.animate .lm-outer,
-.reduced-motion .lm-h-divider.animate,
-.reduced-motion .lm-wordmark.animate,
-.reduced-motion .lm-subtitle.animate,
-.reduced-motion .lm-v-rule.animate,
-.reduced-motion .lm-v-wordmark.animate {
-  animation-duration: 0.01s !important;
-  animation-delay: 0ms !important;
 }
 
 /* ─── Horizontal lockup elements ─── */
@@ -1584,7 +1478,6 @@ svg.lm-symbol.animate .lm-outer {
   width: 1px;
   height: 40px;
   background: var(--color-slate);
-  opacity: 0;
   flex-shrink: 0;
 }
 
@@ -1601,7 +1494,6 @@ svg.lm-symbol.animate .lm-outer {
   letter-spacing: 12px;
   color: var(--color-offwhite);
   line-height: 1;
-  opacity: 0;
 }
 
 .lm-wordmark--light {
@@ -1614,7 +1506,6 @@ svg.lm-symbol.animate .lm-outer {
   letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--color-crimson-text);
-  opacity: 0;
 }
 
 .lm-subtitle--light {
@@ -1634,8 +1525,6 @@ svg.lm-symbol.animate .lm-outer {
   height: 1px;
   background: var(--color-crimson);
   transform-origin: center;
-  transform: scaleX(0);
-  opacity: 0;
 }
 
 .lm-v-wordmark {
@@ -1646,7 +1535,6 @@ svg.lm-symbol.animate .lm-outer {
   text-transform: uppercase;
   color: var(--color-offwhite);
   line-height: 1;
-  opacity: 0;
 }
 
 .lm-v-wordmark--light {

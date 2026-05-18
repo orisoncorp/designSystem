@@ -677,33 +677,86 @@ dndDont3?.addEventListener('click', () => {
 
 /* ════════════════════════════════════════════
    LOGO MOTION — Section 28 (concept: "Incisão")
-   Strategy: pure CSS animations via .animate class.
-   JS resets stroke-dashoffset via setAttribute to guarantee clean re-trigger.
+   Strategy: JavaScript timeouts and inline styles.
+   CSS only owns layout and initial hidden state.
    ════════════════════════════════════════════ */
 
-/* Garantia de estado inicial limpo — remove .animate de qualquer elemento da
-   seção 28 que possa ter ficado no DOM por HMR ou navegação sem reload. */
-document.querySelectorAll(
-  '#sec-logo-motion .lm-symbol, ' +
-  '#sec-logo-motion .lm-h-divider, ' +
-  '#sec-logo-motion .lm-wordmark, ' +
-  '#sec-logo-motion .lm-subtitle, ' +
-  '#sec-logo-motion .lm-v-rule, ' +
-  '#sec-logo-motion .lm-v-wordmark'
-).forEach(el => el.classList.remove('animate'));
-
-function lmFireSymbol(svgEl) {
-  svgEl.classList.remove('animate');
-  svgEl.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', '289.03'));
-  svgEl.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', '182.21'));
-  void svgEl.getBoundingClientRect();
-  svgEl.classList.add('animate');
+// Logo Motion - Section 28 - JS animation
+function lmAnimate(el, props, duration, easing, delay) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      el.style.transition = Object.keys(props).map(p =>
+        `${p.replace(/[A-Z]/g, match => '-' + match.toLowerCase())} ${duration}ms ${easing}`
+      ).join(', ');
+      Object.entries(props).forEach(([prop, value]) => {
+        if (prop === 'stroke-dashoffset') {
+          el.setAttribute('stroke-dashoffset', value);
+          el.style.strokeDashoffset = value;
+        } else {
+          el.style[prop] = value;
+        }
+      });
+      setTimeout(resolve, duration);
+    }, delay);
+  });
 }
 
-function lmResetSymbol(svgEl) {
-  svgEl.classList.remove('animate');
-  svgEl.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', '289.03'));
-  svgEl.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', '182.21'));
+function lmResetElement(el, props) {
+  el.style.transition = 'none';
+  Object.entries(props).forEach(([prop, value]) => {
+    if (prop === 'stroke-dashoffset') {
+      el.setAttribute('stroke-dashoffset', value);
+      el.style.strokeDashoffset = value;
+    } else {
+      el.style[prop] = value;
+    }
+  });
+}
+
+function lmFireSymbol(svgEl) {
+  const outer = svgEl.querySelector('.lm-outer');
+  const inner = svgEl.querySelector('.lm-inner');
+  const line = svgEl.querySelector('.lm-line');
+
+  lmResetElement(line, { opacity: '0', transform: 'scaleY(0)' });
+  lmResetElement(inner, { opacity: '0', 'stroke-dashoffset': '182.21' });
+  lmResetElement(outer, { opacity: '0', 'stroke-dashoffset': '289.03' });
+
+  void svgEl.getBoundingClientRect();
+
+  lmAnimate(line, {
+    opacity: '0.9',
+    transform: 'scaleY(1)'
+  }, 80, 'cubic-bezier(0.0, 0.0, 0.2, 1.0)', 0);
+
+  lmAnimate(inner, {
+    opacity: '0.28',
+    'stroke-dashoffset': '0'
+  }, 900, 'cubic-bezier(0.25, 0.1, 0.25, 1.0)', 280);
+
+  lmAnimate(outer, {
+    opacity: '1',
+    'stroke-dashoffset': '0'
+  }, 900, 'cubic-bezier(0.25, 0.1, 0.25, 1.0)', 480);
+
+  setTimeout(() => {
+    line.style.transition = 'opacity 100ms cubic-bezier(0.4, 0.0, 0.2, 1.0)';
+    line.style.opacity = '0.5';
+    setTimeout(() => {
+      line.style.transition = 'opacity 100ms cubic-bezier(0.4, 0.0, 0.2, 1.0)';
+      line.style.opacity = '0.9';
+    }, 100);
+  }, 1380);
+}
+
+function lmResetAll(svgEl) {
+  const outer = svgEl.querySelector('.lm-outer');
+  const inner = svgEl.querySelector('.lm-inner');
+  const line = svgEl.querySelector('.lm-line');
+
+  lmResetElement(line, { opacity: '0', transform: 'scaleY(0)' });
+  lmResetElement(inner, { opacity: '0', 'stroke-dashoffset': '182.21' });
+  lmResetElement(outer, { opacity: '0', 'stroke-dashoffset': '289.03' });
 }
 
 function lmFireVariant(variant) {
@@ -711,49 +764,47 @@ function lmFireVariant(variant) {
     lmFireSymbol(document.getElementById('lm-symbol-a'));
   }
   else if (variant === 'horizontal') {
-    const svg = document.getElementById('lm-symbol-b');
-    lmFireSymbol(svg);
-    const stage = document.getElementById('lm-stage-horizontal');
-    stage.querySelectorAll('.lm-h-divider, .lm-wordmark, .lm-subtitle').forEach(el => {
-      el.classList.remove('animate');
-      void el.getBoundingClientRect();
-      el.classList.add('animate');
-    });
+    lmFireSymbol(document.getElementById('lm-symbol-b'));
+    const div = document.getElementById('lm-h-divider');
+    const wm = document.getElementById('lm-h-wordmark');
+    const st = document.getElementById('lm-h-subtitle');
+
+    lmResetElement(div, { opacity: '0' });
+    lmResetElement(wm, { opacity: '0', letterSpacing: '12px' });
+    lmResetElement(st, { opacity: '0' });
+
+    lmAnimate(div, { opacity: '1' }, 250, 'cubic-bezier(0.4, 0.0, 0.2, 1.0)', 1600);
+    lmAnimate(wm, { opacity: '1', letterSpacing: '6px' }, 600, 'cubic-bezier(0.16, 1, 0.3, 1)', 1800);
+    lmAnimate(st, { opacity: '1' }, 400, 'cubic-bezier(0.4, 0.0, 0.2, 1.0)', 2200);
   }
   else if (variant === 'vertical') {
-    const svg = document.getElementById('lm-symbol-c');
-    lmFireSymbol(svg);
-    const stage = document.getElementById('lm-stage-vertical');
-    stage.querySelectorAll('.lm-v-rule, .lm-v-wordmark').forEach(el => {
-      el.classList.remove('animate');
-      void el.getBoundingClientRect();
-      el.classList.add('animate');
-    });
+    lmFireSymbol(document.getElementById('lm-symbol-c'));
+    const rl = document.getElementById('lm-v-rule');
+    const wm = document.getElementById('lm-v-wordmark');
+
+    lmResetElement(rl, { opacity: '0', transform: 'scaleX(0)' });
+    lmResetElement(wm, { opacity: '0', letterSpacing: '14px' });
+
+    lmAnimate(rl, { opacity: '1', transform: 'scaleX(1)' }, 250, 'cubic-bezier(0.0, 0.0, 0.2, 1.0)', 1600);
+    lmAnimate(wm, { opacity: '1', letterSpacing: '8px' }, 600, 'cubic-bezier(0.16, 1, 0.3, 1)', 1850);
   }
 }
 
 function lmResetVariant(variant) {
-  const configs = {
-    symbol:     { svgId: 'lm-symbol-a', extras: [] },
-    horizontal: { svgId: 'lm-symbol-b', extras: ['lm-h-divider', 'lm-h-wordmark', 'lm-h-subtitle'] },
-    vertical:   { svgId: 'lm-symbol-c', extras: ['lm-v-rule', 'lm-v-wordmark'] },
-  };
-
-  const cfg = configs[variant];
-  const svg = document.getElementById(cfg.svgId);
-
-  svg.classList.remove('animate');
-  svg.querySelectorAll('.lm-outer').forEach(c => c.setAttribute('stroke-dashoffset', c.getAttribute('stroke-dasharray')));
-  svg.querySelectorAll('.lm-inner').forEach(c => c.setAttribute('stroke-dashoffset', c.getAttribute('stroke-dasharray')));
-  svg.querySelectorAll('.lm-outer, .lm-inner, .lm-line').forEach(el => el.removeAttribute('style'));
-
-  cfg.extras.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.classList.remove('animate');
-      el.removeAttribute('style');
-    }
-  });
+  if (variant === 'symbol') {
+    lmResetAll(document.getElementById('lm-symbol-a'));
+  }
+  else if (variant === 'horizontal') {
+    lmResetAll(document.getElementById('lm-symbol-b'));
+    lmResetElement(document.getElementById('lm-h-divider'), { opacity: '0' });
+    lmResetElement(document.getElementById('lm-h-wordmark'), { opacity: '0', letterSpacing: '12px' });
+    lmResetElement(document.getElementById('lm-h-subtitle'), { opacity: '0' });
+  }
+  else if (variant === 'vertical') {
+    lmResetAll(document.getElementById('lm-symbol-c'));
+    lmResetElement(document.getElementById('lm-v-rule'), { opacity: '0', transform: 'scaleX(0)' });
+    lmResetElement(document.getElementById('lm-v-wordmark'), { opacity: '0', letterSpacing: '14px' });
+  }
 }
 
 document.querySelectorAll('[data-lm-fire]').forEach(btn => {
@@ -771,8 +822,19 @@ document.querySelectorAll('[data-lm-theme]').forEach(btn => {
                     variant === 'horizontal' ? 'lm-stage-horizontal' : 'lm-stage-vertical';
     const stage = document.getElementById(stageId);
     if (stage) {
-      stage.classList.toggle('lm-stage-inner--light');
-      btn.textContent = stage.classList.contains('lm-stage-inner--light') ? 'Fundo escuro' : 'Fundo claro';
+      stage.classList.toggle('lm-light');
+      btn.textContent = stage.classList.contains('lm-light') ? 'Fundo escuro' : 'Fundo claro';
     }
   });
 });
+
+setTimeout(() => {
+  document.querySelectorAll('#sec-logo-motion .lm-outer, #sec-logo-motion .lm-inner, #sec-logo-motion .lm-line').forEach(el => {
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+  });
+  document.querySelectorAll('#sec-logo-motion .lm-h-divider, #sec-logo-motion .lm-wordmark, #sec-logo-motion .lm-subtitle, #sec-logo-motion .lm-v-rule, #sec-logo-motion .lm-v-wordmark').forEach(el => {
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+  });
+}, 100);
