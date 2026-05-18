@@ -38,46 +38,20 @@
         </div>
 
         <div class="lm-stage-inner" id="lm-stage-symbol">
-          <!--
-            Inline SVG: NO style="" on animatable elements.
-            transform-box/transform-origin controlled entirely via CSS (.lm-line).
-            stroke-dasharray/offset set as SVG presentation attributes (initial state)
-            then overridden by JS via setAttribute() — no inline style conflict.
-            Rotation for circle start point uses SVG transform attribute (not CSS),
-            which is immune to the transform-box issue.
-          -->
-          <svg class="lm-svg" id="lm-svg-symbol" width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison animado">
-            <line
-              id="lm-s-line"
-              class="lm-line"
-              x1="55" y1="9" x2="55" y2="101"
-              stroke="#8B1A1A"
-              stroke-width="1.8"
-              opacity="0.9"
-            />
-            <circle
-              id="lm-s-inner"
-              class="lm-circle"
-              cx="55" cy="55" r="29"
-              stroke="currentColor"
-              stroke-width="0.9"
-              fill="none"
-              opacity="0.28"
-              stroke-dasharray="182.21"
-              stroke-dashoffset="182.21"
-              transform="rotate(-90 55 55)"
-            />
-            <circle
-              id="lm-s-outer"
-              class="lm-circle"
-              cx="55" cy="55" r="46"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-dasharray="289.03"
-              stroke-dashoffset="289.03"
-              transform="rotate(-90 55 55)"
-            />
+          <svg class="lm-symbol" id="lm-symbol-a"
+               width="110" height="110" viewBox="0 0 110 110"
+               role="img" aria-label="Símbolo Orison animado">
+            <circle class="lm-outer" cx="55" cy="55" r="46"
+                    fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-dasharray="289.03" stroke-dashoffset="289.03"
+                    transform="rotate(-90 55 55)"/>
+            <circle class="lm-inner" cx="55" cy="55" r="29"
+                    fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.28"
+                    stroke-dasharray="182.21" stroke-dashoffset="182.21"
+                    transform="rotate(-90 55 55)"/>
+            <line class="lm-line"
+                  x1="55" y1="9" x2="55" y2="101"
+                  stroke="#8B1A1A" stroke-width="1.8" opacity="0.9"/>
           </svg>
         </div>
 
@@ -98,38 +72,20 @@
 
         <div class="lm-stage-inner" id="lm-stage-horizontal">
           <div class="lm-h-lockup">
-            <svg class="lm-svg" id="lm-svg-horizontal" width="70" height="70" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison" style="flex-shrink: 0;">
-              <line
-                id="lm-h-line"
-                class="lm-line"
-                x1="55" y1="9" x2="55" y2="101"
-                stroke="#8B1A1A"
-                stroke-width="1.8"
-                opacity="0.9"
-              />
-              <circle
-                id="lm-h-inner"
-                class="lm-circle"
-                cx="55" cy="55" r="29"
-                stroke="currentColor"
-                stroke-width="0.9"
-                fill="none"
-                opacity="0.28"
-                stroke-dasharray="182.21"
-                stroke-dashoffset="182.21"
-                transform="rotate(-90 55 55)"
-              />
-              <circle
-                id="lm-h-outer"
-                class="lm-circle"
-                cx="55" cy="55" r="46"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-dasharray="289.03"
-                stroke-dashoffset="289.03"
-                transform="rotate(-90 55 55)"
-              />
+            <svg class="lm-symbol" id="lm-symbol-b"
+                 width="70" height="70" viewBox="0 0 110 110"
+                 role="img" aria-label="Símbolo Orison" style="flex-shrink:0">
+              <circle class="lm-outer" cx="55" cy="55" r="46"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-dasharray="289.03" stroke-dashoffset="289.03"
+                      transform="rotate(-90 55 55)"/>
+              <circle class="lm-inner" cx="55" cy="55" r="29"
+                      fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.28"
+                      stroke-dasharray="182.21" stroke-dashoffset="182.21"
+                      transform="rotate(-90 55 55)"/>
+              <line class="lm-line"
+                    x1="55" y1="9" x2="55" y2="101"
+                    stroke="#8B1A1A" stroke-width="1.8" opacity="0.9"/>
             </svg>
 
             <!-- Divider: Beat 6 -->
@@ -160,38 +116,20 @@
 
         <div class="lm-stage-inner" id="lm-stage-vertical">
           <div class="lm-v-lockup">
-            <svg class="lm-svg" id="lm-svg-vertical" width="80" height="80" viewBox="0 0 110 110" role="img" aria-label="Símbolo Orison">
-              <line
-                id="lm-v-line"
-                class="lm-line"
-                x1="55" y1="9" x2="55" y2="101"
-                stroke="#8B1A1A"
-                stroke-width="1.8"
-                opacity="0.9"
-              />
-              <circle
-                id="lm-v-inner"
-                class="lm-circle"
-                cx="55" cy="55" r="29"
-                stroke="currentColor"
-                stroke-width="0.9"
-                fill="none"
-                opacity="0.28"
-                stroke-dasharray="182.21"
-                stroke-dashoffset="182.21"
-                transform="rotate(-90 55 55)"
-              />
-              <circle
-                id="lm-v-outer"
-                class="lm-circle"
-                cx="55" cy="55" r="46"
-                stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-dasharray="289.03"
-                stroke-dashoffset="289.03"
-                transform="rotate(-90 55 55)"
-              />
+            <svg class="lm-symbol" id="lm-symbol-c"
+                 width="80" height="80" viewBox="0 0 110 110"
+                 role="img" aria-label="Símbolo Orison">
+              <circle class="lm-outer" cx="55" cy="55" r="46"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-dasharray="289.03" stroke-dashoffset="289.03"
+                      transform="rotate(-90 55 55)"/>
+              <circle class="lm-inner" cx="55" cy="55" r="29"
+                      fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.28"
+                      stroke-dasharray="182.21" stroke-dashoffset="182.21"
+                      transform="rotate(-90 55 55)"/>
+              <line class="lm-line"
+                    x1="55" y1="9" x2="55" y2="101"
+                    stroke="#8B1A1A" stroke-width="1.8" opacity="0.9"/>
             </svg>
 
             <!-- Horizontal rule: Beat 6v -->

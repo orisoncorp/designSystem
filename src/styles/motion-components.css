@@ -1277,6 +1277,7 @@
 
 /* ══════════════════════════════════════════
    LOGO MOTION — Section 28
+   All animation state lives here. JS only adds/removes .animate on .lm-symbol.
    ══════════════════════════════════════════ */
 
 /* ─── Section wrapper ─── */
@@ -1446,32 +1447,61 @@
   color: var(--text-muted);
 }
 
-/* ─── The inline SVG for animation ─── */
-.lm-svg {
+/* ─── SVG symbol container ─── */
+.lm-symbol {
   overflow: visible;
-}
-
-/* ─── SVG color default (dark theme) ─── */
-.lm-svg {
   color: var(--color-offwhite);
 }
 
-/* ─── Line element — scaleY from center ─── */
-/* transform-box: fill-box → transform-origin is relative to the element's
-   own bounding box, not the SVG viewport. Required in SVG or scaleY origin
-   is wrong and the browser sees no delta to animate. */
-.lm-line {
+/* ─── SVG child elements — initial (hidden) state ─── */
+
+/* Line: hidden via scaleY(0). transform-box:fill-box makes transform-origin
+   relative to the line's own bbox so scaleY grows from true center, not the
+   SVG viewport center. Required — without it the browser sees no animatable
+   delta and the element jumps to final state instantly. */
+.lm-symbol .lm-line {
   transform-box: fill-box;
   transform-origin: center;
   transform: scaleY(0);
 }
 
-/* ─── Circles — initial state hidden via dashoffset (presentation attributes
-   in HTML; these CSS rules are a fallback / reset anchor used by JS) ─── */
-.lm-circle {
-  /* No CSS dashoffset here — controlled exclusively via SVG attributes + JS setAttribute.
-     Mixing CSS and presentation-attribute cascade causes specificity conflicts. */
+/* Circles: hidden via stroke-dashoffset matching stroke-dasharray (set as
+   SVG presentation attributes in the HTML). CSS animations below override
+   the presentation attribute value with a keyframe at 0% = same value,
+   ensuring the browser has a clean from→to delta to interpolate. */
+.lm-symbol .lm-inner,
+.lm-symbol .lm-outer {
+  /* initial dashoffset set as SVG attribute in HTML — CSS animation
+     keyframes repeat the value at 0% to anchor the start correctly */
 }
+
+/* ── Animated state: .lm-symbol.animate triggers all beats ── */
+
+/* Line: Beat 1 (incision 80ms) + Beat 5 (settle 200ms @ 1380ms) */
+.lm-symbol.animate .lm-line {
+  animation:
+    logoIncision 80ms  cubic-bezier(0.0, 0.0, 0.2, 1.0) 0ms    both,
+    logoSettle   200ms cubic-bezier(0.4, 0.0, 0.2, 1.0) 1380ms both;
+}
+
+/* Beat 3 — Inner circle draws (900ms · enter · delay 280ms) */
+.lm-symbol.animate .lm-inner {
+  animation: logoInnerDraw 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 280ms both;
+}
+
+/* Beat 4 — Outer circle draws (900ms · enter · delay 480ms) */
+.lm-symbol.animate .lm-outer {
+  animation: logoOuterDraw 900ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 480ms both;
+}
+
+/* ─── Reduced-motion override: everything jumps to final state instantly ─── */
+@media (prefers-reduced-motion: reduce) {
+  .lm-symbol.animate .lm-line  { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+  .lm-symbol.animate .lm-inner { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+  .lm-symbol.animate .lm-outer { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+}
+
+/* JS also checks .reduced-motion class on <html> — handled in JS fire handler */
 
 /* ─── Horizontal lockup elements ─── */
 .lm-h-lockup {

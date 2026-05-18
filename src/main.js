@@ -677,6 +677,8 @@ dndDont3?.addEventListener('click', () => {
 
 /* ════════════════════════════════════════════
    LOGO MOTION — Section 28 (concept: "Incisão")
+   Strategy: all animation defined in CSS via .lm-symbol.animate class.
+   JS only toggles that class + handles lockup extras via style transitions.
    ════════════════════════════════════════════ */
 
 const LM_EASING = {
@@ -687,12 +689,9 @@ const LM_EASING = {
 };
 
 const LM_DUR = {
-  instant:  80,
-  fast:     150,
   base:     250,
-  moderate: 400,
   slow:     600,
-  dramatic: 900,
+  moderate: 400,
 };
 
 function isReducedMotion() {
@@ -700,124 +699,44 @@ function isReducedMotion() {
     || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/* ── Core symbol animation (3 SVG elements) ──
-   line    = Beat 1 (incision)
-   inner   = Beat 3 (inner circle draw)
-   outer   = Beat 4 (outer circle draw)
-   Returns a promise that resolves after Beat 5 (settle) completes.
-*/
-function animateSymbol(lineEl, innerEl, outerEl) {
+/* ── Fire symbol: remove .animate, force reflow, re-add .animate.
+   Returns a promise that resolves after Beat 5 settle completes (~1580ms).
+   Reduced-motion: adds a data attribute that collapses CSS durations to 0ms. ── */
+function fireSymbol(svgEl) {
   return new Promise(resolve => {
+    svgEl.classList.remove('animate');
+    void svgEl.getBoundingClientRect(); // force reflow so removal is committed
+    svgEl.classList.add('animate');
+
     if (isReducedMotion()) {
-      lineEl.style.transition = 'none';
-      lineEl.style.transform = 'scaleY(1)';
-      lineEl.style.opacity = '0.9';
-      innerEl.style.transition = 'none';
-      innerEl.setAttribute('stroke-dashoffset', '0');
-      outerEl.style.transition = 'none';
-      outerEl.setAttribute('stroke-dashoffset', '0');
       resolve();
       return;
     }
-
-    // ── Phase 1: hard-reset to initial state (no transitions) ──
-    lineEl.style.transition = 'none';
-    lineEl.style.transform = 'scaleY(0)';
-    lineEl.style.opacity = '0.9';
-    innerEl.style.transition = 'none';
-    innerEl.setAttribute('stroke-dashoffset', '182.21');
-    outerEl.style.transition = 'none';
-    outerEl.setAttribute('stroke-dashoffset', '289.03');
-
-    // ── Phase 2: double-rAF guarantees the reset frame has been painted
-    //    before we attach transitions. A single rAF fires in the same frame
-    //    as the style change; the second rAF fires after the browser commits
-    //    the new computed styles to the render tree. ──
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-
-        // Beat 1 — Incision: line grows from center (80ms, micro easing)
-        lineEl.style.transition = `transform ${LM_DUR.instant}ms ${LM_EASING.micro}`;
-        lineEl.style.transform = 'scaleY(1)';
-
-        // Beat 3 — Inner circle draws (900ms, enter), delay 280ms from now
-        const t3 = LM_DUR.instant + 200; // 280ms
-        setTimeout(() => {
-          innerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
-          innerEl.setAttribute('stroke-dashoffset', '0');
-        }, t3);
-
-        // Beat 4 — Outer circle draws (900ms, enter), 200ms after Beat 3 = 480ms
-        const t4 = t3 + 200;
-        setTimeout(() => {
-          outerEl.style.transition = `stroke-dashoffset ${LM_DUR.dramatic}ms ${LM_EASING.enter}`;
-          outerEl.setAttribute('stroke-dashoffset', '0');
-        }, t4);
-
-        // Beat 5 — Settle pulse on line (opacity 0.9→0.55→0.9), starts when
-        // outer circle finishes: 480 + 900 = 1380ms
-        const t5 = t4 + LM_DUR.dramatic;
-        setTimeout(() => {
-          lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
-          lineEl.style.opacity = '0.55';
-          setTimeout(() => {
-            lineEl.style.transition = `opacity 100ms ${LM_EASING.state}`;
-            lineEl.style.opacity = '0.9';
-            setTimeout(resolve, 100);
-          }, 100);
-        }, t5);
-
-      });
-    });
+    // Beats 1–5 complete at ~1580ms total
+    setTimeout(resolve, 1580);
   });
 }
 
-/* ── Reset a symbol SVG to initial state (sync, no transitions) ── */
-function resetSymbolEls(lineEl, innerEl, outerEl) {
-  lineEl.style.transition = 'none';
-  lineEl.style.transform = 'scaleY(0)';
-  lineEl.style.opacity = '0.9';
-  innerEl.style.transition = 'none';
-  innerEl.setAttribute('stroke-dashoffset', '182.21');
-  outerEl.style.transition = 'none';
-  outerEl.setAttribute('stroke-dashoffset', '289.03');
+/* ── Reset symbol: remove .animate so CSS initial state takes effect ── */
+function resetSymbol(svgEl) {
+  svgEl.classList.remove('animate');
 }
 
 /* ── Theme toggle ── */
-function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerEl, vRuleEl, vWordmarkEl) {
+function applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, dividerEl, vWordEl) {
   const isLight = theme === 'light';
-  stageInner.classList.toggle('lm-stage-inner--light', isLight);
-
-  if (svgEl) {
-    svgEl.style.color = isLight ? 'var(--color-midnight)' : 'var(--color-offwhite)';
-  }
-  if (wordmarkEl) {
-    wordmarkEl.classList.toggle('lm-wordmark--light', isLight);
-    wordmarkEl.style.color = isLight ? 'var(--color-midnight)' : '';
-  }
-  if (subtitleEl) {
-    subtitleEl.classList.toggle('lm-subtitle--light', isLight);
-  }
-  if (dividerEl) {
-    dividerEl.style.background = isLight ? 'var(--color-slate)' : '';
-  }
-  if (vRuleEl) {
-    // crimson rule stays crimson on both themes
-  }
-  if (vWordmarkEl) {
-    vWordmarkEl.classList.toggle('lm-v-wordmark--light', isLight);
-    vWordmarkEl.style.color = isLight ? 'var(--color-midnight)' : '';
-  }
+  stageEl.classList.toggle('lm-stage-inner--light', isLight);
+  svgEl.style.color = isLight ? 'var(--color-midnight)' : '';
+  if (wordmarkEl) wordmarkEl.classList.toggle('lm-wordmark--light', isLight);
+  if (subtitleEl) subtitleEl.classList.toggle('lm-subtitle--light', isLight);
+  if (vWordEl)    vWordEl.classList.toggle('lm-v-wordmark--light', isLight);
 }
 
 /* ── Variation 1: Symbol ── */
 (function setupLogoSymbol() {
-  const lineEl  = document.getElementById('lm-s-line');
-  const innerEl = document.getElementById('lm-s-inner');
-  const outerEl = document.getElementById('lm-s-outer');
+  const svgEl   = document.getElementById('lm-symbol-a');
   const stageEl = document.getElementById('lm-stage-symbol');
-  const svgEl   = document.getElementById('lm-svg-symbol');
-  if (!lineEl || !innerEl || !outerEl) return;
+  if (!svgEl) return;
 
   let running = false;
   let theme = 'dark';
@@ -825,13 +744,12 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
   document.querySelector('[data-lm-fire="symbol"]')?.addEventListener('click', () => {
     if (running) return;
     running = true;
-    // Reset is done inside animateSymbol (phase 1), then double-rAF before animating
-    animateSymbol(lineEl, innerEl, outerEl).then(() => { running = false; });
+    fireSymbol(svgEl).then(() => { running = false; });
   });
 
   document.querySelector('[data-lm-reset="symbol"]')?.addEventListener('click', () => {
     running = false;
-    resetSymbolEls(lineEl, innerEl, outerEl);
+    resetSymbol(svgEl);
   });
 
   document.querySelector('[data-lm-theme="symbol"]')?.addEventListener('click', function() {
@@ -843,15 +761,12 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
 
 /* ── Variation 2: Lockup Horizontal ── */
 (function setupLogoHorizontal() {
-  const lineEl     = document.getElementById('lm-h-line');
-  const innerEl    = document.getElementById('lm-h-inner');
-  const outerEl    = document.getElementById('lm-h-outer');
+  const svgEl      = document.getElementById('lm-symbol-b');
   const dividerEl  = document.getElementById('lm-h-divider');
   const wordmarkEl = document.getElementById('lm-h-wordmark');
   const subtitleEl = document.getElementById('lm-h-subtitle');
   const stageEl    = document.getElementById('lm-stage-horizontal');
-  const svgEl      = document.getElementById('lm-svg-horizontal');
-  if (!lineEl || !innerEl || !outerEl) return;
+  if (!svgEl) return;
 
   let running = false;
   let theme = 'dark';
@@ -865,9 +780,9 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
   document.querySelector('[data-lm-fire="horizontal"]')?.addEventListener('click', () => {
     if (running) return;
     running = true;
-    resetHExtras(); // reset lockup extras immediately (symbol reset is inside animateSymbol)
+    resetHExtras();
 
-    animateSymbol(lineEl, innerEl, outerEl).then(() => {
+    fireSymbol(svgEl).then(() => {
       if (isReducedMotion()) {
         if (dividerEl)  { dividerEl.style.transition  = 'none'; dividerEl.style.opacity      = '1'; }
         if (wordmarkEl) { wordmarkEl.style.transition  = 'none'; wordmarkEl.style.opacity     = '1'; wordmarkEl.style.letterSpacing = '6px'; }
@@ -876,13 +791,12 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
         return;
       }
 
-      // Beat 6 — Divider fade (250ms, state)
+      // Beat 6 — Divider fade (250ms · state)
       if (dividerEl) {
         dividerEl.style.transition = `opacity ${LM_DUR.base}ms ${LM_EASING.state}`;
         dividerEl.style.opacity = '1';
       }
-
-      // Beat 7 — Wordmark converge (600ms, emphasis), 200ms after beat 6
+      // Beat 7 — Wordmark converge (600ms · emphasis · delay 200ms after beat 6)
       setTimeout(() => {
         if (wordmarkEl) {
           wordmarkEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
@@ -890,8 +804,7 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
           wordmarkEl.style.letterSpacing = '6px';
         }
       }, 200);
-
-      // Beat 8 — Subtitle fade (400ms, state), 600ms after beat 6
+      // Beat 8 — Subtitle fade (400ms · state · delay 600ms after beat 6)
       setTimeout(() => {
         if (subtitleEl) {
           subtitleEl.style.transition = `opacity ${LM_DUR.moderate}ms ${LM_EASING.state}`;
@@ -904,27 +817,24 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
 
   document.querySelector('[data-lm-reset="horizontal"]')?.addEventListener('click', () => {
     running = false;
-    resetSymbolEls(lineEl, innerEl, outerEl);
+    resetSymbol(svgEl);
     resetHExtras();
   });
 
   document.querySelector('[data-lm-theme="horizontal"]')?.addEventListener('click', function() {
     theme = theme === 'dark' ? 'light' : 'dark';
     this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
-    applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, dividerEl);
+    applyLmTheme(stageEl, svgEl, theme, wordmarkEl, subtitleEl, null);
   });
 })();
 
 /* ── Variation 3: Lockup Vertical ── */
 (function setupLogoVertical() {
-  const lineEl  = document.getElementById('lm-v-line');
-  const innerEl = document.getElementById('lm-v-inner');
-  const outerEl = document.getElementById('lm-v-outer');
+  const svgEl   = document.getElementById('lm-symbol-c');
   const vRuleEl = document.getElementById('lm-v-rule');
   const vWordEl = document.getElementById('lm-v-wordmark');
   const stageEl = document.getElementById('lm-stage-vertical');
-  const svgEl   = document.getElementById('lm-svg-vertical');
-  if (!lineEl || !innerEl || !outerEl) return;
+  if (!svgEl) return;
 
   let running = false;
   let theme = 'dark';
@@ -939,7 +849,7 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
     running = true;
     resetVExtras();
 
-    animateSymbol(lineEl, innerEl, outerEl).then(() => {
+    fireSymbol(svgEl).then(() => {
       if (isReducedMotion()) {
         if (vRuleEl) { vRuleEl.style.transition = 'none'; vRuleEl.style.transform = 'scaleX(1)'; vRuleEl.style.opacity = '1'; }
         if (vWordEl) { vWordEl.style.transition = 'none'; vWordEl.style.opacity   = '1'; vWordEl.style.letterSpacing = '8px'; }
@@ -947,14 +857,13 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
         return;
       }
 
-      // Beat 6v — Horizontal rule grows from center (250ms, micro)
+      // Beat 6v — Horizontal rule grows from center (250ms · micro)
       if (vRuleEl) {
         vRuleEl.style.transition = `transform ${LM_DUR.base}ms ${LM_EASING.micro}, opacity ${LM_DUR.base}ms ${LM_EASING.micro}`;
         vRuleEl.style.transform = 'scaleX(1)';
         vRuleEl.style.opacity = '1';
       }
-
-      // Beat 7v — Wordmark converge (600ms, emphasis), after rule (250ms)
+      // Beat 7v — Wordmark converge (600ms · emphasis · after rule)
       setTimeout(() => {
         if (vWordEl) {
           vWordEl.style.transition = `opacity ${LM_DUR.slow}ms ${LM_EASING.emphasis}, letter-spacing ${LM_DUR.slow}ms ${LM_EASING.emphasis}`;
@@ -968,13 +877,13 @@ function applyLmTheme(stageInner, svgEl, theme, wordmarkEl, subtitleEl, dividerE
 
   document.querySelector('[data-lm-reset="vertical"]')?.addEventListener('click', () => {
     running = false;
-    resetSymbolEls(lineEl, innerEl, outerEl);
+    resetSymbol(svgEl);
     resetVExtras();
   });
 
   document.querySelector('[data-lm-theme="vertical"]')?.addEventListener('click', function() {
     theme = theme === 'dark' ? 'light' : 'dark';
     this.textContent = theme === 'light' ? 'Fundo escuro' : 'Fundo claro';
-    applyLmTheme(stageEl, svgEl, theme, null, null, null, null, vWordEl);
+    applyLmTheme(stageEl, svgEl, theme, null, null, null, vWordEl);
   });
 })();
