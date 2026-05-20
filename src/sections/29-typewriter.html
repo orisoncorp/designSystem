@@ -10,7 +10,7 @@
       <span class="tw-block-title">Micro-Typewriter</span>
       <p class="tw-block-sub">
         Texto escrito caractere por caractere com cursor crimson pulsante.
-        Delay constante (30ms) — a Orison é máquina, não simula humanidade.
+        Delay constante — a Orison é máquina, não simula humanidade.
       </p>
     </div>
 
@@ -23,13 +23,19 @@
           <button class="tw-ctrl-btn" data-tw-reset="display">Reset</button>
         </div>
       </div>
+      <div class="tw-speed-controls">
+        <span class="tw-speed-label">Velocidade</span>
+        <button class="tw-speed-btn" data-tw-speed="display" data-speed="slow">SLOW · 80MS</button>
+        <button class="tw-speed-btn tw-speed-btn--active" data-tw-speed="display" data-speed="default">DEFAULT · 55MS</button>
+        <button class="tw-speed-btn" data-tw-speed="display" data-speed="fast">FAST · 30MS</button>
+      </div>
       <div class="tw-stage tw-stage--display">
         <span class="tw-text" id="tw-display" data-tw-full="Transformação operacional permanente"></span>
       </div>
       <div class="tw-specs">
         <span>Fonte: Cormorant Garamond Light</span>
-        <span>Char delay: 30ms</span>
         <span>Cursor: 2px crimson · blink 530ms</span>
+        <span>Rewrite bidirecional ao reiniciar</span>
       </div>
     </div>
 
@@ -42,13 +48,19 @@
           <button class="tw-ctrl-btn" data-tw-reset="label">Reset</button>
         </div>
       </div>
+      <div class="tw-speed-controls">
+        <span class="tw-speed-label">Velocidade</span>
+        <button class="tw-speed-btn" data-tw-speed="label" data-speed="slow">SLOW · 70MS</button>
+        <button class="tw-speed-btn tw-speed-btn--active" data-tw-speed="label" data-speed="default">DEFAULT · 45MS</button>
+        <button class="tw-speed-btn" data-tw-speed="label" data-speed="fast">FAST · 25MS</button>
+      </div>
       <div class="tw-stage tw-stage--label">
         <span class="tw-text" id="tw-label" data-tw-full="SISTEMA OPERACIONAL"></span>
       </div>
       <div class="tw-specs">
         <span>Fonte: Montserrat 9px uppercase</span>
-        <span>Char delay: 30ms</span>
         <span>Tracking: 5px</span>
+        <span>Cursor: 2px crimson · blink 530ms</span>
       </div>
     </div>
 
@@ -61,12 +73,18 @@
           <button class="tw-ctrl-btn" data-tw-reset="kpi">Reset</button>
         </div>
       </div>
+      <div class="tw-speed-controls">
+        <span class="tw-speed-label">Velocidade</span>
+        <button class="tw-speed-btn" data-tw-speed="kpi" data-speed="slow">SLOW · 80MS</button>
+        <button class="tw-speed-btn tw-speed-btn--active" data-tw-speed="kpi" data-speed="default">DEFAULT · 55MS</button>
+        <button class="tw-speed-btn" data-tw-speed="kpi" data-speed="fast">FAST · 30MS</button>
+      </div>
       <div class="tw-stage tw-stage--kpi">
         <span class="tw-text" id="tw-kpi" data-tw-full="R$ 100.000" data-tw-initial="R$ 47.800">R$ 47.800</span>
       </div>
       <div class="tw-specs">
-        <span>Rewrite: limpa texto antigo → tipa novo</span>
-        <span>Clear delay: 20ms/char (mais rápido que typing)</span>
+        <span>Clear delay: typing × 0.55 (mais rápido)</span>
+        <span>Pausa 300ms antes do clear · 200ms após</span>
         <span>Contexto: Dashboard KPI updates</span>
       </div>
     </div>
@@ -80,13 +98,19 @@
           <button class="tw-ctrl-btn" data-tw-reset="cli">Reset</button>
         </div>
       </div>
+      <div class="tw-speed-controls">
+        <span class="tw-speed-label">Velocidade</span>
+        <button class="tw-speed-btn" data-tw-speed="cli" data-speed="slow">SLOW · 45MS</button>
+        <button class="tw-speed-btn tw-speed-btn--active" data-tw-speed="cli" data-speed="default">DEFAULT · 25MS</button>
+        <button class="tw-speed-btn" data-tw-speed="cli" data-speed="fast">FAST · 15MS</button>
+      </div>
       <div class="tw-stage tw-stage--cli">
         <span class="tw-text" id="tw-cli" data-tw-full="Diagnóstico concluído. 4 processos otimizados. Redução de 38% no tempo de execução."></span>
       </div>
       <div class="tw-specs">
         <span>Fundo: black · Fonte: monospace</span>
-        <span>Char delay: 20ms (Elpis é mais rápido)</span>
         <span>Cursor: crimson · permanece piscando no final</span>
+        <span>Heartbeat do agente ativo</span>
       </div>
     </div>
 
@@ -94,23 +118,23 @@
     <div class="tw-spec-grid">
       <div class="tw-spec-cell">
         <span class="tw-spec-label">Cursor</span>
-        <span class="tw-spec-value">2px × line-height · crimson · blink 530ms step-end</span>
-        <p class="tw-spec-desc">Cursor desaparece 500ms após conclusão com fade de 250ms. No CLI, cursor permanece (heartbeat do agente).</p>
+        <span class="tw-spec-value">2px × line-height · #8B1A1A · blink 530ms</span>
+        <p class="tw-spec-desc">Blink via JS setInterval — imune a CSS cascade. Desaparece 500ms após conclusão com fade 250ms. CLI cursor permanece.</p>
       </div>
       <div class="tw-spec-cell">
-        <span class="tw-spec-label">Timing</span>
-        <span class="tw-spec-value">30ms/char (padrão) · 20ms/char (Elpis) · 20ms/char (clear/rewrite)</span>
-        <p class="tw-spec-desc">Delay constante — sem aleatoriedade. A Orison não simula humanidade. Precisão mecânica.</p>
+        <span class="tw-spec-label">Rewrite</span>
+        <span class="tw-spec-value">cursor → pausa 300ms → clear → pausa 200ms → type</span>
+        <p class="tw-spec-desc">Se há texto: cursor aparece, sistema "lê" por 300ms, limpa char-por-char, pausa, tipa novo. Bidirecional completo.</p>
       </div>
       <div class="tw-spec-cell">
         <span class="tw-spec-label">Limite</span>
         <span class="tw-spec-value">60 caracteres máximo</span>
-        <p class="tw-spec-desc">Headlines, labels, KPIs. NUNCA em body text ou parágrafos. Textos longos perdem o efeito.</p>
+        <p class="tw-spec-desc">Headlines, labels, KPIs. NUNCA em body text ou parágrafos. Textos longos destroem o efeito.</p>
       </div>
       <div class="tw-spec-cell">
         <span class="tw-spec-label">Reduced Motion</span>
         <span class="tw-spec-value">Texto instantâneo · sem cursor · sem typing</span>
-        <p class="tw-spec-desc">Respeita prefers-reduced-motion e classe .reduced-motion.</p>
+        <p class="tw-spec-desc">Respeita prefers-reduced-motion e classe .reduced-motion. Texto aparece no estado final imediatamente.</p>
       </div>
     </div>
 

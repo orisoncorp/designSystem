@@ -231,18 +231,26 @@ molecules:
     properties: "text content, cursor visibility"
     cursor:
       width: "2px"
-      color: "{colors.crimson}"
+      color: "#8B1A1A"
       blink-rate: "530ms"
-      blink-easing: "step-end"
+      blink-method: "JS setInterval (imune a CSS cascade)"
       fade-after: "500ms"
       fade-duration: "250ms"
       fade-easing: "{easing.state}"
     typing:
-      char-delay: 30
-      char-delay-cli: 20
-      clear-delay: 20
-      easing: "linear (stepped)"
+      display-delay: 55
+      label-delay: 45
+      kpi-delay: 55
+      cli-delay: 25
+      clear-ratio: 0.55
       random-delay: false
+    rewrite-sequence:
+      - "cursor aparece no final do texto existente (piscando)"
+      - "pausa 300ms — sistema lê o texto antes de limpar"
+      - "clear: caracteres removidos direita→esquerda (delay × clearRatio)"
+      - "pausa 200ms — cursor pisca sozinho no vazio"
+      - "type: caracteres adicionados esquerda→direita"
+      - "cursor fade out 500ms+250ms (exceto CLI — permanece)"
     max-chars: 60
     contexts:
       - "Headlines display (Cormorant)"
@@ -253,7 +261,7 @@ molecules:
       - "Body text / parágrafos"
       - "Botões / labels de navegação"
       - "Texto que o usuário precisa ler imediatamente"
-    implementation: "JavaScript puro (inline DOM manipulation)"
+    implementation: "JavaScript puro — cursor via JS setInterval, não CSS @keyframes"
 
   # ── Loading States ──
   loading-skeleton:
@@ -1034,25 +1042,36 @@ micro-movimento ascendente para reforçar crescimento sem transformar a
 micro-interaction em celebração.
 
 **Typewriter (`micro-typewriter`):**
-Texto escrito caractere por caractere com cursor vertical crimson pulsante.
-O cursor (2px, cor crimson) pisca a 530ms com `step-end` — sem fade, sem
-transição suave. O blink é binário, mecânico. Ao término da escrita, o cursor
-aguarda 500ms e desaparece com fade de 250ms usando `easing.state`. No contexto
-Elpis/CLI, o cursor permanece piscando indefinidamente como heartbeat do agente.
+Texto escrito caractere por caractere com cursor vertical crimson (#8B1A1A)
+pulsante. O cursor (2px largura × 1.1em altura) pisca via `setInterval` de
+530ms — blink 100% JS, imune a CSS cascade. O blink é binário e mecânico:
+`opacity: 1 → 0 → 1`, sem transição suave entre os estados.
 
-O delay entre caracteres é constante: 30ms no padrão, 20ms no contexto Elpis
-(mais rápido, porque o agente processa com eficiência). No modo rewrite, o
-texto antigo é apagado caractere por caractere (20ms/char, da direita para a
-esquerda), depois o novo texto tipa normalmente. Sem aleatoriedade — a Orison
-não simula humanidade.
+**Delays por contexto** (configuráveis em 3 velocidades: slow/default/fast):
+- Display (Cormorant): 55ms/char (slow: 80ms · fast: 30ms)
+- Label (Montserrat): 45ms/char (slow: 70ms · fast: 25ms)
+- KPI: 55ms/char (slow: 80ms · fast: 30ms)
+- CLI/Elpis: 25ms/char (slow: 45ms · fast: 15ms) — agente processa mais rápido
+
+**Clear ratio:** 0.55 — o clear é 55% da velocidade do typing (mais rápido,
+porque o sistema apaga com eficiência, não com hesitação).
+
+**Sequência de rewrite bidirecional** (quando há texto existente):
+1. Cursor aparece ao final do texto (começa a piscar)
+2. Pausa 300ms — o sistema "lê" antes de agir
+3. Clear phase: caracteres removidos direita → esquerda a `delay × 0.55`
+4. Pausa 200ms — cursor pisca sozinho no vazio
+5. Type phase: caracteres adicionados esquerda → direita a `delay` atual
+6. Cursor aguarda 500ms, depois fade out 250ms (`easing.state`)
+7. No CLI: cursor permanece piscando como heartbeat do agente ativo
 
 **Limite absoluto:** 60 caracteres. NUNCA em body text ou parágrafos —
 o efeito perde todo o impacto em textos longos e torna-se ruído visual.
 Reservado para headlines, labels, KPIs e output de agentes.
 
-**Implementação:** JavaScript puro com `setInterval` e manipulação direta de
-DOM. O único CSS do efeito é o `@keyframes twBlink` para o cursor — o typing
-em si não usa CSS animation para evitar conflitos com o scroll-reveal system.
+**Implementação:** JavaScript puro — cursor via `setInterval` com inline
+styles (sem dependência de CSS), typing via `setInterval` com manipulação
+direta de `textContent`. Zero CSS animations no efeito — apenas layout CSS.
 Respeita `prefers-reduced-motion` e `.reduced-motion`: texto aparece
 instantaneamente, cursor não é inserido.
 

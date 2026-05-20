@@ -1863,6 +1863,49 @@ svg.lm-symbol .lm-line {
   color: var(--text-muted);
 }
 
+.tw-speed-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.tw-speed-label {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: var(--space-2);
+}
+
+.tw-speed-btn {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition:
+    border-color 150ms var(--motion-easing-state),
+    color 150ms var(--motion-easing-state);
+}
+
+.tw-speed-btn:hover {
+  border-color: var(--color-offwhite);
+  color: var(--color-offwhite);
+}
+
+.tw-speed-btn--active {
+  border-color: var(--color-crimson);
+  color: var(--color-crimson-text);
+}
+
 .tw-spec-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

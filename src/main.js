@@ -879,8 +879,9 @@ setTimeout(() => {
 
 /* ════════════════════════════════════════════
    TYPEWRITER — Section 29
-   Pure JS DOM manipulation, same pattern as Logo Motion.
-   CSS owns only layout and cursor blink keyframe.
+   All logic in JS. Cursor uses setInterval blink
+   (immune to CSS cascade). No CSS animations for
+   the effect itself — only layout CSS is needed.
    ════════════════════════════════════════════ */
 
 function twIsReducedMotion() {
@@ -888,85 +889,151 @@ function twIsReducedMotion() {
     || document.documentElement.classList.contains('reduced-motion');
 }
 
+// Create cursor with full inline styles + JS blink — immune to CSS cascade
 function twCreateCursor() {
   const cursor = document.createElement('span');
-  cursor.className = 'tw-cursor';
+  cursor.style.display = 'inline-block';
+  cursor.style.width = '2px';
+  cursor.style.height = '1.1em';
+  cursor.style.backgroundColor = '#8B1A1A';
+  cursor.style.verticalAlign = 'text-bottom';
+  cursor.style.marginLeft = '1px';
+  cursor.style.opacity = '1';
+
+  let visible = true;
+  cursor._blinkInterval = setInterval(() => {
+    visible = !visible;
+    cursor.style.opacity = visible ? '1' : '0';
+  }, 530);
+
   return cursor;
 }
 
-function twType(el, text, charDelay, onComplete) {
+// Kill blink interval and optionally fade the cursor out
+function twKillCursor(cursor, fade) {
+  if (!cursor) return;
+  if (cursor._blinkInterval) {
+    clearInterval(cursor._blinkInterval);
+    cursor._blinkInterval = null;
+  }
+  if (!fade) return;
+  // 500ms hold, then 250ms fade
+  cursor.style.opacity = '1';
+  setTimeout(() => {
+    cursor.style.transition = 'opacity 250ms cubic-bezier(0.4, 0.0, 0.2, 1.0)';
+    cursor.style.opacity = '0';
+    setTimeout(() => { if (cursor.parentNode) cursor.remove(); }, 260);
+  }, 500);
+}
+
+// Kill any live cursor inside el (from a previous run)
+function twPurgeCursor(el) {
+  el.querySelectorAll('span').forEach(s => {
+    if (s._blinkInterval) {
+      clearInterval(s._blinkInterval);
+      s._blinkInterval = null;
+    }
+    s.remove();
+  });
+}
+
+// Speed state per variant
+const twSpeeds = {
+  display: { slow: 80,  default: 55, fast: 30, current: 55, clearRatio: 0.55 },
+  label:   { slow: 70,  default: 45, fast: 25, current: 45, clearRatio: 0.55 },
+  kpi:     { slow: 80,  default: 55, fast: 30, current: 55, clearRatio: 0.55 },
+  cli:     { slow: 45,  default: 25, fast: 15, current: 25, clearRatio: 0.6  },
+};
+
+const twIds = { display: 'tw-display', label: 'tw-label', kpi: 'tw-kpi', cli: 'tw-cli' };
+
+// Core rewrite engine: handles both clear→type and type-only paths
+function twRewrite(el, newText, typeDelay, clearDelay, keepCursor) {
   if (twIsReducedMotion()) {
-    el.textContent = text;
-    if (onComplete) onComplete();
+    el.textContent = newText;
     return { cancel: () => {} };
   }
 
-  el.textContent = '';
-  const cursor = twCreateCursor();
-  el.appendChild(cursor);
-
-  let i = 0;
   let cancelled = false;
+  const handles = [];
 
-  const interval = setInterval(() => {
-    if (cancelled) { clearInterval(interval); return; }
-    if (i < text.length) {
-      cursor.before(document.createTextNode(text[i]));
-      i++;
-    } else {
-      clearInterval(interval);
-      if (onComplete) onComplete();
-    }
-  }, charDelay);
+  const existingText = el.textContent.trim();
+  twPurgeCursor(el);
+
+  const cursor = twCreateCursor();
+
+  if (existingText.length > 0) {
+    // ── REWRITE MODE: cursor → pause → clear → pause → type ──
+    el.textContent = existingText;
+    el.appendChild(cursor);
+
+    const t1 = setTimeout(() => {
+      if (cancelled) return;
+
+      // CLEAR PHASE
+      let chars = existingText.split('');
+      let ci = chars.length;
+
+      const clearIv = setInterval(() => {
+        if (cancelled) { clearInterval(clearIv); return; }
+        ci--;
+        el.textContent = chars.slice(0, ci).join('');
+        el.appendChild(cursor);
+        if (ci <= 0) {
+          clearInterval(clearIv);
+          // PAUSE after clear
+          const t2 = setTimeout(() => {
+            if (cancelled) return;
+            // TYPE PHASE
+            let ti = 0;
+            const typeIv = setInterval(() => {
+              if (cancelled) { clearInterval(typeIv); return; }
+              ti++;
+              el.textContent = newText.slice(0, ti);
+              el.appendChild(cursor);
+              if (ti >= newText.length) {
+                clearInterval(typeIv);
+                if (!keepCursor) twKillCursor(cursor, true);
+              }
+            }, typeDelay);
+            handles.push({ type: 'interval', ref: typeIv });
+          }, 200);
+          handles.push({ type: 'timeout', ref: t2 });
+        }
+      }, clearDelay);
+      handles.push({ type: 'interval', ref: clearIv });
+    }, 300);
+    handles.push({ type: 'timeout', ref: t1 });
+
+  } else {
+    // ── TYPE ONLY MODE ──
+    el.textContent = '';
+    el.appendChild(cursor);
+
+    let ti = 0;
+    const typeIv = setInterval(() => {
+      if (cancelled) { clearInterval(typeIv); return; }
+      ti++;
+      el.textContent = newText.slice(0, ti);
+      el.appendChild(cursor);
+      if (ti >= newText.length) {
+        clearInterval(typeIv);
+        if (!keepCursor) twKillCursor(cursor, true);
+      }
+    }, typeDelay);
+    handles.push({ type: 'interval', ref: typeIv });
+  }
 
   return {
     cancel: () => {
       cancelled = true;
-      clearInterval(interval);
+      handles.forEach(h => {
+        if (h.type === 'interval') clearInterval(h.ref);
+        else clearTimeout(h.ref);
+      });
+      twKillCursor(cursor, false);
     }
   };
-}
-
-function twClear(el, clearDelay, onComplete) {
-  const cursor = el.querySelector('.tw-cursor');
-  if (cursor) cursor.remove();
-
-  const text = el.textContent;
-  const chars = text.split('');
-  let i = chars.length;
-
-  const cursorEl = twCreateCursor();
-  el.textContent = '';
-  el.appendChild(cursorEl);
-
-  if (i === 0) {
-    if (onComplete) onComplete();
-    return;
-  }
-
-  el.insertBefore(document.createTextNode(chars.join('')), cursorEl);
-
-  const interval = setInterval(() => {
-    i--;
-    const textNode = el.firstChild;
-    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
-      textNode.textContent = chars.slice(0, i).join('');
-    }
-    if (i <= 0) {
-      clearInterval(interval);
-      if (textNode) textNode.remove();
-      if (onComplete) onComplete();
-    }
-  }, clearDelay);
-}
-
-function twFadeCursor(el) {
-  const cursor = el.querySelector('.tw-cursor');
-  if (!cursor) return;
-  cursor.classList.add('tw-cursor--fading');
-  setTimeout(() => {
-    if (cursor.parentNode) cursor.remove();
-  }, 800);
 }
 
 const twActive = {};
@@ -974,43 +1041,34 @@ const twActive = {};
 function twFire(variant) {
   if (twActive[variant]) twActive[variant].cancel();
 
-  const configs = {
-    display: { id: 'tw-display', charDelay: 30,  fadeCursor: true,  rewrite: false },
-    label:   { id: 'tw-label',   charDelay: 30,  fadeCursor: true,  rewrite: false },
-    kpi:     { id: 'tw-kpi',     charDelay: 30,  fadeCursor: true,  rewrite: true, clearDelay: 20 },
-    cli:     { id: 'tw-cli',     charDelay: 20,  fadeCursor: false, rewrite: false },
-  };
-
-  const cfg = configs[variant];
-  if (!cfg) return;
-  const el = document.getElementById(cfg.id);
+  const el = document.getElementById(twIds[variant]);
   if (!el) return;
   const fullText = el.getAttribute('data-tw-full');
+  const speed = twSpeeds[variant];
+  const clearDelay = Math.round(speed.current * speed.clearRatio);
 
-  const startTyping = () => {
-    twActive[variant] = twType(el, fullText, cfg.charDelay, () => {
-      if (cfg.fadeCursor) twFadeCursor(el);
-    });
-  };
-
-  if (el.textContent.trim().length > 0) {
-    // Clear any existing text before typing (rewrite or residual content)
-    twClear(el, cfg.clearDelay || 20, startTyping);
-  } else {
-    startTyping();
-  }
+  twActive[variant] = twRewrite(el, fullText, speed.current, clearDelay, variant === 'cli');
 }
 
 function twReset(variant) {
   if (twActive[variant]) twActive[variant].cancel();
 
-  const ids = { display: 'tw-display', label: 'tw-label', kpi: 'tw-kpi', cli: 'tw-cli' };
-  const el = document.getElementById(ids[variant]);
+  const el = document.getElementById(twIds[variant]);
   if (!el) return;
-  const cursor = el.querySelector('.tw-cursor');
-  if (cursor) cursor.remove();
+  twPurgeCursor(el);
   el.textContent = el.dataset.twInitial || '';
 }
+
+// Speed toggle
+document.querySelectorAll('[data-tw-speed]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const variant = btn.dataset.twSpeed;
+    const speed = btn.dataset.speed;
+    twSpeeds[variant].current = twSpeeds[variant][speed];
+    document.querySelectorAll(`[data-tw-speed="${variant}"]`).forEach(b => b.classList.remove('tw-speed-btn--active'));
+    btn.classList.add('tw-speed-btn--active');
+  });
+});
 
 document.querySelectorAll('[data-tw-fire]').forEach(btn => {
   btn.addEventListener('click', () => twFire(btn.dataset.twFire));
@@ -1023,8 +1081,7 @@ document.querySelectorAll('[data-tw-reset]').forEach(btn => {
 // Proteção contra scroll-reveal: forçar estado inicial correto após mount
 setTimeout(() => {
   document.querySelectorAll('#sec-typewriter .tw-text').forEach(el => {
-    const cursor = el.querySelector('.tw-cursor');
-    if (cursor) cursor.remove();
+    twPurgeCursor(el);
     el.textContent = el.dataset.twInitial || '';
   });
 }, 100);
