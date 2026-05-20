@@ -227,6 +227,34 @@ molecules:
     easing: "{easing.state}"
     context: "Contagem numérica animada (KPIs, métricas) com indicador direcional de crescimento"
 
+  micro-typewriter:
+    properties: "text content, cursor visibility"
+    cursor:
+      width: "2px"
+      color: "{colors.crimson}"
+      blink-rate: "530ms"
+      blink-easing: "step-end"
+      fade-after: "500ms"
+      fade-duration: "250ms"
+      fade-easing: "{easing.state}"
+    typing:
+      char-delay: 30
+      char-delay-cli: 20
+      clear-delay: 20
+      easing: "linear (stepped)"
+      random-delay: false
+    max-chars: 60
+    contexts:
+      - "Headlines display (Cormorant)"
+      - "Labels uppercase (Montserrat)"
+      - "KPI rewrite (valor atualizado)"
+      - "Elpis CLI agent output"
+    forbidden:
+      - "Body text / parágrafos"
+      - "Botões / labels de navegação"
+      - "Texto que o usuário precisa ler imediatamente"
+    implementation: "JavaScript puro (inline DOM manipulation)"
+
   # ── Loading States ──
   loading-skeleton:
     properties: "background-position"
@@ -1004,6 +1032,29 @@ receber um indicador direcional discreto ao lado do número; na interface de
 referência, o valor e a seta diagonal usam `positive-md`, sem moldura, com
 micro-movimento ascendente para reforçar crescimento sem transformar a
 micro-interaction em celebração.
+
+**Typewriter (`micro-typewriter`):**
+Texto escrito caractere por caractere com cursor vertical crimson pulsante.
+O cursor (2px, cor crimson) pisca a 530ms com `step-end` — sem fade, sem
+transição suave. O blink é binário, mecânico. Ao término da escrita, o cursor
+aguarda 500ms e desaparece com fade de 250ms usando `easing.state`. No contexto
+Elpis/CLI, o cursor permanece piscando indefinidamente como heartbeat do agente.
+
+O delay entre caracteres é constante: 30ms no padrão, 20ms no contexto Elpis
+(mais rápido, porque o agente processa com eficiência). No modo rewrite, o
+texto antigo é apagado caractere por caractere (20ms/char, da direita para a
+esquerda), depois o novo texto tipa normalmente. Sem aleatoriedade — a Orison
+não simula humanidade.
+
+**Limite absoluto:** 60 caracteres. NUNCA em body text ou parágrafos —
+o efeito perde todo o impacto em textos longos e torna-se ruído visual.
+Reservado para headlines, labels, KPIs e output de agentes.
+
+**Implementação:** JavaScript puro com `setInterval` e manipulação direta de
+DOM. O único CSS do efeito é o `@keyframes twBlink` para o cursor — o typing
+em si não usa CSS animation para evitar conflitos com o scroll-reveal system.
+Respeita `prefers-reduced-motion` e `.reduced-motion`: texto aparece
+instantaneamente, cursor não é inserido.
 
 ---
 

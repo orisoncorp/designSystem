@@ -1,0 +1,118 @@
+<section id="sec-typewriter">
+  <div class="sec-div">
+    <span class="sec-num">29</span>
+    <span class="sec-title">Typewriter</span>
+    <span class="sec-sub">Moléculas · Cursor Crimson · Rewrite Effect</span>
+  </div>
+
+  <div class="tw-wrap">
+    <div class="tw-block-header">
+      <span class="tw-block-title">Micro-Typewriter</span>
+      <p class="tw-block-sub">
+        Texto escrito caractere por caractere com cursor crimson pulsante.
+        Delay constante (30ms) — a Orison é máquina, não simula humanidade.
+      </p>
+    </div>
+
+    <!-- Demo 1: Display text (Cormorant) -->
+    <div class="tw-demo">
+      <div class="tw-demo-header">
+        <span class="tw-demo-label">Display — Cormorant Garamond</span>
+        <div class="tw-demo-controls">
+          <button class="tw-ctrl-btn tw-ctrl-btn--fire" data-tw-fire="display">Disparar</button>
+          <button class="tw-ctrl-btn" data-tw-reset="display">Reset</button>
+        </div>
+      </div>
+      <div class="tw-stage tw-stage--display">
+        <span class="tw-text" id="tw-display" data-tw-full="Transformação operacional permanente"></span>
+      </div>
+      <div class="tw-specs">
+        <span>Fonte: Cormorant Garamond Light</span>
+        <span>Char delay: 30ms</span>
+        <span>Cursor: 2px crimson · blink 530ms</span>
+      </div>
+    </div>
+
+    <!-- Demo 2: Label text (Montserrat) -->
+    <div class="tw-demo">
+      <div class="tw-demo-header">
+        <span class="tw-demo-label">Label — Montserrat Uppercase</span>
+        <div class="tw-demo-controls">
+          <button class="tw-ctrl-btn tw-ctrl-btn--fire" data-tw-fire="label">Disparar</button>
+          <button class="tw-ctrl-btn" data-tw-reset="label">Reset</button>
+        </div>
+      </div>
+      <div class="tw-stage tw-stage--label">
+        <span class="tw-text" id="tw-label" data-tw-full="SISTEMA OPERACIONAL"></span>
+      </div>
+      <div class="tw-specs">
+        <span>Fonte: Montserrat 9px uppercase</span>
+        <span>Char delay: 30ms</span>
+        <span>Tracking: 5px</span>
+      </div>
+    </div>
+
+    <!-- Demo 3: KPI Rewrite -->
+    <div class="tw-demo">
+      <div class="tw-demo-header">
+        <span class="tw-demo-label">KPI Rewrite — Valor Atualizado</span>
+        <div class="tw-demo-controls">
+          <button class="tw-ctrl-btn tw-ctrl-btn--fire" data-tw-fire="kpi">Disparar</button>
+          <button class="tw-ctrl-btn" data-tw-reset="kpi">Reset</button>
+        </div>
+      </div>
+      <div class="tw-stage tw-stage--kpi">
+        <span class="tw-text" id="tw-kpi" data-tw-full="R$ 100.000">R$ 47.800</span>
+      </div>
+      <div class="tw-specs">
+        <span>Rewrite: limpa texto antigo → tipa novo</span>
+        <span>Clear delay: 20ms/char (mais rápido que typing)</span>
+        <span>Contexto: Dashboard KPI updates</span>
+      </div>
+    </div>
+
+    <!-- Demo 4: Elpis CLI simulation -->
+    <div class="tw-demo">
+      <div class="tw-demo-header">
+        <span class="tw-demo-label">Elpis CLI — Agent Output</span>
+        <div class="tw-demo-controls">
+          <button class="tw-ctrl-btn tw-ctrl-btn--fire" data-tw-fire="cli">Disparar</button>
+          <button class="tw-ctrl-btn" data-tw-reset="cli">Reset</button>
+        </div>
+      </div>
+      <div class="tw-stage tw-stage--cli">
+        <span class="tw-text" id="tw-cli" data-tw-full="Diagnóstico concluído. 4 processos otimizados. Redução de 38% no tempo de execução."></span>
+      </div>
+      <div class="tw-specs">
+        <span>Fundo: black · Fonte: monospace</span>
+        <span>Char delay: 20ms (Elpis é mais rápido)</span>
+        <span>Cursor: crimson · permanece piscando no final</span>
+      </div>
+    </div>
+
+    <!-- Spec cards -->
+    <div class="tw-spec-grid">
+      <div class="tw-spec-cell">
+        <span class="tw-spec-label">Cursor</span>
+        <span class="tw-spec-value">2px × line-height · crimson · blink 530ms step-end</span>
+        <p class="tw-spec-desc">Cursor desaparece 500ms após conclusão com fade de 250ms. No CLI, cursor permanece (heartbeat do agente).</p>
+      </div>
+      <div class="tw-spec-cell">
+        <span class="tw-spec-label">Timing</span>
+        <span class="tw-spec-value">30ms/char (padrão) · 20ms/char (Elpis) · 20ms/char (clear/rewrite)</span>
+        <p class="tw-spec-desc">Delay constante — sem aleatoriedade. A Orison não simula humanidade. Precisão mecânica.</p>
+      </div>
+      <div class="tw-spec-cell">
+        <span class="tw-spec-label">Limite</span>
+        <span class="tw-spec-value">60 caracteres máximo</span>
+        <p class="tw-spec-desc">Headlines, labels, KPIs. NUNCA em body text ou parágrafos. Textos longos perdem o efeito.</p>
+      </div>
+      <div class="tw-spec-cell">
+        <span class="tw-spec-label">Reduced Motion</span>
+        <span class="tw-spec-value">Texto instantâneo · sem cursor · sem typing</span>
+        <p class="tw-spec-desc">Respeita prefers-reduced-motion e classe .reduced-motion.</p>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -41,6 +41,7 @@ import section25 from './sections/25-templates.html?raw';
 import section26 from './sections/26-governance.html?raw';
 import section27 from './sections/27-motion-donts.html?raw';
 import section28 from './sections/28-logo-motion.html?raw';
+import section29 from './sections/29-typewriter.html?raw';
 
 /* ── Sidebar nav config ── */
 const NAV_ITEMS = [
@@ -74,6 +75,7 @@ const NAV_ITEMS = [
   { id: 'sec-governance',   num: '26', label: 'Governance',   group: 'motion' },
   { id: 'sec-motion-donts', num: '27', label: "Do's & Don'ts",group: 'motion' },
   { id: 'sec-logo-motion',  num: '28', label: 'Logo Motion',   group: 'motion' },
+  { id: 'sec-typewriter',   num: '29', label: 'Typewriter',    group: 'motion' },
 ];
 
 /* ── Build sidebar HTML ── */
@@ -127,6 +129,7 @@ app.innerHTML = [
   section14, section15, section16, section17, section18,
   section19, section20, section21, section22, section23,
   section24, section25, section26, section27, section28,
+  section29,
 ].join('');
 
 /* ── Sidebar toggle (mobile) ── */
@@ -873,3 +876,153 @@ setTimeout(() => {
     el.style.opacity = '0';
   });
 }, 100);
+
+/* ════════════════════════════════════════════
+   TYPEWRITER — Section 29
+   Pure JS DOM manipulation, same pattern as Logo Motion.
+   CSS owns only layout and cursor blink keyframe.
+   ════════════════════════════════════════════ */
+
+function twIsReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    || document.documentElement.classList.contains('reduced-motion');
+}
+
+function twCreateCursor() {
+  const cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  return cursor;
+}
+
+function twType(el, text, charDelay, onComplete) {
+  if (twIsReducedMotion()) {
+    el.textContent = text;
+    if (onComplete) onComplete();
+    return { cancel: () => {} };
+  }
+
+  el.textContent = '';
+  const cursor = twCreateCursor();
+  el.appendChild(cursor);
+
+  let i = 0;
+  let cancelled = false;
+
+  const interval = setInterval(() => {
+    if (cancelled) { clearInterval(interval); return; }
+    if (i < text.length) {
+      cursor.before(document.createTextNode(text[i]));
+      i++;
+    } else {
+      clearInterval(interval);
+      if (onComplete) onComplete();
+    }
+  }, charDelay);
+
+  return {
+    cancel: () => {
+      cancelled = true;
+      clearInterval(interval);
+    }
+  };
+}
+
+function twClear(el, clearDelay, onComplete) {
+  const cursor = el.querySelector('.tw-cursor');
+  if (cursor) cursor.remove();
+
+  const text = el.textContent;
+  const chars = text.split('');
+  let i = chars.length;
+
+  const cursorEl = twCreateCursor();
+  el.textContent = '';
+  el.appendChild(cursorEl);
+
+  if (i === 0) {
+    if (onComplete) onComplete();
+    return;
+  }
+
+  el.insertBefore(document.createTextNode(chars.join('')), cursorEl);
+
+  const interval = setInterval(() => {
+    i--;
+    const textNode = el.firstChild;
+    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+      textNode.textContent = chars.slice(0, i).join('');
+    }
+    if (i <= 0) {
+      clearInterval(interval);
+      if (textNode) textNode.remove();
+      if (onComplete) onComplete();
+    }
+  }, clearDelay);
+}
+
+function twFadeCursor(el) {
+  const cursor = el.querySelector('.tw-cursor');
+  if (!cursor) return;
+  cursor.classList.add('tw-cursor--fading');
+  setTimeout(() => {
+    if (cursor.parentNode) cursor.remove();
+  }, 800);
+}
+
+const twActive = {};
+
+function twFire(variant) {
+  if (twActive[variant]) twActive[variant].cancel();
+
+  const configs = {
+    display: { id: 'tw-display', charDelay: 30,  fadeCursor: true,  rewrite: false },
+    label:   { id: 'tw-label',   charDelay: 30,  fadeCursor: true,  rewrite: false },
+    kpi:     { id: 'tw-kpi',     charDelay: 30,  fadeCursor: true,  rewrite: true, clearDelay: 20 },
+    cli:     { id: 'tw-cli',     charDelay: 20,  fadeCursor: false, rewrite: false },
+  };
+
+  const cfg = configs[variant];
+  if (!cfg) return;
+  const el = document.getElementById(cfg.id);
+  if (!el) return;
+  const fullText = el.getAttribute('data-tw-full');
+
+  const startTyping = () => {
+    twActive[variant] = twType(el, fullText, cfg.charDelay, () => {
+      if (cfg.fadeCursor) twFadeCursor(el);
+    });
+  };
+
+  if (cfg.rewrite && el.textContent.trim().length > 0) {
+    twClear(el, cfg.clearDelay, startTyping);
+  } else {
+    startTyping();
+  }
+}
+
+function twReset(variant) {
+  if (twActive[variant]) twActive[variant].cancel();
+
+  const configs = {
+    display: { id: 'tw-display', initial: '' },
+    label:   { id: 'tw-label',   initial: '' },
+    kpi:     { id: 'tw-kpi',     initial: 'R$ 47.800' },
+    cli:     { id: 'tw-cli',     initial: '' },
+  };
+
+  const cfg = configs[variant];
+  if (!cfg) return;
+  const el = document.getElementById(cfg.id);
+  if (!el) return;
+  const cursor = el.querySelector('.tw-cursor');
+  if (cursor) cursor.remove();
+  el.textContent = cfg.initial;
+}
+
+document.querySelectorAll('[data-tw-fire]').forEach(btn => {
+  btn.addEventListener('click', () => twFire(btn.dataset.twFire));
+});
+
+document.querySelectorAll('[data-tw-reset]').forEach(btn => {
+  btn.addEventListener('click', () => twReset(btn.dataset.twReset));
+});

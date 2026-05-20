@@ -49,6 +49,7 @@ This is a **static brand book / design system** for Orison, rendered as a single
 | `26-governance.html` | `sec-governance` | Performance, accessibility, composition, naming |
 | `27-motion-donts.html` | `sec-motion-donts` | Do's & Don'ts with live comparisons |
 | `28-logo-motion.html` | `sec-logo-motion` | Logo Motion — concept "Incisão", 3 variations |
+| `29-typewriter.html` | `sec-typewriter` | Typewriter — cursor crimson, 4 demos (display, label, KPI rewrite, CLI) |
 
 **Section 28 — Logo Motion:**
 - Concept: "Incisão" — the crimson line exists first, circles form around it as inevitable consequence

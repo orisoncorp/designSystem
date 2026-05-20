@@ -1688,3 +1688,233 @@ svg.lm-symbol .lm-line {
   line-height: 1.8;
   margin-top: 6px;
 }
+
+/* ═══ SEÇÃO 29: TYPEWRITER ═══ */
+
+.tw-wrap {
+  padding: var(--space-8) var(--space-6);
+}
+
+.tw-block-header {
+  margin-bottom: var(--space-6);
+}
+
+.tw-block-title {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--color-crimson-text);
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.tw-block-sub {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--text-body);
+  max-width: 720px;
+}
+
+.tw-demo {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.tw-demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.tw-demo-label {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--color-crimson-text);
+}
+
+.tw-demo-controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.tw-ctrl-btn {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--color-offwhite);
+  background: transparent;
+  border: 1px solid var(--color-gray);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: border-color 150ms var(--motion-easing-state);
+}
+
+.tw-ctrl-btn:hover {
+  border-color: var(--color-offwhite);
+}
+
+.tw-ctrl-btn--fire {
+  background: var(--color-crimson);
+  border-color: var(--color-crimson);
+  color: var(--color-offwhite);
+}
+
+.tw-ctrl-btn--fire:hover {
+  background: var(--color-red);
+  border-color: var(--color-red);
+}
+
+.tw-stage {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) 0;
+}
+
+.tw-stage--display .tw-text {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-light);
+  letter-spacing: 6px;
+  color: var(--text-primary);
+}
+
+.tw-stage--label .tw-text {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.tw-stage--kpi .tw-text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-light);
+  letter-spacing: 4px;
+  color: var(--text-primary);
+}
+
+.tw-stage--cli {
+  background: var(--color-black);
+  padding: var(--space-4);
+}
+
+.tw-stage--cli .tw-text {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--text-body);
+}
+
+/* Cursor element (inserted by JS) */
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background-color: var(--color-crimson);
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: twBlink 530ms step-end infinite;
+}
+
+.tw-cursor--fading {
+  animation: twBlink 530ms step-end infinite, twFadeOut 250ms var(--motion-easing-state) forwards;
+  animation-delay: 0ms, 500ms;
+}
+
+@keyframes twBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes twFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.tw-specs {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.tw-specs span {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tw-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: var(--space-6);
+}
+
+.tw-spec-cell {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+}
+
+.tw-spec-label {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--color-crimson-text);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.tw-spec-value {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.tw-spec-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .tw-spec-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .tw-spec-grid { grid-template-columns: 1fr; }
+  .tw-demo-header { flex-direction: column; gap: var(--space-2); align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tw-cursor { animation: none; opacity: 0; }
+}
+.reduced-motion .tw-cursor { animation: none; opacity: 0; }
