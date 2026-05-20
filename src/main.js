@@ -184,9 +184,14 @@ NAV_ITEMS.forEach(({ id }) => {
 });
 
 /* ── Scroll animations (design system sections) ── */
+const MANUAL_ANIM_SECTIONS = ['#sec-logo-motion', '#sec-typewriter'];
+function inManualSection(el) {
+  return MANUAL_ANIM_SECTIONS.some(sel => el.closest(sel));
+}
+
 const animObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !inManualSection(entry.target)) {
       setTimeout(() => entry.target.classList.add('in-view'), i * 80);
       animObserver.unobserve(entry.target);
     }
@@ -207,7 +212,7 @@ setTimeout(() => {
 /* ── m-reveal (motion sections) ── */
 const mRevealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !inManualSection(entry.target)) {
       entry.target.classList.add('in-view');
       mRevealObserver.unobserve(entry.target);
     }
@@ -224,7 +229,7 @@ function revealScrollCard(card) {
 
 const scrollRevealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !inManualSection(entry.target)) {
       revealScrollCard(entry.target);
       scrollRevealObserver.unobserve(entry.target);
     }
@@ -866,16 +871,6 @@ document.querySelectorAll('[data-lm-theme]').forEach(btn => {
   });
 });
 
-setTimeout(() => {
-  document.querySelectorAll('#sec-logo-motion .lm-outer, #sec-logo-motion .lm-inner, #sec-logo-motion .lm-line').forEach(el => {
-    el.style.transition = 'none';
-    el.style.opacity = '0';
-  });
-  document.querySelectorAll('#sec-logo-motion .lm-h-divider, #sec-logo-motion .lm-wordmark, #sec-logo-motion .lm-subtitle, #sec-logo-motion .lm-v-rule, #sec-logo-motion .lm-v-wordmark').forEach(el => {
-    el.style.transition = 'none';
-    el.style.opacity = '0';
-  });
-}, 100);
 
 /* ════════════════════════════════════════════
    TYPEWRITER — Section 29
@@ -1078,14 +1073,3 @@ document.querySelectorAll('[data-tw-reset]').forEach(btn => {
   btn.addEventListener('click', () => twReset(btn.dataset.twReset));
 });
 
-// Proteção contra scroll-reveal: forçar estado inicial após mount
-// IDs explícitos + 200ms para ganhar a corrida com o IntersectionObserver
-const twInitials = { 'tw-display': '', 'tw-label': '', 'tw-kpi': 'R$ 47.800', 'tw-cli': '' };
-setTimeout(() => {
-  Object.entries(twInitials).forEach(([id, text]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    twPurgeCursor(el);
-    el.textContent = text;
-  });
-}, 200);
