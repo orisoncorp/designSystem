@@ -634,15 +634,33 @@ modalOverlay?.addEventListener('click', (e) => {
 /* ── Reduced motion toggle (section 26) ── */
 const rmToggle = document.getElementById('rm-toggle');
 const rmStatus = document.getElementById('rm-status');
-let rmActive = false;
+const rmLabel  = document.querySelector('.rm-toggle-label');
+
+// Bidirectional: if OS has reduced-motion, toggle forces animations; otherwise it reduces them.
+const osReduces = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (rmLabel) {
+  rmLabel.textContent = osReduces
+    ? 'Forçar animações (override reduced-motion do OS)'
+    : 'Simular reduced-motion (afeta toda a página)';
+}
 
 rmToggle?.addEventListener('click', function() {
-  rmActive = !rmActive;
-  this.classList.toggle('is-on', rmActive);
-  document.documentElement.classList.toggle('reduced-motion', rmActive);
+  const html = document.documentElement;
+  let active;
+  if (osReduces) {
+    html.classList.toggle('force-motion');
+    html.classList.remove('reduced-motion');
+    active = html.classList.contains('force-motion');
+  } else {
+    html.classList.toggle('reduced-motion');
+    html.classList.remove('force-motion');
+    active = html.classList.contains('reduced-motion');
+  }
+  this.classList.toggle('is-on', active);
   if (rmStatus) {
-    rmStatus.textContent = rmActive ? 'Ativo' : 'Inativo';
-    rmStatus.classList.toggle('is-active', rmActive);
+    rmStatus.textContent = active ? 'Ativo' : 'Inativo';
+    rmStatus.classList.toggle('is-active', active);
   }
 });
 
@@ -879,9 +897,10 @@ document.querySelectorAll('[data-lm-theme]').forEach(btn => {
    the effect itself — only layout CSS is needed.
    ════════════════════════════════════════════ */
 
-function twIsReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    || document.documentElement.classList.contains('reduced-motion');
+function isReducedMotion() {
+  if (document.documentElement.classList.contains('force-motion')) return false;
+  if (document.documentElement.classList.contains('reduced-motion')) return true;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 // Create cursor with full inline styles + JS blink — immune to CSS cascade
@@ -944,7 +963,7 @@ const twIds = { display: 'tw-display', label: 'tw-label', kpi: 'tw-kpi', cli: 't
 
 // Core rewrite engine: handles both clear→type and type-only paths
 function twRewrite(el, newText, typeDelay, clearDelay, keepCursor) {
-  if (twIsReducedMotion()) {
+  if (isReducedMotion()) {
     el.textContent = newText;
     return { cancel: () => {} };
   }
