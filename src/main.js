@@ -993,8 +993,9 @@ function twFire(variant) {
     });
   };
 
-  if (cfg.rewrite && el.textContent.trim().length > 0) {
-    twClear(el, cfg.clearDelay, startTyping);
+  if (el.textContent.trim().length > 0) {
+    // Clear any existing text before typing (rewrite or residual content)
+    twClear(el, cfg.clearDelay || 20, startTyping);
   } else {
     startTyping();
   }
@@ -1003,20 +1004,12 @@ function twFire(variant) {
 function twReset(variant) {
   if (twActive[variant]) twActive[variant].cancel();
 
-  const configs = {
-    display: { id: 'tw-display', initial: '' },
-    label:   { id: 'tw-label',   initial: '' },
-    kpi:     { id: 'tw-kpi',     initial: 'R$ 47.800' },
-    cli:     { id: 'tw-cli',     initial: '' },
-  };
-
-  const cfg = configs[variant];
-  if (!cfg) return;
-  const el = document.getElementById(cfg.id);
+  const ids = { display: 'tw-display', label: 'tw-label', kpi: 'tw-kpi', cli: 'tw-cli' };
+  const el = document.getElementById(ids[variant]);
   if (!el) return;
   const cursor = el.querySelector('.tw-cursor');
   if (cursor) cursor.remove();
-  el.textContent = cfg.initial;
+  el.textContent = el.dataset.twInitial || '';
 }
 
 document.querySelectorAll('[data-tw-fire]').forEach(btn => {
@@ -1026,3 +1019,12 @@ document.querySelectorAll('[data-tw-fire]').forEach(btn => {
 document.querySelectorAll('[data-tw-reset]').forEach(btn => {
   btn.addEventListener('click', () => twReset(btn.dataset.twReset));
 });
+
+// Proteção contra scroll-reveal: forçar estado inicial correto após mount
+setTimeout(() => {
+  document.querySelectorAll('#sec-typewriter .tw-text').forEach(el => {
+    const cursor = el.querySelector('.tw-cursor');
+    if (cursor) cursor.remove();
+    el.textContent = el.dataset.twInitial || '';
+  });
+}, 100);
