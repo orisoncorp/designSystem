@@ -1078,10 +1078,14 @@ document.querySelectorAll('[data-tw-reset]').forEach(btn => {
   btn.addEventListener('click', () => twReset(btn.dataset.twReset));
 });
 
-// Proteção contra scroll-reveal: forçar estado inicial correto após mount
+// Proteção contra scroll-reveal: forçar estado inicial após mount
+// IDs explícitos + 200ms para ganhar a corrida com o IntersectionObserver
+const twInitials = { 'tw-display': '', 'tw-label': '', 'tw-kpi': 'R$ 47.800', 'tw-cli': '' };
 setTimeout(() => {
-  document.querySelectorAll('#sec-typewriter .tw-text').forEach(el => {
+  Object.entries(twInitials).forEach(([id, text]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
     twPurgeCursor(el);
-    el.textContent = el.dataset.twInitial || '';
+    el.textContent = text;
   });
-}, 100);
+}, 200);
