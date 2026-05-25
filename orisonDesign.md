@@ -44,6 +44,42 @@ colors:
   # Acento de borda
   border-accent: "#8B1A1A"
 
+  # Data Visualization — escalas expandidas
+  # Sequencial Crimson (8 steps — heatmaps, density maps)
+  crimson-scale-1: "#1A0505"
+  crimson-scale-2: "#2D0A0A"
+  crimson-scale-3: "#4A1010"
+  crimson-scale-4: "#6B1515"
+  crimson-scale-5: "#8B1A1A"
+  crimson-scale-6: "#A52020"
+  crimson-scale-7: "#C03030"
+  crimson-scale-8: "#D94040"
+
+  # Sequencial Neutral (8 steps — intensidade sem conotação)
+  neutral-scale-1: "#111113"
+  neutral-scale-2: "#1A1A1C"
+  neutral-scale-3: "#252527"
+  neutral-scale-4: "#303032"
+  neutral-scale-5: "#3A3A3C"
+  neutral-scale-6: "#4A4A4C"
+  neutral-scale-7: "#5A5A5C"
+  neutral-scale-8: "#6A6A6C"
+
+  # Divergente (5 steps — negativo ↔ neutro ↔ positivo)
+  divergent-neg-hi: "#8B1A1A"
+  divergent-neg: "#6B1515"
+  divergent-neutral: "#3A3A3C"
+  divergent-pos: "#1A5C2E"
+  divergent-pos-hi: "#27834A"
+
+  # Categórica (6 cores máximas — séries de chart)
+  cat-crimson: "#8B1A1A"
+  cat-amber: "#8B4A1A"
+  cat-teal: "#1A6B6B"
+  cat-steel: "#4A6A8B"
+  cat-olive: "#4A6B1A"
+  cat-plum: "#6B1A6B"
+
 typography:
   # Display — Cormorant Garamond (editorial, sofisticado)
   display-hero:
@@ -171,6 +207,29 @@ components:
   sidebar-item-active:
     backgroundColor: "rgba(139, 26, 26, 0.10)"
     textColor: "{colors.crimson-text}"
+
+  # KPI Card — variantes: Simple, Spark, Ring, Metric (seção 33)
+  kpi-card:
+    backgroundColor: "{colors.surface}"
+    border: "1px solid {colors.border}"
+    rounded: "{rounded.none}"
+    padding: "24px"
+    label: "{typography.micro}"
+    value: "{typography.display-md}"
+    delta-positive: "{colors.positive-md}"
+    delta-negative: "{colors.negative-md}"
+
+  # Chart — regras universais para bar, line, donut, area (seção 32)
+  chart:
+    background: "{colors.surface}"
+    axis-color: "{colors.subtle}"
+    axis-typography: "{typography.micro}"
+    grid-line: "1px rgba(255,255,255,0.04) horizontal"
+    primary-series: "{colors.crimson}"
+    secondary-series: "{colors.slate}"
+    border-radius: "{rounded.none}"
+    max-series: 3
+    value-typography: "{typography.body}"
 ---
 
 # Orison Brand System
@@ -255,6 +314,80 @@ intenção.
   escala.
 - Em fundo claro (off-white), use `midnight` para texto e `crimson` para
   acento mantendo os mesmos papéis semânticos.
+
+---
+
+## Data Visualization Colors
+
+Escalas de cor para uso exclusivo em visualização de dados — charts, KPIs,
+heatmaps e command centers. Estas cores não substituem a paleta de identidade:
+são extensões quantitativas dela, projetadas para comunicar magnitude, direção
+e categoria em contextos de dado. Ver seção 31 da página de preview.
+
+**Escala Sequencial — Crimson (8 steps):**
+Progressão de `#1A0505` (mínimo quase-preto) a `#D94040` (crimson claro).
+Usada em heatmaps, mapas de densidade e qualquer visualização onde a
+intensidade de um único fenômeno precisa ser codificada por cor. A escala
+ainda preserva o crimson como acento da identidade — o ponto mais escuro
+é negro-crimson, não cinza.
+
+| Token | Valor | Intensidade |
+|---|---|---|
+| `crimson-scale-1` | `#1A0505` | 0% — fundo quase-preto |
+| `crimson-scale-2` | `#2D0A0A` | 14% |
+| `crimson-scale-3` | `#4A1010` | 28% |
+| `crimson-scale-4` | `#6B1515` | 43% |
+| `crimson-scale-5` | `#8B1A1A` | 57% — crimson identidade |
+| `crimson-scale-6` | `#A52020` | 71% |
+| `crimson-scale-7` | `#C03030` | 85% |
+| `crimson-scale-8` | `#D94040` | 100% — máximo |
+
+**Escala Sequencial — Neutral (8 steps):**
+Progressão de `#111113` (midnight) a `#6A6A6C` (cinza médio). Usada para
+backgrounds de intensidade sem conotação semântica — quando a escala crimson
+carregaria implicação de alerta indesejada.
+
+| Token | Valor | Uso |
+|---|---|---|
+| `neutral-scale-1` | `#111113` | Base — midnight |
+| `neutral-scale-5` | `#3A3A3C` | Médio — slate |
+| `neutral-scale-8` | `#6A6A6C` | Máximo — cinza |
+
+**Escala Divergente (5 steps):**
+Espectro de negativo a positivo, com neutro explícito no centro. Usada em
+comparações de performance, variações percentuais e qualquer dado com direção
+bipolar. O neutro `#3A3A3C` é exatamente o `slate` da identidade — os extremos
+são semânticos (crimson/verde), o centro é neutro.
+
+| Token | Valor | Semântica |
+|---|---|---|
+| `divergent-neg-hi` | `#8B1A1A` | Negativo alto |
+| `divergent-neg` | `#6B1515` | Negativo |
+| `divergent-neutral` | `#3A3A3C` | Neutro |
+| `divergent-pos` | `#1A5C2E` | Positivo |
+| `divergent-pos-hi` | `#27834A` | Positivo alto |
+
+**Escala Categórica (6 cores — máximo absoluto):**
+Seis cores discrimináveis para séries independentes em um mesmo chart.
+Crimson é sempre a série primária. Nunca use mais de 6 categorias em um
+único chart — acima disso, agrupe as menores em "Outros" usando `neutral-scale-5`.
+
+| Token | Valor | Uso |
+|---|---|---|
+| `cat-crimson` | `#8B1A1A` | Série primária — sempre |
+| `cat-amber` | `#8B4A1A` | Série 2 |
+| `cat-teal` | `#1A6B6B` | Série 3 |
+| `cat-steel` | `#4A6A8B` | Série 4 |
+| `cat-olive` | `#4A6B1A` | Série 5 |
+| `cat-plum` | `#6B1A6B` | Série 6 (máximo) |
+
+**Regras de data visualization:**
+- Nunca misture escalas sequencial e categórica no mesmo chart.
+- A escala divergente exige que o dado tenha um zero semântico real — não use
+  para dados sempre positivos.
+- Crimson categórico e crimson de identidade são o mesmo valor — não conflitam.
+- Em contextos de alto contraste ou acessibilidade, complemente cor com forma
+  (padrão de linha, ícone de status) — cor sozinha não é suficiente.
 
 ---
 

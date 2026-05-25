@@ -1,0 +1,240 @@
+<!-- Seção 32: Chart Styles — especificações e demos interativos -->
+<section id="sec-chart-styles">
+  <div class="sec-div">
+    <span class="sec-num">32</span>
+    <span class="sec-title">Chart Styles</span>
+    <span class="sec-sub">Bar · Line · Donut · Area · Regras universais</span>
+  </div>
+
+  <!-- Bar Chart -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">Bar Chart</span>
+      <span class="block-header-sub">scaleY(0→1) · origin bottom · 400ms emphasis · stagger 60ms</span>
+    </div>
+
+    <div class="dv-chart-demo-wrap">
+      <!-- Chart -->
+      <div class="dv-bar-chart" id="dv-bar-chart">
+        <div class="dv-chart-y-axis">
+          <span>120k</span>
+          <span>90k</span>
+          <span>60k</span>
+          <span>30k</span>
+          <span>0</span>
+        </div>
+        <div class="dv-chart-area">
+          <div class="dv-chart-gridlines">
+            <div class="dv-gridline"></div>
+            <div class="dv-gridline"></div>
+            <div class="dv-gridline"></div>
+            <div class="dv-gridline"></div>
+          </div>
+          <div class="dv-bar-group">
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="72" style="height:72%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 87k</span>
+              </div>
+              <span class="dv-bar-x">Jan</span>
+            </div>
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="55" style="height:55%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 66k</span>
+              </div>
+              <span class="dv-bar-x">Fev</span>
+            </div>
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="88" style="height:88%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 105k</span>
+              </div>
+              <span class="dv-bar-x">Mar</span>
+            </div>
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="65" style="height:65%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 78k</span>
+              </div>
+              <span class="dv-bar-x">Abr</span>
+            </div>
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="95" style="height:95%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 114k</span>
+              </div>
+              <span class="dv-bar-x">Mai</span>
+            </div>
+            <div class="dv-bar-col">
+              <div class="dv-bar" data-height="80" style="height:80%; transform:scaleY(0); transform-origin:bottom;">
+                <span class="dv-bar-label">R$ 96k</span>
+              </div>
+              <span class="dv-bar-x">Jun</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls + specs -->
+      <div class="dv-chart-specs">
+        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+          <button class="m-play-btn" id="dv-bar-play">Animar</button>
+          <button class="m-play-btn" id="dv-bar-reset">Reset</button>
+        </div>
+        <div class="dv-spec-list">
+          <div class="mol-spec-row"><span class="mol-spec-key">Fundo</span><span class="mol-spec-val">surface #0d0d0f</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Barras</span><span class="mol-spec-val">crimson #8B1A1A</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Eixos</span><span class="mol-spec-val">micro 8px · uppercase · 4px tracking</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Grid</span><span class="mol-spec-val">1px rgba(255,255,255,0.04) · horizontal only</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Border radius</span><span class="mol-spec-val">0px (rounded-none)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Motion</span><span class="mol-spec-val">scaleY(0→1) · 400ms · emphasis</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Stagger</span><span class="mol-spec-val">60ms decay</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Séries max</span><span class="mol-spec-val">3 por chart</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Line Chart -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Line Chart</span>
+      <span class="block-header-sub">stroke-dashoffset · 900ms dramatic · enter easing · área com opacity 0.08</span>
+    </div>
+
+    <div class="dv-chart-demo-wrap">
+      <!-- SVG Line Chart -->
+      <div class="dv-line-chart-wrap">
+        <svg class="dv-line-svg" id="dv-line-svg" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="32" x2="480" y2="32" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="64" x2="480" y2="64" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="96" x2="480" y2="96" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="128" x2="480" y2="128" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <!-- Area fill primary -->
+          <defs>
+            <linearGradient id="areaGradPrimary" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8B1A1A" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#8B1A1A" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="areaGradSecondary" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a3a3a" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#3a3a3a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- Area secondary -->
+          <path class="dv-area-path dv-area-secondary" d="M0,110 L80,95 L160,120 L240,85 L320,100 L400,75 L480,90 L480,160 L0,160 Z" fill="url(#areaGradSecondary)"/>
+          <!-- Area primary -->
+          <path class="dv-area-path dv-area-primary" d="M0,90 L80,70 L160,95 L240,50 L320,72 L400,40 L480,55 L480,160 L0,160 Z" fill="url(#areaGradPrimary)"/>
+          <!-- Line secondary -->
+          <polyline class="dv-line-secondary" id="dv-line-2" points="0,110 80,95 160,120 240,85 320,100 400,75 480,90" fill="none" stroke="#3a3a3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="600" stroke-dashoffset="600"/>
+          <!-- Line primary -->
+          <polyline class="dv-line-primary" id="dv-line-1" points="0,90 80,70 160,95 240,50 320,72 400,40 480,55" fill="none" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="600" stroke-dashoffset="600"/>
+          <!-- Data points primary (visible on hover via CSS) -->
+          <circle class="dv-data-point" cx="0" cy="90" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="80" cy="70" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="160" cy="95" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="240" cy="50" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="320" cy="72" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="400" cy="40" r="3" fill="#8B1A1A"/>
+          <circle class="dv-data-point" cx="480" cy="55" r="3" fill="#8B1A1A"/>
+        </svg>
+        <div class="dv-line-x-labels">
+          <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span>
+        </div>
+        <div class="dv-line-legend">
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B1A1A;"></div><span>MRR Real</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#3a3a3a;"></div><span>MRR Projetado</span></div>
+        </div>
+      </div>
+
+      <!-- Controls + specs -->
+      <div class="dv-chart-specs">
+        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+          <button class="m-play-btn" id="dv-line-play">Animar</button>
+          <button class="m-play-btn" id="dv-line-reset">Reset</button>
+        </div>
+        <div class="dv-spec-list">
+          <div class="mol-spec-row"><span class="mol-spec-key">Linha primária</span><span class="mol-spec-val">2px · crimson</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Linha secundária</span><span class="mol-spec-val">1.5px · slate</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Área</span><span class="mol-spec-val">gradient opacity 0→0.15</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Pontos</span><span class="mol-spec-val">4px · crimson · hover only</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Motion</span><span class="mol-spec-val">stroke-dashoffset · 900ms</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">enter cubic-bezier(0.25,0.1,0.25,1)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Donut Chart -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Donut Chart</span>
+      <span class="block-header-sub">stroke-dashoffset por segmento · 400ms moderate · stagger base</span>
+    </div>
+
+    <div class="dv-chart-demo-wrap">
+      <div class="dv-donut-wrap">
+        <svg class="dv-donut-svg" id="dv-donut-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <!-- Track -->
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#2e2e2e" stroke-width="16"/>
+          <!-- Segments (circumference = 2π×60 ≈ 376.99) -->
+          <!-- Segment 1: crimson ~35% = 132 -->
+          <circle class="dv-donut-seg" id="dv-seg-1" cx="80" cy="80" r="60" fill="none" stroke="#8B1A1A" stroke-width="16" stroke-dasharray="377" stroke-dashoffset="377" transform="rotate(-90 80 80)"/>
+          <!-- Segment 2: teal ~25% = 94 (offset after seg1) -->
+          <circle class="dv-donut-seg" id="dv-seg-2" cx="80" cy="80" r="60" fill="none" stroke="#1A6B6B" stroke-width="16" stroke-dasharray="377" stroke-dashoffset="377" transform="rotate(-90 80 80)"/>
+          <!-- Segment 3: amber ~20% = 75 -->
+          <circle class="dv-donut-seg" id="dv-seg-3" cx="80" cy="80" r="60" fill="none" stroke="#8B4A1A" stroke-width="16" stroke-dasharray="377" stroke-dashoffset="377" transform="rotate(-90 80 80)"/>
+          <!-- Segment 4: steel ~20% = 75 -->
+          <circle class="dv-donut-seg" id="dv-seg-4" cx="80" cy="80" r="60" fill="none" stroke="#4A6A8B" stroke-width="16" stroke-dasharray="377" stroke-dashoffset="377" transform="rotate(-90 80 80)"/>
+          <!-- Center text -->
+          <text x="80" y="75" text-anchor="middle" fill="#f7f5f0" font-family="'Cormorant Garamond', serif" font-size="22" font-weight="300">68%</text>
+          <text x="80" y="91" text-anchor="middle" fill="#bcbab5" font-family="'Montserrat', sans-serif" font-size="7" letter-spacing="2">META</text>
+        </svg>
+        <div class="dv-donut-legend">
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B1A1A;"></div><span>Vendas diretas 35%</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#1A6B6B;"></div><span>Parcerias 25%</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B4A1A;"></div><span>Inbound 20%</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#4A6A8B;"></div><span>Outros 20%</span></div>
+        </div>
+      </div>
+
+      <!-- Controls + specs -->
+      <div class="dv-chart-specs">
+        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+          <button class="m-play-btn" id="dv-donut-play">Animar</button>
+          <button class="m-play-btn" id="dv-donut-reset">Reset</button>
+        </div>
+        <div class="dv-spec-list">
+          <div class="mol-spec-row"><span class="mol-spec-key">Track</span><span class="mol-spec-val">16px stroke · border #2e2e2e</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Segmentos</span><span class="mol-spec-val">stroke-dashoffset por segmento</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Centro</span><span class="mol-spec-val">display-md Cormorant + micro label</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Motion</span><span class="mol-spec-val">stroke-dashoffset · 400ms · stagger</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Segmentos max</span><span class="mol-spec-val">6 (1 por cor categórica)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regras universais -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Regras Universais</span>
+      <span class="block-header-sub">Válidas para todos os tipos de chart</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Séries</span>
+        <span class="dv-rule-body">Nunca mais de 3 séries por chart. Nunca mais de 2 tipos de chart no mesmo componente. Crimson é sempre a série primária.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Tipografia</span>
+        <span class="dv-rule-body">Labels sempre em micro (8px, uppercase). Valores em body (11px) ou display. Eixos em micro com opacity text-muted.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Grid Lines</span>
+        <span class="dv-rule-body">Grid lines são opcionais — prefira sem quando possível. Quando usadas: 1px, rgba(255,255,255,0.04), horizontal apenas.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Forma</span>
+        <span class="dv-rule-body">Border radius 0px (rounded-none) em todas as barras. Charts são instrumentos de precisão — não arredonde arestas.</span>
+      </div>
+    </div>
+  </div>
+</section>

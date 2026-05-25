@@ -494,6 +494,76 @@ organisms:
         - "logoDividerScale — scaleX do divisor horizontal"
         - "logoWordmarkV — opacity + letter-spacing (vertical)"
 
+  data-viz-charts:
+    bar:
+      properties: "transform: scaleY"
+      from: "scaleY(0)"
+      to: "scaleY(1)"
+      origin: "bottom"
+      duration: "{duration.moderate}"
+      easing: "{easing.emphasis}"
+      stagger: "{stagger.base}"
+    line:
+      properties: "stroke-dashoffset"
+      duration: "{duration.dramatic}"
+      easing: "{easing.enter}"
+    donut:
+      properties: "stroke-dashoffset"
+      duration: "{duration.moderate}"
+      easing: "{easing.emphasis}"
+      stagger: "{stagger.base}"
+      center-counter: "{molecules.micro-counter}"
+    area:
+      properties: "clip-path"
+      duration: "{duration.dramatic}"
+      easing: "{easing.enter}"
+
+  data-viz-realtime:
+    counter-update:
+      duration: 300
+      easing: "{easing.state}"
+      debounce: 2000
+    stream-pulse:
+      properties: "transform: scale"
+      from: "scale(1)"
+      to: "scale(1.5)"
+      duration: 300
+      easing: "{easing.emphasis}"
+    table-row-insert:
+      molecule: "{molecules.enter-data}"
+      stagger: "none (one row at a time)"
+    alert-pulse:
+      properties: "border-color"
+      color: "{colors.crimson}"
+      pulses: 2
+      pulse-duration: 300
+      then: "static crimson border"
+
+  command-center:
+    layout:
+      header-height: "48px"
+      hero-viewport: "50-60%"
+      left-panel: "240-320px"
+      right-panel: "240-320px"
+      bottom-bar: "180-240px"
+      max-widgets: 12
+      panel-opacity: 0.85
+    hero-3d:
+      wireframe-color: "{colors.offwhite}"
+      wireframe-opacity: 0.15
+      highlight-color: "{colors.crimson}"
+      highlight-opacity: 0.3
+      rotation-speed: "0.002 rad/frame"
+      rotation-axis: "Y"
+      rotation-easing: "linear"
+      background: "{colors.black}"
+    types:
+      - "globe (operações distribuídas)"
+      - "network (conexões, data flows)"
+      - "particles (processamento, throughput)"
+      - "molecular (composição, dependencies)"
+      - "cube (dados multidimensionais)"
+
 # ─────────────────────────────────────────────
 # TEMPLATES — Contextos de aplicação
 # ─────────────────────────────────────────────
@@ -1519,6 +1589,141 @@ das letras é um gesto narrativo, não um estado de UI.
 Todos os elementos aparecem diretamente no estado final em `0.01s`. Nenhum
 translate, nenhuma contagem de dashoffset, sem pulse. O resultado é um logo
 estático imediato — funcional sem qualquer movimento.
+
+---
+
+## Organisms — Data Visualization Charts
+
+Charts são instrumentos de precisão — não decoração. A animação serve a um
+propósito único: comunicar magnitude e progressão ao usuário antes que ele
+leia os valores. Ver seções 32 e 33 da página de preview.
+
+**Bar Chart:**
+Cada barra escala verticalmente de `scaleY(0)` a `scaleY(1)` com
+`transform-origin: bottom`. Duração `moderate` (400ms), easing `emphasis`
+(spring controlado). Stagger `base` (60ms, decrescente). O crescimento de
+baixo para cima é a metáfora natural de acumulação. Sem bounce no topo —
+a barra toca o valor e para.
+
+**Line Chart:**
+O traçado usa `stroke-dashoffset` de 100% a 0%, desenhando a linha
+progressivamente da esquerda para direita. Duração `dramatic` (900ms),
+easing `enter`. Para múltiplas séries, a série primária (crimson) anima
+primeiro; a secundária entra 150ms depois.
+
+**Donut Chart:**
+Cada segmento usa `stroke-dasharray: [visible] [gap]` + `stroke-dashoffset`
+do valor visível a 0. A rotação de cada segmento é calculada a partir da
+posição acumulada dos anteriores (graus = porcentagem × 360). Duração
+`moderate` (400ms), easing `emphasis`, stagger `base` (60ms) entre segmentos.
+O contador central usa `micro-counter` concorrente ao maior segmento.
+
+**Regras universais de chart:**
+- Nunca mais de 3 séries por chart; crimson é sempre a série primária.
+- Eixos sempre em `micro` (8px, uppercase, `text-muted`).
+- Grid lines opcionais: 1px, `rgba(255,255,255,0.04)`, horizontal apenas.
+- `border-radius: 0` em todas as barras — charts são instrumentos, não cards.
+- Dados não re-animam em re-render (filtro, atualização) — apenas no load inicial.
+
+---
+
+## Organisms — Real-time Data
+
+Padrões para interfaces com dados que mudam continuamente. A distinção
+fundamental em relação a data population: **real-time é incremental, não
+total**. Um dado novo chega; a visualização se atualiza pontualmente. Ver
+seção 36 da página de preview.
+
+**Counter Update (Live KPI):**
+Quando um KPI recebe um novo valor, a transição numérica dura 300ms com
+easing `state`. O debounce mínimo é 2s — nunca mais de uma atualização
+visual por segundo, independente da frequência dos dados chegando. O delta
+badge ("+2.4%") troca com `exit-fade` + `enter-fade` 150ms cada quando
+a direção muda.
+
+**Stream Pulse (Dot indicator):**
+O dot crimson de 4-6px pulsa `scale(1 → 1.5 → 1)` em 300ms com easing
+`emphasis` ao receber cada novo dado. Se o dado não chega por mais de 30s,
+o dot muda de `background: crimson` para `background: subtle` — sinaliza
+silêncio sem alarmar.
+
+**Table Row Insert:**
+Novas linhas entram com `enter-data` (translateY 8px + opacity, 150ms,
+easing `micro`). Quando a tabela atinge o limite de linhas visíveis (5),
+a linha mais antiga executa `exit-fade` (opacity 0, 150ms) antes do insert.
+Sem stagger — real-time insere uma linha por vez.
+
+**Alert / Anomaly Pulse:**
+Quando um KPI detecta anomalia, a borda do card pulsa crimson: dois ciclos
+de `border-color: border → crimson → border`, 300ms cada. Após o pulse, a
+borda estabiliza em crimson estático — comunicando estado persistente. Nunca
+mais de um alerta pulsando simultaneamente.
+
+**Regras de real-time:**
+- Debounce visual mínimo 2s — frequência de dado ≠ frequência de update visual.
+- O "silêncio" (ausência de dado) é comunicado por estado visual (dot dim),
+  nunca por ausência de feedback.
+- Streams devem ter botão explícito de start/stop — nunca iniciam
+  automaticamente sem ação do usuário.
+
+---
+
+## Organisms — Command Center
+
+O command center é o template de maior densidade informacional da Orison.
+Combina layout, hero 3D, charts em tempo real e KPIs em uma única superfície.
+Ver seções 34 e 35 da página de preview.
+
+**Layout canônico:**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  HEADER BAR (48px) — breadcrumb · KPI stubs · clock │
+├──────────┬──────────────────────────┬───────────────┤
+│  LEFT    │                          │  RIGHT        │
+│  PANEL   │     HERO ZONE (3D)       │  PANEL        │
+│ 240-320px│    (50-60% viewport)     │  240-320px    │
+├──────────┴──────────────────────────┴───────────────┤
+│  BOTTOM BAR (180-240px) — data table · activity feed│
+└─────────────────────────────────────────────────────┘
+```
+
+**Regras de layout:**
+- Máximo 12 widgets simultâneos na tela (KPI cards + charts + tabelas).
+- Painéis laterais usam `opacity: 0.85` — o hero 3D respira através deles.
+- Header é sempre 48px — nunca cresce nem colapsa.
+- Em viewport < 1200px, os painéis laterais colapsam para drawers.
+
+**Hero 3D — Especificações:**
+
+O hero 3D ocupa o centro visual do command center. Seu propósito é comunicar
+a natureza do dado sendo monitorado de forma imediata e emocional — antes que
+o usuário leia qualquer número.
+
+| Propriedade | Valor | Notas |
+|---|---|---|
+| Wireframe | `offwhite` opacity 0.15 | Estrutura leve, não compete com os dados |
+| Highlight | `crimson` opacity 0.3 | Acentua pontos de atenção |
+| Rotação | 0.002 rad/frame, eixo Y | Lenta o suficiente para não distrair |
+| Easing rotação | linear | Velocidade constante — sem aceleração |
+| Background | `black` | Máximo contraste para os elementos 3D |
+
+**Cinco tipos de hero:**
+
+| Tipo | Dado representado | Técnica visual |
+|---|---|---|
+| **Globo** | Operações distribuídas geograficamente | Pontos georreferenciados em esfera rotativa |
+| **Network** | Conexões entre entidades, data flows | Nós e arestas com espessura proporcional |
+| **Partículas** | Throughput, processamento, volume | Densidade de partículas indica intensidade |
+| **Molecular** | Composição, dependências, hierarquia | Clusters com força de ligação variável |
+| **Cubo** | Dados multidimensionais, 3 variáveis | Faces do cubo codificam dimensões distintas |
+
+**Regras do hero 3D:**
+- Nunca mais de um tipo de hero por command center.
+- A rotação para quando o usuário interage com o painel (hover ou click).
+- Dados no hero só pulsam quando há anomalia — movimento constante
+  de dados normais cria ruído visual.
+- Em `prefers-reduced-motion`: hero estático, sem rotação, sem pulso.
 
 ---
 

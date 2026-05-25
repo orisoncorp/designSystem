@@ -1,0 +1,220 @@
+<!-- Seção 34: Command Center Layout — zonas, regras, responsive -->
+<section id="sec-command-layout">
+  <div class="sec-div">
+    <span class="sec-num">34</span>
+    <span class="sec-title">Command Layout</span>
+    <span class="sec-sub">Zonas · Hierarquia · Responsive · Composição máxima</span>
+  </div>
+
+  <!-- Layout demo visual -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">Anatomia do Layout</span>
+      <span class="block-header-sub">Representação proporcional das zonas — desktop 1440px</span>
+    </div>
+
+    <div class="dv-layout-diagram">
+
+      <!-- Header bar -->
+      <div class="dv-layout-zone dv-layout-header">
+        <div class="dv-layout-zone-content">
+          <div class="dv-layout-header-left">
+            <div class="dv-layout-logo-stub"></div>
+            <div class="dv-layout-breadcrumb">
+              <span>Orison</span>
+              <span class="dv-breadcrumb-sep">›</span>
+              <span style="color:var(--color-crimson-text);">Command Center</span>
+            </div>
+          </div>
+          <div class="dv-layout-header-right">
+            <div class="dv-layout-kpi-stub">
+              <span class="dv-layout-stub-label">MRR</span>
+              <span class="dv-layout-stub-val">R$ 94k</span>
+            </div>
+            <div class="dv-layout-kpi-stub">
+              <span class="dv-layout-stub-label">CONTRATOS</span>
+              <span class="dv-layout-stub-val">47</span>
+            </div>
+            <div class="dv-layout-timestamp">2026-05-25 · 14:32:08</div>
+          </div>
+        </div>
+        <span class="dv-layout-zone-tag">Header Bar · 48px</span>
+      </div>
+
+      <!-- Middle row -->
+      <div class="dv-layout-middle">
+
+        <!-- Left panel -->
+        <div class="dv-layout-zone dv-layout-panel dv-layout-left">
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">LEADS ATIVOS</span>
+            <span class="dv-panel-widget-val">284</span>
+            <div class="dv-panel-mini-bar"></div>
+          </div>
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">CONVERSÃO</span>
+            <span class="dv-panel-widget-val">18.4%</span>
+            <div class="dv-panel-mini-chart">
+              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="0,25 13,18 26,20 39,12 52,15 65,8 80,10" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">CHURN</span>
+            <span class="dv-panel-widget-val" style="color:var(--color-crimson-text);">2.1%</span>
+          </div>
+          <span class="dv-layout-zone-tag">Left Panel · 280px</span>
+        </div>
+
+        <!-- Hero zone -->
+        <div class="dv-layout-zone dv-layout-hero-zone">
+          <div class="dv-layout-hero-content">
+            <!-- Globe representation -->
+            <svg class="dv-layout-hero-svg" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Glow effect -->
+              <circle cx="130" cy="100" r="75" fill="none" stroke="#8B1A1A" stroke-width="0.3" opacity="0.15"/>
+              <!-- Outer ring -->
+              <circle cx="130" cy="100" r="70" stroke="#e8e6e1" stroke-width="0.5" opacity="0.10"/>
+              <circle cx="130" cy="100" r="55" stroke="#e8e6e1" stroke-width="0.4" opacity="0.07"/>
+              <!-- Latitude lines -->
+              <ellipse cx="130" cy="100" rx="70" ry="25" stroke="#e8e6e1" stroke-width="0.4" opacity="0.07"/>
+              <ellipse cx="130" cy="100" rx="70" ry="50" stroke="#e8e6e1" stroke-width="0.4" opacity="0.05"/>
+              <!-- Longitude line -->
+              <line x1="130" y1="30" x2="130" y2="170" stroke="#e8e6e1" stroke-width="0.4" opacity="0.07"/>
+              <line x1="60" y1="100" x2="200" y2="100" stroke="#e8e6e1" stroke-width="0.4" opacity="0.06"/>
+              <!-- Data points -->
+              <circle cx="162" cy="72" r="4" fill="#8B1A1A" opacity="0.9"/>
+              <circle cx="100" cy="118" r="4" fill="#8B1A1A" opacity="0.9"/>
+              <circle cx="178" cy="115" r="3" fill="#8B1A1A" opacity="0.7"/>
+              <circle cx="85" cy="85" r="2.5" fill="#8B1A1A" opacity="0.5"/>
+              <!-- Connection lines -->
+              <line x1="162" y1="72" x2="100" y2="118" stroke="#8B1A1A" stroke-width="1" opacity="0.35"/>
+              <line x1="100" y1="118" x2="178" y2="115" stroke="#8B1A1A" stroke-width="0.8" opacity="0.25"/>
+              <line x1="85" y1="85" x2="162" y2="72" stroke="#8B1A1A" stroke-width="0.8" opacity="0.2"/>
+              <!-- Floating label -->
+              <rect x="158" y="58" width="44" height="12" rx="0" fill="#0a0a0a" opacity="0.8"/>
+              <text x="180" y="68" text-anchor="middle" fill="#e8e6e1" font-family="'Montserrat',sans-serif" font-size="6" letter-spacing="1">SÃO PAULO</text>
+            </svg>
+            <span class="dv-layout-hero-label">Hero 3D · 55% viewport</span>
+            <span class="dv-layout-hero-sub">background: black #0a0a0a</span>
+          </div>
+          <span class="dv-layout-zone-tag">Hero Zone</span>
+        </div>
+
+        <!-- Right panel -->
+        <div class="dv-layout-zone dv-layout-panel dv-layout-right">
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">TICKET MÉDIO</span>
+            <span class="dv-panel-widget-val">R$ 4.2k</span>
+          </div>
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">PIPELINE</span>
+            <span class="dv-panel-widget-val">R$ 312k</span>
+            <div class="dv-panel-mini-chart">
+              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="0,22 13,26 26,16 39,20 52,10 65,14 80,6" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+          <div class="dv-panel-widget">
+            <span class="dv-panel-widget-label">NPS</span>
+            <span class="dv-panel-widget-val" style="color:#3AAA62;">82</span>
+          </div>
+          <span class="dv-layout-zone-tag">Right Panel · 280px</span>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="dv-layout-zone dv-layout-bottom">
+        <div class="dv-layout-bottom-content">
+          <table class="dv-layout-table-stub">
+            <thead>
+              <tr>
+                <th>EMPRESA</th>
+                <th>CONTRATO</th>
+                <th>MRR</th>
+                <th>STATUS</th>
+                <th>PRÓX. REVISÃO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Acme Corp</td>
+                <td>#4821</td>
+                <td class="dv-td-positive">R$ 12.400</td>
+                <td><span class="dv-status-dot dv-status-dot--active"></span>Ativo</td>
+                <td class="dv-td-muted">2026-06-15</td>
+              </tr>
+              <tr>
+                <td>Beta Industries</td>
+                <td>#4817</td>
+                <td class="dv-td-positive">R$ 8.200</td>
+                <td><span class="dv-status-dot dv-status-dot--active"></span>Ativo</td>
+                <td class="dv-td-muted">2026-07-01</td>
+              </tr>
+              <tr>
+                <td>Gamma SA</td>
+                <td>#4802</td>
+                <td class="dv-td-negative">R$ 3.100</td>
+                <td><span class="dv-status-dot dv-status-dot--alert"></span>Atenção</td>
+                <td class="dv-td-muted">2026-05-28</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="dv-layout-zone-tag">Bottom Bar · 200px · tabela ou feed</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Regras de composição -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Regras de Composição</span>
+      <span class="block-header-sub">Limites que preservam a legibilidade do command center</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Widgets</span>
+        <span class="dv-rule-body">Máximo 12 widgets por command center. Máximo 3 KPIs por painel lateral. Bottom bar: no máximo 1 tabela ou 1 feed.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Hero</span>
+        <span class="dv-rule-body">O hero 3D nunca é obstruído. Painéis são semi-transparentes nas bordas se necessário. Background do hero: sempre black #0a0a0a.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Painéis</span>
+        <span class="dv-rule-body">Surface com opacity 0.85 para não competir com o hero. Borda: 1px solid border-color. Sem sombras — contraste tonal é suficiente.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breakpoints -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
+    <div class="block-header">
+      <span class="block-header-title">Responsive</span>
+      <span class="block-header-sub">Comportamento em 4 breakpoints</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 1440px</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Painéis laterais estreitam para 200px. Hero mantém proporção.</span>
+      </div>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 1200px</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Um painel lateral colapsa. Layout muda de 3 para 2 colunas.</span>
+      </div>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 900px</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Hero zone empilha acima dos painéis. Layout vertical.</span>
+      </div>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 600px</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Hero com altura fixa 40vh. Painéis full-width empilhados.</span>
+      </div>
+    </div>
+  </div>
+</section>

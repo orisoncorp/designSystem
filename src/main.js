@@ -43,6 +43,14 @@ import section27 from './sections/27-motion-donts.html?raw';
 import section28 from './sections/28-logo-motion.html?raw';
 import section29 from './sections/29-typewriter.html?raw';
 
+import section30 from './sections/30-dataviz-overview.html?raw';
+import section31 from './sections/31-data-palette.html?raw';
+import section32 from './sections/32-chart-styles.html?raw';
+import section33 from './sections/33-kpi-cards.html?raw';
+import section34 from './sections/34-command-layout.html?raw';
+import section35 from './sections/35-hero-3d.html?raw';
+import section36 from './sections/36-realtime-motion.html?raw';
+
 /* ── Sidebar nav config ── */
 const NAV_ITEMS = [
   { id: 'sec-cover',    num: '00', label: 'Capa',             group: 'design' },
@@ -76,6 +84,14 @@ const NAV_ITEMS = [
   { id: 'sec-motion-donts', num: '27', label: "Do's & Don'ts",group: 'motion' },
   { id: 'sec-logo-motion',  num: '28', label: 'Logo Motion',   group: 'motion' },
   { id: 'sec-typewriter',   num: '29', label: 'Typewriter',    group: 'motion' },
+
+  { id: 'sec-dataviz-overview', num: '30', label: 'Overview',       group: 'dataviz' },
+  { id: 'sec-data-palette',     num: '31', label: 'Data Palette',   group: 'dataviz' },
+  { id: 'sec-chart-styles',     num: '32', label: 'Chart Styles',   group: 'dataviz' },
+  { id: 'sec-kpi-cards',        num: '33', label: 'KPI Cards',      group: 'dataviz' },
+  { id: 'sec-command-layout',   num: '34', label: 'Command Layout', group: 'dataviz' },
+  { id: 'sec-hero-3d',          num: '35', label: 'Hero 3D',        group: 'dataviz' },
+  { id: 'sec-realtime-motion',  num: '36', label: 'Real-time',      group: 'dataviz' },
 ];
 
 /* ── Build sidebar HTML ── */
@@ -89,6 +105,8 @@ function buildSidebar() {
         navHtml += `<div class="sidebar-group">Design System</div>`;
       } else if (item.group === 'motion') {
         navHtml += `<div class="sidebar-group sidebar-group--motion">Motion System</div>`;
+      } else if (item.group === 'dataviz') {
+        navHtml += `<div class="sidebar-group sidebar-group--dataviz">Data Viz</div>`;
       }
       lastGroup = item.group;
     }
@@ -130,6 +148,8 @@ app.innerHTML = [
   section19, section20, section21, section22, section23,
   section24, section25, section26, section27, section28,
   section29,
+  section30, section31, section32, section33, section34,
+  section35, section36,
 ].join('');
 
 /* ── Sidebar toggle (mobile) ── */
@@ -184,7 +204,7 @@ NAV_ITEMS.forEach(({ id }) => {
 });
 
 /* ── Scroll animations (design system sections) ── */
-const MANUAL_ANIM_SECTIONS = ['#sec-logo-motion', '#sec-typewriter'];
+const MANUAL_ANIM_SECTIONS = ['#sec-logo-motion', '#sec-typewriter', '#sec-kpi-cards', '#sec-realtime-motion'];
 function inManualSection(el) {
   return MANUAL_ANIM_SECTIONS.some(sel => el.closest(sel));
 }
@@ -220,6 +240,11 @@ const mRevealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.m-reveal').forEach(el => mRevealObserver.observe(el));
+
+// Manual sections: force their .m-reveal wrappers visible immediately (observer is excluded)
+MANUAL_ANIM_SECTIONS.forEach(sel => {
+  document.querySelectorAll(`${sel} .m-reveal`).forEach(el => el.classList.add('in-view'));
+});
 
 /* ── Scroll-reveal cards (organisms demo) ── */
 function revealScrollCard(card) {
@@ -1091,4 +1116,320 @@ document.querySelectorAll('[data-tw-fire]').forEach(btn => {
 document.querySelectorAll('[data-tw-reset]').forEach(btn => {
   btn.addEventListener('click', () => twReset(btn.dataset.twReset));
 });
+
+/* ════════════════════════════════════════════
+   DATA VIZ — Interactive demos (sections 32–36)
+   ════════════════════════════════════════════ */
+
+/* ── Bar Chart (section 32) ── */
+function dvAnimateBars() {
+  const bars = document.querySelectorAll('#dv-bar-chart .dv-bar');
+  bars.forEach((bar, i) => {
+    bar.style.transition = 'none';
+    bar.style.transform = 'scaleY(0)';
+    void bar.offsetWidth;
+    setTimeout(() => {
+      bar.style.transition = `transform 400ms cubic-bezier(0.16,1,0.3,1) ${i * 60}ms`;
+      bar.style.transform = 'scaleY(1)';
+    }, 20);
+  });
+}
+
+function dvResetBars() {
+  document.querySelectorAll('#dv-bar-chart .dv-bar').forEach(bar => {
+    bar.style.transition = 'none';
+    bar.style.transform = 'scaleY(0)';
+  });
+}
+
+document.getElementById('dv-bar-play')?.addEventListener('click', dvAnimateBars);
+document.getElementById('dv-bar-reset')?.addEventListener('click', dvResetBars);
+
+/* ── Line Chart (section 32) ── */
+function dvAnimateLine() {
+  const l1 = document.getElementById('dv-line-1');
+  const l2 = document.getElementById('dv-line-2');
+  if (!l1 || !l2) return;
+  l1.style.transition = 'none';
+  l2.style.transition = 'none';
+  l1.style.strokeDashoffset = '600';
+  l2.style.strokeDashoffset = '600';
+  void l1.getBoundingClientRect();
+  l1.style.transition = 'stroke-dashoffset 900ms cubic-bezier(0.25,0.1,0.25,1)';
+  l2.style.transition = 'stroke-dashoffset 900ms cubic-bezier(0.25,0.1,0.25,1) 200ms';
+  l1.style.strokeDashoffset = '0';
+  l2.style.strokeDashoffset = '0';
+}
+
+function dvResetLine() {
+  const l1 = document.getElementById('dv-line-1');
+  const l2 = document.getElementById('dv-line-2');
+  if (!l1 || !l2) return;
+  l1.style.transition = 'none';
+  l2.style.transition = 'none';
+  l1.style.strokeDashoffset = '600';
+  l2.style.strokeDashoffset = '600';
+}
+
+document.getElementById('dv-line-play')?.addEventListener('click', dvAnimateLine);
+document.getElementById('dv-line-reset')?.addEventListener('click', dvResetLine);
+
+/* ── Donut Chart (section 32) ── */
+// Segment data: [color, portion-of-circumference(377), rotation-start-deg]
+const DONUT_SEGS = [
+  { id: 'dv-seg-1', len: 132, rot: -90 },        // 35% of 377 ≈ 132
+  { id: 'dv-seg-2', len: 94,  rot: -90 + 126 },  // 25% offset after seg1 (35%×360=126°)
+  { id: 'dv-seg-3', len: 75,  rot: -90 + 216 },  // 20% offset (25%×360=90°, cumulative 216°)
+  { id: 'dv-seg-4', len: 75,  rot: -90 + 288 },  // 20% offset (20%×360=72°, cumulative 288°)
+];
+
+function dvAnimateDonut() {
+  // Reset all to hidden state first (no transition)
+  DONUT_SEGS.forEach(seg => {
+    const el = document.getElementById(seg.id);
+    if (!el) return;
+    el.style.transition = 'none';
+    el.setAttribute('stroke-dasharray', `${seg.len} ${377 - seg.len}`);
+    el.setAttribute('stroke-dashoffset', String(seg.len));
+    el.setAttribute('transform', `rotate(${seg.rot} 80 80)`);
+  });
+  // Force layout flush
+  document.getElementById('dv-donut-svg')?.getBoundingClientRect();
+  // Animate each segment with stagger
+  DONUT_SEGS.forEach((seg, i) => {
+    const el = document.getElementById(seg.id);
+    if (!el) return;
+    setTimeout(() => {
+      el.style.transition = 'stroke-dashoffset 400ms cubic-bezier(0.4,0,0.2,1)';
+      el.setAttribute('stroke-dashoffset', '0');
+    }, i * 80);
+  });
+}
+
+function dvResetDonut() {
+  DONUT_SEGS.forEach(seg => {
+    const el = document.getElementById(seg.id);
+    if (!el) return;
+    el.style.transition = 'none';
+    el.setAttribute('stroke-dasharray', `${seg.len} ${377 - seg.len}`);
+    el.setAttribute('stroke-dashoffset', String(seg.len));
+    el.setAttribute('transform', `rotate(${seg.rot} 80 80)`);
+  });
+}
+
+document.getElementById('dv-donut-play')?.addEventListener('click', dvAnimateDonut);
+document.getElementById('dv-donut-reset')?.addEventListener('click', dvResetDonut);
+
+/* ── KPI Cards (section 33) ── */
+function dvAnimateCounter(elId, from, to, dur, prefix, suffix) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = performance.now();
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  function step(ts) {
+    const t = Math.min((ts - start) / dur, 1);
+    const val = Math.round(from + (to - from) * easeOut(t));
+    const formatted = val >= 1000
+      ? (prefix || '') + (val / 1000).toFixed(1) + 'k' + (suffix || '')
+      : (prefix || '') + val + (suffix || '');
+    el.textContent = formatted;
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function dvAnimateRing(pct) {
+  const arc = document.getElementById('kpi-ring-arc');
+  const label = document.getElementById('kpi-ring-pct');
+  if (!arc) return;
+  const circ = 113.1; // 2π×18
+  const offset = circ - (circ * pct / 100);
+  arc.style.transition = 'none';
+  arc.setAttribute('stroke-dashoffset', circ);
+  void arc.getBoundingClientRect();
+  arc.style.transition = 'stroke-dashoffset 900ms cubic-bezier(0.16,1,0.3,1)';
+  arc.setAttribute('stroke-dashoffset', offset);
+  if (label) {
+    let cur = 0;
+    const start = performance.now();
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    function step(ts) {
+      const t = Math.min((ts - start) / 900, 1);
+      cur = Math.round(pct * easeOut(t));
+      label.textContent = cur + '%';
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+}
+
+function dvAnimateSpark() {
+  const line = document.getElementById('spark-line');
+  if (!line) return;
+  line.style.transition = 'none';
+  line.setAttribute('stroke-dashoffset', '180');
+  void line.getBoundingClientRect();
+  line.style.transition = 'stroke-dashoffset 400ms cubic-bezier(0.4,0,0.2,1) 200ms';
+  line.setAttribute('stroke-dashoffset', '0');
+}
+
+function dvKpiCardsPopulate() {
+  // Stagger card entrance
+  const cards = document.querySelectorAll('.dv-kpi-card');
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'scale(0.96)';
+    card.style.transition = 'none';
+    void card.offsetWidth;
+    setTimeout(() => {
+      card.style.transition = `opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1)`;
+      card.style.opacity = '1';
+      card.style.transform = 'scale(1)';
+    }, i * 60);
+  });
+
+  // Animate values
+  setTimeout(() => {
+    dvAnimateCounter('kpi-s-value', 0, 94200, 900, 'R$ ');
+    dvAnimateCounter('kpi-k-value', 0, 47, 900, '', '');
+    dvAnimateSpark();
+    dvAnimateRing(68);
+    dvAnimateCounter('kpi-m-value', 0, 21, 900, '', '%');
+    dvAnimateCounter('kpi-m-prev', 0, 28, 900, '', '%');
+
+    // Show badges after counter
+    setTimeout(() => {
+      document.getElementById('kpi-s-badge')?.style.setProperty('opacity', '1');
+      document.getElementById('kpi-k-badge')?.style.setProperty('opacity', '1');
+    }, 950);
+  }, 300);
+}
+
+function dvKpiCardsReset() {
+  ['kpi-s-value', 'kpi-k-value', 'kpi-r-value', 'kpi-m-value', 'kpi-m-prev'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+  ['kpi-s-badge', 'kpi-k-badge'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = '0';
+  });
+  const arc = document.getElementById('kpi-ring-arc');
+  if (arc) { arc.style.transition = 'none'; arc.setAttribute('stroke-dashoffset', '113.1'); }
+  const label = document.getElementById('kpi-ring-pct');
+  if (label) label.textContent = '0%';
+  const spark = document.getElementById('spark-line');
+  if (spark) { spark.style.transition = 'none'; spark.setAttribute('stroke-dashoffset', '180'); }
+}
+
+document.getElementById('kpi-cards-play')?.addEventListener('click', dvKpiCardsPopulate);
+document.getElementById('kpi-cards-reset')?.addEventListener('click', dvKpiCardsReset);
+
+/* ── Real-time stream (section 36) ── */
+let rtInterval = null;
+let rtTick = 0;
+
+const RT_EVENTS = [
+  { type: 'Contrato', company: 'Acme Corp',         value: '+R$ 4.200', cls: 'dv-td-positive' },
+  { type: 'Renovação', company: 'Beta Industries',  value: '+R$ 8.100', cls: 'dv-td-positive' },
+  { type: 'Churn',    company: 'Gamma SA',           value: '−R$ 3.100', cls: 'dv-td-negative' },
+  { type: 'Upsell',   company: 'Delta Corp',         value: '+R$ 1.500', cls: 'dv-td-positive' },
+  { type: 'Trial',    company: 'Epsilon Ltda',       value: 'R$ 0',       cls: '' },
+  { type: 'Contrato', company: 'Zeta SA',            value: '+R$ 6.800', cls: 'dv-td-positive' },
+  { type: 'Alerta',   company: 'Eta Industries',     value: '−R$ 900',  cls: 'dv-td-negative' },
+];
+
+const RT_MRR_VALS   = [94200, 94480, 95200, 92100, 95200, 97400, 98200];
+const RT_CONTRACT_VALS = [47, 48, 48, 47, 47, 48, 49];
+
+function rtPulse(dotId) {
+  const dot = document.getElementById(dotId);
+  if (!dot) return;
+  dot.classList.remove('is-pulsing');
+  void dot.offsetWidth;
+  dot.classList.add('is-pulsing');
+  dot.addEventListener('animationend', () => dot.classList.remove('is-pulsing'), { once: true });
+}
+
+function rtInsertRow(event) {
+  const tbody = document.getElementById('rt-table-body');
+  if (!tbody) return;
+
+  // Remove oldest row if > 5
+  const rows = tbody.querySelectorAll('.dv-rt-row');
+  if (rows.length >= 5) {
+    const oldest = rows[rows.length - 1];
+    oldest.style.transition = 'opacity 150ms ease';
+    oldest.style.opacity = '0';
+    setTimeout(() => oldest.remove(), 160);
+  }
+
+  const now = new Date();
+  const ts = now.toTimeString().slice(0, 8);
+  const row = document.createElement('div');
+  row.className = 'dv-rt-row';
+  row.innerHTML = `<span>${ts}</span><span>${event.type}</span><span>${event.company}</span><span class="${event.cls}">${event.value}</span>`;
+  tbody.insertBefore(row, tbody.firstChild);
+  void row.offsetWidth;
+  requestAnimationFrame(() => row.classList.add('is-visible'));
+}
+
+function rtUpdateKpis() {
+  const mrrEl = document.getElementById('rt-mrr-val');
+  const contractsEl = document.getElementById('rt-contracts-val');
+  if (!mrrEl || !contractsEl) return;
+
+  const mrr = RT_MRR_VALS[rtTick % RT_MRR_VALS.length];
+  const contracts = RT_CONTRACT_VALS[rtTick % RT_CONTRACT_VALS.length];
+
+  mrrEl.textContent = 'R$ ' + mrr.toLocaleString('pt-BR');
+  contractsEl.textContent = contracts;
+  rtPulse('rt-pulse-mrr');
+  rtPulse('rt-pulse-contracts');
+  rtPulse('rt-pulse-feed');
+
+  // Trigger alert on churn-related events
+  const event = RT_EVENTS[rtTick % RT_EVENTS.length];
+  if (event.type === 'Churn' || event.type === 'Alerta') {
+    const alertCard = document.getElementById('rt-alert-card');
+    if (alertCard) {
+      alertCard.classList.remove('is-alert');
+      void alertCard.offsetWidth;
+      alertCard.classList.add('is-alert');
+    }
+  }
+}
+
+function rtTick_fn() {
+  const event = RT_EVENTS[rtTick % RT_EVENTS.length];
+  rtUpdateKpis();
+  rtInsertRow(event);
+  rtTick++;
+}
+
+function rtStart() {
+  if (rtInterval) return;
+  rtTick_fn(); // immediate first tick
+  rtInterval = setInterval(rtTick_fn, 3000);
+}
+
+function rtStop() {
+  if (rtInterval) { clearInterval(rtInterval); rtInterval = null; }
+}
+
+function rtReset() {
+  rtStop();
+  rtTick = 0;
+  const tbody = document.getElementById('rt-table-body');
+  if (tbody) tbody.innerHTML = '';
+  const mrrEl = document.getElementById('rt-mrr-val');
+  const contractsEl = document.getElementById('rt-contracts-val');
+  if (mrrEl) mrrEl.textContent = 'R$ 94.200';
+  if (contractsEl) contractsEl.textContent = '47';
+  document.getElementById('rt-alert-card')?.classList.remove('is-alert');
+}
+
+document.getElementById('rt-start')?.addEventListener('click', rtStart);
+document.getElementById('rt-stop')?.addEventListener('click', rtStop);
+document.getElementById('rt-reset')?.addEventListener('click', rtReset);
 

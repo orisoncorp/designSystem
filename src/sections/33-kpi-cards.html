@@ -1,0 +1,127 @@
+<!-- Seção 33: KPI Cards — Simple, Spark, Ring, Metric -->
+<section id="sec-kpi-cards">
+  <div class="sec-div">
+    <span class="sec-num">33</span>
+    <span class="sec-title">KPI Cards</span>
+    <span class="sec-sub">Simple · Spark · Ring · Metric · motion: counter + materialize</span>
+  </div>
+
+  <!-- Grid de 4 variantes -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">KPI Variants</span>
+      <span class="block-header-sub">4 variantes · demo: botão "Popular dados" anima todos com stagger</span>
+    </div>
+
+    <div style="display: flex; gap: 2px; margin-bottom: var(--space-4);">
+      <button class="m-play-btn" id="kpi-cards-play">Popular dados</button>
+      <button class="m-play-btn" id="kpi-cards-reset">Reset</button>
+    </div>
+
+    <div class="dv-kpi-grid">
+
+      <!-- KPI Simple -->
+      <div class="dv-kpi-card" id="kpi-card-simple">
+        <div class="dv-kpi-card-inner">
+          <span class="dv-kpi-label">MRR ATUAL</span>
+          <div class="dv-kpi-value-row">
+            <span class="dv-kpi-value" id="kpi-s-value">—</span>
+            <span class="dv-kpi-badge dv-kpi-badge--positive" id="kpi-s-badge" style="opacity:0;">+24%</span>
+          </div>
+          <div class="dv-kpi-card-footer">
+            <span class="dv-kpi-variant-label">KPI Simple</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Spark -->
+      <div class="dv-kpi-card" id="kpi-card-spark">
+        <div class="dv-kpi-card-inner">
+          <span class="dv-kpi-label">NOVOS CONTRATOS</span>
+          <div class="dv-kpi-value-row">
+            <span class="dv-kpi-value" id="kpi-k-value">—</span>
+            <span class="dv-kpi-badge dv-kpi-badge--positive" id="kpi-k-badge" style="opacity:0;">+8</span>
+          </div>
+          <!-- Sparkline -->
+          <div class="dv-sparkline-wrap">
+            <svg class="dv-sparkline" id="kpi-sparkline" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <polyline id="spark-line" points="0,32 20,24 40,28 60,16 80,20 100,8 120,12" fill="none" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="180" stroke-dashoffset="180"/>
+            </svg>
+          </div>
+          <div class="dv-kpi-card-footer">
+            <span class="dv-kpi-variant-label">KPI Spark</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Ring -->
+      <div class="dv-kpi-card" id="kpi-card-ring">
+        <div class="dv-kpi-card-inner">
+          <span class="dv-kpi-label">META ATINGIDA</span>
+          <div class="dv-kpi-value-row">
+            <span class="dv-kpi-value" id="kpi-r-value">—</span>
+            <!-- Mini ring -->
+            <div class="dv-mini-ring-wrap">
+              <svg class="dv-mini-ring" id="kpi-ring-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="22" cy="22" r="18" fill="none" stroke="#2e2e2e" stroke-width="4"/>
+                <circle id="kpi-ring-arc" cx="22" cy="22" r="18" fill="none" stroke="#8B1A1A" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"/>
+                <text x="22" y="26" text-anchor="middle" fill="#f7f5f0" font-family="'Montserrat',sans-serif" font-size="8" font-weight="400" id="kpi-ring-pct">0%</text>
+              </svg>
+            </div>
+          </div>
+          <div class="dv-kpi-card-footer">
+            <span class="dv-kpi-variant-label">KPI Ring</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Metric -->
+      <div class="dv-kpi-card" id="kpi-card-metric">
+        <div class="dv-kpi-card-inner">
+          <span class="dv-kpi-label">CHURN VS MÊS ANTERIOR</span>
+          <div class="dv-kpi-metric-row">
+            <div class="dv-kpi-metric-primary">
+              <span class="dv-kpi-value dv-kpi-value--lg" id="kpi-m-value">—</span>
+              <span class="dv-kpi-metric-sub">este mês</span>
+            </div>
+            <div class="dv-kpi-metric-divider"></div>
+            <div class="dv-kpi-metric-secondary">
+              <span class="dv-kpi-value dv-kpi-value--sm" id="kpi-m-prev" style="color:var(--text-muted);">—</span>
+              <span class="dv-kpi-metric-sub" style="color:var(--text-muted);">mês anterior</span>
+            </div>
+          </div>
+          <div class="dv-kpi-card-footer">
+            <span class="dv-kpi-variant-label">KPI Metric</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Motion spec -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
+    <div class="block-header">
+      <span class="block-header-title">Motion em KPIs</span>
+      <span class="block-header-sub">Sequência de animação ao carregar dados</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+      <div style="background:var(--color-surface); padding: 20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">1. Card</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">enter-materialize · 400ms · stagger 60ms entre cards</span>
+      </div>
+      <div style="background:var(--color-surface); padding: 20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">2. Counter</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">micro-counter · 900ms dramatic · easeOut cúbico</span>
+      </div>
+      <div style="background:var(--color-surface); padding: 20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">3. Sparkline</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">stroke-dashoffset · 400ms moderate</span>
+      </div>
+      <div style="background:var(--color-surface); padding: 20px 16px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">4. Badge delta</span>
+        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">enter-fade · 250ms · após counter completar</span>
+      </div>
+    </div>
+  </div>
+</section>

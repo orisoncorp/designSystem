@@ -1,0 +1,144 @@
+<!-- Seção 36: Real-time Data Motion — live feed simulation -->
+<section id="sec-realtime-motion">
+  <div class="sec-div">
+    <span class="sec-num">36</span>
+    <span class="sec-title">Real-time Motion</span>
+    <span class="sec-sub">Live Counter · Data Pulse · Table Insert · Alert Anomaly</span>
+  </div>
+
+  <!-- Live simulation -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">Live Feed Simulation</span>
+      <span class="block-header-sub">Dados fictícios atualizando a cada 3 segundos — counter + pulse + table insert</span>
+    </div>
+
+    <div style="display: flex; gap: 2px; margin-bottom: var(--space-4);">
+      <button class="m-play-btn" id="rt-start">Iniciar stream</button>
+      <button class="m-play-btn" id="rt-stop">Parar</button>
+      <button class="m-play-btn" id="rt-reset">Reset</button>
+    </div>
+
+    <div class="dv-rt-layout">
+
+      <!-- KPI live section -->
+      <div class="dv-rt-kpis">
+        <!-- MRR KPI -->
+        <div class="dv-rt-kpi-card">
+          <div class="dv-rt-kpi-header">
+            <span class="dv-kpi-label">MRR</span>
+            <div class="dv-pulse-dot" id="rt-pulse-mrr"></div>
+          </div>
+          <span class="dv-kpi-value" id="rt-mrr-val">R$ 94.200</span>
+          <span class="dv-kpi-badge dv-kpi-badge--positive" id="rt-mrr-badge">+2.4%</span>
+        </div>
+
+        <!-- Contracts KPI -->
+        <div class="dv-rt-kpi-card">
+          <div class="dv-rt-kpi-header">
+            <span class="dv-kpi-label">CONTRATOS ATIVOS</span>
+            <div class="dv-pulse-dot" id="rt-pulse-contracts"></div>
+          </div>
+          <span class="dv-kpi-value" id="rt-contracts-val">47</span>
+          <span class="dv-kpi-badge dv-kpi-badge--positive" id="rt-contracts-badge">+3</span>
+        </div>
+
+        <!-- Alert KPI -->
+        <div class="dv-rt-kpi-card" id="rt-alert-card">
+          <div class="dv-rt-kpi-header">
+            <span class="dv-kpi-label">CHURN RATE</span>
+            <div class="dv-pulse-dot dv-pulse-dot--alert" id="rt-pulse-churn"></div>
+          </div>
+          <span class="dv-kpi-value" id="rt-churn-val" style="color:var(--color-crimson-text);">2.1%</span>
+          <span class="dv-kpi-badge dv-kpi-badge--negative" id="rt-churn-badge">↑ atenção</span>
+        </div>
+      </div>
+
+      <!-- Live table -->
+      <div class="dv-rt-table-wrap">
+        <div class="dv-rt-table-header">
+          <span class="dv-rt-table-title">FEED DE EVENTOS</span>
+          <div class="dv-pulse-dot dv-pulse-dot--live" id="rt-pulse-feed"></div>
+        </div>
+        <div class="dv-rt-table" id="rt-table">
+          <div class="dv-rt-table-head">
+            <span>HORÁRIO</span>
+            <span>EVENTO</span>
+            <span>EMPRESA</span>
+            <span>VALOR</span>
+          </div>
+          <div id="rt-table-body">
+            <!-- Rows injected by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Padrões documentados -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Padrões de Motion Real-time</span>
+      <span class="block-header-sub">Comportamentos que não existem em UI estática</span>
+    </div>
+
+    <div class="dv-rt-patterns-grid">
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Live Counter Update</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Novo valor</span><span class="mol-spec-val">transição numérica 300ms · state easing</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Delta muda</span><span class="mol-spec-val">badge: exit-fade + enter-fade com nova cor</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Debounce</span><span class="mol-spec-val">1 update visual a cada 2s · acúmulo de valores</span></div>
+        </div>
+      </div>
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Data Stream Pulse</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Trigger</span><span class="mol-spec-val">dot crimson 4px pisca ao receber dado novo</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Pulse</span><span class="mol-spec-val">scale(1→1.5→1) · 300ms · emphasis easing</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Silêncio</span><span class="mol-spec-val">&gt;30s sem dado: dot muda para text-dim</span></div>
+        </div>
+      </div>
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Table Row Insert</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Nova linha</span><span class="mol-spec-val">enter-data: translateY 8px + opacity · 150ms</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Overflow</span><span class="mol-spec-val">linha mais antiga: exit-fade antes do insert</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Stagger</span><span class="mol-spec-val">sem stagger em real-time — uma linha por vez</span></div>
+        </div>
+      </div>
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Alert / Anomaly</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Trigger</span><span class="mol-spec-val">KPI anômalo: borda pulsa crimson 2× (300ms cada)</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Estabiliza</span><span class="mol-spec-val">borda crimson estática após o pulse</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Limite</span><span class="mol-spec-val">nunca mais de 1 alerta pulsando simultaneamente</span></div>
+        </div>
+      </div>
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Chart Live Update</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Line chart</span><span class="mol-spec-val">novo ponto: linha estende via stroke animation · 200ms</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Bar chart</span><span class="mol-spec-val">height via transition · 200ms · state easing</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Donut</span><span class="mol-spec-val">stroke-dashoffset transition · 300ms</span></div>
+        </div>
+      </div>
+
+      <div class="dv-rt-pattern-card">
+        <span class="dv-rt-pattern-name">Hero 3D Data Points</span>
+        <div class="dv-rt-pattern-body">
+          <div class="mol-spec-row"><span class="mol-spec-key">Novo ponto</span><span class="mol-spec-val">materializa scale(0→1) + opacity · 400ms · emphasis</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Resolvido</span><span class="mol-spec-val">exit-fade · 150ms</span></div>
+          <div class="mol-spec-row"><span class="mol-spec-key">Conexão</span><span class="mol-spec-val">stroke-dashoffset draw · 300ms · enter easing</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

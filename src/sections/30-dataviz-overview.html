@@ -1,0 +1,143 @@
+<!-- Seção 30: Data Visualization Overview — Command Center cover -->
+<section id="sec-dataviz-overview">
+  <div class="sec-div">
+    <span class="sec-num">30</span>
+    <span class="sec-title">Data Visualization System</span>
+    <span class="sec-sub">Command Center · Objeto Central · Camadas Periféricas</span>
+  </div>
+
+  <!-- Cover -->
+  <div class="dv-cover m-reveal">
+    <div class="dv-cover-left">
+      <span class="dv-cover-eyebrow">Data Viz System · V 1.0</span>
+      <h2 class="dv-cover-title">Command Center</h2>
+      <p class="dv-cover-sub">Dados densos, hierarquia clara, dark-first, motion funcional. O command center não exibe dados — ele articula decisões.</p>
+    </div>
+    <div class="dv-cover-meta">
+      <span>7 seções</span>
+      <span>4 tipos de chart</span>
+      <span>4 KPI variants</span>
+      <span>5 hero 3D types</span>
+      <span>Live data patterns</span>
+    </div>
+  </div>
+
+  <!-- Diagrama de composição -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">Anatomia do Command Center</span>
+      <span class="block-header-sub">Estrutura gravitacional — o objeto central define o contexto de tudo ao redor</span>
+    </div>
+
+    <div class="dv-anatomy-diagram">
+      <!-- Header bar -->
+      <div class="dv-zone dv-zone--header">
+        <span class="dv-zone-label">Header Bar</span>
+        <span class="dv-zone-desc">48px · nav + status + timestamp + KPIs macro</span>
+      </div>
+
+      <!-- Middle row -->
+      <div class="dv-anatomy-middle">
+        <!-- Left panel -->
+        <div class="dv-zone dv-zone--left">
+          <span class="dv-zone-label">Left Panel</span>
+          <span class="dv-zone-desc">240–320px</span>
+          <div class="dv-zone-widgets">
+            <div class="dv-widget-stub"></div>
+            <div class="dv-widget-stub dv-widget-stub--chart"></div>
+          </div>
+        </div>
+
+        <!-- Hero zone -->
+        <div class="dv-zone dv-zone--hero">
+          <div class="dv-hero-inner">
+            <!-- Symbolic 3D object representation -->
+            <svg class="dv-hero-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Outer ring -->
+              <circle cx="100" cy="100" r="80" stroke="#e8e6e1" stroke-width="0.5" opacity="0.12"/>
+              <circle cx="100" cy="100" r="60" stroke="#e8e6e1" stroke-width="0.5" opacity="0.08"/>
+              <circle cx="100" cy="100" r="40" stroke="#e8e6e1" stroke-width="0.5" opacity="0.06"/>
+              <!-- Grid lines (latitude/longitude) -->
+              <ellipse cx="100" cy="100" rx="80" ry="30" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+              <ellipse cx="100" cy="100" rx="80" ry="60" stroke="#e8e6e1" stroke-width="0.4" opacity="0.06"/>
+              <line x1="100" y1="20" x2="100" y2="180" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+              <line x1="20" y1="100" x2="180" y2="100" stroke="#e8e6e1" stroke-width="0.4" opacity="0.06"/>
+              <!-- Crimson accent points -->
+              <circle cx="130" cy="70" r="3" fill="#8B1A1A" opacity="0.9"/>
+              <circle cx="75" cy="115" r="3" fill="#8B1A1A" opacity="0.9"/>
+              <circle cx="148" cy="120" r="2" fill="#8B1A1A" opacity="0.6"/>
+              <!-- Connection lines -->
+              <line x1="130" y1="70" x2="75" y2="115" stroke="#8B1A1A" stroke-width="0.8" opacity="0.4"/>
+              <line x1="75" y1="115" x2="148" y2="120" stroke="#8B1A1A" stroke-width="0.8" opacity="0.3"/>
+              <!-- Center mark -->
+              <circle cx="100" cy="100" r="2" fill="#e8e6e1" opacity="0.3"/>
+            </svg>
+            <span class="dv-zone-label">Hero 3D</span>
+            <span class="dv-zone-desc">50–60% viewport · fundo black absoluto</span>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="dv-zone dv-zone--right">
+          <span class="dv-zone-label">Right Panel</span>
+          <span class="dv-zone-desc">240–320px</span>
+          <div class="dv-zone-widgets">
+            <div class="dv-widget-stub"></div>
+            <div class="dv-widget-stub dv-widget-stub--chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="dv-zone dv-zone--bottom">
+        <span class="dv-zone-label">Bottom Bar</span>
+        <span class="dv-zone-desc">180–240px · tabela ou feed horizontal</span>
+        <div class="dv-zone-table-preview">
+          <div class="dv-table-stub-row dv-table-stub-row--header"></div>
+          <div class="dv-table-stub-row"></div>
+          <div class="dv-table-stub-row"></div>
+          <div class="dv-table-stub-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 princípios -->
+  <div class="motion-sec-wrap m-reveal" style="padding-top: 0;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+      <div class="dv-principle-card">
+        <div class="dv-principle-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="10" stroke="#8B1A1A" stroke-width="1" opacity="0.4"/>
+            <circle cx="16" cy="16" r="6" stroke="#8B1A1A" stroke-width="1" opacity="0.6"/>
+            <circle cx="16" cy="16" r="2" fill="#8B1A1A"/>
+          </svg>
+        </div>
+        <span class="dv-principle-title">Gravitacional</span>
+        <span class="dv-principle-body">Todo dado orbita ao redor do objeto central. O hero define o contexto — sem ele, o command center perde coerência estrutural.</span>
+      </div>
+      <div class="dv-principle-card">
+        <div class="dv-principle-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="6" width="24" height="3" fill="#8B1A1A" opacity="0.8"/>
+            <rect x="4" y="14" width="18" height="2" fill="#e8e6e1" opacity="0.4"/>
+            <rect x="4" y="21" width="12" height="2" fill="#e8e6e1" opacity="0.2"/>
+          </svg>
+        </div>
+        <span class="dv-principle-title">Hierárquico</span>
+        <span class="dv-principle-body">Topo = macro (KPIs). Meio = análise (charts). Base = detalhe (tabelas). A camada mais alta tem menos informação e mais peso visual.</span>
+      </div>
+      <div class="dv-principle-card">
+        <div class="dv-principle-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="4" fill="#8B1A1A" opacity="0.9"/>
+            <circle cx="16" cy="16" r="8" stroke="#8B1A1A" stroke-width="0.8" opacity="0.4" stroke-dasharray="2 2"/>
+            <circle cx="16" cy="16" r="12" stroke="#8B1A1A" stroke-width="0.5" opacity="0.2" stroke-dasharray="2 4"/>
+          </svg>
+        </div>
+        <span class="dv-principle-title">Vivo</span>
+        <span class="dv-principle-body">Dados em tempo real. O command center nunca é estático — cada atualização é um sinal, não um ruído. Motion funcional comunica mudança.</span>
+      </div>
+    </div>
+  </div>
+</section>

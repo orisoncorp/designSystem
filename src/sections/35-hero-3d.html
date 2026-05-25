@@ -1,0 +1,277 @@
+<!-- Seção 35: Hero 3D Specs — tokens visuais e 5 tipos de hero -->
+<section id="sec-hero-3d">
+  <div class="sec-div">
+    <span class="sec-num">35</span>
+    <span class="sec-title">Hero 3D</span>
+    <span class="sec-sub">Materiais · Iluminação · Rotação · 5 tipos de objeto central</span>
+  </div>
+
+  <!-- Tokens visuais -->
+  <div class="motion-sec-wrap m-reveal">
+    <div class="block-header">
+      <span class="block-header-title">Tokens Visuais</span>
+      <span class="block-header-sub">Parâmetros que definem a estética do objeto 3D</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+      <!-- Material tokens -->
+      <div class="dv-token-block">
+        <span class="dv-token-block-title">Materiais</span>
+        <div class="dv-token-list">
+          <div class="dv-token-row">
+            <div class="dv-token-swatch" style="background:#e8e6e1; opacity:0.15; border:1px solid #3a3a3a;"></div>
+            <div>
+              <span class="dv-token-name">Wireframe principal</span>
+              <span class="dv-token-val">offwhite #e8e6e1 · opacity 0.15</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div class="dv-token-swatch" style="background:#8B1A1A; opacity:0.3; border:1px solid #3a3a3a;"></div>
+            <div>
+              <span class="dv-token-name">Wireframe de destaque</span>
+              <span class="dv-token-val">crimson #8B1A1A · opacity 0.3</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div class="dv-token-swatch" style="background:#8B1A1A; border:1px solid #3a3a3a;"></div>
+            <div>
+              <span class="dv-token-name">Emissão pontual (data points)</span>
+              <span class="dv-token-val">crimson puro · pins e nodes</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div class="dv-token-swatch" style="background:#0a0a0a; border:1px solid #3a3a3a;"></div>
+            <div>
+              <span class="dv-token-name">Background</span>
+              <span class="dv-token-val">black #0a0a0a · puro, sem gradient</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Iluminação + Rotação -->
+      <div class="dv-token-block">
+        <span class="dv-token-block-title">Iluminação</span>
+        <div class="dv-token-list" style="margin-bottom: var(--space-4);">
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Luz ambiente</span>
+              <span class="dv-token-val">Mínima — o objeto emerge da escuridão</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Specular</span>
+              <span class="dv-token-val">Mínimo · cold · sem reflexos quentes</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Emissor</span>
+              <span class="dv-token-val">crimson · apenas data points ativos</span>
+            </div>
+          </div>
+        </div>
+        <span class="dv-token-block-title">Rotação</span>
+        <div class="dv-token-list">
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Velocidade</span>
+              <span class="dv-token-val">0.002 rad/frame (~0.12°/frame @ 60fps)</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Eixo padrão</span>
+              <span class="dv-token-val">Y (horizontal) · X+Y para globos</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Easing</span>
+              <span class="dv-token-val">linear — rotação contínua uniforme</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Interação</span>
+              <span class="dv-token-val">drag manual + inertia com decay ao soltar</span>
+            </div>
+          </div>
+          <div class="dv-token-row">
+            <div>
+              <span class="dv-token-name">Reduced motion</span>
+              <span class="dv-token-val">rotação pausa — objeto estático</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 tipos de hero -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+    <div class="block-header">
+      <span class="block-header-title">Tipos de Hero</span>
+      <span class="block-header-sub">Cada tipo visualiza uma categoria de dado diferente</span>
+    </div>
+
+    <div class="dv-hero-types-grid">
+
+      <!-- Globo terrestre -->
+      <div class="dv-hero-type-card">
+        <div class="dv-hero-preview dv-hero-preview--globe">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="45" stroke="#e8e6e1" stroke-width="0.6" opacity="0.12"/>
+            <circle cx="60" cy="60" r="35" stroke="#e8e6e1" stroke-width="0.5" opacity="0.08"/>
+            <ellipse cx="60" cy="60" rx="45" ry="16" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+            <ellipse cx="60" cy="60" rx="45" ry="32" stroke="#e8e6e1" stroke-width="0.4" opacity="0.06"/>
+            <line x1="60" y1="15" x2="60" y2="105" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+            <circle cx="75" cy="45" r="3" fill="#8B1A1A" opacity="0.9"/>
+            <circle cx="45" cy="68" r="3" fill="#8B1A1A" opacity="0.9"/>
+            <circle cx="85" cy="70" r="2" fill="#8B1A1A" opacity="0.6"/>
+            <line x1="75" y1="45" x2="45" y2="68" stroke="#8B1A1A" stroke-width="0.8" opacity="0.4"/>
+            <line x1="45" y1="68" x2="85" y2="70" stroke="#8B1A1A" stroke-width="0.8" opacity="0.3"/>
+          </svg>
+        </div>
+        <span class="dv-hero-type-name">Globo Terrestre</span>
+        <span class="dv-hero-type-use">Operações distribuídas · logística · presença global</span>
+        <div class="dv-hero-type-tags">
+          <span class="dv-tag">Three.js SphereGeometry</span>
+          <span class="dv-tag">stroke-only wireframe</span>
+        </div>
+      </div>
+
+      <!-- Rede de nodes -->
+      <div class="dv-hero-type-card">
+        <div class="dv-hero-preview dv-hero-preview--network">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Nodes -->
+            <circle cx="60" cy="60" r="6" fill="#8B1A1A" opacity="0.9"/>
+            <circle cx="30" cy="40" r="4" fill="#8B1A1A" opacity="0.7"/>
+            <circle cx="90" cy="35" r="4" fill="#8B1A1A" opacity="0.7"/>
+            <circle cx="20" cy="75" r="3" fill="#8B1A1A" opacity="0.5"/>
+            <circle cx="100" cy="75" r="3" fill="#8B1A1A" opacity="0.5"/>
+            <circle cx="55" cy="95" r="3" fill="#8B1A1A" opacity="0.5"/>
+            <circle cx="85" cy="90" r="2.5" fill="#8B1A1A" opacity="0.4"/>
+            <!-- Edges -->
+            <line x1="60" y1="60" x2="30" y2="40" stroke="#8B1A1A" stroke-width="0.8" opacity="0.3"/>
+            <line x1="60" y1="60" x2="90" y2="35" stroke="#8B1A1A" stroke-width="0.8" opacity="0.3"/>
+            <line x1="60" y1="60" x2="20" y2="75" stroke="#8B1A1A" stroke-width="0.6" opacity="0.25"/>
+            <line x1="60" y1="60" x2="100" y2="75" stroke="#8B1A1A" stroke-width="0.6" opacity="0.25"/>
+            <line x1="60" y1="60" x2="55" y2="95" stroke="#8B1A1A" stroke-width="0.6" opacity="0.2"/>
+            <line x1="30" y1="40" x2="90" y2="35" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+            <line x1="20" y1="75" x2="55" y2="95" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+            <line x1="100" y1="75" x2="85" y2="90" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
+          </svg>
+        </div>
+        <span class="dv-hero-type-name">Rede de Nodes</span>
+        <span class="dv-hero-type-use">Conexões entre sistemas · integrations · data flows</span>
+        <div class="dv-hero-type-tags">
+          <span class="dv-tag">Three.js Points</span>
+          <span class="dv-tag">LineSegments</span>
+        </div>
+      </div>
+
+      <!-- Fluxo de partículas -->
+      <div class="dv-hero-type-card">
+        <div class="dv-hero-preview dv-hero-preview--particles">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Flow lines -->
+            <path d="M10,60 Q30,40 50,60 Q70,80 90,60 Q110,40 120,55" stroke="#8B1A1A" stroke-width="1" fill="none" opacity="0.6"/>
+            <path d="M10,70 Q30,50 50,70 Q70,90 90,70 Q110,50 120,65" stroke="#8B1A1A" stroke-width="0.7" fill="none" opacity="0.35"/>
+            <path d="M10,50 Q30,30 50,50 Q70,70 90,50 Q110,30 120,45" stroke="#8B1A1A" stroke-width="0.5" fill="none" opacity="0.2"/>
+            <!-- Particles along flow -->
+            <circle cx="25" cy="50" r="2" fill="#8B1A1A" opacity="0.9"/>
+            <circle cx="50" cy="62" r="2" fill="#8B1A1A" opacity="0.8"/>
+            <circle cx="75" cy="70" r="2" fill="#8B1A1A" opacity="0.7"/>
+            <circle cx="100" cy="57" r="2" fill="#8B1A1A" opacity="0.6"/>
+            <circle cx="38" cy="42" r="1.5" fill="#8B1A1A" opacity="0.5"/>
+            <circle cx="88" cy="52" r="1.5" fill="#8B1A1A" opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="dv-hero-type-name">Fluxo de Partículas</span>
+        <span class="dv-hero-type-use">Processamento · throughput · volume de transações</span>
+        <div class="dv-hero-type-tags">
+          <span class="dv-tag">Three.js BufferGeometry</span>
+          <span class="dv-tag">particle shader</span>
+        </div>
+      </div>
+
+      <!-- Estrutura molecular -->
+      <div class="dv-hero-type-card">
+        <div class="dv-hero-preview dv-hero-preview--molecular">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bonds -->
+            <line x1="60" y1="60" x2="30" y2="30" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
+            <line x1="60" y1="60" x2="90" y2="30" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
+            <line x1="60" y1="60" x2="25" y2="80" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
+            <line x1="60" y1="60" x2="95" y2="80" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
+            <line x1="60" y1="60" x2="60" y2="100" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
+            <line x1="30" y1="30" x2="90" y2="30" stroke="#e8e6e1" stroke-width="0.5" opacity="0.1"/>
+            <line x1="25" y1="80" x2="60" y2="100" stroke="#e8e6e1" stroke-width="0.5" opacity="0.1"/>
+            <line x1="95" y1="80" x2="60" y2="100" stroke="#e8e6e1" stroke-width="0.5" opacity="0.1"/>
+            <!-- Atoms -->
+            <circle cx="60" cy="60" r="8" fill="#8B1A1A" opacity="0.8"/>
+            <circle cx="30" cy="30" r="5" stroke="#e8e6e1" stroke-width="0.8" fill="#0d0d0f" opacity="0.8"/>
+            <circle cx="90" cy="30" r="5" stroke="#e8e6e1" stroke-width="0.8" fill="#0d0d0f" opacity="0.8"/>
+            <circle cx="25" cy="80" r="5" stroke="#e8e6e1" stroke-width="0.8" fill="#0d0d0f" opacity="0.8"/>
+            <circle cx="95" cy="80" r="5" stroke="#e8e6e1" stroke-width="0.8" fill="#0d0d0f" opacity="0.8"/>
+            <circle cx="60" cy="100" r="5" stroke="#e8e6e1" stroke-width="0.8" fill="#0d0d0f" opacity="0.8"/>
+          </svg>
+        </div>
+        <span class="dv-hero-type-name">Estrutura Molecular</span>
+        <span class="dv-hero-type-use">Composição de equipes · dependencies · org structure</span>
+        <div class="dv-hero-type-tags">
+          <span class="dv-tag">Three.js SphereGeometry</span>
+          <span class="dv-tag">CylinderGeometry bonds</span>
+        </div>
+      </div>
+
+      <!-- Cubo facetado -->
+      <div class="dv-hero-type-card">
+        <div class="dv-hero-preview dv-hero-preview--cube">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Isometric cube wireframe -->
+            <!-- Top face -->
+            <polygon points="60,20 95,38 60,56 25,38" stroke="#8B1A1A" stroke-width="0.8" fill="rgba(139,26,26,0.06)" opacity="0.9"/>
+            <!-- Left face -->
+            <polygon points="25,38 60,56 60,92 25,74" stroke="#e8e6e1" stroke-width="0.6" fill="rgba(232,230,225,0.03)" opacity="0.7"/>
+            <!-- Right face -->
+            <polygon points="60,56 95,38 95,74 60,92" stroke="#e8e6e1" stroke-width="0.6" fill="rgba(232,230,225,0.05)" opacity="0.7"/>
+            <!-- Internal lines for faceting -->
+            <line x1="60" y1="20" x2="60" y2="56" stroke="#8B1A1A" stroke-width="0.5" opacity="0.4"/>
+            <line x1="42" y1="29" x2="42" y2="47" stroke="#e8e6e1" stroke-width="0.4" opacity="0.2"/>
+            <line x1="78" y1="29" x2="78" y2="47" stroke="#e8e6e1" stroke-width="0.4" opacity="0.2"/>
+            <!-- Vertices highlighted -->
+            <circle cx="60" cy="20" r="2" fill="#8B1A1A" opacity="0.8"/>
+            <circle cx="95" cy="38" r="1.5" fill="#e8e6e1" opacity="0.4"/>
+            <circle cx="25" cy="38" r="1.5" fill="#e8e6e1" opacity="0.4"/>
+            <circle cx="60" cy="56" r="2" fill="#8B1A1A" opacity="0.6"/>
+          </svg>
+        </div>
+        <span class="dv-hero-type-name">Cubo Facetado</span>
+        <span class="dv-hero-type-use">Dados multidimensionais · análise cross-domain</span>
+        <div class="dv-hero-type-tags">
+          <span class="dv-tag">Three.js BoxGeometry</span>
+          <span class="dv-tag">EdgesGeometry</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Regras -->
+  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">O hero nunca é decorativo</span>
+        <span class="dv-rule-body">Ele visualiza dados reais. Pontos de dados no hero (pins em globo, nodes em rede) usam crimson. Labels flutuantes usam micro typography (8px). O hero deve funcionar sem labels — a forma comunica o conceito.</span>
+      </div>
+      <div class="dv-rule-block">
+        <span class="dv-rule-title">Sem ornamento</span>
+        <span class="dv-rule-body">Sem partículas decorativas. Sem trails. Sem bloom. Sem post-processing excessivo. A identidade da Orison é construída sobre escuridão intencional — o hero é a extensão desse princípio em 3D.</span>
+      </div>
+    </div>
+  </div>
+</section>
