@@ -2329,13 +2329,24 @@ svg.lm-symbol .lm-line {
   height: 6px;
   background: var(--color-border);
   position: relative;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
+}
+
+.dv-div-bar-wrap::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: 50%;
+  width: 1px;
+  background: rgba(232,230,225,0.28);
+  transform: translateX(-0.5px);
 }
 
 .dv-div-bar {
   height: 100%;
   position: absolute;
+  max-width: 50%;
 }
 
 .dv-div-bar--pos { background: #27834A; left: 50%; }
