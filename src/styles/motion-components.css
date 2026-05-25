@@ -2244,18 +2244,15 @@ svg.lm-symbol .lm-line {
 }
 
 .dv-scale-bar {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  display: flex;
   gap: 2px;
   height: 48px;
+  width: 100%;
   margin-bottom: var(--space-2);
 }
 
-.dv-scale-bar--divergent {
-  grid-template-columns: repeat(5, 1fr);
-}
-
 .dv-scale-step {
+  flex: 1;
   height: 100%;
   cursor: pointer;
   transition: transform 150ms ease;
@@ -2270,7 +2267,7 @@ svg.lm-symbol .lm-line {
   margin-bottom: var(--space-4);
 }
 
-.dv-scale-labels--divergent {
+.dv-scale-labels.dv-scale-labels--divergent {
   grid-template-columns: repeat(5, 1fr);
 }
 
@@ -3313,10 +3310,8 @@ svg.lm-symbol .lm-line {
   .dv-cat-grid { grid-template-columns: repeat(2, 1fr); }
   .dv-rt-patterns-grid { grid-template-columns: 1fr; }
   .dv-hero-types-grid { grid-template-columns: 1fr; }
-  .dv-scale-bar:not(.dv-scale-bar--divergent) { grid-template-columns: repeat(4, 1fr); }
-  .dv-scale-bar--divergent { grid-template-columns: repeat(5, 1fr); }
   .dv-scale-labels:not(.dv-scale-labels--divergent) { grid-template-columns: repeat(4, 1fr); }
-  .dv-scale-labels--divergent { grid-template-columns: repeat(5, 1fr); }
+  .dv-scale-labels.dv-scale-labels--divergent { grid-template-columns: repeat(5, 1fr); }
   .dv-heatmap-demo { grid-template-columns: repeat(4, 1fr); }
 }
 .reduced-motion .tw-cursor { animation: none; opacity: 0; }
