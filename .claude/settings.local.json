@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git config *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(npx kill-port *)",
+      "Bash(Remove-Item -Recurse -Force node_modules/.vite)"
     ]
   },
   "spinnerTipsEnabled": false,
