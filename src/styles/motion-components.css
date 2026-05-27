@@ -1965,6 +1965,15 @@ svg.lm-symbol .lm-line {
    DATA VISUALIZATION SYSTEM — Sections 30–36
    ═══════════════════════════════════════════════ */
 
+/* Dashboard metrics use lining figures to avoid Cormorant old-style descenders. */
+.dv-kpi-value,
+.dv-layout-stub-val,
+.dv-panel-widget-val {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  line-height: 1;
+}
+
 /* ── Section divider label shared ── */
 .block-header {
   display: flex;
