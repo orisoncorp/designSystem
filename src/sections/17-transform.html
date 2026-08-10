@@ -1,14 +1,14 @@
 <!-- Seção 17: Transform — escalas de translateY, translateX, scale e opacity -->
-<section id="sec-transform">
+<section id="sec-transform" aria-labelledby="sec-transform-title">
   <div class="sec-div">
     <span class="sec-num">17</span>
-    <span class="sec-title">Transform</span>
+    <h2 class="sec-title" id="sec-transform-title">Transform</h2>
     <span class="sec-sub">Atoms · TranslateY · TranslateX · Scale · Opacity</span>
   </div>
 
   <div class="motion-sec-wrap">
     <div class="block-header">
-      <span class="block-header-title">Primitivos de Transform</span>
+      <h3 class="block-header-title">Primitivos de Transform</h3>
       <span class="block-header-sub">Valores máximos e mínimos rígidos — nunca exceder os limites</span>
     </div>
 
@@ -98,18 +98,18 @@
       <div class="transform-scale-grid">
         <div class="transform-scale-card">
           <div class="transform-scale-box" style="transform: scale(0.96); opacity: 0.5;"></div>
-          <span style="font-family: monospace; font-size: 10px; color: var(--color-crimson-text); letter-spacing: 1px;">0.96</span>
-          <span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">scale-min — piso absoluto</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">0.96</span>
+          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-min — piso absoluto</span>
         </div>
         <div class="transform-scale-card">
           <div class="transform-scale-box" style="transform: scale(1.0); opacity: 0.8;"></div>
-          <span style="font-family: monospace; font-size: 10px; color: var(--color-crimson-text); letter-spacing: 1px;">1.0</span>
-          <span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">scale-base — estado normal</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">1.0</span>
+          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-base — estado normal</span>
         </div>
         <div class="transform-scale-card">
           <div class="transform-scale-box" style="transform: scale(1.02);"></div>
-          <span style="font-family: monospace; font-size: 10px; color: var(--color-crimson-text); letter-spacing: 1px;">1.02</span>
-          <span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">scale-max — teto absoluto</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">1.02</span>
+          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-max — teto absoluto</span>
         </div>
       </div>
     </div>
@@ -120,28 +120,28 @@
       <div class="transform-opacity-grid">
         <div class="transform-opacity-card">
           <div class="transform-opacity-box" style="opacity: 0; border: 1px dashed var(--color-subtle);"></div>
-          <span style="font-family: monospace; font-size: 9px; color: var(--color-crimson-text);">0.0</span>
-          <span style="font-size: 7px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); text-align: center; line-height: 1.6;">start — ponto inicial</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.0</span>
+          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">start — ponto inicial</span>
         </div>
         <div class="transform-opacity-card">
           <div class="transform-opacity-box" style="opacity: 0.35;"></div>
-          <span style="font-family: monospace; font-size: 9px; color: var(--color-crimson-text);">0.35</span>
-          <span style="font-size: 7px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); text-align: center; line-height: 1.6;">disabled — elementos inativos</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.35</span>
+          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">disabled — elementos inativos</span>
         </div>
         <div class="transform-opacity-card">
           <div class="transform-opacity-box" style="opacity: 0.55;"></div>
-          <span style="font-family: monospace; font-size: 9px; color: var(--color-crimson-text);">0.55</span>
-          <span style="font-size: 7px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); text-align: center; line-height: 1.6;">mid — intermediário</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.55</span>
+          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">mid — intermediário</span>
         </div>
         <div class="transform-opacity-card">
           <div class="transform-opacity-box" style="opacity: 0.75;"></div>
-          <span style="font-family: monospace; font-size: 9px; color: var(--color-crimson-text);">0.75</span>
-          <span style="font-size: 7px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); text-align: center; line-height: 1.6;">overlay — atrás de modais</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.75</span>
+          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">overlay — atrás de modais</span>
         </div>
         <div class="transform-opacity-card">
           <div class="transform-opacity-box" style="opacity: 1.0;"></div>
-          <span style="font-family: monospace; font-size: 9px; color: var(--color-crimson-text);">1.0</span>
-          <span style="font-size: 7px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); text-align: center; line-height: 1.6;">end — estado final</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">1.0</span>
+          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">end — estado final</span>
         </div>
       </div>
     </div>

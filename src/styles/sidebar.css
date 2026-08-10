@@ -1,158 +1,248 @@
-/* ─── Sidebar ─── */
+/* ═══════════════════════════════════════════════════════════════════
+   SIDEBAR — v3.0
+
+   37 seções em uma lista plana era o produto real do livro, e não tinha
+   busca, nem colapso, nem auto-scroll do item ativo, e o cromo estava
+   a 7px. Ela agora é um índice operável.
+   ═══════════════════════════════════════════════════════════════════ */
+
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   width: var(--sidebar-width);
   height: 100vh;
+  height: 100dvh;   /* iOS: 100vh ultrapassa a viewport visível */
   background: var(--color-midnight);
-  border-right: 1px solid var(--color-slate);
+  border-right: var(--border-thin) solid var(--color-border);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   z-index: 100;
-  -webkit-overflow-scrolling: touch;
 }
 
-/* Custom scrollbar for sidebar */
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-track { background: transparent; }
-.sidebar::-webkit-scrollbar-thumb { background: var(--color-slate); border-radius: 2px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--color-slate); }
 
-/* ─── Sidebar header ─── */
+/* ─── Cabeçalho ─── */
 .sidebar-header {
-  padding: 32px 24px 24px;
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border-bottom: var(--border-thin) solid var(--color-border);
   flex-shrink: 0;
 }
 
 .sidebar-brand {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: var(--display-sm);
   font-weight: var(--font-weight-light);
-  letter-spacing: 9px;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
-  color: var(--color-offwhite);
+  color: var(--text-primary);
   display: block;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-2);
+  border-bottom: var(--border-thin) solid var(--color-border);
 }
 
 .sidebar-version {
-  font-size: var(--text-micro);
-  letter-spacing: 3px;
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
   color: var(--color-crimson-text);
   text-transform: uppercase;
 }
 
 .sidebar-count {
   display: block;
-  margin-top: 6px;
-  font-size: 7px;
-  letter-spacing: 3px;
+  margin-top: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
   color: var(--text-muted);
   text-transform: uppercase;
-  font-family: var(--font-body);
 }
 
-/* ─── Navigation ─── */
+/* ─── Busca ───
+   Foco por `/`. 37 itens sem filtro é uma varredura manual. */
+.sidebar-search {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.sidebar-search input {
+  width: 100%;
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  padding: var(--space-2) var(--space-3);
+  min-height: 36px;
+  -webkit-appearance: none;
+}
+
+.sidebar-search input::placeholder { color: var(--text-muted); opacity: 1; }
+.sidebar-search input:hover { border-color: var(--color-gray); }
+
+.sidebar-search-empty {
+  display: none;
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-base);
+}
+
+.sidebar-nav.is-empty .sidebar-search-empty { display: block; }
+
+/* ─── Navegação ─── */
 .sidebar-nav {
-  padding: 8px 0;
+  padding: var(--space-2) 0 var(--space-6);
   flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* ─── Group labels ─── */
+/* ─── Grupos ─── */
 .sidebar-group {
-  padding: 14px 24px 5px;
-  font-size: 7px;
-  letter-spacing: 4px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-family: var(--font-body);
-}
-
-.sidebar-group--motion {
-  border-top: 1px solid var(--color-border);
-  margin-top: 6px;
-  padding-top: 16px;
-  color: var(--color-crimson-text);
-  opacity: 0.7;
-}
-
-.sidebar-group--dataviz {
-  border-top: 1px solid var(--color-border);
-  margin-top: 6px;
-  padding-top: 16px;
-  color: var(--color-crimson-text);
-  opacity: 0.7;
-}
-
-.sidebar-item {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 24px;
-  text-decoration: none;
-  color: var(--text-body);
-  transition: opacity var(--transition-fast), background var(--transition-fast), border-left-color var(--transition-fast);
-  border-left: 2px solid transparent;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-midnight);
+  border: none;
+  border-top: var(--border-thin) solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  text-align: left;
   cursor: pointer;
 }
 
-.sidebar-item:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
+.sidebar-group:first-child { border-top: none; }
+.sidebar-group:hover { color: var(--text-primary); }
+
+.sidebar-group-count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-none);
 }
 
-.sidebar-item--active {
-  color: var(--text-primary);
-  border-left: 3px solid var(--color-crimson);
-  padding-left: 23px;
-  background: rgba(139, 26, 26, 0.10);
+.sidebar-group-caret {
+  width: 8px;
+  height: 8px;
+  border-right: var(--border-thin) solid currentColor;
+  border-bottom: var(--border-thin) solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
 }
+
+.sidebar-group[aria-expanded='false'] .sidebar-group-caret { transform: rotate(-45deg); }
+
+.sidebar-group-items { display: block; }
+.sidebar-group-items[hidden] { display: none; }
+
+/* ─── Item ─── */
+.sidebar-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  min-height: 36px;
+  text-decoration: none;
+  border-left: var(--border-accent) solid transparent;
+  transition: background var(--transition-fast), border-left-color var(--transition-fast);
+}
+
+.sidebar-item:hover { background: rgba(255, 255, 255, 0.04); }
+.sidebar-item:hover .sidebar-label { color: var(--text-primary); }
+
+/* Ativo: o indicador usa --color-focus. O crimson sólido media 2,03:1
+   contra o fundo da sidebar, abaixo do piso 3,0:1 de WCAG 1.4.11. */
+.sidebar-item[aria-current='page'] {
+  border-left-color: var(--color-focus);
+  background: rgba(240, 96, 112, 0.08);
+}
+
+.sidebar-item[aria-current='page'] .sidebar-label { color: var(--text-primary); }
+.sidebar-item[aria-current='page'] .sidebar-num   { color: var(--color-crimson-text); }
 
 .sidebar-num {
-  font-size: var(--text-label);
-  letter-spacing: 2px;
-  color: var(--color-crimson-text);
-  font-family: monospace;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-none);
+  color: var(--text-muted);
   min-width: 20px;
+  flex-shrink: 0;
 }
 
 .sidebar-label {
-  font-size: var(--text-label);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--color-offwhite);
-  line-height: 1.2;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  color: var(--text-secondary);
+  line-height: var(--leading-snug);
 }
 
-/* ─── Hamburger (mobile) ─── */
-.sidebar-toggle {
+/* ─── Barra superior mobile ───
+   Na v2.0 o hambúrguer era `position: fixed` solto e cobria o canto
+   superior esquerdo de 36 das 37 seções — só .cover tinha margem. */
+.sidebar-topbar {
   display: none;
   position: fixed;
-  top: 16px;
-  left: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
   z-index: 200;
-  width: 40px;
-  height: 40px;
   background: var(--color-midnight);
-  border: 1px solid var(--color-slate);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+}
+
+.sidebar-topbar-brand {
+  font-family: var(--font-display);
+  font-size: var(--display-sm);
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.sidebar-toggle {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: var(--border-thin) solid var(--color-border);
   cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
-  padding: 10px;
+  padding: var(--space-2);
+  flex-shrink: 0;
 }
 
 .sidebar-toggle span {
   display: block;
-  width: 20px;
-  height: 1px;
-  background: var(--color-offwhite);
-  opacity: 0.7;
+  width: 18px;
+  height: var(--border-thin);
+  background: var(--text-primary);
   transition: transform var(--transition-base), opacity var(--transition-base);
 }
 
@@ -160,12 +250,12 @@
 .sidebar-toggle.is-open span:nth-child(2) { opacity: 0; }
 .sidebar-toggle.is-open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
 
-/* ─── Overlay (mobile) ─── */
+/* ─── Overlay ─── */
 .sidebar-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 99;
 }
 
@@ -176,24 +266,12 @@
     transition: transform var(--transition-slow);
   }
 
-  .sidebar.is-open {
-    transform: translateX(0);
-  }
+  .sidebar.is-open { transform: translateX(0); }
 
-  .sidebar-toggle {
-    display: flex;
-  }
+  .sidebar-topbar { display: flex; }
+  .sidebar-overlay.is-visible { display: block; }
+}
 
-  .sidebar-overlay.is-visible {
-    display: block;
-  }
-
-  /* Push content down on mobile to account for toggle button */
-  #app {
-    padding-top: 0;
-  }
-
-  .cover {
-    margin-top: 70px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .sidebar { transition: none; }
 }

@@ -50,6 +50,7 @@ import section33 from './sections/33-kpi-cards.html?raw';
 import section34 from './sections/34-command-layout.html?raw';
 import section35 from './sections/35-hero-3d.html?raw';
 import section36 from './sections/36-realtime-motion.html?raw';
+import section37 from './sections/37-colofao.html?raw';
 
 /* ── Sidebar nav config ── */
 const NAV_ITEMS = [
@@ -68,7 +69,7 @@ const NAV_ITEMS = [
   { id: 'sec-apps',        num: '12', label: 'Aplicações',    group: 'design' },
   { id: 'sec-components',  num: '13', label: 'Componentes UI',group: 'design' },
 
-  { id: 'sec-motion-cover', num: '14', label: 'Overview',     group: 'motion' },
+  { id: 'sec-motion-cover', num: '14', label: 'Motion · Overview', group: 'motion' },
   { id: 'sec-easing',       num: '15', label: 'Easing',       group: 'motion' },
   { id: 'sec-duration',     num: '16', label: 'Duration',     group: 'motion' },
   { id: 'sec-transform',    num: '17', label: 'Transform',    group: 'motion' },
@@ -85,51 +86,77 @@ const NAV_ITEMS = [
   { id: 'sec-logo-motion',  num: '28', label: 'Logo Motion',   group: 'motion' },
   { id: 'sec-typewriter',   num: '29', label: 'Typewriter',    group: 'motion' },
 
-  { id: 'sec-dataviz-overview', num: '30', label: 'Overview',       group: 'dataviz' },
+  { id: 'sec-dataviz-overview', num: '30', label: 'Data Viz · Overview', group: 'dataviz' },
   { id: 'sec-data-palette',     num: '31', label: 'Data Palette',   group: 'dataviz' },
   { id: 'sec-chart-styles',     num: '32', label: 'Chart Styles',   group: 'dataviz' },
   { id: 'sec-kpi-cards',        num: '33', label: 'KPI Cards',      group: 'dataviz' },
   { id: 'sec-command-layout',   num: '34', label: 'Command Layout', group: 'dataviz' },
   { id: 'sec-hero-3d',          num: '35', label: 'Hero 3D',        group: 'dataviz' },
   { id: 'sec-realtime-motion',  num: '36', label: 'Real-time',      group: 'dataviz' },
+
+  { id: 'sec-colofao',          num: '37', label: 'Colofão',        group: 'colofao' },
 ];
 
-/* ── Build sidebar HTML ── */
-function buildSidebar() {
-  let navHtml = '';
-  let lastGroup = null;
+const GROUP_LABELS = {
+  design:  'Design System',
+  motion:  'Motion System',
+  dataviz: 'Data Viz',
+  colofao: 'Colofão',
+};
 
+/* ── Build sidebar HTML ──
+   Índice operável: busca com atalho `/`, grupos colapsáveis com estado
+   persistido, e um único landmark de navegação (a v2.0 aninhava
+   <aside role="navigation"> dentro de <nav>). */
+function buildSidebar() {
+  const groups = [];
   NAV_ITEMS.forEach(item => {
-    if (item.group !== lastGroup) {
-      if (item.group === 'design') {
-        navHtml += `<div class="sidebar-group">Design System</div>`;
-      } else if (item.group === 'motion') {
-        navHtml += `<div class="sidebar-group sidebar-group--motion">Motion System</div>`;
-      } else if (item.group === 'dataviz') {
-        navHtml += `<div class="sidebar-group sidebar-group--dataviz">Data Viz</div>`;
-      }
-      lastGroup = item.group;
-    }
-    navHtml += `
-      <a class="sidebar-item" href="#${item.id}" data-target="${item.id}">
-        <span class="sidebar-num">${item.num}</span>
-        <span class="sidebar-label">${item.label}</span>
-      </a>
-    `;
+    const last = groups[groups.length - 1];
+    if (!last || last.key !== item.group) groups.push({ key: item.group, items: [item] });
+    else last.items.push(item);
   });
 
+  const navHtml = groups.map(g => {
+    const items = g.items.map(item => `
+      <a class="sidebar-item" href="#${item.id}" data-target="${item.id}"
+         data-search="${(item.num + ' ' + item.label).toLowerCase()}">
+        <span class="sidebar-num">${item.num}</span>
+        <span class="sidebar-label">${item.label}</span>
+      </a>`).join('');
+
+    return `
+      <button type="button" class="sidebar-group" data-group="${g.key}"
+              aria-expanded="true" aria-controls="grp-${g.key}">
+        <span class="sidebar-group-caret" aria-hidden="true"></span>
+        <span>${GROUP_LABELS[g.key]}</span>
+        <span class="sidebar-group-count">${g.items.length}</span>
+      </button>
+      <div class="sidebar-group-items" id="grp-${g.key}">${items}</div>`;
+  }).join('');
+
   return `
-    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Seções do Design System">
+    <nav class="sidebar" id="sidebar" aria-label="Seções do brand book">
       <div class="sidebar-header">
         <span class="sidebar-brand">Orison</span>
-        <span class="sidebar-version">Brand System · V 2.0</span>
+        <span class="sidebar-version">Brand System · V 3.0</span>
         <span class="sidebar-count">${NAV_ITEMS.length} seções</span>
       </div>
-      <nav class="sidebar-nav">${navHtml}</nav>
-    </aside>
-    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir navegação" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+      <div class="sidebar-search">
+        <input type="search" id="sidebar-filter" autocomplete="off"
+               placeholder="Filtrar  /" aria-label="Filtrar seções">
+      </div>
+      <div class="sidebar-nav" id="sidebar-nav">
+        ${navHtml}
+        <p class="sidebar-search-empty">Nenhuma seção corresponde ao filtro.</p>
+      </div>
+    </nav>
+    <div class="sidebar-topbar">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir navegação"
+              aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="sidebar-topbar-brand">Orison</span>
+    </div>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
   `;
 }
@@ -149,26 +176,56 @@ app.innerHTML = [
   section24, section25, section26, section27, section28,
   section29,
   section30, section31, section32, section33, section34,
-  section35, section36,
+  section35, section36, section37,
 ].join('');
 
-/* ── Sidebar toggle (mobile) ── */
+/* ── Preferência de movimento ──
+   O !important do CSS zera durações declarativas, mas o sequenciamento
+   deste arquivo é feito com setTimeout: sem esta checagem, todo o
+   stagger continua rodando sob prefers-reduced-motion. */
+const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function motionReduced() {
+  const html = document.documentElement;
+  if (html.classList.contains('force-motion')) return false;
+  return motionQuery.matches || html.classList.contains('reduced-motion');
+}
+
+/** setTimeout que colapsa para 0 quando o movimento é reduzido. */
+function schedule(fn, ms) {
+  return setTimeout(fn, motionReduced() ? 0 : ms);
+}
+
+/* ── Sidebar (mobile) ── */
 const sidebar   = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('sidebar-toggle');
 const overlay   = document.getElementById('sidebar-overlay');
 
+let lastFocusBeforeDrawer = null;
+
+function drawerIsModal() {
+  return window.innerWidth <= 900 && sidebar.classList.contains('is-open');
+}
+
 function openSidebar() {
+  lastFocusBeforeDrawer = document.activeElement;
   sidebar.classList.add('is-open');
   overlay.classList.add('is-visible');
   toggleBtn.classList.add('is-open');
   toggleBtn.setAttribute('aria-expanded', 'true');
+  sidebar.querySelector('#sidebar-filter')?.focus();
 }
 
 function closeSidebar() {
+  const wasOpen = sidebar.classList.contains('is-open');
   sidebar.classList.remove('is-open');
   overlay.classList.remove('is-visible');
   toggleBtn.classList.remove('is-open');
   toggleBtn.setAttribute('aria-expanded', 'false');
+  if (wasOpen && lastFocusBeforeDrawer) {
+    lastFocusBeforeDrawer.focus();
+    lastFocusBeforeDrawer = null;
+  }
 }
 
 toggleBtn.addEventListener('click', () => {
@@ -177,9 +234,87 @@ toggleBtn.addEventListener('click', () => {
 
 overlay.addEventListener('click', closeSidebar);
 
-sidebar.querySelectorAll('.sidebar-item').forEach(link => {
-  link.addEventListener('click', () => {
-    if (window.innerWidth <= 900) closeSidebar();
+sidebar.addEventListener('click', (e) => {
+  if (e.target.closest('.sidebar-item') && window.innerWidth <= 900) closeSidebar();
+});
+
+/* Esc fecha a gaveta; Tab fica preso nela enquanto estiver aberta. */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+    closeSidebar();
+    toggleBtn.focus();
+    return;
+  }
+
+  if (e.key === 'Tab' && drawerIsModal()) {
+    const focusables = [...sidebar.querySelectorAll('a[href], button, input')]
+      .filter(el => el.offsetParent !== null);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last  = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+/* `/` foca o filtro, como em qualquer documentação que se leva a sério. */
+document.addEventListener('keydown', (e) => {
+  const tag = document.activeElement?.tagName;
+  if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+    e.preventDefault();
+    if (window.innerWidth <= 900 && !sidebar.classList.contains('is-open')) openSidebar();
+    else document.getElementById('sidebar-filter')?.focus();
+  }
+});
+
+/* ── Filtro ── */
+const filterInput = document.getElementById('sidebar-filter');
+const sidebarNav  = document.getElementById('sidebar-nav');
+
+filterInput?.addEventListener('input', () => {
+  const q = filterInput.value.trim().toLowerCase();
+  let visible = 0;
+
+  sidebarNav.querySelectorAll('.sidebar-group-items').forEach(box => {
+    let groupHits = 0;
+    box.querySelectorAll('.sidebar-item').forEach(item => {
+      const hit = !q || item.dataset.search.includes(q);
+      item.hidden = !hit;
+      if (hit) { groupHits++; visible++; }
+    });
+    const header = sidebarNav.querySelector(`[aria-controls="${box.id}"]`);
+    // Durante uma busca os grupos abrem sozinhos; sem busca, respeitam o estado salvo.
+    if (q) {
+      box.hidden = groupHits === 0;
+      if (header) header.hidden = groupHits === 0;
+    } else {
+      if (header) header.hidden = false;
+      box.hidden = header?.getAttribute('aria-expanded') === 'false';
+    }
+  });
+
+  sidebarNav.classList.toggle('is-empty', visible === 0);
+});
+
+/* ── Grupos colapsáveis ── */
+const GROUP_STATE_KEY = 'orison-bb-groups';
+const groupState = JSON.parse(localStorage.getItem(GROUP_STATE_KEY) || '{}');
+
+sidebarNav?.querySelectorAll('.sidebar-group').forEach(header => {
+  const box = document.getElementById(header.getAttribute('aria-controls'));
+  const key = header.dataset.group;
+
+  if (groupState[key] === false) {
+    header.setAttribute('aria-expanded', 'false');
+    box.hidden = true;
+  }
+
+  header.addEventListener('click', () => {
+    const open = header.getAttribute('aria-expanded') === 'true';
+    header.setAttribute('aria-expanded', String(!open));
+    box.hidden = open;
+    groupState[key] = !open;
+    localStorage.setItem(GROUP_STATE_KEY, JSON.stringify(groupState));
   });
 });
 
@@ -188,7 +323,18 @@ const sidebarItems = document.querySelectorAll('.sidebar-item');
 
 function setActive(id) {
   sidebarItems.forEach(el => {
-    el.classList.toggle('sidebar-item--active', el.dataset.target === id);
+    const active = el.dataset.target === id;
+    if (active) {
+      el.setAttribute('aria-current', 'page');
+      // Sem isto, a partir do item ~22 o indicador ativo fica abaixo
+      // da própria dobra da sidebar e o leitor perde a posição.
+      // Só quando a sidebar está de fato visível.
+      if (window.innerWidth > 900 || sidebar.classList.contains('is-open')) {
+        el.scrollIntoView({ block: 'nearest' });
+      }
+    } else {
+      el.removeAttribute('aria-current');
+    }
   });
 }
 
@@ -212,20 +358,19 @@ function inManualSection(el) {
 const animObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting && !inManualSection(entry.target)) {
-      setTimeout(() => entry.target.classList.add('in-view'), i * 80);
+      schedule(() => entry.target.classList.add('in-view'), i * 80);
       animObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll(
-  '.cover, .block-2col, .scale-bar, .favicon-bar, .palette-wrap, ' +
-  '.type-wrap, .spacing-wrap, .clearspace-wrap, .dont-wrap, ' +
-  '.vt-wrap, .app-wrap, .full-block, .sec-div, ' +
-  '.comp-wrap, .motion-wrap'
-).forEach(el => animObserver.observe(el));
+/* Só os momentos autorais têm gate de scroll. Na v2.0 doze wrappers
+   diferentes recebiam a mesma entrada, o que significava que uma falha
+   de JS entregava a página inteira em branco. */
+document.querySelectorAll('.cover, .opener, .sec-div')
+  .forEach(el => animObserver.observe(el));
 
-setTimeout(() => {
+schedule(() => {
   document.querySelector('.cover')?.classList.add('in-view');
 }, 80);
 
@@ -335,18 +480,38 @@ let notification = document.querySelector('.copy-notification');
 if (!notification) {
   notification = document.createElement('div');
   notification.className = 'copy-notification';
+  // Sem aria-live a confirmação de cópia era puramente visual.
+  notification.setAttribute('role', 'status');
+  notification.setAttribute('aria-live', 'polite');
   document.body.appendChild(notification);
 }
 
+let notifyTimer = null;
+function notify(msg) {
+  notification.textContent = msg;
+  notification.classList.add('show');
+  clearTimeout(notifyTimer);
+  notifyTimer = setTimeout(() => notification.classList.remove('show'), 2400);
+}
+
+/* Copia `var(--color-crimson)`, não `#8B1A1A`: o token é o que se
+   escreve no arquivo. Alt/Shift copia o hexadecimal. */
 document.querySelectorAll('.swatch').forEach(swatch => {
-  swatch.addEventListener('click', () => {
-    const hex = swatch.dataset.hex || swatch.style.background;
-    if (!hex) return;
-    navigator.clipboard.writeText(hex).then(() => {
-      notification.textContent = `Copiado: ${hex}`;
-      notification.classList.add('show');
-      setTimeout(() => notification.classList.remove('show'), 2000);
-    });
+  swatch.addEventListener('click', (e) => {
+    const hex   = swatch.dataset.hex;
+    const token = swatch.dataset.token;
+    const wantHex = e.altKey || e.shiftKey || !token;
+    const value = wantHex ? hex : `var(${token})`;
+    if (!value) return;
+    // navigator.clipboard é undefined fora de origem segura; o TypeError
+    // seria síncrono e passaria por fora do .catch().
+    if (!navigator.clipboard?.writeText) {
+      notify('Cópia indisponível fora de HTTPS');
+      return;
+    }
+    navigator.clipboard.writeText(value)
+      .then(() => notify(`Copiado: ${value}`))
+      .catch(() => notify('Não foi possível copiar'));
   });
 });
 
@@ -411,7 +576,23 @@ document.getElementById('duration-play-all')?.addEventListener('click', () => {
 });
 
 /* ── Stagger demo (section 18) ── */
-let staggerBase = 60;
+/* Os tokens --motion-stagger-* existiam e não eram consumidos por
+   ninguém: a v2.0 hardcodava 60/40/120 aqui enquanto a seção 18
+   documentava o stagger como sistema governado. */
+const cssMs = (name, fallback) => {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const n = parseFloat(v);
+  return Number.isFinite(n) ? (v.endsWith('ms') ? n : n * 1000) : fallback;
+};
+
+const STAGGER = {
+  base:     cssMs('--motion-stagger-base', 60),
+  dense:    cssMs('--motion-stagger-dense', 40),
+  dramatic: cssMs('--motion-stagger-dramatic', 120),
+  maxDelay: cssMs('--motion-stagger-max-delay', 480),
+};
+
+let staggerBase = STAGGER.base;
 
 const staggerDelays = (base) => {
   const delays = [];
@@ -447,7 +628,7 @@ document.querySelectorAll('.stagger-mode-btn').forEach(btn => {
     document.querySelectorAll('.stagger-mode-btn').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
     const mode = btn.dataset.staggerMode;
-    staggerBase = mode === 'base' ? 60 : mode === 'dense' ? 40 : 120;
+    staggerBase = STAGGER[mode] ?? STAGGER.base;
     updateStaggerLabels(staggerBase);
   });
 });
@@ -528,21 +709,32 @@ document.querySelectorAll('[data-exit-trigger]').forEach(btn => {
   });
 });
 
-/* ── Micro-interactions (section 22) ── */
+/* ── Micro-interactions (section 22) ──
+   Espaço e Enter operam qualquer role="switch"/role="checkbox". Na v2.0
+   estes eram <div> sem tabindex, role ou handler de teclado — inclusive
+   o #rm-toggle, que É o controle de acessibilidade. */
+document.addEventListener('keydown', (e) => {
+  const el = e.target.closest?.('[role="switch"], [role="checkbox"]');
+  if (!el) return;
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    el.click();
+  }
+});
+
 document.getElementById('toggle-1')?.addEventListener('click', function() {
-  this.classList.toggle('is-on');
+  const on = this.classList.toggle('is-on');
+  this.setAttribute('aria-checked', String(on));
   const label = document.getElementById('toggle-1-label');
-  if (label) label.textContent = this.classList.contains('is-on') ? 'Ligado' : 'Desligado';
+  if (label) label.textContent = on ? 'Ligado' : 'Desligado';
 });
 
-document.getElementById('check-1')?.addEventListener('click', function() {
-  const box = document.getElementById('check-box-1');
-  if (box) box.classList.toggle('is-checked');
-});
-
-document.getElementById('check-2')?.addEventListener('click', function() {
-  const box = document.getElementById('check-box-2');
-  if (box) box.classList.toggle('is-checked');
+['check-1', 'check-2'].forEach((id, i) => {
+  document.getElementById(id)?.addEventListener('click', function() {
+    const box = document.getElementById(`check-box-${i + 1}`);
+    const on = box ? box.classList.toggle('is-checked') : false;
+    this.setAttribute('aria-checked', String(on));
+  });
 });
 
 let progressRunning = false;
@@ -557,7 +749,7 @@ function resetMicroProgress() {
   progressRunning = false;
   if (fill) {
     fill.classList.remove('is-running');
-    fill.style.width = '0%';
+    fill.style.transform = 'scaleX(0)';
   }
   if (pct) pct.textContent = '0%';
   if (btn) btn.textContent = 'Iniciar';
@@ -571,10 +763,10 @@ document.getElementById('progress-play')?.addEventListener('click', function() {
   const pct  = document.getElementById('progress-pct');
   if (!fill) return;
   fill.classList.remove('is-running');
-  fill.style.width = '0%';
+  fill.style.transform = 'scaleX(0)';
   playBtn.textContent = 'Processando...';
   void fill.offsetWidth;
-  fill.style.width = '';
+  fill.style.transform = '';
   fill.classList.add('is-running');
   let start = null;
   const dur = 900;
@@ -641,19 +833,38 @@ document.getElementById('loading-bar-toggle')?.addEventListener('click', functio
   }
 });
 
-/* ── Modal demo (section 24) ── */
+/* ── Modal demo (section 24) ──
+   Era o último alvo de clique sem alternativa de teclado: o backdrop
+   dispensava por clique, e não havia Escape nem retorno de foco. */
 const modalOverlay = document.getElementById('modal-demo-overlay');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+let modalLastFocus = null;
 
-document.getElementById('modal-open-btn')?.addEventListener('click', () => {
-  if (modalOverlay) modalOverlay.classList.add('is-open');
-});
+function openModalDemo() {
+  if (!modalOverlay) return;
+  modalLastFocus = document.activeElement;
+  modalOverlay.classList.add('is-open');
+  modalCloseBtn?.focus();
+}
 
-document.getElementById('modal-close-btn')?.addEventListener('click', () => {
-  if (modalOverlay) modalOverlay.classList.remove('is-open');
-});
+function closeModalDemo() {
+  if (!modalOverlay) return;
+  modalOverlay.classList.remove('is-open');
+  modalLastFocus?.focus();
+  modalLastFocus = null;
+}
+
+document.getElementById('modal-open-btn')?.addEventListener('click', openModalDemo);
+modalCloseBtn?.addEventListener('click', closeModalDemo);
 
 modalOverlay?.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) modalOverlay.classList.remove('is-open');
+  if (e.target === modalOverlay) closeModalDemo();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape' || !modalOverlay?.classList.contains('is-open')) return;
+  e.stopPropagation();
+  closeModalDemo();
 });
 
 /* ── Reduced motion toggle (section 26) ── */
@@ -683,6 +894,7 @@ rmToggle?.addEventListener('click', function() {
     active = html.classList.contains('reduced-motion');
   }
   this.classList.toggle('is-on', active);
+  this.setAttribute('aria-checked', String(active));
   if (rmStatus) {
     rmStatus.textContent = active ? 'Ativo' : 'Inativo';
     rmStatus.classList.toggle('is-active', active);
@@ -934,7 +1146,7 @@ function twCreateCursor() {
   cursor.style.display = 'inline-block';
   cursor.style.width = '2px';
   cursor.style.height = '1.1em';
-  cursor.style.backgroundColor = '#8B1A1A';
+  cursor.className = 'tw-cursor';
   cursor.style.verticalAlign = 'text-bottom';
   cursor.style.marginLeft = '1px';
   cursor.style.opacity = '1';
@@ -1407,15 +1619,29 @@ function rtTick_fn() {
   rtTick++;
 }
 
+let rtWasRunning = false;
+
 function rtStart() {
   if (rtInterval) return;
   rtTick_fn(); // immediate first tick
   rtInterval = setInterval(rtTick_fn, 3000);
+  rtWasRunning = true;
 }
 
 function rtStop() {
   if (rtInterval) { clearInterval(rtInterval); rtInterval = null; }
+  rtWasRunning = false;
 }
+
+/* O stream não roda em aba oculta. Na v2.0 este setInterval seguia
+   indefinidamente depois de iniciado, visível ou não. */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (rtInterval) { clearInterval(rtInterval); rtInterval = null; }
+  } else if (rtWasRunning && !rtInterval) {
+    rtInterval = setInterval(rtTick_fn, 3000);
+  }
+});
 
 function rtReset() {
   rtStop();

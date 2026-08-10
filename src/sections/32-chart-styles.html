@@ -1,15 +1,15 @@
 <!-- Seção 32: Chart Styles — especificações e demos interativos -->
-<section id="sec-chart-styles">
+<section id="sec-chart-styles" aria-labelledby="sec-chart-styles-title">
   <div class="sec-div">
     <span class="sec-num">32</span>
-    <span class="sec-title">Chart Styles</span>
+    <h2 class="sec-title" id="sec-chart-styles-title">Chart Styles</h2>
     <span class="sec-sub">Bar · Line · Donut · Area · Regras universais</span>
   </div>
 
   <!-- Bar Chart -->
   <div class="motion-sec-wrap m-reveal">
     <div class="block-header">
-      <span class="block-header-title">Bar Chart</span>
+      <h3 class="block-header-title">Bar Chart</h3>
       <span class="block-header-sub">scaleY(0→1) · origin bottom · 400ms emphasis · stagger 60ms</span>
     </div>
 
@@ -73,7 +73,7 @@
 
       <!-- Controls + specs -->
       <div class="dv-chart-specs">
-        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+        <div style="display: flex; gap: var(--space-hairline); margin-bottom: var(--space-3);">
           <button class="m-play-btn" id="dv-bar-play">Animar</button>
           <button class="m-play-btn" id="dv-bar-reset">Reset</button>
         </div>
@@ -94,14 +94,14 @@
   <!-- Line Chart -->
   <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
     <div class="block-header">
-      <span class="block-header-title">Line Chart</span>
+      <h3 class="block-header-title">Line Chart</h3>
       <span class="block-header-sub">stroke-dashoffset · 900ms dramatic · enter easing · área com opacity 0.08</span>
     </div>
 
     <div class="dv-chart-demo-wrap">
       <!-- SVG Line Chart -->
       <div class="dv-line-chart-wrap">
-        <svg class="dv-line-svg" id="dv-line-svg" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <svg class="dv-line-svg" id="dv-line-svg" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" role="img" aria-label="Gráfico de linha — exemplo de série temporal">
           <!-- Grid lines -->
           <line x1="0" y1="32" x2="480" y2="32" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
           <line x1="0" y1="64" x2="480" y2="64" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
@@ -139,14 +139,14 @@
           <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span>
         </div>
         <div class="dv-line-legend">
-          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B1A1A;"></div><span>MRR Real</span></div>
-          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#3a3a3a;"></div><span>MRR Projetado</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:var(--color-crimson);"></div><span>MRR Real</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:var(--color-slate);"></div><span>MRR Projetado</span></div>
         </div>
       </div>
 
       <!-- Controls + specs -->
       <div class="dv-chart-specs">
-        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+        <div style="display: flex; gap: var(--space-hairline); margin-bottom: var(--space-3);">
           <button class="m-play-btn" id="dv-line-play">Animar</button>
           <button class="m-play-btn" id="dv-line-reset">Reset</button>
         </div>
@@ -165,13 +165,13 @@
   <!-- Donut Chart -->
   <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
     <div class="block-header">
-      <span class="block-header-title">Donut Chart</span>
+      <h3 class="block-header-title">Donut Chart</h3>
       <span class="block-header-sub">stroke-dashoffset por segmento · 400ms moderate · stagger base</span>
     </div>
 
     <div class="dv-chart-demo-wrap">
       <div class="dv-donut-wrap">
-        <svg class="dv-donut-svg" id="dv-donut-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <svg class="dv-donut-svg" id="dv-donut-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfico de rosca — exemplo de composição">
           <!-- Track -->
           <circle cx="80" cy="80" r="60" fill="none" stroke="#2e2e2e" stroke-width="16"/>
           <!-- Segments (circumference = 2π×60 ≈ 376.99) -->
@@ -188,7 +188,7 @@
           <text x="80" y="91" text-anchor="middle" fill="#bcbab5" font-family="'Montserrat', sans-serif" font-size="7" letter-spacing="2">META</text>
         </svg>
         <div class="dv-donut-legend">
-          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B1A1A;"></div><span>Vendas diretas 35%</span></div>
+          <div class="dv-legend-item"><div class="dv-legend-dot" style="background:var(--color-crimson);"></div><span>Vendas diretas 35%</span></div>
           <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#1A6B6B;"></div><span>Parcerias 25%</span></div>
           <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#8B4A1A;"></div><span>Inbound 20%</span></div>
           <div class="dv-legend-item"><div class="dv-legend-dot" style="background:#4A6A8B;"></div><span>Outros 20%</span></div>
@@ -197,7 +197,7 @@
 
       <!-- Controls + specs -->
       <div class="dv-chart-specs">
-        <div style="display: flex; gap: 2px; margin-bottom: var(--space-3);">
+        <div style="display: flex; gap: var(--space-hairline); margin-bottom: var(--space-3);">
           <button class="m-play-btn" id="dv-donut-play">Animar</button>
           <button class="m-play-btn" id="dv-donut-reset">Reset</button>
         </div>
@@ -215,10 +215,10 @@
   <!-- Regras universais -->
   <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
     <div class="block-header">
-      <span class="block-header-title">Regras Universais</span>
+      <h3 class="block-header-title">Regras Universais</h3>
       <span class="block-header-sub">Válidas para todos os tipos de chart</span>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-hairline);">
       <div class="dv-rule-block">
         <span class="dv-rule-title">Séries</span>
         <span class="dv-rule-body">Nunca mais de 3 séries por chart. Nunca mais de 2 tipos de chart no mesmo componente. Crimson é sempre a série primária.</span>

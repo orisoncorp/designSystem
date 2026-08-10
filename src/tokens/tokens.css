@@ -1,3 +1,15 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ORISON DESIGN TOKENS — v3.0
+   Fonte da verdade. Todo valor visual do sistema nasce aqui.
+
+   Duas rampas tipográficas separadas por família e por função:
+     --display-*  Cormorant Garamond, expressão, 5 degraus
+     --text-*     Montserrat, leitura e UI, 6 degraus, piso 12px
+
+   Regra inegociável: nenhum texto abaixo de 12px em lugar nenhum.
+   Tracking sempre em `em` — tracking absoluto quebra em escala.
+   ═══════════════════════════════════════════════════════════════════ */
+
 :root {
   /* ─── Colors: Identity ─── */
   --color-black:    #0a0a0a;
@@ -7,17 +19,25 @@
   --color-border:   #2e2e2e;
   --color-gray:     #5a5a5a;
   --color-subtle:   #484848;
-  --color-text-dim: rgba(232, 230, 225, 0.55);
   --color-crimson:  #8B1A1A;
   --color-red:      #A52020;
-  --color-crimson-text: #F06070; /* vermelho legível sobre fundos escuros — ratio ≥ 5.5:1 */
   --color-offwhite: #e8e6e1;
 
-  /* ─── Text: Concrete color scale (sem opacity stacking) ─── */
-  --text-primary:   #f7f5f0;   /* Full brightness — headings, wordmarks */
-  --text-body:      #edeae4;   /* Descrições, parágrafos — legível e hierárquico */
-  --text-secondary: #d4d2cd;   /* Labels, specs, metadata */
-  --text-muted:     #bcbab5;   /* Texto de suporte, hints — mínimo legível */
+  /* Crimson tipográfico. #8B1A1A mede 2,09:1 sobre fundo escuro e nunca
+     pode carregar texto. Este token é ground-aware: vira #8B1A1A sob
+     [data-ground="light"], onde mede 7,45:1. Use-o em toda tipografia
+     crimson e o contraste se resolve sozinho nos dois fundos. */
+  --color-crimson-text: #F06070;   /* 6,11:1 sobre --color-surface */
+
+  /* ─── Text: escala concreta, sem opacity stacking ─── */
+  --text-primary:   #f7f5f0;   /* 17,8:1 — headings, wordmarks            */
+  --text-body:      #edeae4;   /* 16,2:1 — prosa                          */
+  --text-secondary: #d4d2cd;   /* 12,9:1 — labels, specs, metadata        */
+  --text-muted:     #bcbab5;   /* 10,0:1 — suporte, hints — piso legível  */
+
+  /* ─── Colors: Foco ─── */
+  /* 6,11:1 sobre surface — folgado acima do piso 3,0:1 de WCAG 1.4.11 */
+  --color-focus: #F06070;
 
   /* ─── Colors: Data Visualization ─── */
   --color-negative-hi: #8B1A1A;
@@ -26,83 +46,141 @@
   --color-alert-md:    #C0622B;
   --color-positive-hi: #1A5C2E;
   --color-positive-md: #27834A;
+  --color-positive-tx: #7ddfa7;   /* verde tipográfico sobre escuro — 11,4:1 */
+  --color-positive-br: #3AAA62;   /* verde de traço/borda em gráfico         */
 
-  /* ─── Opacity: Semantic scale ─── */
-  --opacity-primary:    1;
-  --opacity-secondary:  0.65;
-  --opacity-tertiary:   0.55;
-  --opacity-muted:      0.50;
-  --opacity-faint:      0.35;
+  /* ─── Opacity ─── */
   --opacity-decoration: 0.05;
+  --opacity-faint:      0.35;
 
   /* ─── Typography: Families ─── */
-  --font-display: 'Cormorant Garamond', serif;
-  --font-body:    'Montserrat', sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Montserrat', system-ui, sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
   /* ─── Typography: Weights ─── */
   --font-weight-light:   300;
   --font-weight-regular: 400;
-  --font-weight-medium:  500;
 
-  /* ─── Typography: Scale ─── */
-  --text-hero:  56px;
-  --text-xl:    52px;
-  --text-lg:    36px;
-  --text-md:    28px;
-  --text-sm:    20px;
-  --text-xs:    18px;
-  --text-base:  11px;
-  --text-label:  9px;
-  --text-micro:  8px;
+  /* ─── Typography: Display ramp (Cormorant Garamond) ───
+     Serif de x-height baixa: 26px de Cormorant lê como ~21px de Montserrat.
+     Os degraus compensam essa diferença óptica. */
+  --display-hero: 64px;   /* capa · aberturas de capítulo   */
+  --display-xl:   44px;   /* título de capítulo             */
+  --display-lg:   34px;   /* headline de seção              */
+  --display-md:   26px;   /* título de bloco                */
+  --display-sm:   20px;   /* lockup · wordmark em template  */
 
-  /* ─── Typography: Letter-spacing ─── */
-  --tracking-tight:  1px;
-  --tracking-base:   2px;
-  --tracking-wide:   4px;
-  --tracking-wider:  6px;
-  --tracking-widest: 8px;
-  --tracking-loose:  10px;
-  --tracking-hero:   16px;
-  --tracking-epic:   18px;
+  /* ─── Typography: Text ramp (Montserrat) ─── */
+  --text-xl:    20px;   /* lede de seção · citação                    */
+  --text-lg:    18px;   /* subtítulo                                  */
+  --text-base:  16px;   /* prosa — o degrau que faltava               */
+  --text-sm:    14px;   /* UI · valor de spec · célula de tabela      */
+  --text-xs:    13px;   /* chave de spec densa                        */
+  --text-label: 12px;   /* label/eyebrow em caixa alta — PISO ABSOLUTO */
 
-  /* ─── Spacing: Base 8px scale ─── */
-  --space-1:  4px;   /* XS */
-  --space-2:  8px;   /* S  */
-  --space-3:  16px;  /* M  */
-  --space-4:  24px;  /* ML */
-  --space-5:  32px;  /* L  */
-  --space-6:  48px;  /* XL */
-  --space-7:  64px;  /* 2XL */
-  --space-8:  80px;  /* 3XL */
+  /* ─── Typography: Line-height ─── */
+  --leading-none:    1;
+  --leading-tight:   1.15;
+  --leading-snug:    1.35;
+  --leading-base:    1.5;
+  --leading-relaxed: 1.6;
+
+  /* ─── Typography: Letter-spacing (em, nunca px) ───
+     3px vale 43% do em a 7px e 9% a 32px. Tracking absoluto foi a origem
+     mecânica da ilegibilidade da v2.0. */
+  --tracking-tight:   -0.01em;  /* display ≥34px            */
+  --tracking-none:     0;       /* prosa · valores de spec  */
+  --tracking-snug:     0.04em;  /* UI 14px                  */
+  --tracking-label:    0.10em;  /* label caixa alta 12px    */
+  --tracking-wide:     0.16em;  /* título de seção          */
+  --tracking-display:  0.24em;  /* título de capítulo       */
+  --tracking-hero:     0.32em;  /* wordmark — proporção autoral da v2.0 */
+
+  /* ─── Typography: Measure ─── */
+  --measure-prose: 68ch;
+
+  /* ─── Spacing: base 8px ─── */
+  --space-hairline: 2px;   /* a calha — separador assinatura do sistema */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  16px;
+  --space-4:  24px;
+  --space-5:  32px;
+  --space-6:  48px;
+  --space-7:  64px;
+  --space-8:  80px;
+  --space-9:  120px;   /* respiro de abertura de capítulo */
+  --space-10: 160px;
 
   /* ─── Borders ─── */
   --border-thin:   1px;
   --border-accent: 2px;
   --border-bar:    3px;
-  --border-color:         var(--color-border);
-  --border-color-strong:  var(--color-slate);
-  --border-color-accent:  var(--color-crimson);
+  --border-color:        var(--color-border);
+  --border-color-accent: var(--color-crimson);
 
   /* ─── Shadows ─── */
   --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.6);
   --shadow-md: 0 16px 32px rgba(0, 0, 0, 0.5);
-  --shadow-lg:    0 24px 48px rgba(0, 0, 0, 0.7);
-  --shadow-inner: inset 0 1px 0 rgba(232, 230, 225, 0.04);
 
   /* ─── Transitions ─── */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
-  --transition-slow:    0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-instant: 0.1s ease;
-  --easing-spring:      cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* ─── Layout ─── */
-  --container-max:    1080px;
-  --sidebar-width:    240px;
-  --section-padding:  var(--space-8) 60px;
-  --panel-padding:    60px var(--space-7);
+  /* ─── Layout ───
+     Breakpoints: 1120px · 900px · 600px.
+     Custom properties não funcionam dentro de @media — os valores são
+     literais por necessidade da linguagem. Mantenha-os idênticos a estes
+     três em todo arquivo CSS. */
+  --container-max:   1080px;
+  --sidebar-width:   240px;
+  --section-padding: var(--space-8) 60px;
+  --panel-padding:   60px var(--space-7);
 
   /* ─── Symbol ─── */
-  --symbol-inner-opacity: 0.28;
-  --symbol-line-opacity:  0.9;
+  --symbol-line-opacity: 0.9;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FUNDO CLARO
+   O off-white pertence ao sistema desde a v1 — é onde o símbolo é
+   provado sobre papel — mas todos os tokens de texto falhavam sobre
+   ele (1,04–1,55:1), e cada componente contornava isso com uma variante
+   `-light` escrita à mão. Este escopo inverte a rampa inteira, incluindo
+   o crimson tipográfico, de uma vez.
+
+   Aplicado automaticamente aos painéis claros. Disponível para qualquer
+   bloco via  <div data-ground="light">  ou  class="ground-light".
+   ═══════════════════════════════════════════════════════════════════ */
+
+[data-ground='light'],
+.ground-light,
+.panel-light,
+.card-preview-light {
+  --color-black:    #e8e6e1;
+  --color-midnight: #e2e0da;
+  --color-surface:  #edebe6;
+  --color-border:   #cbc8c1;
+  --color-slate:    #b4b1a9;
+
+  --text-primary:   #0d0d0f;   /* 17,4:1 */
+  --text-body:      #1f1f22;   /* 14,3:1 */
+  --text-secondary: #3a3a3a;   /*  9,1:1 */
+  --text-muted:     #5a5a5a;   /*  5,5:1 */
+
+  --color-crimson-text: #8B1A1A;   /* 7,45:1 sobre off-white */
+  --color-focus:        #8B1A1A;
+
+  --border-color: var(--color-border);
+
+  color: var(--text-body);
+}
+
+/* Só os contêineres genéricos pintam o próprio fundo; .panel-light e
+   .card-preview-light já declaram o seu. */
+[data-ground='light'],
+.ground-light {
+  background: var(--color-black);
 }

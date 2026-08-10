@@ -1,14 +1,14 @@
 <!-- Seção 23: Loading States — skeleton, pulse, bar -->
-<section id="sec-loading">
+<section id="sec-loading" aria-labelledby="sec-loading-title">
   <div class="sec-div">
     <span class="sec-num">23</span>
-    <span class="sec-title">Loading States</span>
+    <h2 class="sec-title" id="sec-loading-title">Loading States</h2>
     <span class="sec-sub">Molecules · Skeleton · Pulse · Bar</span>
   </div>
 
   <div class="motion-sec-wrap">
     <div class="block-header">
-      <span class="block-header-title">Estados de Loading</span>
+      <h3 class="block-header-title">Estados de Loading</h3>
       <span class="block-header-sub">Nunca usar spinner rotativo — feedback linear, direcional e coerente com a identidade</span>
     </div>
 
@@ -24,7 +24,7 @@
           <div class="skeleton-line skeleton-line--long is-shimmer" style="animation-delay: 0.3s;"></div>
           <div class="skeleton-line skeleton-line--short is-shimmer" style="animation-delay: 0.4s;"></div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
           <div class="mol-spec-row"><span class="mol-spec-key">Gradiente</span><span class="mol-spec-val">surface → midnight → surface</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">1400ms (cinematic) · loop infinito</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">linear</span></div>
@@ -37,9 +37,9 @@
         <span class="loading-card-title">loading-pulse</span>
         <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); background: var(--color-midnight); border: 1px solid var(--color-border);">
           <div class="pulse-dot is-pulsing"></div>
-          <span style="font-size: 9px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Processando</span>
+          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Processando</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
           <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">opacity: 0.4 → 1.0 → 0.4</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">600ms (slow) · loop · alternate</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>
@@ -58,7 +58,7 @@
             <button class="m-play-btn" id="loading-bar-toggle">Stop</button>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
           <div class="mol-spec-row"><span class="mol-spec-key">Altura</span><span class="mol-spec-val">2px · cor crimson</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">1.8s · loop infinito</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>
@@ -68,7 +68,7 @@
 
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: var(--space-4);">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); margin-top: var(--space-4);">
       <div class="comp-spec">
         <span class="comp-spec-key">Skeleton = padrão</span>
         <span class="comp-spec-val" style="color: var(--text-secondary);">Conteúdo estruturado — sempre</span>

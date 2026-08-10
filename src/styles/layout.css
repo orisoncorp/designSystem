@@ -1,125 +1,57 @@
-/* ─── Grid system ─── */
-.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-.grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
-.grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; }
-.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+/* ═══════════════════════════════════════════════════════════════════
+   LAYOUT — v3.0
+   Grades e utilitários de fluxo. O sistema de seção, o cabeçalho de
+   bloco e o info-block viviam aqui E em components.css E em
+   motion-components.css — três definições idênticas competindo pela
+   ordem de import. Agora moram só em components.css.
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* ─── Flex utilities ─── */
-.flex-row    { display: flex; flex-direction: row; }
-.flex-col    { display: flex; flex-direction: column; }
-.flex-center { align-items: center; justify-content: center; }
-.flex-end    { align-items: flex-end; }
+/* ─── Grades ───
+   A calha de 2px é o separador assinatura do sistema: sem raio, sem
+   sombra, sem card. Uma chapa escura riscada por linhas de cabelo. */
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-hairline); }
+.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); }
+.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-hairline); }
+.grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-hairline); }
+.grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--space-hairline); }
+
+/* ─── Flex ─── */
+.flex-row     { display: flex; flex-direction: row; }
+.flex-col     { display: flex; flex-direction: column; }
+.flex-center  { align-items: center; justify-content: center; }
+.flex-end     { align-items: flex-end; }
 .flex-between { justify-content: space-between; }
 
-/* ─── Section containers ─── */
-.section-wrap {
-  max-width: var(--container-max);
-  margin: 0 auto 2px;
-  padding: 60px;
+/* ─── Rolagem horizontal contida ───
+   Qualquer conteúdo mais largo que a coluna rola dentro do próprio
+   bloco. A página nunca rola na horizontal. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.section-wrap--surface  { background: var(--color-surface); }
-.section-wrap--midnight { background: var(--color-midnight); }
-
-/* ─── Block header ─── */
-.block-header {
-  padding: 0 0 28px 0;
-  border-bottom: var(--border-thin) solid var(--border-color);
-  margin-bottom: var(--space-5);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.block-header-title {
-  font-size: 10px;
-  letter-spacing: 5px;
-  color: var(--text-body);
-  text-transform: uppercase;
-}
-
-.block-header-sub {
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* ─── Dividers ─── */
-.divider-h {
-  width: 100%;
-  height: var(--border-thin);
-  background: var(--border-color);
-  margin: 14px 0;
-}
-
-.divider-v {
-  width: var(--border-thin);
-  background: var(--border-color);
-  align-self: stretch;
-}
-
-/* ─── Info block (replaces ~100 inline style blocks) ─── */
-.info-block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  background: var(--color-surface);
-  padding: var(--space-3) var(--space-4);
-  border-left: var(--border-thin) solid var(--border-color-accent);
-}
-
-.info-block__label {
-  font-family: var(--font-body);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-base);
-  color: var(--text-body);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  display: block;
-}
-
-.info-block__text {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-tight);
-  color: var(--text-body);
-  text-transform: uppercase;
-  line-height: 1.8;
-}
-
-/* ─── Responsive ─── */
+/* ─── Responsivo ─── */
 @media (max-width: 1120px) {
-  .section-wrap,
-  .sec-div, .cover, .block-2col, .scale-bar,
-  .favicon-bar, .palette-wrap, .type-wrap,
-  .spacing-wrap, .clearspace-wrap, .dont-wrap,
-  .vt-wrap, .app-wrap, .full-block,
-  .comp-wrap, .motion-wrap {
-    margin-left: 20px;
-    margin-right: 20px;
+  .section, .sec-div, .cover, .opener, .block-2col, .scale-bar,
+  .favicon-bar, .clearspace-wrap,
+  .section-wrap, .palette-wrap, .type-wrap, .spacing-wrap, .dont-wrap,
+  .vt-wrap, .app-wrap, .full-block, .comp-wrap, .motion-wrap,
+  .motion-sec-wrap {
+    margin-left: var(--space-4);
+    margin-right: var(--space-4);
     width: auto;
   }
 }
 
 @media (max-width: 900px) {
-  .grid-2col,
-  .block-2col, .type-grid, .vt-grid,
-  .app-grid, .app-grid-3 { grid-template-columns: 1fr; }
-
+  .grid-2col { grid-template-columns: 1fr; }
   .grid-3col { grid-template-columns: 1fr 1fr; }
-
-  .grid-6col, .swatches, .spacing-grid { grid-template-columns: repeat(4, 1fr); }
-
-  .grid-4col,
-  .palette-usage, .spacing-usage, .dont-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-4col { grid-template-columns: repeat(2, 1fr); }
+  .grid-6col,
+  .grid-8col { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 600px) {
-  .grid-2col, .grid-3col, .grid-4col, .grid-6col, .grid-8col,
-  .swatches, .spacing-grid, .palette-usage,
-  .spacing-usage, .dont-grid { grid-template-columns: 1fr; }
-
-  .section-wrap { padding: 40px 30px; }
+  .grid-2col, .grid-3col, .grid-4col,
+  .grid-6col, .grid-8col { grid-template-columns: 1fr; }
 }

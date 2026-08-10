@@ -21,20 +21,20 @@ This is a **static brand book / design system** for Orison, rendered as a single
 1. Imports all CSS (tokens → base → layout → typography → components → animations → sidebar → motion-tokens → motion-animations → motion-components)
 2. Imports each section as raw HTML strings via Vite's `?raw` suffix
 3. Injects the SVG sprite (`src/assets/symbol.svg`) at the top of `<body>` so `<use href="#...">` references work anywhere
-4. Builds the sidebar HTML dynamically from `NAV_ITEMS` with two group labels: **Design System** (sections 00–13) and **Motion System** (sections 14–27)
+4. Builds the sidebar from `NAV_ITEMS` + `GROUP_LABELS` into four collapsible groups: **Design System** (00–13), **Motion System** (14–29), **Data Viz** (30–36), **Colofão** (37). The sidebar has a `/`-focused filter, group state persisted in `localStorage`, and `aria-current` + `scrollIntoView` on the active item
 5. Concatenates all section HTML strings into `#app`
-6. Wires up sidebar toggle (mobile), scroll-spy via `IntersectionObserver`, scroll-reveal animations, color-swatch clipboard copy, and all motion interactive demos
+6. Wires up the mobile drawer (Esc to close, focus trap), scroll-spy via `IntersectionObserver`, reveal animations, swatch token copy, and all motion demos
 
 ### Sections
 
-28 numbered HTML partials in `src/sections/` (00–27), split into two groups:
+38 numbered HTML partials in `src/sections/` (00–37), in four groups.
 
-**Design System (00–13):** brand, color, typography, spacing, grid, iconography, components, etc.
+**Design System (00–13):** brand, color, typography, spacing, grid, iconography, components.
 
-**Motion System (14–27):**
+**Motion System (14–29):**
 | File | ID | Content |
 |---|---|---|
-| `14-motion-cover.html` | `sec-motion-cover` | Cover / intro |
+| `14-motion-cover.html` | `sec-motion-cover` | Chapter opener (`.opener`) + 4 principles |
 | `15-easing.html` | `sec-easing` | 6 easing curves with live ball demos |
 | `16-duration.html` | `sec-duration` | 7 duration tokens with fill bars |
 | `17-transform.html` | `sec-transform` | translateY, translateX, scale, opacity |
@@ -50,6 +50,10 @@ This is a **static brand book / design system** for Orison, rendered as a single
 | `27-motion-donts.html` | `sec-motion-donts` | Do's & Don'ts with live comparisons |
 | `28-logo-motion.html` | `sec-logo-motion` | Logo Motion — concept "Incisão", 3 variations |
 | `29-typewriter.html` | `sec-typewriter` | Typewriter — cursor crimson, 4 demos (display, label, KPI rewrite, CLI) |
+
+**Data Viz (30–36):** `30-dataviz-overview` (chapter opener), `31-data-palette`, `32-chart-styles`, `33-kpi-cards`, `34-command-layout`, `35-hero-3d`, `36-realtime-motion`.
+
+**Colofão (37):** `37-colofao.html` — quickstart, non-negotiable rules, 2.0→3.0 changelog, brand close.
 
 **Section 28 — Logo Motion:**
 - Concept: "Incisão" — the crimson line exists first, circles form around it as inevitable consequence
@@ -70,6 +74,19 @@ Adding a new section: create the HTML file, add an import + `NAV_ITEMS` entry in
 All design tokens live in `src/tokens/tokens.css` as CSS custom properties on `:root`. They are the source of truth. The script `scripts/export-tokens.js` parses that file and writes `src/tokens/tokens.json` (not committed; generated on demand).
 
 **Token naming convention:** `--{category}-{key}` — e.g. `--color-crimson`, `--space-4`, `--tracking-wide`. The export script uses the first dash-segment as the JSON category key.
+
+**Two typographic ramps, never mixed** (v3.0):
+- `--display-{hero|xl|lg|md|sm}` — Cormorant Garamond, 64/44/34/26/20px. Expression. Uppercase allowed.
+- `--text-{xl|lg|base|sm|xs|label}` — Montserrat, 20/18/16/14/13/12px. Reading and UI.
+
+**Three inviolable rules.** They are what the v3.0 refactor exists to enforce:
+1. **No `font-size` below 12px anywhere.** `--text-label` is the floor. Verify: `grep -rnE 'font-size:\s*([0-9]|1[01])px' src/` must return nothing.
+2. **`letter-spacing` is always in `em`, never `px`.** 3px is 43% of the em at 7px and 9% at 32px. Verify: `grep -rnE 'letter-spacing:\s*[0-9.]+px' src/` must return nothing.
+3. **`--color-crimson` (#8B1A1A) is never a text color** — 2.09:1 on dark. All crimson type uses `--color-crimson-text` (#F06070, 6.11:1).
+
+**Ground-aware color.** `[data-ground="light"]` / `.ground-light` inverts the whole text ramp *and* `--color-crimson-text` (→ #8B1A1A, 7.45:1 on off-white). The scope is applied automatically to `.panel-light` and `.card-preview-light` — the surfaces that prove the mark on paper — so no component needs a hand-rolled `-light` text variant. Available to any block that needs to flip grounds.
+
+**`--space-hairline: 2px`** is the signature separator — the only thing between sibling blocks. No `border-radius` anywhere in the system.
 
 Motion tokens live in `src/tokens/motion-tokens.css` and follow the prefix `--motion-{category}-{key}` — e.g. `--motion-easing-enter`, `--motion-duration-slow`, `--motion-ty-base`.
 
@@ -92,12 +109,12 @@ Motion tokens live in `src/tokens/motion-tokens.css` and follow the prefix `--mo
 
 Source of truth for all motion values:
 - **Easing:** `--motion-easing-{enter|exit|state|emphasis|linear|micro}` — 6 curves
-- **Duration:** `--motion-duration-{instant|micro|fast|base|slow|deliberate|cinematic}` — 7 tokens (80ms–1400ms)
-- **Transform — translateY:** `--motion-ty-{xs|sm|base|lg|xl|hero}` — 6 values (8px–96px)
-- **Transform — translateX:** `--motion-tx-{sm|base|lg|xl|slide}` — 5 values (12px–100%)
-- **Transform — scale:** `--motion-scale-{min|identity|max|emphasis}` — 4 values
-- **Transform — opacity:** `--motion-opacity-{invisible|ghost|dim|partial|full}` — 5 values
-- **Stagger:** `--motion-stagger-{base|dense|dramatic|decay}` — 4 values
+- **Duration:** `--motion-duration-{instant|fast|base|moderate|slow|dramatic|cinematic}` — 7 tokens (80ms–1400ms)
+- **Transform — translateY:** `--motion-ty-{micro|sm|md|base|lg|xl}` — 6 values (4px–80px)
+- **Transform — translateX:** `--motion-tx-{sm|md|base|lg|drawer}` — 5 values (8px–240px)
+- **Transform — scale:** `--motion-scale-{min|base|max|backdrop}` — 4 values
+- **Transform — opacity:** `--motion-opacity-{start|mid|end|disabled|overlay}` — 5 values
+- **Stagger:** `--motion-stagger-{base|dense|dramatic|max-delay}` — 4 values, read by `main.js` via `getComputedStyle`
 
 `prefers-reduced-motion: reduce` and `.reduced-motion` class on `<html>` both collapse all durations to `0.01s` and all transforms to `0px`.
 
@@ -114,26 +131,54 @@ All motion demos are self-contained in `main.js` with no external libraries:
 
 ### Motion naming convention
 
-```
-motion-[layer]-[type]-[variant]
+Tokens are flat and categorized by the property they control:
 
-motion-atom-easing-enter
-motion-atom-duration-slow
-motion-mol-enter-reveal
-motion-mol-state-hover-primary
-motion-org-scroll-reveal
-motion-org-data-chart-bar
-motion-tpl-landing-hero
-motion-tpl-dashboard-loading
+```
+--motion-[category]-[variant]
+
+--motion-easing-enter     --motion-scale-max
+--motion-duration-slow    --motion-opacity-overlay
+--motion-ty-base          --motion-stagger-dense
+--motion-tx-drawer        --motion-exit-ratio
 ```
 
-Layers: `atom` (easing/duration/transform) → `mol` (enter/exit/state/micro/loading) → `org` (page/modal/scroll/data/nav) → `tpl` (elpis/presentation/landing/dashboard)
+The layer (atom / mol / org / tpl) describes *where* a token is applied and lives in the documentation, not in the name. CSS classes follow their own component (`.m-reveal`, `.lm-stage`, `.dv-kpi-card`); only tokens carry the `--motion-` prefix.
+
+Section 26 documents this convention — keep the two in sync.
 
 ### Exports (package.json)
 
 The package exposes individual CSS files and the SVG symbol as named exports (`./tokens`, `./components`, etc.) so other projects can consume individual slices of the design system.
 
+### Section shape system
+
+One `.section` base with modifiers, replacing the twelve v2.0 wrapper classes that all carried the identical rule (`.section-wrap`, `.palette-wrap`, `.type-wrap`, … — kept as aliases):
+
+| Class | Use |
+|---|---|
+| `.section` | Base — container, plate, hairline gutter |
+| `.section--prose` | Reading measure (`--measure-prose`, 68ch) |
+| `.section--gallery` | Specimen grid, extra breathing room |
+| `.section--demo` | Live stage |
+| `.section--spec` | Dense key/value |
+| `.opener` | Chapter opener — full-bleed, display type, one-sentence thesis |
+
+Section titles (`.sec-title`, every `<h2>`) are Cormorant at `--display-md`; block headers (`<h3>`) stay at `--text-label`. Two rungs of separation — do not collapse them back.
+
+### Accessibility contract
+
+Non-negotiable, and verified in the v3.0 refactor:
+- Every section title is an `<h2>` with `aria-labelledby` on its `<section>`; block headers are `<h3>`. Exactly one `<h1>` (the cover).
+- `<main id="app">`, skip link as first focusable element, `<noscript>` fallback.
+- Every interactive target is a `<button>` or carries `role` + `tabindex` + key handling. A delegated `keydown` handler operates any `role="switch"`/`role="checkbox"` with Space/Enter.
+- One global `:focus-visible` rule using `--color-focus`. Never add `tabindex="-1"` to specimen controls — that is what made v2.0's focus rules dead code.
+- All text ≥ 4.5:1, verified against the *correct* background (light-panel selectors resolve against off-white, not the dark plate). All SVGs carry `aria-label` or `aria-hidden`.
+- `@media print` exists and the book prints.
+
 ### Responsive breakpoints
 
-- `≤ 900px`: multi-column grids collapse to 1 column; sidebar becomes a drawer
-- `≤ 600px`: further padding/size reductions; horizontal lockup stacks vertically
+`1120px` · `900px` · `600px`. CSS custom properties do not work inside `@media`, so these are literals by necessity — keep them identical across every file.
+
+- `≤ 1120px`: containers gain side margins
+- `≤ 900px`: grids collapse; sidebar becomes a drawer under a fixed top bar (`.sidebar-topbar`, 64px, offset by `#app { padding-top }` — never a floating hamburger over content)
+- `≤ 600px`: single column, reduced padding. **The text ramp never shrinks** — 16px prose at 360px is still 16px; only the display ramp scales down.

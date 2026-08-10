@@ -1,14 +1,14 @@
 <!-- Seção 22: Micro-interactions — toggle, check, progress, KPI counter -->
-<section id="sec-micro">
+<section id="sec-micro" aria-labelledby="sec-micro-title">
   <div class="sec-div">
     <span class="sec-num">22</span>
-    <span class="sec-title">Micro-interactions</span>
+    <h2 class="sec-title" id="sec-micro-title">Micro-interactions</h2>
     <span class="sec-sub">Molecules · Toggle · Checkbox · Progress · Counter</span>
   </div>
 
   <div class="motion-sec-wrap">
     <div class="block-header">
-      <span class="block-header-title">Micro-interações</span>
+      <h3 class="block-header-title">Micro-interações</h3>
       <span class="block-header-sub">Confirmação mecânica — sem celebração, sem flourish</span>
     </div>
 
@@ -19,12 +19,12 @@
         <span class="micro-card-title">micro-toggle</span>
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <div style="display: flex; align-items: center; gap: var(--space-3);">
-            <div class="toggle-switch" id="toggle-1">
+            <div class="toggle-switch" id="toggle-1" role="switch" tabindex="0" aria-checked="false" aria-label="Alternar notificações">
               <div class="toggle-knob"></div>
             </div>
-            <span style="font-size: 9px; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);" id="toggle-1-label">Desligado</span>
+            <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);" id="toggle-1-label">Desligado</span>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+          <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
             <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">transform · background-color</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms (fast)</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state — sem overshoot</span></div>
@@ -37,24 +37,24 @@
         <span class="micro-card-title">micro-check</span>
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-            <div class="check-wrap" id="check-1">
+            <div class="check-wrap" id="check-1" role="checkbox" tabindex="0" aria-checked="false">
               <div class="check-box" id="check-box-1">
                 <div class="check-mark">
-                  <svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2"></polyline></svg>
+                  <svg viewBox="0 0 10 10" aria-hidden="true"><polyline points="1.5,5.5 4,8 8.5,2"></polyline></svg>
                 </div>
               </div>
               <span class="check-label">Diagnóstico concluído</span>
             </div>
-            <div class="check-wrap" id="check-2">
+            <div class="check-wrap" id="check-2" role="checkbox" tabindex="0" aria-checked="true">
               <div class="check-box is-checked" id="check-box-2">
                 <div class="check-mark">
-                  <svg viewBox="0 0 10 10"><polyline points="1.5,5.5 4,8 8.5,2"></polyline></svg>
+                  <svg viewBox="0 0 10 10" aria-hidden="true"><polyline points="1.5,5.5 4,8 8.5,2"></polyline></svg>
                 </div>
               </div>
               <span class="check-label">Implementação ativa</span>
             </div>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; flex-direction: column; gap: var(--space-1);">
             <div class="mol-spec-row"><span class="mol-spec-key">Propriedades</span><span class="mol-spec-val">opacity · scale(0.8→1)</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">150ms (fast)</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">micro</span></div>
@@ -68,18 +68,18 @@
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <div style="display: flex; flex-direction: column; gap: var(--space-2);">
             <div class="progress-head">
-              <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);">Processamento</span>
+              <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);">Processamento</span>
               <span class="progress-pct-display" id="progress-pct">0%</span>
             </div>
             <div class="progress-track">
               <div class="progress-fill" id="progress-fill"></div>
             </div>
-            <div style="display: flex; gap: 2px; flex-wrap: wrap; margin-top: var(--space-2);">
+            <div style="display: flex; gap: var(--space-hairline); flex-wrap: wrap; margin-top: var(--space-2);">
               <button class="m-play-btn" id="progress-play">Iniciar</button>
               <button class="m-play-btn" id="progress-reset">Reset</button>
             </div>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; flex-direction: column; gap: var(--space-1);">
             <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">width — linear obrigatório</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">900ms (dramatic)</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">linear — qualquer curva distorce percepção</span></div>
@@ -92,17 +92,17 @@
         <span class="micro-card-title">micro-counter</span>
         <div style="display: flex; flex-direction: column; gap: var(--space-3);">
           <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; font-family: var(--font-body);">MRR — Meta Atual</span>
+            <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-secondary); font-family: var(--font-body); text-transform: uppercase;">MRR — Meta Atual</span>
             <div class="kpi-value-row">
               <div class="kpi-display" id="kpi-counter">R$ 0</div>
               <span class="kpi-trend-arrow" id="kpi-trend-arrow" aria-hidden="true">↗</span>
             </div>
-            <div style="display: flex; gap: 2px; flex-wrap: wrap;">
+            <div style="display: flex; gap: var(--space-hairline); flex-wrap: wrap;">
               <button class="m-play-btn" data-kpi-target="100000" id="kpi-play">Animar até R$ 100k</button>
               <button class="m-play-btn" id="kpi-reset">Reset</button>
             </div>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; flex-direction: column; gap: var(--space-1);">
             <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">numeric value</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Duração</span><span class="mol-spec-val">900ms (dramatic)</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">state</span></div>

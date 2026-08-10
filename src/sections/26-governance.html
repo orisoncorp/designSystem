@@ -1,14 +1,14 @@
 <!-- Seção 26: Governance — performance, accessibility, composition, naming -->
-<section id="sec-governance">
+<section id="sec-governance" aria-labelledby="sec-governance-title">
   <div class="sec-div">
     <span class="sec-num">26</span>
-    <span class="sec-title">Governance</span>
+    <h2 class="sec-title" id="sec-governance-title">Governance</h2>
     <span class="sec-sub">Performance · Accessibility · Composition · Naming</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section section--prose">
     <div class="block-header">
-      <span class="block-header-title">Regras Transversais</span>
+      <h3 class="block-header-title">Regras Transversais</h3>
       <span class="block-header-sub">Governança do sistema — regras que previnem combinações caóticas</span>
     </div>
 
@@ -17,9 +17,9 @@
       <!-- Performance -->
       <div class="gov-card">
         <span class="gov-card-title">Performance · 60fps</span>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-hairline);">
           <div>
-            <span style="font-size: 7px; letter-spacing: 3px; color: #7ddfa7; text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Permitidas</span>
+            <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--color-positive-tx); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Permitidas</span>
             <div class="prop-list">
               <div class="prop-item"><span class="prop-name">transform</span><span class="prop-badge-ok">GPU</span></div>
               <div class="prop-item"><span class="prop-name">opacity</span><span class="prop-badge-ok">GPU</span></div>
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div>
-            <span style="font-size: 7px; letter-spacing: 3px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Proibidas (reflow)</span>
+            <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: 6px;">Proibidas (reflow)</span>
             <div class="prop-list">
               <div class="prop-item"><span class="prop-name">width / height</span><span class="prop-badge-no">reflow</span></div>
               <div class="prop-item"><span class="prop-name">margin / padding</span><span class="prop-badge-no">reflow</span></div>
@@ -52,13 +52,13 @@
         <span class="gov-card-title">Accessibility · prefers-reduced-motion</span>
         <div class="rm-toggle-row">
           <span class="rm-toggle-label">Simular reduced-motion (afeta toda a página)</span>
-          <div class="toggle-switch" id="rm-toggle">
+          <div class="toggle-switch" id="rm-toggle" role="switch" tabindex="0" aria-checked="false" aria-label="Simular movimento reduzido">
             <div class="toggle-knob"></div>
           </div>
           <span class="rm-status" id="rm-status">Inativo</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-3);">
-          <span style="font-size: 7px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Quando ativo:</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-3);">
+          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Quando ativo:</span>
           <div class="mol-spec-row"><span class="mol-spec-key">Durações</span><span class="mol-spec-val">0.01s — não zero (zero causa flash)</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Transforms</span><span class="mol-spec-val">removidos — elemento aparece na posição final</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Opacity</span><span class="mol-spec-val">mantida — é informação, não decoração</span></div>
@@ -87,27 +87,36 @@
         </table>
       </div>
 
-      <!-- Naming -->
+      <!-- Naming — a convenção REAL de motion-tokens.css.
+           A v2.0 documentava aqui um esquema `motion-[camada]-[tipo]-[variante]`
+           com oito exemplos que o sistema não usava em lugar nenhum. -->
       <div class="gov-card">
         <span class="gov-card-title">Naming Convention</span>
         <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <div class="naming-example">motion-[camada]-[tipo]-[variante]</div>
-          <div style="display: flex; flex-direction: column; gap: 2px; margin-top: var(--space-2);">
-            <div class="naming-example">motion-atom-easing-enter</div>
-            <div class="naming-example">motion-atom-duration-slow</div>
-            <div class="naming-example">motion-mol-enter-reveal</div>
-            <div class="naming-example">motion-mol-state-hover-primary</div>
-            <div class="naming-example">motion-org-scroll-reveal</div>
-            <div class="naming-example">motion-org-data-chart-bar</div>
-            <div class="naming-example">motion-tpl-landing-hero</div>
-            <div class="naming-example">motion-tpl-dashboard-loading</div>
+          <div class="naming-example">--motion-[categoria]-[variante]</div>
+          <p class="gov-card-desc">Tokens são planos e categorizados pela propriedade que controlam. A camada (atom / mol / org / tpl) descreve <em>onde</em> um token é aplicado e vive na documentação, não no nome.</p>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-hairline); margin-top: var(--space-2);">
+            <div class="naming-example">--motion-easing-enter</div>
+            <div class="naming-example">--motion-duration-slow</div>
+            <div class="naming-example">--motion-ty-base</div>
+            <div class="naming-example">--motion-tx-drawer</div>
+            <div class="naming-example">--motion-scale-max</div>
+            <div class="naming-example">--motion-opacity-overlay</div>
+            <div class="naming-example">--motion-stagger-dense</div>
+            <div class="naming-example">--motion-exit-ratio</div>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
-            <div class="mol-spec-row"><span class="mol-spec-key">atom</span><span class="mol-spec-val">easing · duration · transform</span></div>
-            <div class="mol-spec-row"><span class="mol-spec-key">mol</span><span class="mol-spec-val">enter · exit · state · micro · loading</span></div>
-            <div class="mol-spec-row"><span class="mol-spec-key">org</span><span class="mol-spec-val">page · modal · scroll · data · nav</span></div>
-            <div class="mol-spec-row"><span class="mol-spec-key">tpl</span><span class="mol-spec-val">elpis · presentation · landing · dashboard</span></div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
+            <div class="mol-spec-row"><span class="mol-spec-key">easing</span><span class="mol-spec-val">enter · exit · state · emphasis · linear · micro</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">duration</span><span class="mol-spec-val">instant · fast · base · moderate · slow · dramatic · cinematic</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">ty · tx</span><span class="mol-spec-val">micro · sm · md · base · lg · xl · drawer</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">scale</span><span class="mol-spec-val">min · base · max · backdrop</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">opacity</span><span class="mol-spec-val">start · mid · end · disabled · overlay</span></div>
+            <div class="mol-spec-row"><span class="mol-spec-key">stagger</span><span class="mol-spec-val">base · dense · dramatic · max-delay</span></div>
           </div>
+
+          <p class="gov-card-desc">Classes CSS seguem o padrão do próprio componente (<code>.m-reveal</code>, <code>.lm-stage</code>, <code>.dv-kpi-card</code>). Só tokens usam o prefixo <code>--motion-</code>.</p>
         </div>
       </div>
 
@@ -116,19 +125,19 @@
     <!-- Crimson in motion -->
     <div style="background: var(--color-surface); padding: 28px 24px; margin-top: 2px; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5);">
       <div>
-        <span style="font-size: 9px; letter-spacing: 4px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: var(--space-3);">Crimson em Motion — usos permitidos</span>
+        <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--color-crimson-text); font-family: var(--font-body); display: block; margin-bottom: var(--space-3); text-transform: uppercase;">Crimson em Motion — usos permitidos</span>
         <div style="display: flex; flex-direction: column; gap: 6px;">
-          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Loading bar linear 2px no topo da viewport</span></div>
-          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Border-left accent animado em slide covers</span></div>
-          <div class="mol-spec-row"><span style="color: #7ddfa7; font-size: 9px; margin-right: 8px;">✓</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-body); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Focus ring em botão primary</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-positive-tx); font-size: var(--text-xs); margin-right: var(--space-2);">✓</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-body); font-family: var(--font-body); line-height: var(--leading-base);">Loading bar linear 2px no topo da viewport</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-positive-tx); font-size: var(--text-xs); margin-right: var(--space-2);">✓</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-body); font-family: var(--font-body); line-height: var(--leading-base);">Border-left accent animado em slide covers</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-positive-tx); font-size: var(--text-xs); margin-right: var(--space-2);">✓</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-body); font-family: var(--font-body); line-height: var(--leading-base);">Focus ring em botão primary</span></div>
         </div>
       </div>
       <div>
-        <span style="font-size: 9px; letter-spacing: 4px; color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: var(--space-3);">Usos proibidos</span>
+        <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); display: block; margin-bottom: var(--space-3);">Usos proibidos</span>
         <div style="display: flex; flex-direction: column; gap: 6px;">
-          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Pulsação de fundo crimson</span></div>
-          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Glow ou sombra colorida animada</span></div>
-          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: 9px; margin-right: 8px;">✗</span><span style="font-size: 8px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body); line-height: 1.6;">Partículas, trails ou efeitos de emissão</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: var(--text-xs); margin-right: var(--space-2);">✗</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); line-height: var(--leading-base);">Pulsação de fundo crimson</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: var(--text-xs); margin-right: var(--space-2);">✗</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); line-height: var(--leading-base);">Glow ou sombra colorida animada</span></div>
+          <div class="mol-spec-row"><span style="color: var(--color-crimson-text); font-size: var(--text-xs); margin-right: var(--space-2);">✗</span><span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); line-height: var(--leading-base);">Partículas, trails ou efeitos de emissão</span></div>
         </div>
       </div>
     </div>

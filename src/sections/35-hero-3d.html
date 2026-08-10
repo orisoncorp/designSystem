@@ -1,46 +1,46 @@
 <!-- Seção 35: Hero 3D Specs — tokens visuais e 5 tipos de hero -->
-<section id="sec-hero-3d">
+<section id="sec-hero-3d" aria-labelledby="sec-hero-3d-title">
   <div class="sec-div">
     <span class="sec-num">35</span>
-    <span class="sec-title">Hero 3D</span>
+    <h2 class="sec-title" id="sec-hero-3d-title">Hero 3D</h2>
     <span class="sec-sub">Materiais · Iluminação · Rotação · 5 tipos de objeto central</span>
   </div>
 
   <!-- Tokens visuais -->
   <div class="motion-sec-wrap m-reveal">
     <div class="block-header">
-      <span class="block-header-title">Tokens Visuais</span>
+      <h3 class="block-header-title">Tokens Visuais</h3>
       <span class="block-header-sub">Parâmetros que definem a estética do objeto 3D</span>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-hairline);">
       <!-- Material tokens -->
       <div class="dv-token-block">
         <span class="dv-token-block-title">Materiais</span>
         <div class="dv-token-list">
           <div class="dv-token-row">
-            <div class="dv-token-swatch" style="background:#e8e6e1; opacity:0.15; border:1px solid #3a3a3a;"></div>
+            <div class="dv-token-swatch" style="background:var(--color-offwhite); opacity:0.15; border:1px solid #3a3a3a;"></div>
             <div>
               <span class="dv-token-name">Wireframe principal</span>
               <span class="dv-token-val">offwhite #e8e6e1 · opacity 0.15</span>
             </div>
           </div>
           <div class="dv-token-row">
-            <div class="dv-token-swatch" style="background:#8B1A1A; opacity:0.3; border:1px solid #3a3a3a;"></div>
+            <div class="dv-token-swatch" style="background:var(--color-crimson); opacity:0.3; border:1px solid #3a3a3a;"></div>
             <div>
               <span class="dv-token-name">Wireframe de destaque</span>
               <span class="dv-token-val">crimson #8B1A1A · opacity 0.3</span>
             </div>
           </div>
           <div class="dv-token-row">
-            <div class="dv-token-swatch" style="background:#8B1A1A; border:1px solid #3a3a3a;"></div>
+            <div class="dv-token-swatch" style="background:var(--color-crimson); border:1px solid #3a3a3a;"></div>
             <div>
               <span class="dv-token-name">Emissão pontual (data points)</span>
               <span class="dv-token-val">crimson puro · pins e nodes</span>
             </div>
           </div>
           <div class="dv-token-row">
-            <div class="dv-token-swatch" style="background:#0a0a0a; border:1px solid #3a3a3a;"></div>
+            <div class="dv-token-swatch" style="background:var(--color-black); border:1px solid #3a3a3a;"></div>
             <div>
               <span class="dv-token-name">Background</span>
               <span class="dv-token-val">black #0a0a0a · puro, sem gradient</span>
@@ -112,7 +112,7 @@
   <!-- 5 tipos de hero -->
   <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
     <div class="block-header">
-      <span class="block-header-title">Tipos de Hero</span>
+      <h3 class="block-header-title">Tipos de Hero</h3>
       <span class="block-header-sub">Cada tipo visualiza uma categoria de dado diferente</span>
     </div>
 
@@ -121,7 +121,7 @@
       <!-- Globo terrestre -->
       <div class="dv-hero-type-card">
         <div class="dv-hero-preview dv-hero-preview--globe">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="60" cy="60" r="45" stroke="#e8e6e1" stroke-width="0.6" opacity="0.12"/>
             <circle cx="60" cy="60" r="35" stroke="#e8e6e1" stroke-width="0.5" opacity="0.08"/>
             <ellipse cx="60" cy="60" rx="45" ry="16" stroke="#e8e6e1" stroke-width="0.4" opacity="0.08"/>
@@ -145,7 +145,7 @@
       <!-- Rede de nodes -->
       <div class="dv-hero-type-card">
         <div class="dv-hero-preview dv-hero-preview--network">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Nodes -->
             <circle cx="60" cy="60" r="6" fill="#8B1A1A" opacity="0.9"/>
             <circle cx="30" cy="40" r="4" fill="#8B1A1A" opacity="0.7"/>
@@ -176,7 +176,7 @@
       <!-- Fluxo de partículas -->
       <div class="dv-hero-type-card">
         <div class="dv-hero-preview dv-hero-preview--particles">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Flow lines -->
             <path d="M10,60 Q30,40 50,60 Q70,80 90,60 Q110,40 120,55" stroke="#8B1A1A" stroke-width="1" fill="none" opacity="0.6"/>
             <path d="M10,70 Q30,50 50,70 Q70,90 90,70 Q110,50 120,65" stroke="#8B1A1A" stroke-width="0.7" fill="none" opacity="0.35"/>
@@ -201,7 +201,7 @@
       <!-- Estrutura molecular -->
       <div class="dv-hero-type-card">
         <div class="dv-hero-preview dv-hero-preview--molecular">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Bonds -->
             <line x1="60" y1="60" x2="30" y2="30" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
             <line x1="60" y1="60" x2="90" y2="30" stroke="#e8e6e1" stroke-width="1" opacity="0.15"/>
@@ -231,7 +231,7 @@
       <!-- Cubo facetado -->
       <div class="dv-hero-type-card">
         <div class="dv-hero-preview dv-hero-preview--cube">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Isometric cube wireframe -->
             <!-- Top face -->
             <polygon points="60,20 95,38 60,56 25,38" stroke="#8B1A1A" stroke-width="0.8" fill="rgba(139,26,26,0.06)" opacity="0.9"/>
@@ -263,7 +263,7 @@
 
   <!-- Regras -->
   <div class="motion-sec-wrap m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-hairline);">
       <div class="dv-rule-block">
         <span class="dv-rule-title">O hero nunca é decorativo</span>
         <span class="dv-rule-body">Ele visualiza dados reais. Pontos de dados no hero (pins em globo, nodes em rede) usam crimson. Labels flutuantes usam micro typography (8px). O hero deve funcionar sem labels — a forma comunica o conceito.</span>
