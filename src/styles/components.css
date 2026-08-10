@@ -404,7 +404,7 @@
 }
 
 .panel-label       { color: var(--text-secondary); }
-.panel-label-light { color: #3a3a3a; }   /* 9,1:1 sobre off-white */
+.panel-label-light { color: var(--text-secondary); }   /* 9,1:1 sobre off-white */
 
 .symbol { display: block; flex-shrink: 0; }
 
@@ -434,7 +434,7 @@
 }
 
 .lh-name-dark  { color: var(--text-primary); }
-.lh-name-light { color: var(--color-midnight); }
+.lh-name-light { color: var(--text-primary); }
 
 /* Dentro de .panel-light o escopo de fundo claro já inverte
    --color-crimson-text para #8B1A1A (7,45:1). Nenhuma variante
@@ -479,7 +479,7 @@
 }
 
 .lv-name-dark  { color: var(--text-primary); }
-.lv-name-light { color: var(--color-midnight); }
+.lv-name-light { color: var(--text-primary); }
 
 /* ── ESCALA ── */
 .scale-bar {
@@ -1160,7 +1160,7 @@
 }
 
 .card-name       { color: var(--text-primary); }
-.card-name-light { color: var(--color-midnight); }
+.card-name-light { color: var(--text-primary); }
 
 .card-role,
 .card-role-light,
@@ -1173,9 +1173,9 @@
 }
 
 .card-role          { color: var(--text-secondary); margin-top: var(--space-1); }
-.card-role-light    { color: #3a3a3a; margin-top: var(--space-1); }
+.card-role-light    { color: var(--text-secondary); margin-top: var(--space-1); }
 .card-contact       { color: var(--text-muted); }
-.card-contact-light { color: #5a5a5a; }
+.card-contact-light { color: var(--text-muted); }
 
 .card-rule {
   width: 100%;

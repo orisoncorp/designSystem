@@ -110,6 +110,39 @@ html { scroll-behavior: smooth; }
 @media (max-width: 900px) {
   #app { margin-left: 0; padding-top: 64px; }
   section[id] { scroll-margin-top: 72px; }
+
+  /* Alvo de toque de 44px onde o dedo é o dispositivo de entrada.
+     Os controles de demonstração derivavam a altura do padding e caíam
+     entre 22px e 33px — ~103 alvos abaixo do mínimo. */
+  .m-play-btn,
+  .tw-ctrl-btn,
+  .tw-speed-btn,
+  .lm-ctrl-btn,
+  .lm-theme-btn,
+  .stagger-mode-btn,
+  .sidebar-item,
+  .sidebar-group,
+  .swatch,
+  .easing-card,
+  .dnd-demo-card {
+    min-height: 44px;
+  }
+
+  /* Botões de demo ganham respiro lateral junto com a altura. */
+  .m-play-btn,
+  .tw-ctrl-btn,
+  .tw-speed-btn,
+  .lm-ctrl-btn,
+  .stagger-mode-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  /* O título de seção encolhe com a coluna; a rampa de texto não. */
+  .sec-title { font-size: 22px; }
 }
 
 /* ─── Movimento reduzido ─── */

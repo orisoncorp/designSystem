@@ -158,7 +158,8 @@
 [data-ground='light'],
 .ground-light,
 .panel-light,
-.card-preview-light {
+.card-preview-light,
+.lm-stage-inner.lm-light {
   --color-black:    #e8e6e1;
   --color-midnight: #e2e0da;
   --color-surface:  #edebe6;

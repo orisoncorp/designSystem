@@ -1358,18 +1358,20 @@
   background: var(--color-offwhite);
 }
 
+/* O escopo [data-ground] já inverte a rampa inteira aqui: tinta, crimson
+   tipográfico e bordas. Estas regras só nomeiam o papel semântico. */
 .lm-stage-inner.lm-light .lm-symbol,
 .lm-stage-inner.lm-light .lm-wordmark,
 .lm-stage-inner.lm-light .lm-v-wordmark {
-  color: var(--color-midnight);
+  color: var(--text-primary);
 }
 
 .lm-stage-inner.lm-light .lm-subtitle {
-  color: var(--color-crimson);
+  color: var(--color-crimson-text);
 }
 
 .lm-stage-inner.lm-light .lm-h-divider {
-  background: var(--color-slate);
+  background: var(--text-muted);
 }
 
 /* ─── Controls bar ─── */
@@ -1468,7 +1470,7 @@ svg.lm-symbol .lm-line {
 }
 
 .lm-wordmark--light {
-  color: var(--color-midnight);
+  color: var(--text-primary);
 }
 
 .lm-subtitle {
@@ -1480,7 +1482,7 @@ svg.lm-symbol .lm-line {
 }
 
 .lm-subtitle--light {
-  color: var(--color-crimson);
+  color: var(--color-crimson-text);
 }
 
 /* ─── Vertical lockup elements ─── */
@@ -1509,7 +1511,7 @@ svg.lm-symbol .lm-line {
 }
 
 .lm-v-wordmark--light {
-  color: var(--color-midnight);
+  color: var(--text-primary);
 }
 
 /* ─── Beat timeline bar (visual spec) ─── */
