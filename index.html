@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orison — Brand Book 2.0</title>
+    <title>Orison — Brand Book 3.0</title>
+    <meta name="description" content="Sistema de identidade, motion e visualização de dados da Orison. Tokens, componentes e governança.">
+    <meta name="color-scheme" content="dark">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <!-- Só os pesos que o sistema usa. A v2.0 pedia 8 e referenciava 4. -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="app"></div>
+    <a class="skip-link" href="#app">Pular para o conteúdo</a>
+    <noscript>
+        <p class="noscript-banner">
+            Este brand book usa JavaScript para montar as seções e as demonstrações de motion.
+            Sem ele, o conteúdo não é exibido. As especificações completas estão em
+            <code>src/tokens/</code> e <code>src/styles/</code> no repositório.
+        </p>
+    </noscript>
+    <main id="app" tabindex="-1"></main>
     <script type="module" src="/src/main.js"></script>
 </body>
 </html>

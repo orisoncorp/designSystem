@@ -63,24 +63,6 @@
   100% { left: 100%; width: 0; }
 }
 
-/* ─── Progress bar fill ─── */
-@keyframes motionProgressFill {
-  from { width: 0%; }
-  to   { width: var(--progress-target, 100%); }
-}
-
-/* ─── Chart bar grow ─── */
-@keyframes motionBarGrow {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
-}
-
-/* ─── Chart line draw ─── */
-@keyframes motionLineDraw {
-  from { stroke-dashoffset: var(--path-length, 500); }
-  to   { stroke-dashoffset: 0; }
-}
-
 /* ─── Easing demo ball (horizontal travel) ─── */
 @keyframes motionEasingDemo {
   from { transform: translateX(0); }

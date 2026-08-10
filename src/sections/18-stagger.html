@@ -1,14 +1,14 @@
 <!-- Seção 18: Stagger — decay system com demo interativo de 8 cards -->
-<section id="sec-stagger">
+<section id="sec-stagger" aria-labelledby="sec-stagger-title">
   <div class="sec-div">
     <span class="sec-num">18</span>
-    <span class="sec-title">Stagger</span>
+    <h2 class="sec-title" id="sec-stagger-title">Stagger</h2>
     <span class="sec-sub">Atoms · Delay decrescente · Cap em 8 itens</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
-      <span class="block-header-title">Sistema de Stagger</span>
+      <h3 class="block-header-title">Sistema de Stagger</h3>
       <span class="block-header-sub">Delay decrescente × 0.9 — cada item subsequente espera menos que o anterior</span>
     </div>
 
@@ -55,18 +55,18 @@
       </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: var(--space-4);">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); margin-top: var(--space-4);">
       <div class="comp-spec">
         <span class="comp-spec-key">Fórmula</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">delay(n) = base × 0.9^(n-1)</span>
+        <span class="comp-spec-val text-secondary">delay(n) = base × 0.9^(n-1)</span>
       </div>
       <div class="comp-spec">
         <span class="comp-spec-key">Cap de itens</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">8 itens — restantes aparecem simultaneamente</span>
+        <span class="comp-spec-val text-secondary">8 itens — restantes aparecem simultaneamente</span>
       </div>
       <div class="comp-spec">
         <span class="comp-spec-key">Delay máximo</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">480ms — cap absoluto acumulado</span>
+        <span class="comp-spec-val text-secondary">480ms — cap absoluto acumulado</span>
       </div>
     </div>
   </div>

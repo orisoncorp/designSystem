@@ -1,72 +1,186 @@
 @import '../tokens/tokens.css';
 
-/* ─── Reset ─── */
+/* ═══════════════════════════════════════════════════════════════════
+   BASE — v3.0
+   ═══════════════════════════════════════════════════════════════════ */
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ─── Body ─── */
 body {
   background: var(--color-black);
-  color: var(--color-offwhite);
+  color: var(--text-body);
   font-family: var(--font-body);
   font-weight: var(--font-weight-light);
-  line-height: 1.6;
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* A página nunca rola na horizontal. Conteúdo largo rola dentro do
+     próprio bloco via .scroll-x. */
+  overflow-x: hidden;
 }
 
-/* ─── App layout (with sidebar) ─── */
-#app {
-  margin-left: var(--sidebar-width);
+/* Herança de forma: nada no sistema tem raio. */
+img, svg, video, canvas { max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ─── Shell ─── */
+#app { margin-left: var(--sidebar-width); }
+
+/* Âncoras de seção param abaixo da barra superior mobile em vez de
+   embaixo dela. Na v2.0 só .cover tinha compensação e o hambúrguer
+   fixo cobria o canto de 36 das 37 seções. */
+section[id] { scroll-margin-top: var(--space-4); }
+
+/* ─── Skip link ───
+   Primeiro elemento focável do documento. Sem ele o Tab atravessa
+   37 links de navegação antes de alcançar qualquer conteúdo. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transform: translateY(-140%);
+  background: var(--color-crimson);
+  color: var(--color-offwhite);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  padding: var(--space-3) var(--space-4);
+  text-decoration: none;
+  transition: transform var(--transition-fast);
 }
 
-/* ─── Selection ─── */
+.skip-link:focus { transform: translateY(0); }
+
+/* ─── Seleção ─── */
 ::selection {
   background: var(--color-crimson);
   color: var(--color-offwhite);
 }
 
-/* ─── Scrollbar ─── */
+/* ─── Rolagem ─── */
 html { scroll-behavior: smooth; }
 
-::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--color-black); }
-::-webkit-scrollbar-thumb { background: var(--color-slate); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-slate); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-gray); }
 
-/* ─── Copy notification ─── */
+/* ─── Toast de cópia ───
+   Recebe aria-live="polite" no markup: na v2.0 a confirmação de cópia
+   era puramente visual. */
 .copy-notification {
   position: fixed;
-  bottom: 30px;
+  bottom: var(--space-5);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(8px);
   background: var(--color-crimson);
   color: var(--color-offwhite);
-  padding: 10px 20px;
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  padding: var(--space-3) var(--space-4);
   z-index: 10000;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--transition-base);
+  transition: opacity var(--transition-base), transform var(--transition-base);
 }
 
-.copy-notification.show { opacity: 1; }
+.copy-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ─── Responsive: remove sidebar offset on mobile ─── */
+/* ─── Sem JavaScript ───
+   animations.css zera a opacidade de blocos à espera de .in-view. Sem
+   este bloco, um JS que falha entrega uma página em branco. */
+.noscript-banner {
+  background: var(--color-crimson);
+  color: var(--color-offwhite);
+  font-size: var(--text-base);
+  padding: var(--space-4) var(--space-5);
+  text-align: center;
+}
+
+/* ─── Mobile ─── */
 @media (max-width: 900px) {
-  #app { margin-left: 0; }
+  #app { margin-left: 0; padding-top: 64px; }
+  section[id] { scroll-margin-top: 72px; }
+
+  /* Alvo de toque de 44px onde o dedo é o dispositivo de entrada.
+     Os controles de demonstração derivavam a altura do padding e caíam
+     entre 22px e 33px — ~103 alvos abaixo do mínimo. */
+  .m-play-btn,
+  .tw-ctrl-btn,
+  .tw-speed-btn,
+  .lm-ctrl-btn,
+  .lm-theme-btn,
+  .stagger-mode-btn,
+  .sidebar-item,
+  .sidebar-group,
+  .swatch,
+  .easing-card,
+  .dnd-demo-card {
+    min-height: 44px;
+  }
+
+  /* Botões de demo ganham respiro lateral junto com a altura. */
+  .m-play-btn,
+  .tw-ctrl-btn,
+  .tw-speed-btn,
+  .lm-ctrl-btn,
+  .stagger-mode-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  /* O título de seção encolhe com a coluna; a rampa de texto não. */
+  .sec-title { font-size: 22px; }
 }
 
-/* ─── Accessibility: respeita preferência de movimento reduzido ─── */
+/* ─── Movimento reduzido ─── */
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ─── Impressão ───
+   Um brand book marcado "Confidential" precisa imprimir. Na v2.0
+   imprimia em branco: os blocos esperam .in-view via JS. */
+@media print {
+  .sidebar,
+  .sidebar-toggle,
+  .sidebar-overlay,
+  .skip-link,
+  .copy-notification,
+  .m-play-btn,
+  .lm-ctrl-btn,
+  .tw-ctrl-btn,
+  .stagger-mode-btn { display: none !important; }
+
+  #app { margin-left: 0; }
+
+  *, *::before, *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+  }
+
+  section[id] { break-inside: avoid; page-break-inside: avoid; }
+  .sec-div    { break-after: avoid; page-break-after: avoid; }
+  .cover,
+  .opener     { break-after: page; page-break-after: always; }
 }

@@ -1,41 +1,42 @@
-/* ─── Keyframes ─── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMATIONS — v3.0
 
-/* ─── Scroll-triggered animations ─── */
+   Na v2.0 doze wrappers diferentes recebiam a MESMA entrada de scroll:
+   translateY(24px) + fade, em toda seção, 37 vezes. Uma entrada
+   idêntica repetida não é motion — é ruído, e custava a página inteira
+   em branco quando o JS falhava.
+
+   Agora o gate de scroll pertence só aos momentos autorais: a capa, as
+   três aberturas de capítulo e o divisor de seção. Conteúdo aparece.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Revelação — só os momentos autorais ─── */
 .cover,
-.block-2col,
-.scale-bar,
-.favicon-bar,
-.palette-wrap,
-.type-wrap,
-.spacing-wrap,
-.clearspace-wrap,
-.dont-wrap,
-.vt-wrap,
-.app-wrap,
-.full-block {
+.opener {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(20px);
+  transition:
+    opacity var(--motion-duration-slow) var(--motion-easing-enter),
+    transform var(--motion-duration-slow) var(--motion-easing-emphasis);
 }
 
+/* O divisor entra pela esquerda: ele é a lombada do livro, e a incisão
+   crimson que o precede lê como um corte que abre a seção. */
 .sec-div {
   opacity: 0;
-  transform: translateX(-24px);
-  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateX(-20px);
+  transition:
+    opacity var(--motion-duration-slow) var(--motion-easing-enter),
+    transform var(--motion-duration-slow) var(--motion-easing-emphasis);
 }
 
 .in-view {
-  opacity: 1 !important;
-  transform: translate(0) !important;
+  opacity: 1;
+  transform: translate(0);
 }
 
-/* ─── Hover interactions ─── */
+/* ─── Hover ───
+   Elevação discreta. A chapa não flutua: ela responde. */
 .panel,
 .panel-light,
 .swatch,
@@ -48,7 +49,9 @@
 .card-preview-light,
 .email-sig,
 .slide-preview {
-  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+  transition:
+    transform var(--motion-duration-moderate) var(--motion-easing-emphasis),
+    box-shadow var(--motion-duration-moderate) var(--motion-easing-emphasis);
 }
 
 .panel:hover,
@@ -70,9 +73,20 @@
 
 .swatch:active { transform: translateY(0); }
 
-/* ─── Symbol inner circle hover (design system sections only) ─── */
-:not(#sec-logo-motion) svg circle:nth-child(2) {
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+/* ─── Círculo interno do símbolo ───
+   Escopado às superfícies que hospedam o lockup. A v2.0 usava
+   `:not(#sec-logo-motion) svg circle:nth-child(2)`, que casa também
+   dentro de #sec-logo-motion — :not() em ancestral não exclui
+   descendentes. */
+.panel svg circle:nth-child(2),
+.panel-light svg circle:nth-child(2),
+.card-preview svg circle:nth-child(2),
+.card-preview-light svg circle:nth-child(2),
+.email-sig svg circle:nth-child(2),
+.slide-preview svg circle:nth-child(2) {
+  transition:
+    opacity var(--motion-duration-slow) var(--motion-easing-emphasis),
+    transform var(--motion-duration-slow) var(--motion-easing-emphasis);
   transform-origin: center;
 }
 
@@ -84,4 +98,20 @@
 .slide-preview:hover svg circle:nth-child(2) {
   opacity: 0.45;
   transform: scale(1.05);
+}
+
+/* ─── Movimento reduzido ───
+   Sem deslocamento, sem gate: o conteúdo já está lá. */
+@media (prefers-reduced-motion: reduce) {
+  .cover, .opener, .sec-div {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reduced-motion .cover,
+.reduced-motion .opener,
+.reduced-motion .sec-div {
+  opacity: 1;
+  transform: none;
 }

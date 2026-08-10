@@ -1,15 +1,15 @@
 <!-- Seção 34: Command Center Layout — zonas, regras, responsive -->
-<section id="sec-command-layout">
+<section id="sec-command-layout" aria-labelledby="sec-command-layout-title">
   <div class="sec-div">
     <span class="sec-num">34</span>
-    <span class="sec-title">Command Layout</span>
+    <h2 class="sec-title" id="sec-command-layout-title">Command Layout</h2>
     <span class="sec-sub">Zonas · Hierarquia · Responsive · Composição máxima</span>
   </div>
 
   <!-- Layout demo visual -->
-  <div class="motion-sec-wrap m-reveal">
+  <div class="section m-reveal">
     <div class="block-header">
-      <span class="block-header-title">Anatomia do Layout</span>
+      <h3 class="block-header-title">Anatomia do Layout</h3>
       <span class="block-header-sub">Representação proporcional das zonas — desktop 1440px</span>
     </div>
 
@@ -55,7 +55,7 @@
             <span class="dv-panel-widget-label">CONVERSÃO</span>
             <span class="dv-panel-widget-val">18.4%</span>
             <div class="dv-panel-mini-chart">
-              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <polyline points="0,25 13,18 26,20 39,12 52,15 65,8 80,10" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
               </svg>
             </div>
@@ -71,7 +71,7 @@
         <div class="dv-layout-zone dv-layout-hero-zone">
           <div class="dv-layout-hero-content">
             <!-- Globe representation -->
-            <svg class="dv-layout-hero-svg" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="dv-layout-hero-svg" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <!-- Glow effect -->
               <circle cx="130" cy="100" r="75" fill="none" stroke="#8B1A1A" stroke-width="0.3" opacity="0.15"/>
               <!-- Outer ring -->
@@ -112,14 +112,14 @@
             <span class="dv-panel-widget-label">PIPELINE</span>
             <span class="dv-panel-widget-val">R$ 312k</span>
             <div class="dv-panel-mini-chart">
-              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <polyline points="0,22 13,26 26,16 39,20 52,10 65,14 80,6" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
               </svg>
             </div>
           </div>
           <div class="dv-panel-widget">
             <span class="dv-panel-widget-label">NPS</span>
-            <span class="dv-panel-widget-val" style="color:#3AAA62;">82</span>
+            <span class="dv-panel-widget-val" style="color:var(--color-positive-br);">82</span>
           </div>
           <span class="dv-layout-zone-tag">Right Panel · 280px</span>
         </div>
@@ -171,12 +171,12 @@
   </div>
 
   <!-- Regras de composição -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+  <div class="section m-reveal mt-hairline">
     <div class="block-header">
-      <span class="block-header-title">Regras de Composição</span>
+      <h3 class="block-header-title">Regras de Composição</h3>
       <span class="block-header-sub">Limites que preservam a legibilidade do command center</span>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline);">
       <div class="dv-rule-block">
         <span class="dv-rule-title">Widgets</span>
         <span class="dv-rule-body">Máximo 12 widgets por command center. Máximo 3 KPIs por painel lateral. Bottom bar: no máximo 1 tabela ou 1 feed.</span>
@@ -193,27 +193,27 @@
   </div>
 
   <!-- Breakpoints -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
+  <div class="section m-reveal" style="margin-top: 2px; padding-top: 40px; padding-bottom: 40px;">
     <div class="block-header">
-      <span class="block-header-title">Responsive</span>
+      <h3 class="block-header-title">Responsive</h3>
       <span class="block-header-sub">Comportamento em 4 breakpoints</span>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
-      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
-        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 1440px</span>
-        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Painéis laterais estreitam para 200px. Hero mantém proporção.</span>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-hairline);">
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:var(--space-2);">
+        <span class="label-accent">≤ 1440px</span>
+        <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color:var(--text-body); font-family:var(--font-body); line-height: var(--leading-base);">Painéis laterais estreitam para 200px. Hero mantém proporção.</span>
       </div>
-      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
-        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 1200px</span>
-        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Um painel lateral colapsa. Layout muda de 3 para 2 colunas.</span>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:var(--space-2);">
+        <span class="label-accent">≤ 1200px</span>
+        <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color:var(--text-body); font-family:var(--font-body); line-height: var(--leading-base);">Um painel lateral colapsa. Layout muda de 3 para 2 colunas.</span>
       </div>
-      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
-        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 900px</span>
-        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Hero zone empilha acima dos painéis. Layout vertical.</span>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:var(--space-2);">
+        <span class="label-accent">≤ 900px</span>
+        <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color:var(--text-body); font-family:var(--font-body); line-height: var(--leading-base);">Hero zone empilha acima dos painéis. Layout vertical.</span>
       </div>
-      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:8px;">
-        <span style="font-size:7px; letter-spacing:3px; color:var(--color-crimson-text); text-transform:uppercase; font-family:var(--font-body);">≤ 600px</span>
-        <span style="font-size:8px; letter-spacing:2px; color:var(--text-body); text-transform:uppercase; font-family:var(--font-body); line-height:1.7;">Hero com altura fixa 40vh. Painéis full-width empilhados.</span>
+      <div style="background:var(--color-surface); padding:20px 16px; display:flex; flex-direction:column; gap:var(--space-2);">
+        <span class="label-accent">≤ 600px</span>
+        <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color:var(--text-body); font-family:var(--font-body); line-height: var(--leading-base);">Hero com altura fixa 40vh. Painéis full-width empilhados.</span>
       </div>
     </div>
   </div>

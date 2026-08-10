@@ -1,7 +1,7 @@
 {
   "name": "@orison/design-system",
-  "version": "2.0.0",
-  "description": "Orison Design System — Brand Book + Token Library",
+  "version": "3.0.0",
+  "description": "Orison Design System \u2014 Brand Book + Token Library",
   "author": "Orison <orison.ltda@gmail.com>",
   "license": "MIT",
   "main": "index.html",
@@ -15,9 +15,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run verify && vite build",
     "preview": "vite preview",
-    "tokens:export": "node scripts/export-tokens.js"
+    "tokens:export": "node scripts/export-tokens.js",
+    "verify": "node scripts/verify-system.mjs"
   },
   "keywords": [
     "design-system",

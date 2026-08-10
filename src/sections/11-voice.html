@@ -1,34 +1,34 @@
 <!-- Seção 11: voz e tom da marca — narrativa, atributos, exemplos e vocabulário -->
-<section id="sec-voice">
+<section id="sec-voice" aria-labelledby="sec-voice-title">
   <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">11</span>
-    <span class="sec-title">Voz e Tom · Voice &amp; Tone</span>
+    <h2 class="sec-title" id="sec-voice-title">Voz e Tom · Voice &amp; Tone</h2>
     <span class="sec-sub">Como a Orison fala · Narrativa · Posicionamento</span>
   </div>
 
   <!-- Bloco de narrativa central: premissa da marca e posicionamento lado a lado -->
   <div class="full-block">
     <div class="block-header">
-      <span class="block-header-title">Narrativa Central</span>
+      <h3 class="block-header-title">Narrativa Central</h3>
       <span class="block-header-sub">O Paralelo Biológico</span>
     </div>
     <!-- Grade de duas colunas: esquerda = texto de premissa, direita = blocos de posicionamento -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px;">
       <!-- Coluna esquerda: parágrafo de premissa em fonte display + parágrafo secundário -->
-      <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; flex-direction:column; gap:var(--space-3);">
         <span class="text-accent text-label">A Premissa</span>
         <!-- Texto principal da premissa: edite o conteúdo do <p> para mudar a narrativa -->
-        <p style="font-family: var(--font-display); font-size:18px; font-weight:300; letter-spacing:1px; color: var(--color-offwhite); line-height:1.7;">
+        <p style="font-family: var(--font-display); font-size: var(--display-sm); font-weight:300; letter-spacing: var(--tracking-tight); color: var(--text-primary); line-height: var(--leading-relaxed);">
           Uma empresa é um organismo vivo. Tem metabolismo, sistema nervoso, pontos de falha e capacidade de evolução. A Orison atua como um agente de transformação preciso — sistemas de IA implementados cirurgicamente nos vetores certos, produzindo mutação mensurável e irreversível no organismo-empresa.</p>
         <!-- Divisor decorativo crimson — elemento puramente visual, não remova -->
         <div style="width:32px; height:1px; background: var(--color-crimson); opacity:0.5;"></div>
         <!-- Parágrafo secundário: edite o texto do <p> para mudar o complemento da premissa -->
-        <p class="text-body text-tertiary">Assim como a Umbrella Corporation não vendia remédios — vendia evolução — a Orison não vende software. Vende a transformação do estado operacional de uma empresa para um nível que antes era impossível.</p>
+        <p class="text-base">Assim como a Umbrella Corporation não vendia remédios — vendia evolução — a Orison não vende software. Vende a transformação do estado operacional de uma empresa para um nível que antes era impossível.</p>
       </div>
       <!-- Coluna direita: declarações de posicionamento via .info-block -->
       <!-- Para adicionar uma declaração: duplique um .info-block; para remover, delete-o -->
-      <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; flex-direction:column; gap:var(--space-3);">
         <span class="text-accent text-label">O Posicionamento</span>
         <div style="display:flex; flex-direction:column; gap:12px;">
           <!-- .info-block__label: título da declaração; .info-block__text: explicação — edite os textos aqui -->
@@ -50,9 +50,9 @@
   </div>
 
   <!-- Bloco de atributos de voz: grade "É" vs "Nunca É" -->
-  <div class="vt-wrap">
+  <div class="section section--prose">
     <div class="block-header">
-      <span class="block-header-title">Atributos de Voz</span>
+      <h3 class="block-header-title">Atributos de Voz</h3>
       <span class="block-header-sub">Como soamos em qualquer canal</span>
     </div>
     <!-- .vt-grid: dois painéis lado a lado (atributos positivos e negativos) -->
@@ -84,27 +84,28 @@
         </div>
       </div>
       <!-- Painel "A Orison Nunca É": atributos que devem ser evitados na voz -->
-      <!-- O opacity:0.4 + text-decoration:line-through no .vt-attr indica visualmente que é proibido — mantenha esse padrão -->
+      <!-- O riscado sozinho indica "proibido". O opacity:0.4 anterior compunha
+           2,60:1 sobre o fundo claro — cor mutada faz o mesmo trabalho, legível. -->
       <div class="vt-panel">
         <span class="vt-panel-title">A Orison Nunca É</span>
         <div class="vt-item">
-          <span class="vt-attr" style="opacity:0.4; text-decoration:line-through;">Animada</span>
+          <span class="vt-attr vt-attr--no">Animada</span>
           <span class="vt-def">Nunca: "Incrível!", "Estamos muito empolgados!", "Que oportunidade incrível!" — essas construções destroem credibilidade instantaneamente.</span>
         </div>
         <div class="vt-item">
-          <span class="vt-attr" style="opacity:0.4; text-decoration:line-through;">Humilde em excesso</span>
+          <span class="vt-attr vt-attr--no">Humilde em excesso</span>
           <span class="vt-def">Nunca: "Esperamos que possamos ajudar", "Seria uma honra". Sabemos o que fazemos. Apresentamos, não suplicamos.</span>
         </div>
         <div class="vt-item">
-          <span class="vt-attr" style="opacity:0.4; text-decoration:line-through;">Técnica demais</span>
+          <span class="vt-attr vt-attr--no">Técnica demais</span>
           <span class="vt-def">Nunca listar funcionalidades em reunião de apresentação. O cliente compra resultado, não arquitetura de sistema.</span>
         </div>
         <div class="vt-item">
-          <span class="vt-attr" style="opacity:0.4; text-decoration:line-through;">Genérica</span>
+          <span class="vt-attr vt-attr--no">Genérica</span>
           <span class="vt-def">Nunca: "Soluções inovadoras", "Transformação digital", "Ecossistema de IA". Palavras que todo mundo usa não significam nada.</span>
         </div>
         <div class="vt-item">
-          <span class="vt-attr" style="opacity:0.4; text-decoration:line-through;">Reativa</span>
+          <span class="vt-attr vt-attr--no">Reativa</span>
           <span class="vt-def">Nunca responder a objeções com defensividade. A postura é de apresentação de fatos, não de convencimento.</span>
         </div>
       </div>
@@ -114,11 +115,11 @@
   <!-- Bloco de exemplos práticos e vocabulário -->
   <div class="full-block">
     <div class="block-header">
-      <span class="block-header-title">Exemplos · Certo vs Errado</span>
+      <h3 class="block-header-title">Exemplos · Certo vs Errado</h3>
       <span class="block-header-sub">Aplicação prática da voz</span>
     </div>
     <!-- Grade de dois lados: exemplos corretos à esquerda, proibidos à direita -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-hairline);">
       <!-- Coluna de exemplos corretos: cada .vt-ex-right é um parágrafo de exemplo aprovado -->
       <!-- Para adicionar um exemplo: duplique um .vt-ex-right; para remover, delete-o -->
       <div class="vt-example-block">

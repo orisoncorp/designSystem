@@ -1,125 +1,145 @@
-/* ─── Grid system ─── */
-.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-.grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
-.grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; }
-.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+/* ═══════════════════════════════════════════════════════════════════
+   LAYOUT — v3.0
+   Grades e utilitários de fluxo. O sistema de seção, o cabeçalho de
+   bloco e o info-block viviam aqui E em components.css E em
+   motion-components.css — três definições idênticas competindo pela
+   ordem de import. Agora moram só em components.css.
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* ─── Flex utilities ─── */
-.flex-row    { display: flex; flex-direction: row; }
-.flex-col    { display: flex; flex-direction: column; }
-.flex-center { align-items: center; justify-content: center; }
-.flex-end    { align-items: flex-end; }
+/* ─── Grades ───
+   A calha de 2px é o separador assinatura do sistema: sem raio, sem
+   sombra, sem card. Uma chapa escura riscada por linhas de cabelo. */
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-hairline); }
+.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); }
+.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-hairline); }
+.grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-hairline); }
+.grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--space-hairline); }
+
+/* ─── Flex ─── */
+.flex-row     { display: flex; flex-direction: row; }
+.flex-col     { display: flex; flex-direction: column; }
+.flex-center  { align-items: center; justify-content: center; }
+.flex-end     { align-items: flex-end; }
 .flex-between { justify-content: space-between; }
 
-/* ─── Section containers ─── */
-.section-wrap {
-  max-width: var(--container-max);
-  margin: 0 auto 2px;
-  padding: 60px;
-}
+/* ═══════════════════════════════════════════
+   UTILITÁRIOS
+   Substituem os padrões inline mais repetidos das seções. Cada um destes
+   aparecia entre 5 e 19 vezes copiado verbatim em style="".
+   ═══════════════════════════════════════════ */
 
-.section-wrap--surface  { background: var(--color-surface); }
-.section-wrap--midnight { background: var(--color-midnight); }
+/* Pilhas verticais.
+   Os seletores de componente listados junto de cada utilitário tinham o
+   corpo byte-idêntico e viviam espalhados por components.css e
+   motion-components.css. Um primitivo, um lugar. */
+.card-bottom,
+.email-sig-contact,
+.email-sig-text,
+.opener-meta-item,
+.stack-1 { display: flex; flex-direction: column; gap: var(--space-1); }
+.input-orison-wrap,
+.lh-text,
+.prop-mid,
+.stack-2 { display: flex; flex-direction: column; gap: var(--space-2); }
+.app-item,
+.dv-donut-legend,
+.dv-token-list,
+.dv-zone--left,
+.dv-zone--right,
+.slide-content,
+.stack-3 { display: flex; flex-direction: column; gap: var(--space-3); }
+.duration-list,
+.dv-anatomy-diagram,
+.dv-rt-kpis,
+.dv-rt-pattern-body,
+.dv-semantic-grid,
+.dv-spec-list,
+.hero-timeline,
+.prop-list,
+.transform-ty-grid,
+.transform-tx-grid,
+.stack-hairline { display: flex; flex-direction: column; gap: var(--space-hairline); }
 
-/* ─── Block header ─── */
-.block-header {
-  padding: 0 0 28px 0;
-  border-bottom: var(--border-thin) solid var(--border-color);
-  margin-bottom: var(--space-5);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.block-header-title {
-  font-size: 10px;
-  letter-spacing: 5px;
-  color: var(--text-body);
-  text-transform: uppercase;
-}
-
-.block-header-sub {
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* ─── Dividers ─── */
-.divider-h {
-  width: 100%;
-  height: var(--border-thin);
-  background: var(--border-color);
-  margin: 14px 0;
-}
-
-.divider-v {
-  width: var(--border-thin);
-  background: var(--border-color);
-  align-self: stretch;
-}
-
-/* ─── Info block (replaces ~100 inline style blocks) ─── */
-.info-block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  background: var(--color-surface);
-  padding: var(--space-3) var(--space-4);
-  border-left: var(--border-thin) solid var(--border-color-accent);
-}
-
-.info-block__label {
-  font-family: var(--font-body);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-base);
-  color: var(--text-body);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  display: block;
-}
-
-.info-block__text {
+/* Label em caixa alta — o padrão mais copiado do repositório */
+.label-muted,
+.label-accent,
+.label-secondary {
   font-family: var(--font-body);
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-tight);
-  color: var(--text-body);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  line-height: 1.8;
 }
 
-/* ─── Responsive ─── */
+.label-muted     { color: var(--text-muted); }
+.label-accent    { color: var(--color-crimson-text); }
+.label-secondary { color: var(--text-secondary); }
+
+/* Nome de token — mono, acento, sem caixa alta */
+.token-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  color: var(--color-crimson-text);
+}
+
+/* Legenda centrada sob um espécime */
+.caption-center {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  color: var(--text-muted);
+  line-height: var(--leading-base);
+  text-align: center;
+}
+
+/* Espaçamento pontual */
+.mt-hairline { margin-top: var(--space-hairline); }
+.mt-2        { margin-top: var(--space-2); }
+
+/* ─── Estado inicial de animação ───
+   Escopado a .js-ready, aplicado por main.js. Sem JavaScript a classe
+   nunca chega e o conteúdo renderiza visível, em vez de ficar preso em
+   opacity: 0 esperando um observer que não vai disparar. */
+.js-ready .anim-init {
+  opacity: 0;
+}
+
+.js-ready .anim-init-up {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: none;
+}
+
+/* ─── Rolagem horizontal contida ───
+   Qualquer conteúdo mais largo que a coluna rola dentro do próprio
+   bloco. A página nunca rola na horizontal. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Responsivo ─── */
 @media (max-width: 1120px) {
-  .section-wrap,
-  .sec-div, .cover, .block-2col, .scale-bar,
-  .favicon-bar, .palette-wrap, .type-wrap,
-  .spacing-wrap, .clearspace-wrap, .dont-wrap,
-  .vt-wrap, .app-wrap, .full-block,
-  .comp-wrap, .motion-wrap {
-    margin-left: 20px;
-    margin-right: 20px;
+  .section, .sec-div, .cover, .opener, .block-2col, .scale-bar,
+  .favicon-bar, .clearspace-wrap,
+  .section-wrap, .palette-wrap, .type-wrap, .spacing-wrap, .dont-wrap,
+  .vt-wrap, .app-wrap, .full-block, .comp-wrap, .motion-wrap,
+  .motion-sec-wrap {
+    margin-left: var(--space-4);
+    margin-right: var(--space-4);
     width: auto;
   }
 }
 
 @media (max-width: 900px) {
-  .grid-2col,
-  .block-2col, .type-grid, .vt-grid,
-  .app-grid, .app-grid-3 { grid-template-columns: 1fr; }
-
+  .grid-2col { grid-template-columns: 1fr; }
   .grid-3col { grid-template-columns: 1fr 1fr; }
-
-  .grid-6col, .swatches, .spacing-grid { grid-template-columns: repeat(4, 1fr); }
-
-  .grid-4col,
-  .palette-usage, .spacing-usage, .dont-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-4col { grid-template-columns: repeat(2, 1fr); }
+  .grid-6col,
+  .grid-8col { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 600px) {
-  .grid-2col, .grid-3col, .grid-4col, .grid-6col, .grid-8col,
-  .swatches, .spacing-grid, .palette-usage,
-  .spacing-usage, .dont-grid { grid-template-columns: 1fr; }
-
-  .section-wrap { padding: 40px 30px; }
+  .grid-2col, .grid-3col, .grid-4col,
+  .grid-6col, .grid-8col { grid-template-columns: 1fr; }
 }

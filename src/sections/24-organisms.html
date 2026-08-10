@@ -1,14 +1,14 @@
 <!-- Seção 24: Organisms — coreografias compostas -->
-<section id="sec-organisms">
+<section id="sec-organisms" aria-labelledby="sec-organisms-title">
   <div class="sec-div">
     <span class="sec-num">24</span>
-    <span class="sec-title">Organisms</span>
+    <h2 class="sec-title" id="sec-organisms-title">Organisms</h2>
     <span class="sec-sub">Sequências compostas · Modal · Scroll · Data · Charts</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
-      <span class="block-header-title">Organismos de Motion</span>
+      <h3 class="block-header-title">Organismos de Motion</h3>
       <span class="block-header-sub">Sequências compostas — múltiplas camadas coordenadas</span>
     </div>
 
@@ -19,7 +19,7 @@
         <span class="org-card-title">modal-choreography</span>
         <span class="org-card-desc">Overlay + backdrop simultâneos → modal após 100ms</span>
         <button class="m-play-btn" id="modal-open-btn">Abrir Modal Demo</button>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: var(--space-2);">
+        <div class="stack-1 mt-2">
           <div class="mol-spec-row"><span class="mol-spec-key">1. Overlay</span><span class="mol-spec-val">enter-fade · 0ms delay</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">2. Backdrop</span><span class="mol-spec-val">scale(0.98) + blur(2px) · 0ms delay</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">3. Modal</span><span class="mol-spec-val">enter-materialize · 100ms delay</span></div>
@@ -33,22 +33,22 @@
         <span class="org-card-desc">IntersectionObserver · threshold 0.15 · once: true · stagger base</span>
         <div class="scroll-reveal-grid" id="scroll-reveal-demo">
           <div class="scroll-reveal-card m-stagger-1">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 01</span>
+            <span class="label-muted">Card 01</span>
           </div>
           <div class="scroll-reveal-card m-stagger-2">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 02</span>
+            <span class="label-muted">Card 02</span>
           </div>
           <div class="scroll-reveal-card m-stagger-3">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 03</span>
+            <span class="label-muted">Card 03</span>
           </div>
           <div class="scroll-reveal-card m-stagger-4">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 04</span>
+            <span class="label-muted">Card 04</span>
           </div>
           <div class="scroll-reveal-card m-stagger-5">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 05</span>
+            <span class="label-muted">Card 05</span>
           </div>
           <div class="scroll-reveal-card m-stagger-6">
-            <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Card 06</span>
+            <span class="label-muted">Card 06</span>
           </div>
         </div>
       </div>
@@ -78,8 +78,8 @@
       <div class="org-card">
         <span class="org-card-title">data-population · chart-bars</span>
         <span class="org-card-desc">scaleY(0→1) · origin bottom · stagger base 60ms · emphasis easing</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <div style="display: flex; gap: 4px; height: 100px; align-items: flex-end;" id="chart-bars-demo">
+        <div class="stack-2">
+          <div style="display: flex; gap: var(--space-1); height: 100px; align-items: flex-end;" id="chart-bars-demo">
             <div class="chart-bar" style="height: 40%;"></div>
             <div class="chart-bar" style="height: 75%;"></div>
             <div class="chart-bar" style="height: 55%;"></div>
@@ -89,7 +89,7 @@
           </div>
           <button class="m-play-btn" id="chart-bars-play">Re-animar</button>
         </div>
-        <div style="margin-top: var(--space-2); display: flex; flex-direction: column; gap: 4px;">
+        <div class="stack-1 mt-2">
           <div class="mol-spec-row"><span class="mol-spec-key">Propriedade</span><span class="mol-spec-val">transform: scaleY</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Origin</span><span class="mol-spec-val">bottom — metáfora natural de crescimento</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Easing</span><span class="mol-spec-val">emphasis — sem bounce no topo</span></div>
@@ -100,7 +100,7 @@
   </div>
 
   <!-- Modal DOM (fora do flow) -->
-  <div class="modal-demo-overlay" id="modal-demo-overlay">
+  <div class="modal-demo-overlay" id="modal-demo-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-demo-title">
     <div class="modal-demo-box">
       <h3 class="modal-demo-title">Modal Orison</h3>
       <p class="modal-demo-body">Overlay + backdrop entram juntos. O modal materializa 100ms depois — o fundo está parcialmente preparado antes que o conteúdo apareça.</p>

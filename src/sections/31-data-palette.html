@@ -1,20 +1,20 @@
 <!-- Seção 31: Data Palette — escalas de cor para visualização de dados -->
-<section id="sec-data-palette">
+<section id="sec-data-palette" aria-labelledby="sec-data-palette-title">
   <div class="sec-div">
     <span class="sec-num">31</span>
-    <span class="sec-title">Data Palette</span>
+    <h2 class="sec-title" id="sec-data-palette-title">Data Palette</h2>
     <span class="sec-sub">Sequencial · Divergente · Categórica</span>
   </div>
 
   <!-- Semânticas existentes -->
-  <div class="motion-sec-wrap m-reveal">
+  <div class="section m-reveal">
     <div class="block-header">
-      <span class="block-header-title">Cores Semânticas</span>
+      <h3 class="block-header-title">Cores Semânticas</h3>
       <span class="block-header-sub">Herdadas do orisonDesign.md — negativo, alerta, positivo</span>
     </div>
     <div class="dv-semantic-grid">
       <div class="dv-semantic-row">
-        <div class="dv-semantic-swatch" style="background:#8B1A1A;"></div>
+        <div class="dv-semantic-swatch" style="background:var(--color-crimson);"></div>
         <div class="dv-semantic-swatch" style="background:#C0392B;"></div>
         <div class="dv-semantic-info">
           <span class="dv-swatch-label">Negative</span>
@@ -44,9 +44,9 @@
   </div>
 
   <!-- Escala sequencial crimson -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+  <div class="section m-reveal mt-hairline">
     <div class="block-header">
-      <span class="block-header-title">Escala Sequencial — Crimson</span>
+      <h3 class="block-header-title">Escala Sequencial — Crimson</h3>
       <span class="block-header-sub">8 steps · heatmaps, density maps, intensidade de dado</span>
     </div>
     <div class="dv-scale-bar">
@@ -54,8 +54,8 @@
       <div class="dv-scale-step" style="background:#2D0A0A;" data-hex="#2D0A0A"></div>
       <div class="dv-scale-step" style="background:#4A1010;" data-hex="#4A1010"></div>
       <div class="dv-scale-step" style="background:#6B1515;" data-hex="#6B1515"></div>
-      <div class="dv-scale-step" style="background:#8B1A1A;" data-hex="#8B1A1A"></div>
-      <div class="dv-scale-step" style="background:#A52020;" data-hex="#A52020"></div>
+      <div class="dv-scale-step" style="background:var(--color-crimson);" data-hex="#8B1A1A"></div>
+      <div class="dv-scale-step" style="background:var(--color-red);" data-hex="#A52020"></div>
       <div class="dv-scale-step" style="background:#C03030;" data-hex="#C03030"></div>
       <div class="dv-scale-step" style="background:#D94040;" data-hex="#D94040"></div>
     </div>
@@ -76,21 +76,21 @@
       <div class="dv-heatmap-cell" style="background:#2D0A0A;">14%</div>
       <div class="dv-heatmap-cell" style="background:#4A1010;">28%</div>
       <div class="dv-heatmap-cell" style="background:#6B1515;">43%</div>
-      <div class="dv-heatmap-cell" style="background:#8B1A1A;">57%</div>
-      <div class="dv-heatmap-cell" style="background:#A52020;">71%</div>
+      <div class="dv-heatmap-cell" style="background:var(--color-crimson);">57%</div>
+      <div class="dv-heatmap-cell" style="background:var(--color-red);">71%</div>
       <div class="dv-heatmap-cell" style="background:#C03030;">85%</div>
       <div class="dv-heatmap-cell" style="background:#D94040;">100%</div>
     </div>
   </div>
 
   <!-- Escala sequencial neutral -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+  <div class="section m-reveal mt-hairline">
     <div class="block-header">
-      <span class="block-header-title">Escala Sequencial — Neutral</span>
+      <h3 class="block-header-title">Escala Sequencial — Neutral</h3>
       <span class="block-header-sub">8 steps · backgrounds de intensidade, sem conotação semântica</span>
     </div>
     <div class="dv-scale-bar">
-      <div class="dv-scale-step" style="background:#111113;" data-hex="#111113"></div>
+      <div class="dv-scale-step" style="background:var(--color-midnight);" data-hex="#111113"></div>
       <div class="dv-scale-step" style="background:#1A1A1C;" data-hex="#1A1A1C"></div>
       <div class="dv-scale-step" style="background:#252527;" data-hex="#252527"></div>
       <div class="dv-scale-step" style="background:#303032;" data-hex="#303032"></div>
@@ -112,24 +112,24 @@
   </div>
 
   <!-- Escala divergente -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+  <div class="section m-reveal mt-hairline">
     <div class="block-header">
-      <span class="block-header-title">Escala Divergente</span>
+      <h3 class="block-header-title">Escala Divergente</h3>
       <span class="block-header-sub">Negativo ↔ Neutro ↔ Positivo · comparação de performance</span>
     </div>
-    <div style="display:flex; gap:2px; height:48px; width:100%; margin-bottom:8px;">
-      <div style="flex:1; background:#8B1A1A;"></div>
+    <div style="display:flex; gap:var(--space-hairline); height:48px; width:100%; margin-bottom:var(--space-2);">
+      <div style="flex:1; background:var(--color-crimson);"></div>
       <div style="flex:1; background:#6B1515;"></div>
       <div style="flex:1; background:#3A3A3C;"></div>
       <div style="flex:1; background:#1A5C2E;"></div>
       <div style="flex:1; background:#27834A;"></div>
     </div>
-    <div style="display:flex; gap:2px; width:100%; margin-bottom:24px;">
-      <span style="flex:1; font-size:7px; letter-spacing:2px; text-transform:uppercase; font-family:var(--font-body); color:var(--color-crimson-text); text-align:center;">Negativo alto</span>
-      <span style="flex:1; font-size:7px; letter-spacing:2px; text-transform:uppercase; font-family:var(--font-body); color:var(--color-crimson-text); text-align:center;">Negativo</span>
-      <span style="flex:1; font-size:7px; letter-spacing:2px; text-transform:uppercase; font-family:var(--font-body); color:var(--text-muted); text-align:center;">Neutro</span>
-      <span style="flex:1; font-size:7px; letter-spacing:2px; text-transform:uppercase; font-family:var(--font-body); color:#3AAA62; text-align:center;">Positivo</span>
-      <span style="flex:1; font-size:7px; letter-spacing:2px; text-transform:uppercase; font-family:var(--font-body); color:#3AAA62; text-align:center;">Positivo alto</span>
+    <div style="display:flex; gap:var(--space-hairline); width:100%; margin-bottom:var(--space-4);">
+      <span style="flex:1; font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform:uppercase; font-family:var(--font-body); color:var(--color-crimson-text); text-align:center;">Negativo alto</span>
+      <span style="flex:1; font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform:uppercase; font-family:var(--font-body); color:var(--color-crimson-text); text-align:center;">Negativo</span>
+      <span style="flex:1; font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform:uppercase; font-family:var(--font-body); color:var(--text-muted); text-align:center;">Neutro</span>
+      <span style="flex:1; font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform:uppercase; font-family:var(--font-body); color:var(--color-positive-br); text-align:center;">Positivo</span>
+      <span style="flex:1; font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform:uppercase; font-family:var(--font-body); color:var(--color-positive-br); text-align:center;">Positivo alto</span>
     </div>
     <!-- Mini example -->
     <div class="dv-example-label">Exemplo — comparação de performance entre unidades</div>
@@ -139,14 +139,14 @@
         <div class="dv-div-bar-wrap">
           <div class="dv-div-bar dv-div-bar--pos" style="width:42%;"></div>
         </div>
-        <span class="dv-div-val" style="color:#3AAA62;">+42%</span>
+        <span class="dv-div-val" style="color:var(--color-positive-br);">+42%</span>
       </div>
       <div class="dv-div-row">
         <span class="dv-div-label">Unidade RJ</span>
         <div class="dv-div-bar-wrap">
           <div class="dv-div-bar dv-div-bar--pos" style="width:12%;"></div>
         </div>
-        <span class="dv-div-val" style="color:#3AAA62;">+12%</span>
+        <span class="dv-div-val" style="color:var(--color-positive-br);">+12%</span>
       </div>
       <div class="dv-div-row">
         <span class="dv-div-label">Unidade BH</span>
@@ -166,14 +166,14 @@
   </div>
 
   <!-- Escala categórica -->
-  <div class="motion-sec-wrap m-reveal" style="margin-top: 2px;">
+  <div class="section m-reveal mt-hairline">
     <div class="block-header">
-      <span class="block-header-title">Escala Categórica</span>
+      <h3 class="block-header-title">Escala Categórica</h3>
       <span class="block-header-sub">Máximo 6 categorias — nunca mais num único chart</span>
     </div>
     <div class="dv-cat-grid">
       <div class="dv-cat-item">
-        <div class="dv-cat-swatch" style="background:#8B1A1A;"></div>
+        <div class="dv-cat-swatch" style="background:var(--color-crimson);"></div>
         <span class="dv-swatch-label">Crimson</span>
         <span class="dv-swatch-hex">#8B1A1A</span>
         <span class="dv-swatch-use">Série primária</span>

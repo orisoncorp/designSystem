@@ -1,20 +1,20 @@
 <!-- Seção 16: Duration — 7 tokens com barra animada e exit ratio -->
-<section id="sec-duration">
+<section id="sec-duration" aria-labelledby="sec-duration-title">
   <div class="sec-div">
     <span class="sec-num">16</span>
-    <span class="sec-title">Duration</span>
+    <h2 class="sec-title" id="sec-duration-title">Duration</h2>
     <span class="sec-sub">Atoms · Duração · Exit Ratio · 7 tokens</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
-      <span class="block-header-title">Escala de Duração</span>
+      <h3 class="block-header-title">Escala de Duração</h3>
       <span class="block-header-sub">Barra primária = duração de entrada · Barra secundária = saída × 0.7</span>
     </div>
 
     <div style="margin-bottom: var(--space-3); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
       <button class="m-play-btn" id="duration-play-all">Disparar Todos</button>
-      <span style="font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Crimson = entrada · Cinza = saída (70%)</span>
+      <span class="label-muted">Crimson = entrada · Cinza = saída (70%)</span>
     </div>
 
     <div class="duration-list m-reveal">
@@ -92,14 +92,14 @@
     </div>
 
     <!-- Exit ratio note -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: var(--space-4);">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-hairline); margin-top: var(--space-4);">
       <div class="comp-spec">
         <span class="comp-spec-key">Exit Ratio</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">Saída = duração × 0.7 — usuário já absorveu o conteúdo</span>
+        <span class="comp-spec-val text-secondary">Saída = duração × 0.7 — usuário já absorveu o conteúdo</span>
       </div>
       <div class="comp-spec">
         <span class="comp-spec-key">Teto por contexto</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">Dashboard: 400ms · UI: 600ms · Apresentação: × 1.4</span>
+        <span class="comp-spec-val text-secondary">Dashboard: 400ms · UI: 600ms · Apresentação: × 1.4</span>
       </div>
     </div>
   </div>

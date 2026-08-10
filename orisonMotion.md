@@ -1,5 +1,5 @@
 ---
-version: "1.0"
+version: "3.0"
 name: Orison Motion System
 description: >
   Sistema universal de motion design da Orison. Documento normativo que governa
@@ -7,6 +7,8 @@ description: >
   a sequências de apresentação client-facing. Complementar ao orisonDesign.md,
   referenciando seus tokens sem duplicá-los. Construído sobre princípios de
   Design Atômico: átomos, moléculas, organismos, templates e governance.
+  Espelha src/tokens/motion-tokens.css — se os dois divergirem, o código é a
+  verdade e este arquivo é o bug.
 
 # ─────────────────────────────────────────────
 # ÁTOMOS — Primitivos indivisíveis de movimento
@@ -700,19 +702,42 @@ governance:
       - "translateX + translateY + scale simultâneos"
       - "opacity + scale + translate nos três ao mesmo tempo"
     rule: "Máximo duas propriedades animando por elemento por transição"
+    progress-fill: "transform: scaleX() a partir de transform-origin left — nunca width"
 
   naming:
-    pattern: "motion-[camada]-[tipo]-[variante]"
-    layers:
-      - "atom"
-      - "mol"
-      - "org"
-      - "tpl"
+    # Tokens são planos, categorizados pela propriedade que controlam.
+    # A camada (atom/mol/org/tpl) descreve ONDE se aplica e vive na
+    # documentação, não no nome.
+    pattern: "--motion-[categoria]-[variante]"
+    categories:
+      easing: [enter, exit, state, emphasis, linear, micro]
+      duration: [instant, fast, base, moderate, slow, dramatic, cinematic]
+      ty: [micro, sm, md, base, lg, xl]
+      tx: [sm, md, base, lg, drawer]
+      scale: [min, base, max, backdrop]
+      opacity: [start, mid, end, disabled, overlay]
+      stagger: [base, dense, dramatic, max-delay]
+      exit: [ratio]
     examples:
-      - "motion-atom-easing-enter"
-      - "motion-mol-enter-reveal"
-      - "motion-org-scroll-reveal"
-      - "motion-tpl-dashboard-loading"
+      - "--motion-easing-enter"
+      - "--motion-duration-slow"
+      - "--motion-ty-base"
+      - "--motion-stagger-dense"
+    css-classes: "seguem o próprio componente (.m-reveal, .lm-stage, .dv-kpi-card)"
+
+  reveal-gate:
+    rule: "Gate de scroll apenas em momentos autorais — capa, aberturas, divisores"
+    rationale: >
+      Entrada idêntica repetida em toda seção é ruído, e cada bloco com
+      opacity:0 à espera de JS é um bloco que some se o JS falhar ou na impressão.
+    content-blocks: "aparecem sem gate"
+
+  reduced-motion-js:
+    rule: "Todo agendamento em JS passa por um wrapper que colapsa o atraso"
+    rationale: >
+      O !important do CSS zera durações declarativas, mas setTimeout,
+      setInterval e rAF não leem a media query.
+    intervals: "limpam em visibilitychange — nada roda em aba oculta"
 
   exit-ratio:
     default: 0.7
@@ -946,6 +971,30 @@ sistema está "carregando" com eficiência crescente.
 Após 8 itens, todos os restantes aparecem simultaneamente com o delay do
 item 8. Isso previne que o último item de uma lista de 50 elementos apareça
 segundos depois do primeiro.
+
+**Consumo dos tokens.** Os valores acima vivem em `motion-tokens.css` e o JS
+os lê de lá, em vez de reimplementá-los:
+
+```js
+const cssMs = (name, fallback) => {
+  const v = getComputedStyle(document.documentElement)
+    .getPropertyValue(name).trim();
+  const n = parseFloat(v);
+  return Number.isFinite(n) ? (v.endsWith('ms') ? n : n * 1000) : fallback;
+};
+
+const STAGGER = {
+  base:     cssMs('--motion-stagger-base', 60),
+  dense:    cssMs('--motion-stagger-dense', 40),
+  dramatic: cssMs('--motion-stagger-dramatic', 120),
+  maxDelay: cssMs('--motion-stagger-max-delay', 480),
+};
+```
+
+Até a v3.0 os quatro tokens de stagger existiam, este documento os
+especificava, e **nenhum era consumido**: o JS hardcodava `60` e arrays
+literais `[0, 60, 114]`. Ajustar o token não mudava nada na tela. Um token que
+não é lido é documentação, não sistema.
 
 **Regras de stagger:**
 - Nunca use stagger sem decay — stagger linear cria monotonia.
@@ -1248,6 +1297,26 @@ a animação acontecer, não o resultado estático depois que já passou.
 - Elementos above-the-fold nunca usam scroll-reveal — entram com a
   page transition ou hero sequence.
 
+**Política de gate — o limite do scroll-reveal.** O gate de scroll pertence
+apenas aos **momentos autorais**: capa, aberturas de capítulo, divisores de
+seção. Conteúdo de leitura aparece.
+
+Duas razões, e a segunda é a séria:
+
+1. *Uma entrada idêntica repetida não é motion, é ruído.* Quando doze
+   contêineres diferentes recebem o mesmo `translateY(24px)` + fade em toda
+   seção, o leitor aprende no terceiro que nada novo vai acontecer, e o efeito
+   passa a custar atenção sem devolver informação.
+2. *Um gate de scroll é uma dependência de JavaScript para o conteúdo ficar
+   visível.* Cada bloco com `opacity: 0` à espera de uma classe aplicada por
+   observer é um bloco que não existe se o JS falhar, se o observer nunca
+   disparar, ou na impressão. A v2.0 aplicava `opacity: 0` a doze famílias de
+   wrapper sem `<noscript>` — um brand book marcado "Confidential" que
+   imprimia em branco.
+
+Se um elemento precisa ser lido, ele não deve depender de animação para
+aparecer. Reserve o gate para o que é gesto.
+
 ---
 
 ## Organisms — Data Population
@@ -1443,6 +1512,24 @@ identidade de precisão da Orison.
 imediatamente após. `will-change` permanente consome memória GPU sem
 benefício.
 
+**Barras de progresso e preenchimento** são o caso onde essa regra é mais
+violada, porque animar `width` é o caminho óbvio. Não é permitido. Use
+`transform: scaleX()` a partir de `transform-origin: left center`:
+
+```css
+.progress-fill {
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--motion-duration-dramatic) var(--motion-easing-linear);
+}
+.progress-fill.is-running { transform: scaleX(1); }
+```
+
+> Até a v3.0 o brand book animava `width` nesta exata regra, na mesma página
+> em que imprimia *"Só transform e opacity — GPU budget"*. Uma regra que o
+> próprio sistema quebra não governa nada.
+
 ---
 
 ## Governance — Accessibility
@@ -1461,6 +1548,38 @@ adicionado no final do desenvolvimento.
 **Regra:** Nunca trate `prefers-reduced-motion` como "desativar animações".
 Trate como "remover movimento desnecessário, preservar mudanças de estado
 informativas".
+
+**A armadilha do JS.** O `!important` no CSS zera *durações declarativas*, e é
+onde quase toda implementação para. Mas sequência coreografada é agendada em
+JavaScript — `setTimeout`, `setInterval`, `requestAnimationFrame` — e nada
+disso lê a media query. Uma página pode ter todas as durações em `0.01s` e
+ainda assim levar 2 segundos para revelar uma lista, porque o stagger é um
+relógio, não uma transição.
+
+Toda função que agenda passa por um wrapper que colapsa o atraso:
+
+```js
+const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function motionReduced() {
+  const html = document.documentElement;
+  if (html.classList.contains('force-motion')) return false;
+  return motionQuery.matches || html.classList.contains('reduced-motion');
+}
+
+function schedule(fn, ms) {
+  return setTimeout(fn, motionReduced() ? 0 : ms);
+}
+```
+
+**Intervalos param em aba oculta.** Todo `setInterval` de dado em tempo real
+tem caminho de limpeza e pausa em `visibilitychange`. Um stream que roda
+indefinidamente numa aba escondida gasta bateria para ninguém.
+
+**Operabilidade dos controles de demonstração.** Todo controle que dispara
+motion é `<button>`, ou carrega `role` + `tabindex` + handler de teclado. Isso
+inclui — sobretudo — o próprio toggle de movimento reduzido: um controle de
+acessibilidade inalcançável por teclado é pior que nenhum controle.
 
 ---
 
@@ -1487,24 +1606,41 @@ elemento por transição.
 
 ## Governance — Naming Convention
 
-Tokens de motion seguem o padrão semântico:
-`motion-[camada]-[tipo]-[variante]`
+Tokens de motion são **planos e categorizados pela propriedade que controlam**:
 
-**Camadas:**
-- `atom` — primitivos (easing, duration, transform)
-- `mol` — moléculas (enter, exit, state, micro, loading)
-- `org` — organismos (page, modal, scroll, data, list, nav)
-- `tpl` — templates (elpis, presentation, landing, dashboard)
+```
+--motion-[categoria]-[variante]
+```
 
-**Exemplos:**
-- `motion-atom-easing-enter`
-- `motion-atom-duration-slow`
-- `motion-mol-enter-reveal`
-- `motion-mol-state-hover-primary`
-- `motion-org-scroll-reveal`
-- `motion-org-data-chart-bar`
-- `motion-tpl-landing-hero`
-- `motion-tpl-dashboard-loading`
+**Categorias e variantes reais:**
+
+| Categoria | Variantes |
+|---|---|
+| `easing` | enter · exit · state · emphasis · linear · micro |
+| `duration` | instant · fast · base · moderate · slow · dramatic · cinematic |
+| `ty` | micro · sm · md · base · lg · xl |
+| `tx` | sm · md · base · lg · drawer |
+| `scale` | min · base · max · backdrop |
+| `opacity` | start · mid · end · disabled · overlay |
+| `stagger` | base · dense · dramatic · max-delay |
+| `exit` | ratio |
+
+**Exemplos:** `--motion-easing-enter` · `--motion-duration-slow` ·
+`--motion-ty-base` · `--motion-tx-drawer` · `--motion-scale-max` ·
+`--motion-opacity-overlay` · `--motion-stagger-dense` · `--motion-exit-ratio`
+
+**A camada não vive no nome.** Átomo / molécula / organismo / template
+descreve *onde* um token é aplicado, e isso é conteúdo de documentação — a
+estrutura deste arquivo. Um token não muda de identidade porque foi usado em
+um organismo em vez de uma molécula.
+
+> **Histórico.** Até a v3.0 este documento e a seção 26 do brand book
+> especificavam `motion-[camada]-[tipo]-[variante]`, com oito exemplos, e
+> nenhum deles existia no código. A convenção acima é a que `motion-tokens.css`
+> realmente usa desde sempre.
+
+**Classes CSS seguem o próprio componente** (`.m-reveal`, `.lm-stage`,
+`.dv-kpi-card`). Só tokens carregam o prefixo `--motion-`.
 
 ---
 

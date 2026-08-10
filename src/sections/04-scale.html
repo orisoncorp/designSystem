@@ -1,9 +1,9 @@
 <!-- Seção 04: escala de tamanhos do símbolo de 16px a 200px -->
-<section id="sec-scale">
+<section id="sec-scale" aria-labelledby="sec-scale-title">
   <!-- Cabeçalho de seção: número, título e subtítulo -->
   <div class="sec-div">
     <span class="sec-num">04</span>
-    <span class="sec-title">Comportamento em Escala</span>
+    <h2 class="sec-title" id="sec-scale-title">Comportamento em Escala</h2>
     <span class="sec-sub">16px → 200px</span>
   </div>
 
@@ -53,13 +53,13 @@
     <!-- 120px e 200px: usam o sprite #symbol-full via <use> para incluir todos os detalhes do símbolo completo -->
     <div class="si">
       <span class="si-label">120px</span>
-      <svg class="symbol" width="120" height="120" role="img" aria-label="Símbolo 120px" style="color: var(--color-offwhite)">
+      <svg class="symbol text-primary" width="120" height="120" role="img" aria-label="Símbolo 120px">
         <use href="#symbol-full"/>
       </svg>
     </div>
     <div class="si">
       <span class="si-label">200px</span>
-      <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo 200px" style="color: var(--color-offwhite)">
+      <svg class="symbol text-primary" width="200" height="200" role="img" aria-label="Símbolo 200px">
         <use href="#symbol-full"/>
       </svg>
     </div>

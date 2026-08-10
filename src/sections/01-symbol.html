@@ -1,9 +1,9 @@
 <!-- Seção 01: exibe o símbolo isolado em fundo escuro e claro lado a lado -->
-<section id="sec-symbol">
+<section id="sec-symbol" aria-labelledby="sec-symbol-title">
   <!-- Cabeçalho de seção: número (.sec-num), título (.sec-title) e subtítulo (.sec-sub) -->
   <div class="sec-div">
     <span class="sec-num">01</span>
-    <span class="sec-title">Símbolo Isolado</span>
+    <h2 class="sec-title" id="sec-symbol-title">Símbolo Isolado</h2>
     <span class="sec-sub">Primary Mark · Dark &amp; Light</span>
   </div>
 
@@ -13,14 +13,14 @@
     <div class="panel">
       <span class="panel-label">Fundo Escuro · Uso Principal</span>
       <!-- SVG do símbolo: altere width/height para mudar o tamanho; color herda do CSS via currentColor -->
-      <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo escuro" style="color: var(--color-offwhite)">
+      <svg class="symbol text-primary" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo escuro">
         <use href="#symbol-full"/>
       </svg>
     </div>
     <!-- Painel claro: fundo off-white (.panel-light); symbol usa cor midnight para contraste -->
     <div class="panel-light">
       <span class="panel-label-light">Fundo Claro · Uso Alternativo</span>
-      <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo claro" style="color: var(--color-midnight)">
+      <svg class="symbol" width="200" height="200" role="img" aria-label="Símbolo Orison em fundo claro" style="color: var(--text-primary)">
         <use href="#symbol-full"/>
       </svg>
     </div>
