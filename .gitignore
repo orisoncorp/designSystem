@@ -4,3 +4,6 @@ dist/
 *.local
 .netlify/
 .agents/
+
+# Gerado sob demanda por `npm run tokens:export` — a fonte é tokens.css
+src/tokens/tokens.json
