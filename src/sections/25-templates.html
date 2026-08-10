@@ -6,7 +6,7 @@
     <span class="sec-sub">Elpis CLI · Apresentação · Landing Page · Dashboard</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
       <h3 class="block-header-title">Contextos de Aplicação</h3>
       <span class="block-header-sub">Cada contexto tem moléculas permitidas e restrições próprias</span>
@@ -17,8 +17,8 @@
       <!-- Elpis CLI -->
       <div class="template-card">
         <span class="template-card-title">Elpis · CLI / Terminal</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Moléculas permitidas</span>
+        <div class="stack-2">
+          <span class="label-muted">Moléculas permitidas</span>
           <div class="template-tag-list">
             <span class="template-tag">loading-pulse</span>
             <span class="template-tag">loading-bar</span>
@@ -26,9 +26,9 @@
             <span class="template-tag">micro-counter</span>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Status indicators</span>
-          <div style="display: flex; flex-direction: column; gap: var(--space-hairline);">
+        <div class="stack-2">
+          <span class="label-muted">Status indicators</span>
+          <div class="stack-hairline">
             <div class="mol-spec-row"><span class="mol-spec-key">thinking</span><span class="mol-spec-val">pulse</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">processing</span><span class="mol-spec-val">bar</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">complete</span><span class="mol-spec-val">instant-appear</span></div>
@@ -37,7 +37,7 @@
         </div>
         <div class="comp-spec" style="margin-top: 0;">
           <span class="comp-spec-key">Teto</span>
-          <span class="comp-spec-val" style="color: var(--text-secondary);">400ms — redução de 40% vs web</span>
+          <span class="comp-spec-val text-secondary">400ms — redução de 40% vs web</span>
         </div>
         <div class="template-constraint-list">
           <span class="template-constraint">Sem translateY/X — terminal é sequencial</span>
@@ -49,21 +49,21 @@
       <!-- Client Presentation -->
       <div class="template-card">
         <span class="template-card-title">Client Presentation</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Multiplicadores</span>
+        <div class="stack-2">
+          <span class="label-muted">Multiplicadores</span>
           <div style="display: flex; gap: var(--space-2);">
             <div class="comp-spec" style="flex: 1;">
               <span class="comp-spec-key">Duração</span>
-              <span class="comp-spec-val" style="color: var(--text-secondary);">× 1.4</span>
+              <span class="comp-spec-val text-secondary">× 1.4</span>
             </div>
             <div class="comp-spec" style="flex: 1;">
               <span class="comp-spec-key">Stagger</span>
-              <span class="comp-spec-val" style="color: var(--text-secondary);">× 1.5</span>
+              <span class="comp-spec-val text-secondary">× 1.5</span>
             </div>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Sequência de título</span>
+        <div class="stack-2">
+          <span class="label-muted">Sequência de título</span>
           <div class="hero-timeline">
             <div class="hero-step">
               <span class="hero-step-delay">200ms</span>
@@ -92,8 +92,8 @@
       <!-- Landing Page -->
       <div class="template-card">
         <span class="template-card-title">Landing Page</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">Hero sequence (above-the-fold)</span>
+        <div class="stack-2">
+          <span class="label-muted">Hero sequence (above-the-fold)</span>
           <div class="hero-timeline">
             <div class="hero-step" style="border-left-color: var(--color-crimson);">
               <span class="hero-step-delay">200ms</span>
@@ -128,8 +128,8 @@
       <!-- Dashboard -->
       <div class="template-card">
         <span class="template-card-title">Dashboard</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Moléculas permitidas</span>
+        <div class="stack-2">
+          <span class="label-muted">Moléculas permitidas</span>
           <div class="template-tag-list">
             <span class="template-tag">enter-data</span>
             <span class="template-tag">micro-counter</span>
@@ -138,8 +138,8 @@
             <span class="template-tag template-tag--muted">hover-surface</span>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Loading sequence</span>
+        <div class="stack-2">
+          <span class="label-muted">Loading sequence</span>
           <div class="hero-timeline">
             <div class="hero-step">
               <span class="hero-step-delay">mount</span>

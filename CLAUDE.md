@@ -5,11 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev          # Start dev server (opens index.html automatically)
-npm run build        # Build to dist/
-npm run preview      # Preview the production build
-npm run tokens:export  # Parse tokens.css and output src/tokens/tokens.json
+npm run dev            # Dev server
+npm run verify         # Check the system invariants (see below) — <1s
+npm run build          # Runs verify, then builds to dist/
+npm run preview        # Preview the production build
+npm run tokens:export  # Parse tokens.css → src/tokens/tokens.json
 ```
+
+**`npm run verify` is the gate.** `build` depends on it, so a violated
+invariant fails the build rather than shipping. Run it before you claim
+anything is done — the checks below are the ones it enforces, and it prints
+the file:line of every violation.
 
 ## Architecture
 
@@ -18,7 +24,7 @@ This is a **static brand book / design system** for Orison, rendered as a single
 ### How the page assembles
 
 `src/main.js` is the single entry point. It:
-1. Imports all CSS (tokens → base → layout → typography → components → animations → sidebar → motion-tokens → motion-animations → motion-components)
+1. Imports all CSS in layer order (see table below) and adds `.js-ready` to `<html>` before mounting
 2. Imports each section as raw HTML strings via Vite's `?raw` suffix
 3. Injects the SVG sprite (`src/assets/symbol.svg`) at the top of `<body>` so `<use href="#...">` references work anywhere
 4. Builds the sidebar from `NAV_ITEMS` + `GROUP_LABELS` into four collapsible groups: **Design System** (00–13), **Motion System** (14–29), **Data Viz** (30–36), **Colofão** (37). The sidebar has a `/`-focused filter, group state persisted in `localStorage`, and `aria-current` + `scrollIntoView` on the active item
@@ -67,7 +73,22 @@ This is a **static brand book / design system** for Orison, rendered as a single
 - New CSS classes in `motion-components.css`: `.lm-*` namespace
 - Respects `prefers-reduced-motion` and `.reduced-motion` toggle from section 26
 
-Adding a new section: create the HTML file, add an import + `NAV_ITEMS` entry in `main.js` with the correct `group` property.
+Adding a new section: create the HTML file, add an import + `NAV_ITEMS` entry in `main.js` with the correct `group` property, give the `<section>` an `aria-labelledby` pointing at its own `<h2>`, then run `npm run verify`.
+
+### Utility layer (`layout.css`)
+
+Before writing an inline `style=`, check whether one of these covers it. Each
+replaced between 5 and 19 verbatim copies of the same declaration block:
+
+`.stack-1` `.stack-2` `.stack-3` `.stack-hairline` — vertical flex stacks ·
+`.label-muted` `.label-accent` `.label-secondary` — the uppercase label pattern ·
+`.token-name` — mono accent for token names · `.caption-center` — centered
+specimen caption · `.mt-hairline` `.mt-2` — spot spacing.
+
+**Animation initial states are scoped to `.js-ready`** (`.anim-init`,
+`.anim-init-up`), a class `main.js` puts on `<html>` before mounting. Never
+write a bare `opacity: 0` initial state in markup — without the scope, a JS
+failure leaves that content permanently invisible and it prints blank.
 
 ### Token system
 
@@ -79,31 +100,51 @@ All design tokens live in `src/tokens/tokens.css` as CSS custom properties on `:
 - `--display-{hero|xl|lg|md|sm}` — Cormorant Garamond, 64/44/34/26/20px. Expression. Uppercase allowed.
 - `--text-{xl|lg|base|sm|xs|label}` — Montserrat, 20/18/16/14/13/12px. Reading and UI.
 
-**Three inviolable rules.** They are what the v3.0 refactor exists to enforce:
-1. **No `font-size` below 12px anywhere.** `--text-label` is the floor. Verify: `grep -rnE 'font-size:\s*([0-9]|1[01])px' src/` must return nothing.
-2. **`letter-spacing` is always in `em`, never `px`.** 3px is 43% of the em at 7px and 9% at 32px. Verify: `grep -rnE 'letter-spacing:\s*[0-9.]+px' src/` must return nothing.
-3. **`--color-crimson` (#8B1A1A) is never a text color** — 2.09:1 on dark. All crimson type uses `--color-crimson-text` (#F06070, 6.11:1).
+**The nine invariants.** `npm run verify` enforces every one of these. They
+are not style preferences — each corresponds to a defect that shipped in v2.0
+and took a full refactor to remove.
+
+| # | Invariant | Why |
+|---|---|---|
+| 1 | No `font-size` below 12px | v2.0 had 301 of them (83.4% of all declarations) |
+| 2 | `letter-spacing` always in `em` | 3px is 43% of the em at 7px, 9% at 32px |
+| 3 | `--color-crimson` is never `color:` | 2.09:1 on dark; use `--color-crimson-text` |
+| 4 | `--color-midnight` is never `color:` | It is a *surface* token and inverts under `[data-ground="light"]` |
+| 5 | `border-radius` only `0`, `50%` or `9999px` | Surfaces have no radius; circular marks do |
+| 6 | Every `--motion-*` token is consumed | A token nobody reads is documentation, not system |
+| 7 | All text ≥ 4.5:1 | Measured against the *correct* background per selector |
+| 8 | One `<h1>`, `aria-labelledby` per section, every SVG labeled | — |
+| 9 | No `tabindex="-1"` on specimens | That is what made v2.0's focus rules dead code |
 
 **Ground-aware color.** `[data-ground="light"]` / `.ground-light` inverts the whole text ramp *and* `--color-crimson-text` (→ #8B1A1A, 7.45:1 on off-white). The scope is applied automatically to `.panel-light` and `.card-preview-light` — the surfaces that prove the mark on paper — so no component needs a hand-rolled `-light` text variant. Available to any block that needs to flip grounds.
 
 **`--space-hairline: 2px`** is the signature separator — the only thing between sibling blocks. No `border-radius` anywhere in the system.
 
-Motion tokens live in `src/tokens/motion-tokens.css` and follow the prefix `--motion-{category}-{key}` — e.g. `--motion-easing-enter`, `--motion-duration-slow`, `--motion-ty-base`.
+Motion tokens live in `src/tokens/motion-tokens.css` and follow the prefix `--motion-{category}-{key}` — e.g. `--motion-easing-enter`, `--motion-duration-slow`, `--motion-ty-base`. **All 38 are consumed**; invariant 6 keeps it that way.
+
+**Documented values are generated, never typed.** Any element that prints a
+token's value carries `data-token-value="--motion-…"`, and a pass in `main.js`
+fills its text from `getComputedStyle`. Section 17 named 12 tokens and printed
+12 hand-typed copies of their values; changing a token did not change the
+documentation. If you add a spec row that shows a value, use the attribute.
 
 ### CSS layer order (imported in `main.js`)
 
-| File | Purpose |
-|---|---|
-| `tokens.css` | Design system CSS custom properties |
-| `base.css` | Reset and body defaults |
-| `layout.css` | Page shell, `#app` wrapper |
-| `typography.css` | Font-face or global type rules |
-| `components.css` | All design section UI classes |
-| `animations.css` | `@keyframes` + `.in-view` reveal classes |
-| `sidebar.css` | Sidebar, toggle button, overlay, group labels |
-| `motion-tokens.css` | Motion CSS custom properties + `prefers-reduced-motion` |
-| `motion-animations.css` | Motion `@keyframes` + `.m-reveal` / `.m-stagger-*` |
-| `motion-components.css` | All motion section UI classes and demo components |
+| # | File | Purpose |
+|---|---|---|
+| 1 | `tokens.css` | Design tokens + the `[data-ground="light"]` scope |
+| 2 | `motion-tokens.css` | Motion tokens + `prefers-reduced-motion` |
+| 3 | `base.css` | Reset, body, skip link, print sheet, mobile touch targets |
+| 4 | `layout.css` | Grids, the utility layer, `.scroll-x`, `.js-ready` anim states |
+| 5 | `typography.css` | The two ramps as utility classes |
+| 6 | `components.css` | Focus layer, `.section` system, all design UI classes |
+| 7 | `animations.css` | Reveal gate (cover / opener / divider only) + hover |
+| 8 | `sidebar.css` | Sidebar, filter, groups, mobile top bar, overlay |
+| 9 | `motion-animations.css` | Motion `@keyframes` + `.m-reveal` / `.m-stagger-*` |
+| 10 | `motion-components.css` | All motion + dataviz section UI classes |
+
+Both token files load first so every later layer can read them. `layout.css`
+precedes `components.css` so component rules win over utilities.
 
 ### Motion token system (`src/tokens/motion-tokens.css`)
 

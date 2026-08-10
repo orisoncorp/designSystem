@@ -161,6 +161,10 @@ function buildSidebar() {
   `;
 }
 
+/* Marca o documento antes de montar: estados iniciais de animação são
+   escopados a .js-ready, então sem JS o conteúdo nasce visível. */
+document.documentElement.classList.add('js-ready');
+
 /* ── Mount everything ── */
 const app = document.getElementById('app');
 
@@ -574,6 +578,19 @@ document.getElementById('duration-play-all')?.addEventListener('click', () => {
     setTimeout(() => playDurationBar(row), i * 120);
   });
 });
+
+/* ── Valores documentados lidos do token (section 17) ──
+   Todo número impresso ao lado de um nome de token é gerado a partir do
+   valor computado desse token. Antes da v3.1 a seção nomeava 12 tokens e
+   imprimia 12 cópias literais dos valores: mudar o token não mudava a
+   documentação, e as duas podiam divergir em silêncio. Agora não podem. */
+(function syncDocumentedTokenValues() {
+  const root = getComputedStyle(document.documentElement);
+  document.querySelectorAll('[data-token-value]').forEach(el => {
+    const raw = root.getPropertyValue(el.dataset.tokenValue).trim();
+    if (raw) el.textContent = raw;
+  });
+})();
 
 /* ── Stagger demo (section 18) ── */
 /* Os tokens --motion-stagger-* existiam e não eram consumidos por

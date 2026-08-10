@@ -43,7 +43,7 @@
         </div>
         <div class="comp-spec" style="margin-top: var(--space-2);">
           <span class="comp-spec-key">will-change</span>
-          <span class="comp-spec-val" style="color: var(--text-secondary);">Declarar apenas durante a animação ativa — remover imediatamente após</span>
+          <span class="comp-spec-val text-secondary">Declarar apenas durante a animação ativa — remover imediatamente após</span>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
           <span class="rm-status" id="rm-status">Inativo</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-3);">
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); text-transform: uppercase; font-family: var(--font-body);">Quando ativo:</span>
+          <span class="label-muted">Quando ativo:</span>
           <div class="mol-spec-row"><span class="mol-spec-key">Durações</span><span class="mol-spec-val">0.01s — não zero (zero causa flash)</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Transforms</span><span class="mol-spec-val">removidos — elemento aparece na posição final</span></div>
           <div class="mol-spec-row"><span class="mol-spec-key">Opacity</span><span class="mol-spec-val">mantida — é informação, não decoração</span></div>
@@ -92,7 +92,7 @@
            com oito exemplos que o sistema não usava em lugar nenhum. -->
       <div class="gov-card">
         <span class="gov-card-title">Naming Convention</span>
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+        <div class="stack-2">
           <div class="naming-example">--motion-[categoria]-[variante]</div>
           <p class="gov-card-desc">Tokens são planos e categorizados pela propriedade que controlam. A camada (atom / mol / org / tpl) descreve <em>onde</em> um token é aplicado e vive na documentação, não no nome.</p>
 
@@ -107,7 +107,7 @@
             <div class="naming-example">--motion-exit-ratio</div>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2);">
+          <div class="stack-1 mt-2">
             <div class="mol-spec-row"><span class="mol-spec-key">easing</span><span class="mol-spec-val">enter · exit · state · emphasis · linear · micro</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">duration</span><span class="mol-spec-val">instant · fast · base · moderate · slow · dramatic · cinematic</span></div>
             <div class="mol-spec-row"><span class="mol-spec-key">ty · tx</span><span class="mol-spec-val">micro · sm · md · base · lg · xl · drawer</span></div>

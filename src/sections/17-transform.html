@@ -6,7 +6,7 @@
     <span class="sec-sub">Atoms · TranslateY · TranslateX · Scale · Opacity</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
       <h3 class="block-header-title">Primitivos de Transform</h3>
       <span class="block-header-sub">Valores máximos e mínimos rígidos — nunca exceder os limites</span>
@@ -18,37 +18,37 @@
       <div class="transform-ty-grid">
         <div class="transform-row">
           <span class="transform-token">--motion-ty-micro</span>
-          <span class="transform-val">4px</span>
+          <span class="transform-val" data-token-value="--motion-ty-micro">4px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Micro-feedbacks · Hover lifts de ícone</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-ty-sm</span>
-          <span class="transform-val">8px</span>
+          <span class="transform-val" data-token-value="--motion-ty-sm">8px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Dismiss de elementos · Exits sutis</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-ty-md</span>
-          <span class="transform-val">16px</span>
+          <span class="transform-val" data-token-value="--motion-ty-md">16px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Stagger reveals · Entradas de cards em lista</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-ty-base</span>
-          <span class="transform-val">24px</span>
+          <span class="transform-val" data-token-value="--motion-ty-base">24px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Scroll reveals — padrão</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-ty-lg</span>
-          <span class="transform-val">48px</span>
+          <span class="transform-val" data-token-value="--motion-ty-lg">48px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Entrada de painéis grandes · Hero content</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-ty-xl</span>
-          <span class="transform-val">80px</span>
+          <span class="transform-val" data-token-value="--motion-ty-xl">80px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Landing page hero sequences — reservado</span>
         </div>
@@ -61,31 +61,31 @@
       <div class="transform-tx-grid">
         <div class="transform-row">
           <span class="transform-token">--motion-tx-sm</span>
-          <span class="transform-val">8px</span>
+          <span class="transform-val" data-token-value="--motion-tx-sm">8px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Micro-deslize em hover de items de lista</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-tx-md</span>
-          <span class="transform-val">16px</span>
+          <span class="transform-val" data-token-value="--motion-tx-md">16px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Reveal lateral de títulos em apresentações</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-tx-base</span>
-          <span class="transform-val">24px</span>
+          <span class="transform-val" data-token-value="--motion-tx-base">24px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Entradas laterais sutis</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-tx-lg</span>
-          <span class="transform-val">48px</span>
+          <span class="transform-val" data-token-value="--motion-tx-lg">48px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Deslize de painéis secundários</span>
         </div>
         <div class="transform-row">
           <span class="transform-token">--motion-tx-drawer</span>
-          <span class="transform-val">240px</span>
+          <span class="transform-val" data-token-value="--motion-tx-drawer">240px</span>
           <div class="transform-vis"></div>
           <span class="transform-use">Sidebar/drawer — corresponde à largura fixa</span>
         </div>
@@ -97,19 +97,19 @@
       <div class="transform-group-title">Scale — limites rígidos</div>
       <div class="transform-scale-grid">
         <div class="transform-scale-card">
-          <div class="transform-scale-box" style="transform: scale(0.96); opacity: 0.5;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">0.96</span>
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-min — piso absoluto</span>
+          <div class="transform-scale-box" style="transform: scale(var(--motion-scale-min)); opacity: 0.5;"></div>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);" data-token-value="--motion-scale-min">0.96</span>
+          <span class="label-muted">scale-min — piso absoluto</span>
         </div>
         <div class="transform-scale-card">
-          <div class="transform-scale-box" style="transform: scale(1.0); opacity: 0.8;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">1.0</span>
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-base — estado normal</span>
+          <div class="transform-scale-box" style="transform: scale(var(--motion-scale-base)); opacity: 0.8;"></div>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);" data-token-value="--motion-scale-base">1.0</span>
+          <span class="label-muted">scale-base — estado normal</span>
         </div>
         <div class="transform-scale-card">
-          <div class="transform-scale-box" style="transform: scale(1.02);"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);">1.02</span>
-          <span style="font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase;">scale-max — teto absoluto</span>
+          <div class="transform-scale-box" style="transform: scale(var(--motion-scale-max));"></div>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text); letter-spacing: var(--tracking-snug);" data-token-value="--motion-scale-max">1.02</span>
+          <span class="label-muted">scale-max — teto absoluto</span>
         </div>
       </div>
     </div>
@@ -119,29 +119,29 @@
       <div class="transform-group-title">Opacity — thresholds semânticos</div>
       <div class="transform-opacity-grid">
         <div class="transform-opacity-card">
-          <div class="transform-opacity-box" style="opacity: 0; border: 1px dashed var(--color-subtle);"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.0</span>
-          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">start — ponto inicial</span>
+          <div class="transform-opacity-box" style="opacity: var(--motion-opacity-start); border: 1px dashed var(--color-subtle);"></div>
+          <span class="token-name" data-token-value="--motion-opacity-start">0.0</span>
+          <span class="caption-center">start — ponto inicial</span>
         </div>
         <div class="transform-opacity-card">
-          <div class="transform-opacity-box" style="opacity: 0.35;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.35</span>
-          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">disabled — elementos inativos</span>
+          <div class="transform-opacity-box" style="opacity: var(--motion-opacity-disabled);"></div>
+          <span class="token-name" data-token-value="--motion-opacity-disabled">0.35</span>
+          <span class="caption-center">disabled — elementos inativos</span>
         </div>
         <div class="transform-opacity-card">
-          <div class="transform-opacity-box" style="opacity: 0.55;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.55</span>
-          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">mid — intermediário</span>
+          <div class="transform-opacity-box" style="opacity: var(--motion-opacity-mid);"></div>
+          <span class="token-name" data-token-value="--motion-opacity-mid">0.55</span>
+          <span class="caption-center">mid — intermediário</span>
         </div>
         <div class="transform-opacity-card">
-          <div class="transform-opacity-box" style="opacity: 0.75;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">0.75</span>
-          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">overlay — atrás de modais</span>
+          <div class="transform-opacity-box" style="opacity: var(--motion-opacity-overlay);"></div>
+          <span class="token-name" data-token-value="--motion-opacity-overlay">0.75</span>
+          <span class="caption-center">overlay — atrás de modais</span>
         </div>
         <div class="transform-opacity-card">
-          <div class="transform-opacity-box" style="opacity: 1.0;"></div>
-          <span style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-crimson-text);">1.0</span>
-          <span style="font-size: var(--text-sm); letter-spacing: var(--tracking-none); color: var(--text-muted); font-family: var(--font-body); text-align: center; line-height: var(--leading-base);">end — estado final</span>
+          <div class="transform-opacity-box" style="opacity: var(--motion-opacity-end);"></div>
+          <span class="token-name" data-token-value="--motion-opacity-end">1.0</span>
+          <span class="caption-center">end — estado final</span>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@
     <!-- Rotate -->
     <div class="comp-spec" style="margin-top: var(--space-3);">
       <span class="comp-spec-key">Rotate</span>
-      <span class="comp-spec-val" style="color: var(--text-secondary);">Valor máximo: 0° — linguagem de formas ortogonal. Sem rotação no vocabulário cinético.</span>
+      <span class="comp-spec-val text-secondary">Valor máximo: 0° — linguagem de formas ortogonal. Sem rotação no vocabulário cinético.</span>
     </div>
   </div>
 </section>

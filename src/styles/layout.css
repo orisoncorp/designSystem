@@ -22,6 +22,94 @@
 .flex-end     { align-items: flex-end; }
 .flex-between { justify-content: space-between; }
 
+/* ═══════════════════════════════════════════
+   UTILITÁRIOS
+   Substituem os padrões inline mais repetidos das seções. Cada um destes
+   aparecia entre 5 e 19 vezes copiado verbatim em style="".
+   ═══════════════════════════════════════════ */
+
+/* Pilhas verticais.
+   Os seletores de componente listados junto de cada utilitário tinham o
+   corpo byte-idêntico e viviam espalhados por components.css e
+   motion-components.css. Um primitivo, um lugar. */
+.card-bottom,
+.email-sig-contact,
+.email-sig-text,
+.opener-meta-item,
+.stack-1 { display: flex; flex-direction: column; gap: var(--space-1); }
+.input-orison-wrap,
+.lh-text,
+.prop-mid,
+.stack-2 { display: flex; flex-direction: column; gap: var(--space-2); }
+.app-item,
+.dv-donut-legend,
+.dv-token-list,
+.dv-zone--left,
+.dv-zone--right,
+.slide-content,
+.stack-3 { display: flex; flex-direction: column; gap: var(--space-3); }
+.duration-list,
+.dv-anatomy-diagram,
+.dv-rt-kpis,
+.dv-rt-pattern-body,
+.dv-semantic-grid,
+.dv-spec-list,
+.hero-timeline,
+.prop-list,
+.transform-ty-grid,
+.transform-tx-grid,
+.stack-hairline { display: flex; flex-direction: column; gap: var(--space-hairline); }
+
+/* Label em caixa alta — o padrão mais copiado do repositório */
+.label-muted,
+.label-accent,
+.label-secondary {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.label-muted     { color: var(--text-muted); }
+.label-accent    { color: var(--color-crimson-text); }
+.label-secondary { color: var(--text-secondary); }
+
+/* Nome de token — mono, acento, sem caixa alta */
+.token-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  color: var(--color-crimson-text);
+}
+
+/* Legenda centrada sob um espécime */
+.caption-center {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-none);
+  color: var(--text-muted);
+  line-height: var(--leading-base);
+  text-align: center;
+}
+
+/* Espaçamento pontual */
+.mt-hairline { margin-top: var(--space-hairline); }
+.mt-2        { margin-top: var(--space-2); }
+
+/* ─── Estado inicial de animação ───
+   Escopado a .js-ready, aplicado por main.js. Sem JavaScript a classe
+   nunca chega e o conteúdo renderiza visível, em vez de ficar preso em
+   opacity: 0 esperando um observer que não vai disparar. */
+.js-ready .anim-init {
+  opacity: 0;
+}
+
+.js-ready .anim-init-up {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: none;
+}
+
 /* ─── Rolagem horizontal contida ───
    Qualquer conteúdo mais largo que a coluna rola dentro do próprio
    bloco. A página nunca rola na horizontal. */

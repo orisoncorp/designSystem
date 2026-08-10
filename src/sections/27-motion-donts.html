@@ -6,7 +6,7 @@
     <span class="sec-sub">Motion · Regras visuais · Comparações ao vivo</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
       <h3 class="block-header-title">Do's e Don'ts de Motion</h3>
       <span class="block-header-sub">Comparações ao vivo — clique nos cards para ver o comportamento certo vs errado</span>
@@ -34,9 +34,9 @@
       <div class="dnd-do">
         <span class="dnd-label">✓ Correto</span>
         <div style="display: flex; gap: var(--space-1);" id="dnd-do-2-wrap">
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-a"><span>01</span></div>
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-b"><span>02</span></div>
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-do-2-c"><span>03</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-do-2-a"><span>01</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-do-2-b"><span>02</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-do-2-c"><span>03</span></div>
         </div>
         <button class="m-play-btn" id="dnd-do-2-btn" style="margin-top: var(--space-2);">Disparar</button>
         <p class="dnd-desc">Stagger decrescente × 0.9 — ganha momentum, sistema carregando com eficiência.</p>
@@ -44,9 +44,9 @@
       <div class="dnd-dont">
         <span class="dnd-label">✗ Proibido</span>
         <div style="display: flex; gap: var(--space-1);" id="dnd-dont-2-wrap">
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-a"><span>01</span></div>
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-b"><span>02</span></div>
-          <div class="dnd-demo-card" style="flex: 1; opacity: 0; transform: translateY(16px); transition: none;" id="dnd-dont-2-c"><span>03</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-dont-2-a"><span>01</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-dont-2-b"><span>02</span></div>
+          <div class="dnd-demo-card anim-init-up" id="dnd-dont-2-c"><span>03</span></div>
         </div>
         <button class="m-play-btn" id="dnd-dont-2-btn" style="margin-top: var(--space-2);">Disparar</button>
         <p class="dnd-desc">Stagger linear 200ms fixo — monótono, sem ritmo, sem aceleração perceptual.</p>

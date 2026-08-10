@@ -3,12 +3,9 @@
    ═══════════════════════════════════════════════ */
 
 /* ─── Shared motion section wrapper ─── */
-.motion-sec-wrap {
-  max-width: var(--container-max);
-  margin: 0 auto 2px;
-  background: var(--color-midnight);
-  padding: 60px;
-}
+/* .motion-sec-wrap era uma quarta cópia de .section em outro arquivo,
+   com o literal `2px` que o resto do sistema já tinha tokenizado.
+   Consolidado — a regra vive só em components.css. */
 
 /* ─── Play button ─── */
 .m-play-btn {
@@ -44,14 +41,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-}
-
-.easing-label {
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--color-crimson-text);
-  text-transform: uppercase;
-  font-family: var(--font-body);
 }
 
 .easing-value {
@@ -95,13 +84,6 @@
   width: 100%;
   height: 80px;
   opacity: 0.4;
-}
-
-/* ─── Duration section (sec-duration) ─── */
-.duration-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
 }
 
 .duration-row {
@@ -191,13 +173,6 @@
   font-family: var(--font-body);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: var(--space-2);
-}
-
-.transform-ty-grid,
-.transform-tx-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
 }
 
 .transform-row {
@@ -338,14 +313,6 @@
   letter-spacing: var(--tracking-none);
 }
 
-.stagger-card-delay {
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--color-crimson-text);
-  text-transform: uppercase;
-  font-family: var(--font-body);
-}
-
 /* ─── Demo card (shared across entrance/exit demos) ─── */
 .demo-stage {
   background: var(--color-surface);
@@ -405,14 +372,6 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-3);
-}
-
-.mol-name {
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--color-crimson-text);
-  text-transform: uppercase;
-  font-family: var(--font-body);
 }
 
 .mol-specs {
@@ -482,6 +441,14 @@
 
 .anim-target.play-exit-fade {
   animation: motionFadeOut var(--motion-duration-fast) var(--motion-easing-state) forwards;
+}
+
+/* Saída = entrada × --motion-exit-ratio (0.7). A regra estava documentada
+   desde a v1 e nunca era calculada — cada saída herdava uma duração
+   escolhida à mão. O ratio é adimensional, então calc() resolve. */
+.anim-target.play-dismiss,
+.anim-target.play-exit-fade {
+  animation-duration: calc(var(--motion-duration-base) * var(--motion-exit-ratio));
 }
 
 /* ─── States section ─── */
@@ -841,17 +808,17 @@
   padding: 40px;
   max-width: 480px;
   width: 90%;
-  opacity: 0;
-  transform: scale(0.96);
+  opacity: var(--motion-opacity-start);
+  transform: scale(var(--motion-scale-backdrop));
   transition:
     opacity   var(--motion-duration-moderate) var(--motion-easing-emphasis),
     transform var(--motion-duration-moderate) var(--motion-easing-emphasis);
-  transition-delay: 100ms;
+  transition-delay: var(--motion-duration-instant);
 }
 
 .modal-demo-overlay.is-open .modal-demo-box {
-  opacity: 1;
-  transform: scale(1);
+  opacity: var(--motion-opacity-end);
+  transform: scale(var(--motion-scale-base));
 }
 
 .modal-demo-title {
@@ -990,13 +957,6 @@
   line-height: var(--leading-base);
 }
 
-/* Hero sequence timeline */
-.hero-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
-}
-
 .hero-step {
   display: grid;
   grid-template-columns: 70px 1fr 60px;
@@ -1012,14 +972,6 @@
   font-size: var(--text-sm);
   color: var(--color-crimson-text);
   letter-spacing: var(--tracking-snug);
-}
-
-.hero-step-name {
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  font-family: var(--font-body);
 }
 
 .hero-step-mol {
@@ -1056,12 +1008,6 @@
   padding-bottom: var(--space-2);
 }
 
-.prop-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
-}
-
 .prop-item {
   display: flex;
   align-items: center;
@@ -1078,7 +1024,6 @@
 }
 
 .prop-badge-ok  { font-size: var(--text-label); letter-spacing: var(--tracking-label); color: #7ddfa7; text-transform: uppercase; font-family: var(--font-body); }
-.prop-badge-no  { font-size: var(--text-label); letter-spacing: var(--tracking-label); color: var(--color-crimson-text); text-transform: uppercase; font-family: var(--font-body); }
 
 .naming-example {
   background: var(--color-midnight);
@@ -1132,14 +1077,6 @@
   text-transform: uppercase;
   font-family: var(--font-body);
   flex: 1;
-}
-
-.rm-status {
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  font-family: var(--font-body);
-  color: var(--text-muted);
 }
 
 .rm-status.is-active { color: var(--color-crimson-text); }
@@ -1318,14 +1255,6 @@
   justify-content: space-between;
 }
 
-.lm-stage-num {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--color-crimson-text);
-  text-transform: uppercase;
-}
-
 .lm-stage-title {
   font-family: var(--font-body);
   font-size: var(--text-label);
@@ -1471,14 +1400,6 @@ svg.lm-symbol .lm-line {
 
 .lm-wordmark--light {
   color: var(--text-primary);
-}
-
-.lm-subtitle {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-crimson-text);
 }
 
 .lm-subtitle--light {
@@ -1900,16 +1821,6 @@ svg.lm-symbol .lm-line {
   line-height: 1;
 }
 
-/* .block-header* vive só em components.css. A v2.0 tinha TRÊS
-   definições idênticas — layout.css, components.css e este arquivo. */
-
-/* Anatomy diagram */
-.dv-anatomy-diagram {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
-}
-
 .dv-zone {
   position: relative;
   border: 1px solid var(--color-border);
@@ -1948,13 +1859,6 @@ svg.lm-symbol .lm-line {
   grid-template-columns: 220px 1fr 220px;
   gap: var(--space-hairline);
   min-height: 280px;
-}
-
-.dv-zone--left,
-.dv-zone--right {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
 }
 
 .dv-zone-widgets {
@@ -2031,27 +1935,12 @@ svg.lm-symbol .lm-line {
 
 .dv-principle-icon svg { width: 32px; height: 32px; }
 
-.dv-principle-title {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-crimson-text);
-}
-
 .dv-principle-body {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-none);
   color: var(--text-body);
   line-height: 1.7;
-}
-
-/* ─── Section 31: Data Palette ─── */
-.dv-semantic-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
 }
 
 .dv-semantic-row {
@@ -2171,14 +2060,6 @@ svg.lm-symbol .lm-line {
   gap: var(--space-3);
 }
 
-.dv-div-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
 .dv-div-bar-wrap {
   height: 6px;
   background: var(--color-border);
@@ -2268,14 +2149,6 @@ svg.lm-symbol .lm-line {
   gap: 8px;
 }
 
-.dv-rule-title {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-crimson-text);
-}
-
 .dv-rule-body {
   font-family: var(--font-body);
   font-size: var(--text-sm);
@@ -2295,12 +2168,6 @@ svg.lm-symbol .lm-line {
 .dv-chart-specs {
   display: flex;
   flex-direction: column;
-}
-
-.dv-spec-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
 }
 
 /* Bar chart */
@@ -2482,12 +2349,6 @@ svg.lm-symbol .lm-line {
   transition: stroke-dashoffset 400ms cubic-bezier(0.4,0,0.2,1);
 }
 
-.dv-donut-legend {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
 /* ─── Section 33: KPI Cards ─── */
 .dv-kpi-grid {
   display: grid;
@@ -2514,14 +2375,6 @@ svg.lm-symbol .lm-line {
   flex-direction: column;
   gap: var(--space-2);
   flex: 1;
-}
-
-.dv-kpi-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 .dv-kpi-value-row {
@@ -2570,14 +2423,6 @@ svg.lm-symbol .lm-line {
   margin-top: auto;
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border);
-}
-
-.dv-kpi-variant-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 /* Sparkline */
@@ -2703,14 +2548,6 @@ svg.lm-symbol .lm-line {
   gap: var(--space-hairline);
 }
 
-.dv-layout-stub-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
 .dv-layout-stub-val {
   font-family: var(--font-display);
   font-size: var(--display-sm);
@@ -2746,14 +2583,6 @@ svg.lm-symbol .lm-line {
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-.dv-panel-widget-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 .dv-panel-widget-val {
@@ -2794,14 +2623,6 @@ svg.lm-symbol .lm-line {
 .dv-layout-hero-svg {
   width: 200px;
   height: 180px;
-}
-
-.dv-layout-hero-label {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-crimson-text);
 }
 
 .dv-layout-hero-sub {
@@ -2880,12 +2701,6 @@ svg.lm-symbol .lm-line {
   padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-border);
   display: block;
-}
-
-.dv-token-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
 }
 
 .dv-token-row {
@@ -2982,12 +2797,6 @@ svg.lm-symbol .lm-line {
   gap: var(--space-hairline);
 }
 
-.dv-rt-kpis {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
-}
-
 .dv-rt-kpi-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -3067,14 +2876,6 @@ svg.lm-symbol .lm-line {
   border-bottom: 1px solid var(--color-border);
 }
 
-.dv-rt-table-title {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
 /* 340px de trilhas fixas contra 260px disponíveis a 360px de viewport.
    Com `overflow: hidden` o conteúdo era cortado sem recurso. */
 .dv-rt-table {
@@ -3089,14 +2890,6 @@ svg.lm-symbol .lm-line {
   gap: var(--space-3);
   padding: 8px 16px;
   border-bottom: 1px solid var(--color-subtle);
-}
-
-.dv-rt-table-head span {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 .dv-rt-row {
@@ -3146,12 +2939,6 @@ svg.lm-symbol .lm-line {
   padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-border);
   display: block;
-}
-
-.dv-rt-pattern-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-hairline);
 }
 
 /* ─── Responsive — Data Viz ─── */

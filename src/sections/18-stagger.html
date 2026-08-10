@@ -6,7 +6,7 @@
     <span class="sec-sub">Atoms · Delay decrescente · Cap em 8 itens</span>
   </div>
 
-  <div class="motion-sec-wrap">
+  <div class="section">
     <div class="block-header">
       <h3 class="block-header-title">Sistema de Stagger</h3>
       <span class="block-header-sub">Delay decrescente × 0.9 — cada item subsequente espera menos que o anterior</span>
@@ -58,15 +58,15 @@
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); margin-top: var(--space-4);">
       <div class="comp-spec">
         <span class="comp-spec-key">Fórmula</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">delay(n) = base × 0.9^(n-1)</span>
+        <span class="comp-spec-val text-secondary">delay(n) = base × 0.9^(n-1)</span>
       </div>
       <div class="comp-spec">
         <span class="comp-spec-key">Cap de itens</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">8 itens — restantes aparecem simultaneamente</span>
+        <span class="comp-spec-val text-secondary">8 itens — restantes aparecem simultaneamente</span>
       </div>
       <div class="comp-spec">
         <span class="comp-spec-key">Delay máximo</span>
-        <span class="comp-spec-val" style="color: var(--text-secondary);">480ms — cap absoluto acumulado</span>
+        <span class="comp-spec-val text-secondary">480ms — cap absoluto acumulado</span>
       </div>
     </div>
   </div>
