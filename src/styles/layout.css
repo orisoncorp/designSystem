@@ -1,145 +1,55 @@
-/* ═══════════════════════════════════════════════════════════════════
-   LAYOUT — v3.0
-   Grades e utilitários de fluxo. O sistema de seção, o cabeçalho de
-   bloco e o info-block viviam aqui E em components.css E em
-   motion-components.css — três definições idênticas competindo pela
-   ordem de import. Agora moram só em components.css.
-   ═══════════════════════════════════════════════════════════════════ */
+/* ═══ LAYOUT · moldura do site e utilitários ═══
+   Grade de 4 px dentro dos componentes, 8 px entre regiões (F03 · E3).
+   Breakpoints: 1280 · 900 · 600 (DESIGN.md, Layout). Custom properties
+   não funcionam dentro de @media, então os valores são literais. */
 
-/* ─── Grades ───
-   A calha de 2px é o separador assinatura do sistema: sem raio, sem
-   sombra, sem card. Uma chapa escura riscada por linhas de cabelo. */
-.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-hairline); }
-.grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-hairline); }
-.grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-hairline); }
-.grid-6col { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-hairline); }
-.grid-8col { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--space-hairline); }
-
-/* ─── Flex ─── */
-.flex-row     { display: flex; flex-direction: row; }
-.flex-col     { display: flex; flex-direction: column; }
-.flex-center  { align-items: center; justify-content: center; }
-.flex-end     { align-items: flex-end; }
-.flex-between { justify-content: space-between; }
-
-/* ═══════════════════════════════════════════
-   UTILITÁRIOS
-   Substituem os padrões inline mais repetidos das seções. Cada um destes
-   aparecia entre 5 e 19 vezes copiado verbatim em style="".
-   ═══════════════════════════════════════════ */
-
-/* Pilhas verticais.
-   Os seletores de componente listados junto de cada utilitário tinham o
-   corpo byte-idêntico e viviam espalhados por components.css e
-   motion-components.css. Um primitivo, um lugar. */
-.card-bottom,
-.email-sig-contact,
-.email-sig-text,
-.opener-meta-item,
-.stack-1 { display: flex; flex-direction: column; gap: var(--space-1); }
-.input-orison-wrap,
-.lh-text,
-.prop-mid,
-.stack-2 { display: flex; flex-direction: column; gap: var(--space-2); }
-.app-item,
-.dv-donut-legend,
-.dv-token-list,
-.dv-zone--left,
-.dv-zone--right,
-.slide-content,
-.stack-3 { display: flex; flex-direction: column; gap: var(--space-3); }
-.duration-list,
-.dv-anatomy-diagram,
-.dv-rt-kpis,
-.dv-rt-pattern-body,
-.dv-semantic-grid,
-.dv-spec-list,
-.hero-timeline,
-.prop-list,
-.transform-ty-grid,
-.transform-tx-grid,
-.stack-hairline { display: flex; flex-direction: column; gap: var(--space-hairline); }
-
-/* Label em caixa alta — o padrão mais copiado do repositório */
-.label-muted,
-.label-accent,
-.label-secondary {
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+#app {
+  margin-left: var(--layout-sidebar-width);
+  min-height: 100vh;
 }
 
-.label-muted     { color: var(--text-muted); }
-.label-accent    { color: var(--color-crimson-text); }
-.label-secondary { color: var(--text-secondary); }
-
-/* Nome de token — mono, acento, sem caixa alta */
-.token-name {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-none);
-  color: var(--color-crimson-text);
+.doc-section {
+  max-width: var(--layout-container);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+  display: grid;
+  gap: var(--space-5);
 }
 
-/* Legenda centrada sob um espécime */
-.caption-center {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-none);
-  color: var(--text-muted);
-  line-height: var(--leading-base);
-  text-align: center;
+.doc-section + .doc-section { border-top: var(--border-thin) solid var(--color-border); }
+
+/* Seções de marca: tema escuro, largura total. */
+.doc-band {
+  background: var(--color-canvas);
+  color: var(--text-primary);
 }
 
-/* Espaçamento pontual */
-.mt-hairline { margin-top: var(--space-hairline); }
-.mt-2        { margin-top: var(--space-2); }
+.doc-band + .doc-band .doc-section { border-top: var(--border-thin) solid var(--color-border); }
 
-/* ─── Estado inicial de animação ───
-   Escopado a .js-ready, aplicado por main.js. Sem JavaScript a classe
-   nunca chega e o conteúdo renderiza visível, em vez de ficar preso em
-   opacity: 0 esperando um observer que não vai disparar. */
-.js-ready .anim-init {
-  opacity: 0;
-}
+/* ── utilitários ── */
+.stack-1 { display: grid; gap: var(--space-1); }
+.stack-2 { display: grid; gap: var(--space-2); }
+.stack-3 { display: grid; gap: var(--space-3); }
+.stack-4 { display: grid; gap: var(--space-4); }
+.row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.row-3 { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
+.scroll-x { overflow-x: auto; }
 
-.js-ready .anim-init-up {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: none;
-}
-
-/* ─── Rolagem horizontal contida ───
-   Qualquer conteúdo mais largo que a coluna rola dentro do próprio
-   bloco. A página nunca rola na horizontal. */
-.scroll-x {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* ─── Responsivo ─── */
-@media (max-width: 1120px) {
-  .section, .sec-div, .cover, .opener, .block-2col, .scale-bar,
-  .favicon-bar, .clearspace-wrap,
-  .section-wrap, .palette-wrap, .type-wrap, .spacing-wrap, .dont-wrap,
-  .vt-wrap, .app-wrap, .full-block, .comp-wrap, .motion-wrap,
-  .motion-sec-wrap {
-    margin-left: var(--space-4);
-    margin-right: var(--space-4);
-    width: auto;
-  }
+@media (max-width: 1280px) {
+  .doc-section { padding: var(--space-7) var(--space-5); }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 900px) {
-  .grid-2col { grid-template-columns: 1fr; }
-  .grid-3col { grid-template-columns: 1fr 1fr; }
-  .grid-4col { grid-template-columns: repeat(2, 1fr); }
-  .grid-6col,
-  .grid-8col { grid-template-columns: repeat(4, 1fr); }
+  #app { margin-left: 0; padding-top: var(--height-touch); }
+  section[id] { scroll-margin-top: 64px; }
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
-  .grid-2col, .grid-3col, .grid-4col,
-  .grid-6col, .grid-8col { grid-template-columns: 1fr; }
+  .doc-section { padding: var(--space-6) var(--space-4); }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }

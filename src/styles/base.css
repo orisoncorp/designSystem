@@ -1,186 +1,100 @@
-@import '../tokens/tokens.css';
+/* ═══ BASE · reset, corpo, foco, acessibilidade, impressão ═══ */
 
-/* ═══════════════════════════════════════════════════════════════════
-   BASE — v3.0
-   ═══════════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
 
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  background: var(--color-black);
-  color: var(--text-body);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-light);
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  font-weight: var(--weight-text);
+  line-height: var(--leading-text);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* A página nunca rola na horizontal. Conteúdo largo rola dentro do
-     próprio bloco via .scroll-x. */
-  overflow-x: hidden;
 }
 
-/* Herança de forma: nada no sistema tem raio. */
-img, svg, video, canvas { max-width: 100%; height: auto; }
+h1, h2, h3, h4, p, figure, dl, dd { margin: 0; }
+img, svg { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--color-link); text-underline-offset: 3px; }
 
-/* ─── Shell ─── */
-#app { margin-left: var(--sidebar-width); }
+/* Números: Montserrat, algarismos tabulares e alinhados (F02). */
+.num,
+table td,
+table th,
+[data-token-value],
+[data-contrast] {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
 
-/* Âncoras de seção param abaixo da barra superior mobile em vez de
-   embaixo dela. Na v2.0 só .cover tinha compensação e o hambúrguer
-   fixo cobria o canto de 36 das 37 seções. */
-section[id] { scroll-margin-top: var(--space-4); }
+/* Um único anel de foco (F04 · O1). */
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--focus-offset);
+}
 
-/* ─── Skip link ───
-   Primeiro elemento focável do documento. Sem ele o Tab atravessa
-   37 links de navegação antes de alcançar qualquer conteúdo. */
 .skip-link {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
   z-index: 1000;
-  transform: translateY(-140%);
-  background: var(--color-crimson);
-  color: var(--color-offwhite);
-  font-family: var(--font-body);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-action);
+  color: var(--color-action-fg);
+  font-weight: var(--weight-strong);
+  border-radius: var(--radius-control);
   text-decoration: none;
-  transition: transform var(--transition-fast);
+  transform: translateY(-200%);
 }
 
 .skip-link:focus { transform: translateY(0); }
 
-/* ─── Seleção ─── */
-::selection {
-  background: var(--color-crimson);
-  color: var(--color-offwhite);
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* ─── Rolagem ─── */
-html { scroll-behavior: smooth; }
-
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--color-black); }
-::-webkit-scrollbar-thumb { background: var(--color-slate); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-gray); }
-
-/* ─── Toast de cópia ───
-   Recebe aria-live="polite" no markup: na v2.0 a confirmação de cópia
-   era puramente visual. */
-.copy-notification {
-  position: fixed;
-  bottom: var(--space-5);
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  background: var(--color-crimson);
-  color: var(--color-offwhite);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  padding: var(--space-3) var(--space-4);
-  z-index: 10000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--transition-base), transform var(--transition-base);
-}
-
-.copy-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ─── Sem JavaScript ───
-   animations.css zera a opacidade de blocos à espera de .in-view. Sem
-   este bloco, um JS que falha entrega uma página em branco. */
 .noscript-banner {
-  background: var(--color-crimson);
-  color: var(--color-offwhite);
-  font-size: var(--text-base);
-  padding: var(--space-4) var(--space-5);
-  text-align: center;
+  margin: var(--space-6);
+  padding: var(--space-4);
+  background: var(--evidence-env-bg);
+  color: var(--evidence-env-text);
+  font-weight: var(--weight-strong);
 }
 
-/* ─── Mobile ─── */
+/* Alvo de toque de 44 px onde o dedo é a entrada (F03 · H2). */
 @media (max-width: 900px) {
-  #app { margin-left: 0; padding-top: 64px; }
-  section[id] { scroll-margin-top: 72px; }
-
-  /* Alvo de toque de 44px onde o dedo é o dispositivo de entrada.
-     Os controles de demonstração derivavam a altura do padding e caíam
-     entre 22px e 33px — ~103 alvos abaixo do mínimo. */
-  .m-play-btn,
-  .tw-ctrl-btn,
-  .tw-speed-btn,
-  .lm-ctrl-btn,
-  .lm-theme-btn,
-  .stagger-mode-btn,
+  .btn,
+  .input,
+  .chip,
+  .tab,
   .sidebar-item,
   .sidebar-group,
-  .swatch,
-  .easing-card,
-  .dnd-demo-card {
-    min-height: 44px;
-  }
-
-  /* Botões de demo ganham respiro lateral junto com a altura. */
-  .m-play-btn,
-  .tw-ctrl-btn,
-  .tw-speed-btn,
-  .lm-ctrl-btn,
-  .stagger-mode-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
-  }
-
-  /* O título de seção encolhe com a coluna; a rampa de texto não. */
-  .sec-title { font-size: 22px; }
+  .swatch { min-height: var(--height-touch); }
 }
 
-/* ─── Movimento reduzido ─── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 
-/* ─── Impressão ───
-   Um brand book marcado "Confidential" precisa imprimir. Na v2.0
-   imprimia em branco: os blocos esperam .in-view via JS. */
 @media print {
-  .sidebar,
-  .sidebar-toggle,
-  .sidebar-overlay,
-  .skip-link,
-  .copy-notification,
-  .m-play-btn,
-  .lm-ctrl-btn,
-  .tw-ctrl-btn,
-  .stagger-mode-btn { display: none !important; }
-
-  #app { margin-left: 0; }
-
-  *, *::before, *::after {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-    box-shadow: none !important;
-  }
-
-  section[id] { break-inside: avoid; page-break-inside: avoid; }
-  .sec-div    { break-after: avoid; page-break-after: avoid; }
-  .cover,
-  .opener     { break-after: page; page-break-after: always; }
+  .sidebar, .sidebar-topbar, .sidebar-overlay, .skip-link, .toast-region, .theme-toggle { display: none !important; }
+  #app { margin-left: 0 !important; padding-top: 0 !important; }
+  .doc-section { break-inside: avoid-page; }
 }

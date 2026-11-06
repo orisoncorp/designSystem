@@ -1,0 +1,119 @@
+/* ═══ PADRÕES · F06 e F08 ═══
+   Cadeia de estado, KPI com baseline, bancada de operação e estado vazio. */
+
+/* ── cadeia de estado no inspetor (F06 · E1) ── */
+.chain { display: grid; }
+
+.chain-step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: var(--space-2) var(--space-3);
+  position: relative;
+  padding-bottom: var(--space-4);
+}
+
+.chain-step::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 26px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.chain-step:last-child::before { display: none; }
+
+.chain-dot {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--text-muted);
+}
+
+.chain-dot .ico { width: 14px; height: 14px; }
+.chain-step.is-done .chain-dot { border-color: var(--text-primary); color: var(--text-primary); }
+.chain-step.is-failed .chain-dot { border-color: var(--color-danger); color: var(--text-danger); background: var(--bg-danger); }
+.chain-title { font-size: var(--text-meta); font-weight: var(--weight-strong); }
+.chain-step.is-failed .chain-title { color: var(--text-danger); }
+.chain-meta { font-size: var(--text-label); color: var(--text-muted); }
+
+/* ── KPI (F09 · K3) ── */
+.kpi {
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.kpi-name { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+.kpi-value { font-size: var(--text-kpi); font-weight: var(--weight-number); line-height: 1.15; }
+.kpi-base { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--space-3); font-size: var(--text-meta); }
+.kpi-base dt { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+
+/* ── bancada de operação (F08 · L1 · N1 · F1) ── */
+.bench {
+  background: var(--color-canvas);
+  border: var(--border-thin) solid var(--color-border);
+  overflow: hidden;
+}
+
+.bench-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--height-topbar);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.bench-brand { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-meta); font-weight: var(--weight-strong); }
+.bench-brand svg { width: 20px; height: 20px; }
+.bench-wordmark { height: 14px; width: auto; }
+.bench-body { display: grid; grid-template-columns: var(--layout-nav-width) minmax(0, 1fr) var(--layout-inspector-width); min-height: 560px; }
+
+.bench-nav { background: var(--color-nav); padding: var(--space-3) 0; }
+.bench-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--height-control);
+  padding: 0 var(--space-4);
+  color: var(--color-nav-text);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-strong);
+  text-decoration: none;
+}
+
+.bench-nav a .ico { width: var(--icon-nav); height: var(--icon-nav); }
+.bench-nav a[aria-current='page'] { color: var(--color-nav-fg); background: var(--color-nav-active); box-shadow: inset var(--indicator) 0 0 var(--color-action); }
+.bench-nav .count { margin-left: auto; font-weight: var(--weight-number); }
+
+.bench-queue { padding: var(--space-5); display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+.bench-queue-head { display: flex; align-items: flex-end; gap: var(--space-3); flex-wrap: wrap; }
+.bench-queue-head h4 { font-size: var(--text-title); font-weight: var(--weight-strong); line-height: var(--leading-title); }
+.bench-inspector { border-left: var(--border-thin) solid var(--color-border); padding: var(--space-5); display: grid; gap: var(--space-3); align-content: start; }
+.props { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-3); font-size: var(--text-meta); }
+.props dt { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+
+/* ── estado vazio (F08 · E2) ── */
+.empty { display: grid; gap: var(--space-2); padding: var(--space-5); max-width: 560px; }
+.empty-title { font-size: var(--text-section); font-weight: var(--weight-strong); }
+
+/* Abaixo de 1280 px o inspetor vira gaveta; aqui ele desce para baixo da fila. */
+@media (max-width: 1280px) {
+  .bench-body { grid-template-columns: var(--layout-nav-width) minmax(0, 1fr); }
+  .bench-inspector { grid-column: 1 / -1; border-left: 0; border-top: var(--border-thin) solid var(--color-border); }
+}
+
+@media (max-width: 900px) {
+  .bench-body { grid-template-columns: 1fr; }
+  .bench-nav { display: none; }
+}

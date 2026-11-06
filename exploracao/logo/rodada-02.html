@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Logo · Rodada 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c;
+    --dark: #0a0a0a; --grafite: #27272a; --paper: #e8e6e1; --white: #ffffff;
+    --crimson: #8b1a1a; --mid: #6e6e70;
+    --ok: #2f8a55; --maybe: #b07a1e; --no: #9a3a3a;
+    --wm: 'Hanken Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 56px 0 4px; }
+  .lead { color: var(--muted); max-width: 80ch; margin: 0 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); padding: 16px; }
+  .card.s-ok { outline: 2px solid var(--ok); }
+  .card.s-maybe { outline: 2px solid var(--maybe); }
+  .card.s-no { opacity: .45; }
+  .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .id { font: 600 15px ui-monospace, monospace; }
+  .name { font-weight: 600; }
+  .tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.from { color: #9cc3e6; border-color: #2c4a63; }
+  .why { color: var(--muted); font-size: 14px; margin: 6px 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero > div { display: grid; place-items: center; height: 200px; }
+  .hero svg { width: 128px; height: 128px; }
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .strip > div { display: flex; align-items: center; justify-content: center; gap: 8px; height: 64px; }
+  .strip svg.m { width: 32px; height: 32px; }
+  .strip svg.s { width: 16px; height: 16px; }
+  .legend { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr; margin-top: 2px; }
+  .lockups > div { height: 88px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .lockups svg { width: 40px; height: 40px; }
+  .lockups .name-wm { font: 500 22px/1 var(--wm); letter-spacing: .22em; margin-right: -.22em; }
+  .on-dark { background: var(--dark); color: #f7f5f0; }
+  .on-grafite { background: var(--grafite); color: #f7f5f0; }
+  .on-paper { background: var(--paper); color: #111113; }
+  .on-white { background: var(--white); color: #111113; }
+  .on-crimson { background: var(--crimson); color: #ffffff; }
+  .on-mid { background: var(--mid); color: #ffffff; }
+  .on-photo { background: linear-gradient(135deg, #3d5a6c 0%, #a88a5f 55%, #e2c9a0 100%); color: #ffffff; }
+  .vote { display: flex; gap: 8px; margin-top: 12px; }
+  .vote button { font: 500 13px system-ui, sans-serif; padding: 6px 12px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .vote button[aria-pressed="true"][data-v="ok"] { background: var(--ok); border-color: var(--ok); }
+  .vote button[aria-pressed="true"][data-v="maybe"] { background: var(--maybe); border-color: var(--maybe); }
+  .vote button[aria-pressed="true"][data-v="no"] { background: var(--no); border-color: var(--no); }
+  .wm { display: grid; grid-template-columns: 1fr 1fr; }
+  .wm > div { height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-family: var(--wm); }
+  .wm .big { font-size: 44px; line-height: 1; }
+  .wm .sub { font-size: 12px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; opacity: .75; }
+  .wm-small { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2px; }
+  .wm-small > div { height: 56px; display: flex; align-items: center; justify-content: center; font-family: var(--wm); font-size: 13px; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; color: var(--ink); }
+  .bar textarea { grid-column: 1; width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui, sans-serif; padding: 6px 8px; resize: vertical; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui, sans-serif; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!--
+  Sprite. viewBox 120×120, centro (60,60). Todos em currentColor.
+  Regra de construção herdada da rodada 01: traço, vão e corte com a mesma medida (t).
+-->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- corte vertical de 8 no eixo -->
+    <clipPath id="slit8" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/><rect x="64" y="0" width="56" height="120"/>
+    </clipPath>
+    <!-- corte vertical de 6 no eixo -->
+    <clipPath id="slit6" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="57" height="120"/><rect x="63" y="0" width="57" height="120"/>
+    </clipPath>
+    <!-- corte largo de 24 (lâmina 8 + vão 8 de cada lado) -->
+    <clipPath id="slit24" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="48" height="120"/><rect x="72" y="0" width="48" height="120"/>
+    </clipPath>
+    <!-- corte só em cima / só embaixo -->
+    <clipPath id="cut-top" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/><rect x="64" y="0" width="56" height="120"/><rect x="56" y="60" width="8" height="60"/>
+    </clipPath>
+    <clipPath id="cut-bottom" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/><rect x="64" y="0" width="56" height="120"/><rect x="56" y="0" width="8" height="60"/>
+    </clipPath>
+    <!-- trama: anel externo aberto em cima, anel interno aberto embaixo (vão 4 ao redor da linha de 6) -->
+    <clipPath id="weave-outer" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="53" height="120"/><rect x="67" y="0" width="53" height="120"/><rect x="53" y="24" width="14" height="96"/>
+    </clipPath>
+    <clipPath id="weave-inner" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="53" height="120"/><rect x="67" y="0" width="53" height="120"/><rect x="53" y="0" width="14" height="78"/>
+    </clipPath>
+    <clipPath id="half-l" clipPathUnits="userSpaceOnUse"><rect x="0" y="0" width="56" height="120"/></clipPath>
+    <clipPath id="half-r" clipPathUnits="userSpaceOnUse"><rect x="64" y="0" width="56" height="120"/></clipPath>
+  </defs>
+
+  <!-- referências da rodada 01 -->
+  <symbol id="s2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <circle cx="60" cy="60" r="29" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <rect x="57.75" y="11.75" width="4.5" height="96.5" fill="currentColor"/>
+  </symbol>
+  <symbol id="s8" viewBox="0 0 120 120">
+    <g clip-path="url(#slit8)">
+      <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+      <circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none"/>
+    </g>
+  </symbol>
+
+  <!-- V1 · Gimbal: a linha só existe entre os anéis, como os pivôs de um giroscópio -->
+  <symbol id="v1" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="6" fill="none"/>
+    <circle cx="60" cy="60" r="26" stroke="currentColor" stroke-width="6" fill="none"/>
+    <rect x="57" y="14" width="6" height="20" fill="currentColor"/>
+    <rect x="57" y="86" width="6" height="20" fill="currentColor"/>
+  </symbol>
+
+  <!-- V2 · Trama: a linha passa por cima e por baixo dos anéis, alternando -->
+  <symbol id="v2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="6" fill="none" clip-path="url(#weave-outer)"/>
+    <circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="6" fill="none" clip-path="url(#weave-inner)"/>
+    <rect x="57" y="11" width="6" height="14" fill="currentColor"/>
+    <rect x="57" y="39" width="6" height="60" fill="currentColor"/>
+  </symbol>
+
+  <!-- V3 · Excêntrico: o anel interno sobe e encosta (com vão) no topo do externo -->
+  <symbol id="v3" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="6" fill="none"/>
+    <circle cx="60" cy="50" r="24" stroke="currentColor" stroke-width="6" fill="none"/>
+    <rect x="57" y="11" width="6" height="98" fill="currentColor"/>
+  </symbol>
+
+  <!-- V4 · Núcleo invertido: a linha é cheia fora do núcleo e vira corte dentro dele -->
+  <symbol id="v4" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="6" fill="none"/>
+    <circle cx="60" cy="60" r="24" fill="currentColor" clip-path="url(#slit6)"/>
+    <rect x="57" y="11" width="6" height="25" fill="currentColor"/>
+    <rect x="57" y="84" width="6" height="25" fill="currentColor"/>
+  </symbol>
+
+  <!-- V5 · Cortes alternados: externo aberto em cima, interno aberto embaixo -->
+  <symbol id="v5" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#cut-top)"/>
+    <circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#cut-bottom)"/>
+  </symbol>
+
+  <!-- V6 · Lâmina: os anéis abrem e a linha atravessa sem tocar -->
+  <symbol id="v6" viewBox="0 0 120 120">
+    <g clip-path="url(#slit24)">
+      <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+      <circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none"/>
+    </g>
+    <rect x="56" y="12" width="8" height="96" fill="currentColor"/>
+  </symbol>
+
+  <!-- V7 · Mecanismo: o externo é cortado; as metades do interno deslizam -->
+  <symbol id="v7" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#slit8)"/>
+    <g transform="translate(0 -4)"><circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#half-l)"/></g>
+    <g transform="translate(0 4)"><circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#half-r)"/></g>
+  </symbol>
+</svg>
+
+<header>
+  <h1>Orison · Logo · Rodada 02</h1>
+  <p class="lead">
+    Ponto de partida: S2 e S8 aprovados, T5 Hanken Grotesk aprovada. Esta
+    rodada busca o que torna o símbolo único sem perder a base (anéis
+    concêntricos + eixo vertical) e ajusta o nome em T5.
+  </p>
+  <p class="lead">
+    Regra mantida: traço, vão e corte com a mesma medida, uma cor só. Cada
+    cartão agora mostra também o símbolo ao lado do nome, para sentir o
+    conjunto (o lockup formal fica para a próxima rodada).
+  </p>
+</header>
+
+<main>
+  <h2>Símbolo</h2>
+  <p class="lead">S2 e S8 são os aprovados da rodada 01, para comparação.</p>
+  <div class="grid" id="symbols"></div>
+
+  <h2>Nome em Hanken Grotesk</h2>
+  <p class="lead">
+    Mesma fonte, cinco tratamentos. O ajuste à mão (espaçamento par a par,
+    detalhes do R e do S) vem depois que um deles for escolhido.
+  </p>
+  <div class="grid" id="wordmarks"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: V3 com o anel interno descendo; W2 em peso 500)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const SYMBOLS = [
+  { id: 'S2', name: 'Três traços iguais', from: 'ref',
+    why: 'Aprovado na rodada 01. Fiel ao original, mas próximo de um ícone de “alvo” genérico.' },
+  { id: 'S8', name: 'Anéis cortados', from: 'ref',
+    why: 'Aprovado na rodada 01. Forte em tamanho pequeno; sozinho lembra símbolo de rede ou carregamento.' },
+  { id: 'V1', name: 'Gimbal', from: 'S2',
+    why: 'A linha só existe entre os anéis, como os pivôs de um giroscópio: estrutura que mantém o centro estável enquanto tudo gira. O centro fica livre.' },
+  { id: 'V2', name: 'Trama', from: 'S2',
+    why: 'A linha passa por cima do anel externo e por baixo do interno, alternando como um fio tecido. Integração, não sobreposição. O mais complexo.' },
+  { id: 'V3', name: 'Excêntrico', from: 'S2',
+    why: 'O anel interno sobe e quase encosta no topo do externo. Quebra a simetria de alvo: lê como ascensão, ou um olho. O mais reconhecível de longe.' },
+  { id: 'V4', name: 'Núcleo invertido', from: 'S2 + S8',
+    why: 'O anel interno vira núcleo sólido. A linha é cheia fora dele e vira corte dentro: a mesma linha, positiva e negativa. A incisão volta, sem cor.' },
+  { id: 'V5', name: 'Cortes alternados', from: 'S8',
+    why: 'O externo abre em cima, o interno abre embaixo: um caminho de fora até o centro. Reduz o S8 ao mínimo e tira a cara de ícone de rede.' },
+  { id: 'V6', name: 'Lâmina', from: 'S2 + S8',
+    why: 'Os anéis abrem e a linha atravessa sem tocar neles, com vão igual ao traço. Combina os dois aprovados: o eixo do S2 e o corte do S8.' },
+  { id: 'V7', name: 'Mecanismo', from: 'S8',
+    why: 'O externo é cortado e as metades do interno deslizam em sentidos opostos, como um ferrolho. Sugere transformação controlada.' },
+];
+
+const WORDMARKS = [
+  { id: 'W1', name: 'Caixa alta, média', style: 'font-weight:500;letter-spacing:.22em;margin-right:-.22em', text: 'ORISON',
+    why: 'O padrão da rodada 01. Equilíbrio entre presença e respiro.' },
+  { id: 'W2', name: 'Caixa alta, leve e aberta', style: 'font-weight:400;letter-spacing:.34em;margin-right:-.34em', text: 'ORISON',
+    why: 'Mais ar entre letras, peso leve. Mais institucional e silencioso; perde força em 13 px.' },
+  { id: 'W3', name: 'Caixa alta, firme e fechada', style: 'font-weight:600;letter-spacing:.1em;margin-right:-.1em', text: 'ORISON',
+    why: 'Bloco compacto e pesado. Mais próximo da assinatura da Palantir; aguenta tamanho pequeno.' },
+  { id: 'W4', name: 'Caixa alta, fina', style: 'font-weight:300;letter-spacing:.26em;margin-right:-.26em', text: 'ORISON',
+    why: 'Herda a leveza da Cormorant atual, sem serifa. Elegante em tamanho grande; frágil no pequeno.' },
+  { id: 'W5', name: 'Minúsculas', style: 'font-weight:500;letter-spacing:-.01em', text: 'orison',
+    why: 'Mais próximo e contemporâneo, menos formal. Muda o tom da marca.' },
+];
+
+const SURFACES = [
+  ['on-dark', 'Preto'], ['on-grafite', 'Grafite'], ['on-paper', 'Off-white'],
+  ['on-white', 'Branco'], ['on-crimson', 'Crimson'], ['on-mid', 'Cinza'], ['on-photo', 'Foto'],
+];
+
+const KEY = 'orison-logo-r02';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"votes":{},"notes":""}');
+
+const use = (id, cls = '') =>
+  `<svg class="${cls}" role="img" aria-label="Símbolo ${id}"><use href="#${id.toLowerCase()}"/></svg>`;
+
+const vote = (id) => `
+  <div class="vote" data-id="${id}">
+    <button type="button" data-v="ok" aria-pressed="false">Aprovar</button>
+    <button type="button" data-v="maybe" aria-pressed="false">Talvez</button>
+    <button type="button" data-v="no" aria-pressed="false">Descartar</button>
+  </div>`;
+
+document.getElementById('symbols').innerHTML = SYMBOLS.map((s) => `
+  <article class="card" id="card-${s.id}">
+    <div class="head"><span class="id">${s.id}</span><span class="name">${s.name}</span>
+      ${s.from === 'ref' ? '<span class="tag">Aprovado R01</span>' : `<span class="tag from">De ${s.from}</span>`}</div>
+    <p class="why">${s.why}</p>
+    <div class="hero">
+      <div class="on-dark">${use(s.id)}</div>
+      <div class="on-paper">${use(s.id)}</div>
+    </div>
+    <div class="strip">
+      ${SURFACES.map(([c]) => `<div class="${c}">${use(s.id, 'm')}${use(s.id, 's')}</div>`).join('')}
+    </div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    <div class="lockups">
+      <div class="on-dark">${use(s.id)}<span class="name-wm">ORISON</span></div>
+      <div class="on-white">${use(s.id)}<span class="name-wm">ORISON</span></div>
+    </div>
+    ${s.from === 'ref' ? '' : vote(s.id)}
+  </article>`).join('');
+
+document.getElementById('wordmarks').innerHTML = WORDMARKS.map((w) => `
+  <article class="card" id="card-${w.id}">
+    <div class="head"><span class="id">${w.id}</span><span class="name">${w.name}</span></div>
+    <p class="why">${w.why}</p>
+    <div class="wm">
+      <div class="on-dark"><span class="big" style="${w.style}">${w.text}</span><span class="sub">AI INFRASTRUCTURE</span></div>
+      <div class="on-paper"><span class="big" style="${w.style}">${w.text}</span></div>
+    </div>
+    <div class="wm-small">
+      <div class="on-dark"><span style="${w.style}">${w.text}</span></div>
+      <div class="on-white"><span style="${w.style}">${w.text}</span></div>
+      <div class="on-crimson"><span style="${w.style}">${w.text}</span></div>
+      <div class="on-photo"><span style="${w.style}">${w.text}</span></div>
+    </div>
+    ${vote(w.id)}
+  </article>`).join('');
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+
+function render() {
+  document.querySelectorAll('.vote').forEach((g) => {
+    const v = state.votes[g.dataset.id];
+    g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+    const card = document.getElementById('card-' + g.dataset.id);
+    card.classList.remove('s-ok', 's-maybe', 's-no');
+    if (v) card.classList.add('s-' + v);
+  });
+  const pick = (v) => Object.keys(state.votes).filter((k) => state.votes[k] === v).sort().join(', ') || '—';
+  summaryEl.textContent =
+    `Rodada 02\nAprovados: ${pick('ok')}\nTalvez: ${pick('maybe')}\nDescartados: ${pick('no')}` +
+    (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.vote button');
+  if (!b) return;
+  const id = b.parentElement.dataset.id;
+  state.votes[id] = state.votes[id] === b.dataset.v ? undefined : b.dataset.v;
+  if (!state.votes[id]) delete state.votes[id];
+  render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { state.votes = {}; state.notes = ''; notesEl.value = ''; render(); });
+render();
+</script>
+</body>
+</html>

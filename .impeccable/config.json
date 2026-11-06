@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "exploracao/logo/rodada-01.html"
+        ],
+        "createdAt": "2026-11-06T14:16:14.492Z",
+        "reason": "exploração de logo: candidatos de fonte pedidos pelo Nobel (sessão orison-design, 2026-11-06), não fazem parte do DS"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "hanken grotesk",
+        "createdAt": "2026-11-06T14:46:44.023Z",
+        "reason": "Nobel aprovou T5 Hanken Grotesk para o wordmark na rodada 01 de logo (2026-11-06); DESIGN.md será atualizado ao fechar a marca"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "exploracao/fusao/f02-tipografia.html"
+        ],
+        "createdAt": "2026-11-06T16:45:47.786Z",
+        "reason": "rodada F02 de exploração: Cormorant aparece só como opção comparada (D1), já decidida a favor de Hanken; página histórica, não UI do sistema"
+      }
+    ]
+  }
+}

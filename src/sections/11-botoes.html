@@ -1,0 +1,54 @@
+<!-- 11 · Botões -->
+<section id="sec-botoes" class="doc-section" aria-labelledby="sec-botoes-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F07</p>
+    <h2 class="doc-title" id="sec-botoes-title">Botões</h2>
+    <p class="doc-lead">
+      Quatro variantes. Uma ação primária por região. Hover e pressionado
+      escurecem nos dois temas; nunca clareiam sob texto branco.
+    </p>
+  </header>
+
+  <div class="scroll-x">
+    <table class="token-table">
+      <thead><tr><th>Variante</th><th>Normal</th><th>Hover</th><th>Pressionado</th><th>Foco</th><th>Desabilitado</th></tr></thead>
+      <tbody>
+        <tr><td>Primário</td>
+          <td><button type="button" class="btn btn-primary"><i class="ico" data-icon="aprovar"></i>Aprovar</button></td>
+          <td><button type="button" class="btn btn-primary is-hover"><i class="ico" data-icon="aprovar"></i>Aprovar</button></td>
+          <td><button type="button" class="btn btn-primary is-active"><i class="ico" data-icon="aprovar"></i>Aprovar</button></td>
+          <td><button type="button" class="btn btn-primary is-focus"><i class="ico" data-icon="aprovar"></i>Aprovar</button></td>
+          <td><button type="button" class="btn btn-primary" disabled><i class="ico" data-icon="aprovar"></i>Aprovar</button></td></tr>
+        <tr><td>Secundário</td>
+          <td><button type="button" class="btn btn-secondary"><i class="ico" data-icon="evidencia"></i>Evidência</button></td>
+          <td><button type="button" class="btn btn-secondary is-hover"><i class="ico" data-icon="evidencia"></i>Evidência</button></td>
+          <td><button type="button" class="btn btn-secondary is-active"><i class="ico" data-icon="evidencia"></i>Evidência</button></td>
+          <td><button type="button" class="btn btn-secondary is-focus"><i class="ico" data-icon="evidencia"></i>Evidência</button></td>
+          <td><button type="button" class="btn btn-secondary" disabled><i class="ico" data-icon="evidencia"></i>Evidência</button></td></tr>
+        <tr><td>Mínimo</td>
+          <td><button type="button" class="btn btn-minimal"><i class="ico" data-icon="reverter"></i>Reverter</button></td>
+          <td><button type="button" class="btn btn-minimal is-hover"><i class="ico" data-icon="reverter"></i>Reverter</button></td>
+          <td><button type="button" class="btn btn-minimal is-active"><i class="ico" data-icon="reverter"></i>Reverter</button></td>
+          <td><button type="button" class="btn btn-minimal is-focus"><i class="ico" data-icon="reverter"></i>Reverter</button></td>
+          <td><button type="button" class="btn btn-minimal" disabled><i class="ico" data-icon="reverter"></i>Reverter</button></td></tr>
+        <tr><td>Perigo</td>
+          <td><button type="button" class="btn btn-danger">Reverter writeback</button></td>
+          <td><button type="button" class="btn btn-danger is-hover">Reverter writeback</button></td>
+          <td><button type="button" class="btn btn-danger is-active">Reverter writeback</button></td>
+          <td><button type="button" class="btn btn-danger is-focus">Reverter writeback</button></td>
+          <td><button type="button" class="btn btn-danger" disabled>Reverter writeback</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="specimen">
+    <button type="button" class="btn btn-primary"><span class="spinner" aria-hidden="true"></span>Aprovando…</button>
+    <button type="button" class="btn btn-secondary btn-icon" aria-label="Buscar"><i class="ico" data-icon="buscar"></i></button>
+    <button type="button" class="btn btn-secondary btn-icon" aria-label="Filtrar"><i class="ico" data-icon="filtrar"></i></button>
+  </div>
+
+  <div class="grid-2">
+    <div class="rule"><span class="rule-name">Uma primária por região.</span><span class="meta">Se duas ações disputam o azul, uma delas é secundária.</span></div>
+    <div class="rule"><span class="rule-name">Perigo pede prova.</span><span class="meta">Ação irreversível abre diálogo com confirmação digitada e rótulo de risco (DC-GC-09-004).</span></div>
+  </div>
+</section>

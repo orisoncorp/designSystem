@@ -1,0 +1,31 @@
+<!-- 13 · Tags, alertas e avisos -->
+<section id="sec-feedback" class="doc-section" aria-labelledby="sec-feedback-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F06 e F07</p>
+    <h2 class="doc-title" id="sec-feedback-title">Tags, alertas e avisos</h2>
+    <p class="doc-lead">
+      Tag diz o estado do objeto. Alerta em bloco fica na página até ser
+      resolvido. Toast só confirma, e falha nunca some sozinha.
+    </p>
+  </header>
+
+  <div class="specimen">
+    <span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span>
+    <span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span>
+    <span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span>
+    <span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span>
+    <span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span>
+  </div>
+
+  <div class="stack-2">
+    <div class="callout callout-danger"><i class="ico" data-icon="falha-fechar"></i><div><span class="callout-title">Writeback recusado pelo destino.</span>Owner: Operações. Remediação: reabrir com a revisão 15.</div></div>
+    <div class="callout callout-warning"><i class="ico" data-icon="alerta"></i><div><span class="callout-title">Divergência de 3,2% na reconciliação.</span>O destino aplicou <span class="num">R$ 7.725,00</span> em vez de <span class="num">R$ 7.980,50</span>.</div></div>
+    <div class="callout callout-info"><i class="ico" data-icon="informacao"></i><div><span class="callout-title">Proposta gerada pelo agente v4.</span>Contexto capturado às <span class="num">13:58</span>; revisão esperada <span class="num">14</span>.</div></div>
+  </div>
+
+  <div class="specimen">
+    <button type="button" class="btn btn-secondary" data-toast="success">Mostrar confirmação</button>
+    <button type="button" class="btn btn-secondary" data-toast="danger">Mostrar falha</button>
+    <span class="meta">Sucesso some em 5 s (pausa com hover ou foco); falha fica até ser fechada.</span>
+  </div>
+</section>

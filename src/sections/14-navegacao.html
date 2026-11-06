@@ -1,0 +1,31 @@
+<!-- 14 · Abas, filtros e navegação -->
+<section id="sec-navegacao" class="doc-section" aria-labelledby="sec-navegacao-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F07 e F08</p>
+    <h2 class="doc-title" id="sec-navegacao-title">Abas, filtros e navegação</h2>
+    <p class="doc-lead">
+      Abas sublinhadas trocam vistas do mesmo objeto. Chips mostram o filtro
+      ativo. A navegação lateral escura persiste sem competir com o conteúdo.
+    </p>
+  </header>
+
+  <div class="block">
+    <div class="tabs" role="tablist" aria-label="Vistas do objeto" data-tabs>
+      <button type="button" class="tab" role="tab" id="tab-resumo" aria-controls="panel-resumo" aria-selected="true">Resumo</button>
+      <button type="button" class="tab" role="tab" id="tab-trace" aria-controls="panel-trace" aria-selected="false">Trace <span class="tab-count num">12</span></button>
+      <button type="button" class="tab" role="tab" id="tab-evidencia" aria-controls="panel-evidencia" aria-selected="false">Evidência <span class="tab-count num">3</span></button>
+    </div>
+    <div role="tabpanel" id="panel-resumo" aria-labelledby="tab-resumo" class="meta">Resumo do SKU-88: owner, revisão, fonte e cadeia de estados.</div>
+    <div role="tabpanel" id="panel-trace" aria-labelledby="tab-trace" class="meta" hidden>12 eventos do trace, do contexto capturado à reconciliação.</div>
+    <div role="tabpanel" id="panel-evidencia" aria-labelledby="tab-evidencia" class="meta" hidden>3 evidências anexadas, cada uma com estágio e fonte.</div>
+  </div>
+
+  <div class="specimen">
+    <label class="field" style="min-width:260px"><span class="sr-only">Buscar</span><input class="input" placeholder="Buscar código ou objeto"></label>
+    <button type="button" class="chip" aria-pressed="true">Estado: falhou, divergente <i class="ico" data-icon="falha-fechar"></i></button>
+    <button type="button" class="chip" aria-pressed="false">Risco <i class="ico" data-icon="expandir"></i></button>
+    <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
+    <button type="button" class="btn btn-minimal">Limpar filtros</button>
+  </div>
+  <p class="meta">Abas respondem às setas do teclado; só a aba ativa entra na ordem de Tab (padrão WAI-ARIA, aplicado em tempo de execução).</p>
+</section>

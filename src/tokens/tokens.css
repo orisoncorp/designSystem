@@ -1,187 +1,201 @@
 /* ═══════════════════════════════════════════════════════════════════
-   ORISON DESIGN TOKENS — v3.0
-   Fonte da verdade. Todo valor visual do sistema nasce aqui.
+   ORISON DESIGN SYSTEM · TOKENS v4.0.0
 
-   Duas rampas tipográficas separadas por família e por função:
-     --display-*  Cormorant Garamond, expressão, 5 degraus
-     --text-*     Montserrat, leitura e UI, 6 degraus, piso 12px
+   Fonte executável da norma descrita em DESIGN.md. Se os dois
+   divergirem, este arquivo vence e o documento é corrigido.
 
-   Regra inegociável: nenhum texto abaixo de 12px em lugar nenhum.
-   Tracking sempre em `em` — tracking absoluto quebra em escala.
+   Um conjunto, dois temas. :root é o tema claro (produto); o escopo
+   [data-theme='dark'] é o tema escuro (marca e comunicação). Os nomes
+   são semânticos e iguais nos dois temas: um componente nunca precisa
+   de variante "-dark".
+
+   Origem de cada decisão: rodadas F01–F09, docs/fusao-palantir.md.
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ─── Colors: Identity ─── */
-  --color-black:    #0a0a0a;
-  --color-midnight: #111113;
-  --color-surface:  #0d0d0f;
-  --color-slate:    #3a3a3a;
-  --color-border:   #2e2e2e;
-  --color-gray:     #5a5a5a;
-  --color-subtle:   #484848;
-  --color-crimson:  #8B1A1A;
-  --color-red:      #A52020;
-  --color-offwhite: #e8e6e1;
+  color-scheme: light;
 
-  /* Crimson tipográfico. #8B1A1A mede 2,09:1 sobre fundo escuro e nunca
-     pode carregar texto. Este token é ground-aware: vira #8B1A1A sob
-     [data-ground="light"], onde mede 7,45:1. Use-o em toda tipografia
-     crimson e o contraste se resolve sozinho nos dois fundos. */
-  --color-crimson-text: #F06070;   /* 6,11:1 sobre --color-surface */
+  /* ── F01 · neutra fria (Blueprint LIGHT_GRAY / GRAY) ── */
+  --color-canvas:   #f6f7f9;
+  --color-surface:  #ffffff;
+  --color-raised:   #ffffff;
+  --color-border:   #d3d8de;
+  --color-control:  #738091;   /* borda de controle, ≥ 3:1 */
+  --text-primary:   #1c2127;
+  --text-muted:     #5f6b7c;
 
-  /* ─── Text: escala concreta, sem opacity stacking ─── */
-  --text-primary:   #f7f5f0;   /* 17,8:1 — headings, wordmarks            */
-  --text-body:      #edeae4;   /* 16,2:1 — prosa                          */
-  --text-secondary: #d4d2cd;   /* 12,9:1 — labels, specs, metadata        */
-  --text-muted:     #bcbab5;   /* 10,0:1 — suporte, hints — piso legível  */
+  /* ── F01 · ação: a única cor de ação ── */
+  --color-action:        #2d72d2;
+  --color-action-hover:  #215db0;
+  --color-action-active: #184a90;
+  --color-action-fg:     #ffffff;
+  --color-link:          #215db0;
+  --color-focus:         #215db0;
+  --color-selected:      #e8f0fc;
 
-  /* ─── Colors: Foco ─── */
-  /* 6,11:1 sobre surface — folgado acima do piso 3,0:1 de WCAG 1.4.11 */
-  --color-focus: #F06070;
+  /* ── F01 · status = feedback e resultado ── */
+  --color-success: #238551;  --text-success: #1c6e42;  --bg-success: #e0eee7;
+  --color-warning: #c87619;  --text-warning: #935610;  --bg-warning: #f7ecdf;
+  --color-danger:  #cd4246;  --text-danger:  #ac2f33;  --bg-danger:  #f8e5e5;
+  --color-danger-hover: #ac2f33;
 
-  /* ─── Colors: Data Visualization ─── */
-  --color-negative-hi: #8B1A1A;
-  --color-negative-md: #C0392B;
-  --color-alert-hi:    #8B4A1A;
-  --color-alert-md:    #C0622B;
-  --color-positive-hi: #1A5C2E;
-  --color-positive-md: #27834A;
-  --color-positive-tx: #7ddfa7;   /* verde tipográfico sobre escuro — 11,4:1 */
-  --color-positive-br: #3AAA62;   /* verde de traço/borda em gráfico         */
+  /* ── F06/F07 · neutros de controle e estado em andamento ── */
+  --color-neutral-fill:   #edeff2;
+  --color-neutral-hover:  #e5e8eb;
+  --color-neutral-active: #d3d8de;
+  --color-disabled-bg:    #edeff2;
+  --color-disabled-text:  #738091;
+  --bg-info:              #e8f0fc;
+  --text-info:            #215db0;
 
-  /* ─── Opacity ─── */
-  --opacity-decoration: 0.05;
-  --opacity-faint:      0.35;
+  /* ── F08 · navegação lateral escura (igual nos dois temas) ── */
+  --color-nav:        #1c2127;
+  --color-nav-text:   #abb3bf;
+  --color-nav-active: #2f343c;
+  --color-nav-fg:     #ffffff;
 
-  /* ─── Typography: Families ─── */
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Montserrat', system-ui, sans-serif;
-  --font-mono:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  /* ── F06 · evidência ── */
+  --evidence-env-bg:   #fbd065;   /* GOLD5 · 6,3:1 com o texto */
+  --evidence-env-text: #5c4405;   /* GOLD1 */
 
-  /* ─── Typography: Weights ─── */
-  --font-weight-light:   300;
-  --font-weight-regular: 400;
+  /* ── F06 · risco acromático ── */
+  --risk-fill:    var(--text-primary);
+  --risk-fill-fg: #ffffff;
 
-  /* ─── Typography: Display ramp (Cormorant Garamond) ───
-     Serif de x-height baixa: 26px de Cormorant lê como ~21px de Montserrat.
-     Os degraus compensam essa diferença óptica. */
-  --display-hero: 64px;   /* capa · aberturas de capítulo   */
-  --display-xl:   44px;   /* título de capítulo             */
-  --display-lg:   34px;   /* headline de seção              */
-  --display-md:   26px;   /* título de bloco                */
-  --display-sm:   20px;   /* lockup · wordmark em template  */
+  /* ── F09 · dados: ordem fixa, máximo de quatro séries ── */
+  --data-1: #7961db;   /* índigo   · Blueprint INDIGO3 */
+  --data-2: #00a396;   /* turquesa · Blueprint TURQUOISE3 */
+  --data-3: #db2c6f;   /* rosa     · Blueprint ROSE3 */
+  --data-4: #eda100;   /* ouro · 2,2:1 → rótulo direto obrigatório */
+  --data-context: #c5cbd3;
+  --data-grid:    #e5e8eb;
+  --data-axis:    #738091;
 
-  /* ─── Typography: Text ramp (Montserrat) ─── */
-  --text-xl:    20px;   /* lede de seção · citação                    */
-  --text-lg:    18px;   /* subtítulo                                  */
-  --text-base:  16px;   /* prosa — o degrau que faltava               */
-  --text-sm:    14px;   /* UI · valor de spec · célula de tabela      */
-  --text-xs:    13px;   /* chave de spec densa                        */
-  --text-label: 12px;   /* label/eyebrow em caixa alta — PISO ABSOLUTO */
+  /* ── marca: crimson é só identidade ── */
+  --color-crimson: #8b1a1a;
 
-  /* ─── Typography: Line-height ─── */
-  --leading-none:    1;
-  --leading-tight:   1.15;
-  --leading-snug:    1.35;
-  --leading-base:    1.5;
-  --leading-relaxed: 1.6;
+  /* ── F04 · profundidade: sombra só no que flutua ── */
+  --elevation-1: 0 0 0 1px rgba(17, 20, 24, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --elevation-3: 0 0 0 1px rgba(17, 20, 24, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --scrim: rgba(17, 20, 24, 0.45);
 
-  /* ─── Typography: Letter-spacing (em, nunca px) ───
-     3px vale 43% do em a 7px e 9% a 32px. Tracking absoluto foi a origem
-     mecânica da ilegibilidade da v2.0. */
-  --tracking-tight:   -0.01em;  /* display ≥34px            */
-  --tracking-none:     0;       /* prosa · valores de spec  */
-  --tracking-snug:     0.04em;  /* UI 14px                  */
-  --tracking-label:    0.10em;  /* label caixa alta 12px    */
-  --tracking-wide:     0.16em;  /* título de seção          */
-  --tracking-display:  0.24em;  /* título de capítulo       */
-  --tracking-hero:     0.32em;  /* wordmark — proporção autoral da v2.0 */
+  /* ── F04 · forma ── */
+  --radius-surface: 0;
+  --radius-tag:     3px;
+  --radius-control: 4px;
+  --radius-full:    9999px;
+  --focus-width:  2px;
+  --focus-offset: 2px;
+  --border-thin:  1px;
+  --indicator:    3px;   /* barra de seleção, aba ativa, alerta */
 
-  /* ─── Typography: Measure ─── */
+  /* ── F02 · tipografia ── */
+  --font-text:    'Montserrat', system-ui, sans-serif;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --text-title:    24px;
+  --text-section:  18px;
+  --text-body:     16px;
+  --text-ui:       16px;
+  --text-ui-dense: 14px;   /* tabela densa no desktop; no celular volta a 16 */
+  --text-meta:     14px;
+  --text-label:    13px;
+  --text-kpi:      28px;
+  --display-xl:    56px;   /* capa */
+  --display-lg:    40px;   /* abertura de parte */
+  --display-md:    32px;   /* título de seção de marca */
+
+  --weight-text:    400;
+  --weight-number:  500;
+  --weight-strong:  600;
+  --weight-display: 500;
+
+  --leading-display: 1.12;
+  --leading-title:   1.25;
+  --leading-ui:      1.4;
+  --leading-text:    1.5;
+
+  --tracking-display: -0.01em;
+  --tracking-header:   0.06em;   /* caixa alta: cabeçalho de tabela e KPI */
+  --tracking-wordmark: 0.1em;
+  --tracking-none:     0;
+
   --measure-prose: 68ch;
 
-  /* ─── Spacing: base 8px ─── */
-  --space-hairline: 2px;   /* a calha — separador assinatura do sistema */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  16px;
-  --space-4:  24px;
-  --space-5:  32px;
-  --space-6:  48px;
-  --space-7:  64px;
-  --space-8:  80px;
-  --space-9:  120px;   /* respiro de abertura de capítulo */
-  --space-10: 160px;
+  /* ── F03 · espaço: 4 nos componentes, 8 no layout ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-hairline: 2px;   /* calha de marca, só no tema escuro */
 
-  /* ─── Borders ─── */
-  --border-thin:   1px;
-  --border-accent: 2px;
-  --border-bar:    3px;
-  --border-color:        var(--color-border);
-  --border-color-accent: var(--color-crimson);
+  --height-control: 36px;
+  --height-touch:   44px;
+  --height-row:     36px;
+  --height-topbar:  48px;
 
-  /* ─── Shadows ─── */
-  --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 16px 32px rgba(0, 0, 0, 0.5);
+  /* ── F05 · ícones ── */
+  --icon-inline: 16px;
+  --icon-button: 20px;
+  --icon-nav:    20px;
 
-  /* ─── Transitions ─── */
-  --transition-fast: 0.2s ease;
-  --transition-base: 0.3s ease;
-  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* ─── Layout ───
-     Breakpoints: 1120px · 900px · 600px.
-     Custom properties não funcionam dentro de @media — os valores são
-     literais por necessidade da linguagem. Mantenha-os idênticos a estes
-     três em todo arquivo CSS. */
-  --container-max:   1080px;
-  --sidebar-width:   240px;
-  --section-padding: var(--space-8) 60px;
-  --panel-padding:   60px var(--space-7);
-
-  /* ─── Symbol ─── */
-  --symbol-line-opacity: 0.9;
+  /* ── F08/F09 · layout e dados ── */
+  --layout-nav-width:       200px;
+  --layout-inspector-width: 360px;
+  --layout-sidebar-width:   264px;   /* índice deste site */
+  --layout-container:       1120px;
+  --data-line-width: 2px;
+  --data-bar-radius: 4px;
+  --data-bar-gap:    2px;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   FUNDO CLARO
-   O off-white pertence ao sistema desde a v1 — é onde o símbolo é
-   provado sobre papel — mas todos os tokens de texto falhavam sobre
-   ele (1,04–1,55:1), e cada componente contornava isso com uma variante
-   `-light` escrita à mão. Este escopo inverte a rampa inteira, incluindo
-   o crimson tipográfico, de uma vez.
+/* ═══ Tema escuro · marca e comunicação ═══ */
+[data-theme='dark'] {
+  color-scheme: dark;
 
-   Aplicado automaticamente aos painéis claros. Disponível para qualquer
-   bloco via  <div data-ground="light">  ou  class="ground-light".
-   ═══════════════════════════════════════════════════════════════════ */
+  --color-canvas:  #1c2127;
+  --color-surface: #252a31;
+  --color-raised:  #2f343c;
+  --color-border:  #404854;
+  --color-control: #738091;
+  --text-primary:  #f6f7f9;
+  --text-muted:    #abb3bf;
 
-[data-ground='light'],
-.ground-light,
-.panel-light,
-.card-preview-light,
-.lm-stage-inner.lm-light {
-  --color-black:    #e8e6e1;
-  --color-midnight: #e2e0da;
-  --color-surface:  #edebe6;
-  --color-border:   #cbc8c1;
-  --color-slate:    #b4b1a9;
+  --color-link:     #8abbff;
+  --color-focus:    #8abbff;
+  --color-selected: #1f3a5f;
 
-  --text-primary:   #0d0d0f;   /* 17,4:1 */
-  --text-body:      #1f1f22;   /* 14,3:1 */
-  --text-secondary: #3a3a3a;   /*  9,1:1 */
-  --text-muted:     #5a5a5a;   /*  5,5:1 */
+  --text-success: #72ca9b;  --bg-success: #253735;
+  --text-warning: #fbb360;  --bg-warning: #3c352e;
+  --text-danger:  #fa999c;  --bg-danger:  #3d2d34;
 
-  --color-crimson-text: #8B1A1A;   /* 7,45:1 sobre off-white */
-  --color-focus:        #8B1A1A;
+  --color-neutral-fill:   #2f343c;
+  --color-neutral-hover:  #383e47;
+  --color-neutral-active: #404854;
+  --color-disabled-bg:    #2f343c;
+  --color-disabled-text:  #8f99a8;
+  --bg-info:              #1f3a5f;
+  --text-info:            #8abbff;
 
-  --border-color: var(--color-border);
+  --color-nav: #111418;
 
-  color: var(--text-body);
-}
+  --evidence-env-bg:   #5c4405;
+  --evidence-env-text: #fbd065;
 
-/* Só os contêineres genéricos pintam o próprio fundo; .panel-light e
-   .card-preview-light já declaram o seu. */
-[data-ground='light'],
-.ground-light {
-  background: var(--color-black);
+  --risk-fill-fg: #1c2127;
+
+  --data-4:       #c98500;
+  --data-context: #5f6b7c;
+  --data-grid:    #2f343c;
+  --data-axis:    #8f99a8;
+
+  --elevation-1: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --elevation-3: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.4), 0 18px 46px 6px rgba(0, 0, 0, 0.4);
+  --scrim: rgba(0, 0, 0, 0.6);
 }

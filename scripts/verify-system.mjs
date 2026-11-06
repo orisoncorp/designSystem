@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
- * Verifica as invariantes do Orison Design System v3.0.
+ * Verifica as invariantes do Orison Design System v4.0.
  *
- * A v2.0 acumulou 301 declarações abaixo de 12px e 287 letter-spacings em px
- * ao longo de dois anos, um arquivo de cada vez, sem que ninguém percebesse.
- * Estas checagens levam menos de um segundo e pegam exatamente essa classe de
- * regressão antes que ela entre.
+ * Cada checagem guarda uma decisão aprovada nas rodadas F01–F09
+ * (docs/fusao-palantir.md) ou um defeito que já custou um refactor.
+ * Leva menos de um segundo e imprime arquivo:linha de cada violação.
  *
  *   npm run verify
  */
@@ -26,128 +25,116 @@ const walk = (dir) =>
 const files = walk(SRC);
 const css = files.filter((f) => f.endsWith('.css'));
 const html = files.filter((f) => f.endsWith('.html'));
+const js = ['src/main.js'];
 const read = (f) => readFileSync(f, 'utf8');
+const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '));
 
 function check(name, hits, hint) {
-  if (hits.length) {
-    failures.push({ name, hits, hint });
-  } else {
-    notes.push(name);
-  }
+  if (hits.length) failures.push({ name, hits, hint });
+  else notes.push(name);
 }
 
-function scan(fileList, regex, label) {
+function scan(fileList, regex) {
   const hits = [];
   for (const f of fileList) {
-    read(f).split('\n').forEach((line, i) => {
+    stripComments(read(f)).split('\n').forEach((line, i) => {
       if (regex.test(line)) hits.push(`${f}:${i + 1}  ${line.trim().slice(0, 84)}`);
     });
   }
   return hits;
 }
 
-/* ── 1. Piso tipográfico de 12px ── */
+/* ── 1. Piso de 12 px ── */
 check(
   'Piso de 12px',
-  scan([...css, ...html], /font-size:\s*([0-9]|1[01])(\.\d+)?px/),
-  'Nada abaixo de --text-label (12px). Se a informação não cabe, ela não pertence àquele bloco.'
+  scan([...css, ...html, ...js], /font-size:\s*([0-9]|1[01])(\.\d+)?px/),
+  'Nenhum texto abaixo de 12px (F02).'
 );
 
-/* ── 2. Tracking sempre em em ── */
+/* ── 2. Tracking em em ── */
 check(
   'Tracking em em',
-  scan([...css, ...html], /letter-spacing:\s*[0-9.]+px/),
-  '3px vale 43% do em a 7px e 9% a 32px. Use os tokens --tracking-*.'
+  scan([...css, ...html], /letter-spacing:\s*-?[0-9.]+px/),
+  'letter-spacing sempre em em: px não escala com o corpo.'
 );
 
-/* ── 3. Crimson nunca como cor de texto ── */
-check(
-  'Crimson não é cor de texto',
-  scan([...css, ...html], /(?:^|[;\s"])color:\s*var\(--color-crimson\)(?!-)/),
-  '#8B1A1A mede 2,09:1 sobre escuro. Use --color-crimson-text.'
-);
-
-/* ── 4. --color-midnight é superfície, nunca tinta ── */
-check(
-  'Midnight não é tinta',
-  scan([...css, ...html], /color:\s*var\(--color-midnight\)/),
-  'É token de superfície e inverte sob [data-ground="light"]. Use --text-primary.'
-);
-
-/* ── 5. Sem raio em superfície ── */
+/* ── 3. Crimson é identidade ── */
 {
-  const allowed = /border-radius:\s*(0|50%|9999px|999px)/;
+  const allowed = (f) => f.endsWith('brand.css') || f.endsWith('tokens.css') || /sections\/0[0-4]-/.test(f) || /sections\/05-cor/.test(f);
+  check(
+    'Crimson só na marca',
+    scan([...css, ...html, ...js].filter((f) => !allowed(f)), /--color-crimson/),
+    'Crimson não marca ação, erro, risco, dado nem texto (F01, DESIGN.md).'
+  );
+}
+
+/* ── 4. Cor só por token ── */
+{
+  const allowed = (f) => f.endsWith('tokens.css') || f.endsWith('brand.css');
+  check(
+    'Cor só por token',
+    scan([...css, ...html].filter((f) => !allowed(f)), /#[0-9a-fA-F]{3,8}\b(?![\w-])/),
+    'Hexadecimal só em tokens.css (e nos palcos fixos de brand.css). Use var(--token).'
+  );
+}
+
+/* ── 5. Raio só de controle ── */
+{
+  const ok = /^(0|0px|3px|4px|50%|9999px|inherit|var\(--radius-[a-z]+\)|var\(--data-bar-radius\))$/;
   const hits = [];
-  for (const f of css) {
-    read(f).split('\n').forEach((line, i) => {
-      if (/border-radius:/.test(line) && !allowed.test(line))
-        hits.push(`${f}:${i + 1}  ${line.trim().slice(0, 84)}`);
+  for (const f of [...css, ...html]) {
+    stripComments(read(f)).split('\n').forEach((line, i) => {
+      for (const m of line.matchAll(/border-radius:\s*([^;"]+)/g)) {
+        const vals = m[1].trim().split(/\s+/);
+        if (!vals.every((v) => ok.test(v))) hits.push(`${f}:${i + 1}  ${line.trim().slice(0, 84)}`);
+      }
     });
   }
-  check('Sem raio em superfície', hits, 'Só 0 (superfície) e 50%/9999px (marca circular).');
+  check('Raio só de controle', hits, 'Superfície 0; controle 4px; tag 3px; marca circular 9999px/50% (F04).');
 }
 
-/* ── 6. Todo token de motion é consumido ── */
+/* ── 6. Tokens de motion consumidos ── */
 {
   const tokenFile = read('src/tokens/motion-tokens.css');
-  const root = tokenFile.slice(tokenFile.indexOf(':root'), tokenFile.indexOf('\n}'));
-  const declared = [...root.matchAll(/(--motion-[\w-]+):/g)].map((m) => m[1]);
-  const body = [...css, ...html, 'src/main.js'].map(read).join('\n');
-  const unused = declared.filter(
-    (t) => !body.includes(`var(${t})`) && !body.includes(`'${t}'`) && !body.includes(`"${t}"`)
-  );
+  const declared = [...tokenFile.slice(tokenFile.indexOf(':root'), tokenFile.indexOf('\n}')).matchAll(/(--motion-[\w-]+):/g)].map((m) => m[1]);
+  const body = [...css.filter((f) => !f.endsWith('motion-tokens.css')), ...html, ...js].map(read).join('\n');
   check(
     'Tokens de motion consumidos',
-    unused.map((t) => `${t} — declarado e nunca lido`),
-    'Um token que ninguém lê é documentação, não sistema. Consuma ou remova.'
+    declared.filter((t) => !body.includes(`var(${t})`)).map((t) => `${t} — declarado e nunca lido`),
+    'Um token que ninguém lê é documentação, não sistema.'
   );
 }
 
-/* ── 7. Contraste de texto ── */
+/* ── 7. Contraste dos tokens nos dois temas ──
+   Mede os pares que a norma promete, a partir de tokens.css. */
 {
-  const DARK = {
-    'color-black': '#0a0a0a', 'color-midnight': '#111113', 'color-surface': '#0d0d0f',
-    'color-slate': '#3a3a3a', 'color-border': '#2e2e2e', 'color-gray': '#5a5a5a',
-    'color-subtle': '#484848', 'color-crimson': '#8B1A1A', 'color-red': '#A52020',
-    'color-offwhite': '#e8e6e1', 'color-crimson-text': '#F06070', 'color-focus': '#F06070',
-    'text-primary': '#f7f5f0', 'text-body': '#edeae4', 'text-secondary': '#d4d2cd',
-    'text-muted': '#bcbab5', 'color-positive-tx': '#7ddfa7', 'color-positive-br': '#3AAA62',
-    'color-negative-md': '#C0392B', 'color-alert-md': '#C0622B', 'color-positive-md': '#27834A',
-  };
-  const LIGHT = {
-    ...DARK, 'text-primary': '#0d0d0f', 'text-body': '#1f1f22',
-    'text-secondary': '#3a3a3a', 'text-muted': '#5a5a5a',
-    'color-crimson-text': '#8B1A1A', 'color-focus': '#8B1A1A',
-  };
-  const lum = (h) => {
-    const c = [1, 3, 5]
-      .map((i) => parseInt(h.slice(i, i + 2), 16) / 255)
-      .map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
-    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-  };
-  const ratio = (a, b) => {
-    const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
-    return (x + 0.05) / (y + 0.05);
-  };
-  const LIGHT_SEL = /(-light\b|--light\b|\.lm-light|panel-light|ground-light)/;
-
+  const src = stripComments(read('src/tokens/tokens.css'));
+  const block = (start) => { const i = src.indexOf(start); return src.slice(i, src.indexOf('\n}', i)); };
+  const parse = (b) => Object.fromEntries([...b.matchAll(/(--[\w-]+):\s*(#[0-9a-fA-F]{6})\s*;/g)].map((m) => [m[1], m[2].toLowerCase()]));
+  const light = parse(block(':root {'));
+  const dark = { ...light, ...parse(block("[data-theme='dark'] {")) };
+  const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  const PAIRS = [
+    ['--text-primary', '--color-canvas', 4.5], ['--text-primary', '--color-surface', 4.5], ['--text-primary', '--color-raised', 4.5],
+    ['--text-muted', '--color-canvas', 4.5], ['--text-muted', '--color-surface', 4.5], ['--text-muted', '--color-raised', 4.5],
+    ['--color-action-fg', '--color-action', 4.5], ['--color-action-fg', '--color-action-hover', 4.5], ['--color-action-fg', '--color-action-active', 4.5],
+    ['--color-action-fg', '--color-danger', 4.5], ['--color-action-fg', '--color-danger-hover', 4.5],
+    ['--color-link', '--color-surface', 4.5], ['--color-link', '--color-selected', 4.5],
+    ['--text-success', '--bg-success', 4.5], ['--text-warning', '--bg-warning', 4.5], ['--text-danger', '--bg-danger', 4.5],
+    ['--text-info', '--bg-info', 4.5], ['--text-muted', '--color-neutral-fill', 4.5],
+    ['--evidence-env-text', '--evidence-env-bg', 4.5], ['--color-nav-text', '--color-nav', 4.5], ['--color-nav-fg', '--color-nav-active', 4.5],
+    ['--color-control', '--color-surface', 3], ['--color-focus', '--color-canvas', 3], ['--color-focus', '--color-surface', 3],
+  ];
   const hits = [];
-  for (const f of css) {
-    const src = read(f);
-    for (const m of src.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-      const sel = m[1].trim().replace(/\s+/g, ' ');
-      const cm = m[2].match(/(?:^|[;\s])color:\s*var\(--([a-z0-9-]+)\)/);
-      if (!cm) continue;
-      const onLight = LIGHT_SEL.test(sel);
-      const fg = (onLight ? LIGHT : DARK)[cm[1]];
-      if (!fg) continue;
-      const bgs = onLight ? ['#e8e6e1', '#edebe6'] : ['#0a0a0a', '#111113', '#0d0d0f'];
-      const worst = Math.min(...bgs.map((b) => ratio(fg, b)));
-      if (worst < 4.5)
-        hits.push(`${f}  ${sel.slice(0, 48)}  --${cm[1]} = ${worst.toFixed(2)}:1`);
+  for (const [theme, t] of [['claro', light], ['escuro', dark]]) {
+    for (const [fg, bg, min] of PAIRS) {
+      if (!t[fg] || !t[bg]) { hits.push(`${theme}: ${fg} ou ${bg} sem valor hexadecimal`); continue; }
+      const r = ratio(t[fg], t[bg]);
+      if (r < min) hits.push(`${theme}: ${fg} sobre ${bg} = ${r.toFixed(2)}:1 (mínimo ${min}:1)`);
     }
   }
-  check('Contraste de texto ≥ 4.5:1', hits, 'Seletores -light medem contra off-white, não contra a chapa escura.');
+  check('Contraste dos tokens', hits, 'Texto ≥ 4,5:1; borda de controle e foco ≥ 3:1, nos dois temas.');
 }
 
 /* ── 8. Semântica ── */
@@ -155,29 +142,35 @@ check(
   const hits = [];
   let h1 = 0;
   for (const f of html) {
-    const src = read(f).replace(/<!--[\s\S]*?-->/g, '');
+    const src = stripComments(read(f));
     h1 += (src.match(/<h1[\s>]/g) || []).length;
-    const hasSection = /<section\b/.test(src);
-    if (hasSection && !/aria-labelledby=/.test(src))
-      hits.push(`${f} — <section> sem aria-labelledby`);
+    for (const m of src.matchAll(/<section\b([^>]*)>/g))
+      if (!/aria-labelledby=/.test(m[1])) hits.push(`${f} — <section> sem aria-labelledby`);
     for (const m of src.matchAll(/<svg\b([^>]*)>/g))
-      if (!/aria-label|aria-hidden|role="presentation"|role="img"/.test(m[1]))
-        hits.push(`${f} — <svg> sem rótulo nem aria-hidden`);
+      if (!/aria-label|aria-hidden|role="presentation"/.test(m[1])) hits.push(`${f} — <svg> sem rótulo nem aria-hidden`);
   }
   if (h1 !== 1) hits.push(`${h1} elementos <h1> — deve haver exatamente 1`);
   check('Semântica', hits, 'Um <h1>, aria-labelledby por seção, todo SVG rotulado ou oculto.');
 }
 
-/* ── 9. Sem tabindex="-1" em espécime ── */
+/* ── 9. Sem tabindex negativo no markup ──
+   O tabindex itinerante das abas é aplicado em tempo de execução. */
 check(
-  'Sem tabindex negativo em espécime',
+  'Sem tabindex negativo no markup',
   scan(html, /tabindex="-1"/),
   'Foi isso que tornou as regras :focus-visible da v2.0 código morto.'
 );
 
+/* ── 10. Sem peso leve nem Cormorant ── */
+check(
+  'Sem peso 300 nem Cormorant',
+  scan([...css, ...html, ...js, 'index.html'], /font-weight:\s*300\b|Cormorant/),
+  'Peso 300 e Cormorant saíram do sistema (F02).'
+);
+
 /* ── Relatório ── */
 const pad = (s) => s.padEnd(34);
-console.log('\n  ORISON DESIGN SYSTEM — verificação de invariantes\n');
+console.log('\n  ORISON DESIGN SYSTEM v4 — verificação de invariantes\n');
 for (const n of notes) console.log(`  \x1b[32m✓\x1b[0m ${pad(n)}`);
 for (const f of failures) {
   console.log(`  \x1b[31m✗\x1b[0m ${pad(f.name)} ${f.hits.length} ocorrência(s)`);

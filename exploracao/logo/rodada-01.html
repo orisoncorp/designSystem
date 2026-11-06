@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Logo · Rodada 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Cormorant+Garamond:wght@300;400&family=Geist:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=Manrope:wght@400;500;600&family=Schibsted+Grotesk:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600&f[]=general-sans@400,500,600&display=swap">
+<style>
+  :root {
+    --page: #161618;
+    --card: #1e1e21;
+    --line: #2e2e32;
+    --ink: #e8e6e1;
+    --muted: #a3a19c;
+    --dark: #0a0a0a;
+    --grafite: #27272a;
+    --paper: #e8e6e1;
+    --white: #ffffff;
+    --crimson: #8b1a1a;
+    --mid: #6e6e70;
+    --ok: #2f8a55;
+    --maybe: #b07a1e;
+    --no: #9a3a3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, sans-serif;
+    padding-bottom: 140px;
+  }
+  header, main { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 56px 0 4px; }
+  .lead { color: var(--muted); max-width: 78ch; margin: 0 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); padding: 16px; }
+  .card.s-ok { outline: 2px solid var(--ok); }
+  .card.s-maybe { outline: 2px solid var(--maybe); }
+  .card.s-no { opacity: .45; }
+  .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .id { font: 600 15px ui-monospace, monospace; }
+  .name { font-weight: 600; }
+  .tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.agr { color: #e7a07a; border-color: #6b3b25; }
+  .why { color: var(--muted); font-size: 14px; margin: 6px 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero > div { display: grid; place-items: center; height: 200px; }
+  .hero svg { width: 128px; height: 128px; }
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .strip > div { display: flex; align-items: center; justify-content: center; gap: 8px; height: 64px; }
+  .strip svg.m { width: 32px; height: 32px; }
+  .strip svg.s { width: 16px; height: 16px; }
+  .on-dark { background: var(--dark); color: #f7f5f0; }
+  .on-grafite { background: var(--grafite); color: #f7f5f0; }
+  .on-paper { background: var(--paper); color: #111113; }
+  .on-white { background: var(--white); color: #111113; }
+  .on-crimson { background: var(--crimson); color: #ffffff; }
+  .on-mid { background: var(--mid); color: #ffffff; }
+  .on-photo { background: linear-gradient(135deg, #3d5a6c 0%, #a88a5f 55%, #e2c9a0 100%); color: #ffffff; }
+  .legend { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .vote { display: flex; gap: 8px; margin-top: 12px; }
+  .vote button {
+    font: 500 13px system-ui, sans-serif; padding: 6px 12px; cursor: pointer;
+    background: transparent; color: var(--ink); border: 1px solid var(--line);
+  }
+  .vote button[aria-pressed="true"][data-v="ok"] { background: var(--ok); border-color: var(--ok); }
+  .vote button[aria-pressed="true"][data-v="maybe"] { background: var(--maybe); border-color: var(--maybe); }
+  .vote button[aria-pressed="true"][data-v="no"] { background: var(--no); border-color: var(--no); }
+  .wm { display: grid; grid-template-columns: 1fr 1fr; }
+  .wm > div { height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .wm .caps { font-size: 44px; letter-spacing: .22em; margin-right: -.22em; line-height: 1; }
+  .wm .lower { font-size: 52px; letter-spacing: -.01em; line-height: 1; }
+  .wm .sub { font-size: 12px; letter-spacing: .3em; margin-right: -.3em; opacity: .75; }
+  .wm-small { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2px; }
+  .wm-small > div { height: 56px; display: flex; align-items: center; justify-content: center; }
+  .wm-small .xs { font-size: 13px; letter-spacing: .22em; margin-right: -.22em; }
+  .wm-small .w4 { font-weight: 400; }
+  .wm-small .w6 { font-weight: 600; }
+  .lic { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line);
+    padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start;
+  }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; color: var(--ink); }
+  .bar textarea {
+    grid-column: 1; width: 100%; height: 38px; background: var(--card); color: var(--ink);
+    border: 1px solid var(--line); font: 13px system-ui, sans-serif; padding: 6px 8px; resize: vertical;
+  }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui, sans-serif; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!-- Sprite: todos os símbolos usam currentColor (exceto S0, referência). -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="slit8" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/>
+      <rect x="64" y="0" width="56" height="120"/>
+    </clipPath>
+    <clipPath id="half-l" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/>
+    </clipPath>
+    <clipPath id="half-r" clipPathUnits="userSpaceOnUse">
+      <rect x="64" y="0" width="56" height="120"/>
+    </clipPath>
+  </defs>
+
+  <!-- S0 · atual (symbol-full do DS v3.0) -->
+  <symbol id="s0" viewBox="0 0 110 110">
+    <circle cx="55" cy="55" r="46" stroke="currentColor" stroke-width="2" fill="none"/>
+    <circle cx="55" cy="55" r="29" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.28"/>
+    <line x1="55" y1="9" x2="55" y2="101" stroke="#8B1A1A" stroke-width="1.8" opacity="0.9"/>
+  </symbol>
+
+  <!-- S1 · monolinear: anel + barra, mesmo peso -->
+  <symbol id="s1" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="6" fill="none"/>
+    <rect x="57" y="11" width="6" height="98" fill="currentColor"/>
+  </symbol>
+
+  <!-- S2 · três traços iguais, proporção atual -->
+  <symbol id="s2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <circle cx="60" cy="60" r="29" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <rect x="57.75" y="11.75" width="4.5" height="96.5" fill="currentColor"/>
+  </symbol>
+
+  <!-- S3 · incisão como corte (ausência no lugar da linha) -->
+  <symbol id="s3" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#slit8)"/>
+  </symbol>
+
+  <!-- S4 · linha que excede o anel -->
+  <symbol id="s4" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="39" stroke="currentColor" stroke-width="5" fill="none"/>
+    <rect x="57.5" y="4" width="5" height="112" fill="currentColor"/>
+  </symbol>
+
+  <!-- S5 · corte deslocado -->
+  <symbol id="s5" viewBox="0 0 120 120">
+    <g transform="translate(0 -5)">
+      <circle cx="60" cy="60" r="42" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#half-l)"/>
+    </g>
+    <g transform="translate(0 5)">
+      <circle cx="60" cy="60" r="42" stroke="currentColor" stroke-width="8" fill="none" clip-path="url(#half-r)"/>
+    </g>
+  </symbol>
+
+  <!-- S6 · disco sólido cortado -->
+  <symbol id="s6" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="48" fill="currentColor" clip-path="url(#slit8)"/>
+  </symbol>
+
+  <!-- S7 · barra flutuante: anel = barra = vão -->
+  <symbol id="s7" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+    <rect x="56" y="28" width="8" height="64" fill="currentColor"/>
+  </symbol>
+
+  <!-- S8 · dois anéis cortados: anel = vão = corte -->
+  <symbol id="s8" viewBox="0 0 120 120">
+    <g clip-path="url(#slit8)">
+      <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+      <circle cx="60" cy="60" r="28" stroke="currentColor" stroke-width="8" fill="none"/>
+    </g>
+  </symbol>
+</svg>
+
+<header>
+  <h1>Orison · Logo · Rodada 01</h1>
+  <p class="lead">
+    Duas frentes separadas: símbolo e fonte do nome. A combinação (lockup)
+    fica para a rodada 02. Todos os candidatos são de uma cor só (herdam a
+    cor do fundo), porque o requisito é funcionar em qualquer superfície.
+  </p>
+  <p class="lead">
+    Marque cada cartão como Aprovar, Talvez ou Descartar. A barra de baixo
+    monta o resumo; copie e cole na conversa. As escolhas ficam salvas neste
+    navegador.
+  </p>
+</header>
+
+<main>
+  <h2>Símbolo</h2>
+  <p class="lead">
+    S0 é o atual, para comparação. S1–S4 mantêm o formato e corrigem os
+    defeitos. S5–S8 mudam o formato. Faixa de teste: 32 px e 16 px em sete
+    superfícies.
+  </p>
+  <div class="grid" id="symbols"></div>
+
+  <h2>Fonte do nome</h2>
+  <p class="lead">
+    Grotescas de desenho racional, na família da Alliance sem copiá-la. Todas
+    têm licença que permite uso em logo. Na versão final, o nome vira
+    desenho vetorial com espaçamento ajustado à mão — é isso que o torna
+    próprio, não a fonte de origem.
+  </p>
+  <div class="grid" id="fonts"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: S3 com corte mais fino; T2 em peso 600)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const SYMBOLS = [
+  { id: 'S0', name: 'Atual (v3.0)', kind: 'ref',
+    why: 'Pesos 2 / 0.9 / 1.8, círculo interno a 28% e linha crimson fixa. Some em 16 px e em fundo claro; em uma cor, perde a linha.' },
+  { id: 'S1', name: 'Monolinear', kind: 'con',
+    why: 'Anel e linha com o mesmo peso, sem círculo interno. A correção mínima: mesma ideia, uma cor, legível em 16 px.' },
+  { id: 'S2', name: 'Três traços iguais', kind: 'con',
+    why: 'Mantém os dois anéis e a proporção atual, mas com espessura única. Mais fiel ao original; mais frágil abaixo de 24 px.' },
+  { id: 'S3', name: 'Incisão como corte', kind: 'con',
+    why: 'A linha deixa de ser cor e vira ausência: um corte vertical no anel. O conceito “Incisão” sobrevive sem crimson.' },
+  { id: 'S4', name: 'Linha que excede', kind: 'con',
+    why: 'A linha ultrapassa o anel: ela existe antes do círculo. Mais vertical e afirmativo; lembra mais o Φ.' },
+  { id: 'S5', name: 'Corte deslocado', kind: 'agr',
+    why: 'O anel cortado com as metades desalinhadas: transformação, antes/depois. Mais dinâmico, menos institucional.' },
+  { id: 'S6', name: 'Disco cortado', kind: 'agr',
+    why: 'Massa sólida em vez de traço. Máxima presença em favicon e avatar; perde a delicadeza do anel.' },
+  { id: 'S7', name: 'Barra flutuante', kind: 'agr',
+    why: 'Anel, barra e vão com a mesma medida (a regra óptica do símbolo da Palantir). A linha não toca o anel: precisão.' },
+  { id: 'S8', name: 'Anéis cortados', kind: 'agr',
+    why: 'Os dois anéis voltam, com vão e corte iguais à espessura. Mais complexo; o mais distintivo do grupo.' },
+];
+
+const FONTS = [
+  { id: 'T0', name: 'Cormorant Garamond (atual)', family: "'Cormorant Garamond'", w: 300, lic: 'OFL',
+    why: 'Referência. Os PNGs em Tatico/logos saíram em serif de fallback, não nesta.' },
+  { id: 'T1', name: 'Manrope', family: "'Manrope'", w: 500, lic: 'OFL',
+    why: 'Geométrica semi-condensada, O quase redondo. Técnica e calma.' },
+  { id: 'T2', name: 'Inter Tight', family: "'Inter Tight'", w: 500, lic: 'OFL',
+    why: 'Neo-grotesca neutra, a mais “invisível”. Risco: genérica sem ajuste.' },
+  { id: 'T3', name: 'Geist', family: "'Geist'", w: 500, lic: 'OFL',
+    why: 'Grotesca suíça contemporânea, de cara técnica. Associada à Vercel.' },
+  { id: 'T4', name: 'Instrument Sans', family: "'Instrument Sans'", w: 500, lic: 'OFL',
+    why: 'Grotesca com R e S de personalidade discreta. Boa em caixa alta espaçada.' },
+  { id: 'T5', name: 'Hanken Grotesk', family: "'Hanken Grotesk'", w: 500, lic: 'OFL',
+    why: 'Grotesca humanista e levemente quadrada; a mais próxima do tom da Alliance.' },
+  { id: 'T6', name: 'Schibsted Grotesk', family: "'Schibsted Grotesk'", w: 500, lic: 'OFL',
+    why: 'Grotesca editorial, de jornal. Mais institucional, menos tech.' },
+  { id: 'T7', name: 'Satoshi', family: "'Satoshi'", w: 500, lic: 'ITF FFL (Fontshare)',
+    why: 'Geométrica moderna, aberturas amplas. Muito usada em startups.' },
+  { id: 'T8', name: 'General Sans', family: "'General Sans'", w: 500, lic: 'ITF FFL (Fontshare)',
+    why: 'Grotesca geométrica de traços retos; caixa alta firme.' },
+  { id: 'T9', name: 'Archivo Expanded', family: "'Archivo'", w: 500, stretch: '125%', caps: 'font-size:38px;letter-spacing:.14em;margin-right:-.14em', lic: 'OFL',
+    why: 'Grotesca larga. Caixa alta expandida dá assinatura sem precisar de tracking extremo.' },
+];
+
+const SURFACES = [
+  ['on-dark', 'Preto'], ['on-grafite', 'Grafite'], ['on-paper', 'Off-white'],
+  ['on-white', 'Branco'], ['on-crimson', 'Crimson'], ['on-mid', 'Cinza'], ['on-photo', 'Foto'],
+];
+
+const KEY = 'orison-logo-r01';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"votes":{},"notes":""}');
+
+const use = (id, cls = '') =>
+  `<svg class="${cls}" role="img" aria-label="Símbolo ${id}"><use href="#${id.toLowerCase()}"/></svg>`;
+
+const vote = (id) => `
+  <div class="vote" data-id="${id}">
+    <button type="button" data-v="ok" aria-pressed="false">Aprovar</button>
+    <button type="button" data-v="maybe" aria-pressed="false">Talvez</button>
+    <button type="button" data-v="no" aria-pressed="false">Descartar</button>
+  </div>`;
+
+const tag = (k) => k === 'ref' ? '<span class="tag">Referência</span>'
+  : k === 'con' ? '<span class="tag">Conservador</span>'
+  : '<span class="tag agr">Agressivo</span>';
+
+document.getElementById('symbols').innerHTML = SYMBOLS.map((s) => `
+  <article class="card" id="card-${s.id}">
+    <div class="head"><span class="id">${s.id}</span><span class="name">${s.name}</span>${tag(s.kind)}</div>
+    <p class="why">${s.why}</p>
+    <div class="hero">
+      <div class="on-dark">${use(s.id)}</div>
+      <div class="on-paper">${use(s.id)}</div>
+    </div>
+    <div class="strip">
+      ${SURFACES.map(([c]) => `<div class="${c}">${use(s.id, 'm')}${use(s.id, 's')}</div>`).join('')}
+    </div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    ${s.kind === 'ref' ? '' : vote(s.id)}
+  </article>`).join('');
+
+document.getElementById('fonts').innerHTML = FONTS.map((f) => {
+  const st = `font-family:${f.family},system-ui,sans-serif;font-weight:${f.w};${f.stretch ? `font-stretch:${f.stretch};` : ''}`;
+  return `
+  <article class="card" id="card-${f.id}">
+    <div class="head"><span class="id">${f.id}</span><span class="name">${f.name}</span>${f.id === 'T0' ? tag('ref') : ''}</div>
+    <p class="why">${f.why}</p>
+    <div class="wm" style="${st}">
+      <div class="on-dark"><span class="caps" style="${f.caps || ''}">ORISON</span><span class="sub">AI INFRASTRUCTURE</span></div>
+      <div class="on-paper"><span class="lower">orison</span></div>
+    </div>
+    <div class="wm-small" style="${st}">
+      <div class="on-dark"><span class="xs w4">ORISON</span></div>
+      <div class="on-white"><span class="xs">ORISON</span></div>
+      <div class="on-crimson"><span class="xs w6">ORISON</span></div>
+      <div class="on-photo"><span class="xs">ORISON</span></div>
+    </div>
+    <div class="lic">Licença: ${f.lic} · teste pequeno: 13 px em pesos 400 / ${f.w} / 600</div>
+    ${f.id === 'T0' ? '' : vote(f.id)}
+  </article>`;
+}).join('');
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+
+function render() {
+  document.querySelectorAll('.vote').forEach((g) => {
+    const v = state.votes[g.dataset.id];
+    g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+    const card = document.getElementById('card-' + g.dataset.id);
+    card.classList.remove('s-ok', 's-maybe', 's-no');
+    if (v) card.classList.add('s-' + v);
+  });
+  const pick = (v) => Object.keys(state.votes).filter((k) => state.votes[k] === v).sort().join(', ') || '—';
+  summaryEl.textContent =
+    `Rodada 01\nAprovados: ${pick('ok')}\nTalvez: ${pick('maybe')}\nDescartados: ${pick('no')}` +
+    (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.vote button');
+  if (!b) return;
+  const id = b.parentElement.dataset.id;
+  state.votes[id] = state.votes[id] === b.dataset.v ? undefined : b.dataset.v;
+  if (!state.votes[id]) delete state.votes[id];
+  render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => {
+  state.votes = {}; state.notes = ''; notesEl.value = ''; render();
+});
+render();
+</script>
+</body>
+</html>

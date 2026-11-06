@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T13:45:14-03:00",
+  "title": "Design System: Orison",
+  "extensions": {
+    "colorMeta": {
+      "action": {
+        "role": "primary",
+        "displayName": "Azul de Ação"
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Verde de Resultado"
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "Laranja de Atenção"
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Vermelho de Falha"
+      },
+      "crimson": {
+        "role": "tertiary",
+        "displayName": "Crimson Orison"
+      },
+      "evidence-env-bg": {
+        "role": "tertiary",
+        "displayName": "Dourado de Ambiente"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas Frio"
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Tinta"
+      },
+      "data-1": {
+        "role": "tertiary",
+        "displayName": "Série 1 · Índigo"
+      },
+      "data-2": {
+        "role": "tertiary",
+        "displayName": "Série 2 · Turquesa"
+      },
+      "data-3": {
+        "role": "tertiary",
+        "displayName": "Série 3 · Rosa"
+      },
+      "data-4": {
+        "role": "tertiary",
+        "displayName": "Série 4 · Ouro"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Títulos de marca (aberturas, capas, decks). Nunca na interface nem em números."
+      },
+      "kpi": {
+        "displayName": "KPI",
+        "purpose": "Número de destaque, Montserrat tabular."
+      }
+    },
+    "shadows": [
+      {
+        "name": "elevation-1",
+        "value": "0 0 0 1px rgba(17,20,24,.1), 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1)",
+        "purpose": "Menus e popovers."
+      },
+      {
+        "name": "elevation-3",
+        "value": "0 0 0 1px rgba(17,20,24,.1), 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 15px -3px rgba(0,0,0,.1)",
+        "purpose": "Diálogos e toasts."
+      }
+    ],
+    "motion": [
+      {
+        "name": "reduced-motion",
+        "value": "0.01s",
+        "purpose": "Motion fora de escopo; só feedback, colapsado sob prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "inspector-drawer",
+        "value": "1280px"
+      },
+      {
+        "name": "nav-drawer",
+        "value": "900px"
+      },
+      {
+        "name": "single-column",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão primário",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação primária; uma por região.",
+      "html": "<button class=\"ds-btn-p\">Aprovar proposta</button>",
+      "css": ".ds-btn-p { font-family: Montserrat, system-ui, sans-serif; font-weight: 600; font-size: 16px; min-height: 36px; padding: 0 12px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; background: #2d72d2; color: #fff; } .ds-btn-p:hover { background: #215db0; } .ds-btn-p:active { background: #184a90; } .ds-btn-p:focus-visible { outline: 2px solid #215db0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação de apoio.",
+      "html": "<button class=\"ds-btn-s\">Ver evidência</button>",
+      "css": ".ds-btn-s { font-family: Montserrat, system-ui, sans-serif; font-weight: 600; font-size: 16px; min-height: 36px; padding: 0 12px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; background: #fff; color: #1c2127; border-color: #738091; } .ds-btn-s:hover { background: #edeff2; } .ds-btn-s:focus-visible { outline: 2px solid #215db0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botão de perigo",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Ação destrutiva ou irreversível.",
+      "html": "<button class=\"ds-btn-d\">Reverter writeback</button>",
+      "css": ".ds-btn-d { font-family: Montserrat, system-ui, sans-serif; font-weight: 600; font-size: 16px; min-height: 36px; padding: 0 12px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; background: #cd4246; color: #fff; } .ds-btn-d:hover { background: #ac2f33; } .ds-btn-d:focus-visible { outline: 2px solid #215db0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo com rótulo acima.",
+      "html": "<label class=\"ds-field\"><span>Justificativa</span><input value=\"Conforme baseline\"></label>",
+      "css": ".ds-field { display: grid; gap: 4px; font-family: Montserrat, sans-serif; } .ds-field span { font-size: 13px; font-weight: 600; color: #5f6b7c; } .ds-field input { font: 400 16px Montserrat, sans-serif; min-height: 36px; padding: 0 12px; border: 1px solid #738091; border-radius: 4px; color: #1c2127; background: #fff; } .ds-field input:focus-visible { outline: 2px solid #215db0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag de estado",
+      "kind": "chip",
+      "refersTo": "tag-state-failed",
+      "description": "Estado operacional com ícone e rótulo; cor só no resultado.",
+      "html": "<span class=\"ds-tag\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>Falhou</span>",
+      "css": ".ds-tag { display: inline-flex; gap: 6px; align-items: center; font: 600 13px Montserrat, sans-serif; padding: 1px 8px; border: 1px solid currentColor; border-radius: 3px; color: #ac2f33; background: #f8e5e5; }"
+    },
+    {
+      "name": "Risco irreversível",
+      "kind": "chip",
+      "refersTo": "risk-high",
+      "description": "Risco acromático; irreversível com cadeado.",
+      "html": "<span class=\"ds-risk\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\"><rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>Irreversível</span>",
+      "css": ".ds-risk { display: inline-flex; gap: 6px; align-items: center; font: 600 13px Montserrat, sans-serif; padding: 2px 8px; border-radius: 3px; background: #1c2127; color: #fff; }"
+    },
+    {
+      "name": "Item de navegação",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Trilho lateral escuro; item ativo com barra azul.",
+      "html": "<nav class=\"ds-nav\"><a class=\"on\">Fila<span>7</span></a><a>Decisões<span>3</span></a></nav>",
+      "css": ".ds-nav { background: #1c2127; width: 200px; padding: 8px 0; font-family: Montserrat, sans-serif; } .ds-nav a { display: flex; align-items: center; min-height: 36px; padding: 0 16px; color: #abb3bf; font-size: 14px; font-weight: 600; } .ds-nav a span { margin-left: auto; font-variant-numeric: tabular-nums; } .ds-nav a.on { color: #fff; background: #2f343c; box-shadow: inset 3px 0 0 #2d72d2; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Bancada de Decisão",
+    "overview": "**Creative North Star: \"A Bancada de Decisão\"**\n\nA Orison existe para que decisões reais da operação de um cliente sejam propostas, autorizadas, executadas e provadas. O sistema visual é a bancada onde isso acontece: cada objeto chega com estado, risco, autoridade e evidência à vista, e nada na tela finge mais certeza do que os dados têm. A marca é neutra e recua; quem fala é a operação.\n\nDensidade com legibilidade. A interface é feita para sessões longas de operador: neutros frios, texto de 16 px que não encolhe no celular, controles de 36 px, tabela em 14 px no desktop. A cor é um canal semântico escasso: azul quer dizer \"clique aqui\"; verde, laranja e vermelho querem dizer \"isto aconteceu\". Todo o resto é neutro.\n\nA referência é a Palantir, convertida e não copiada: marca acromática e produto com intents (MC-09-002), três sistemas separados (marca, toolkit, aplicação) e três camadas com autoridades distintas (marca, semântica operacional, evidência; MAP-GC-09-A). O Blueprint inspirou cores e proporções, item a item, mas não é o DS da Orison (DC-GC-09-016).",
+    "keyCharacteristics": [
+      "Um único site e um único conjunto de tokens para dois temas: escuro para marca e comunicação, claro para produto.",
+      "Azul só para ação; verde, laranja e vermelho só para resultado; crimson só na identidade.",
+      "Estado, risco e evidência são três eixos visuais que nunca se fundem.",
+      "Montserrat para texto, interface e todos os números (tabulares); Hanken Grotesk só em títulos de marca.",
+      "Superfícies retas; raio de 4 px só em controles; sombra só no que flutua.",
+      "Ícones Lucide adaptados (traço 2, terminações retas), sempre com rótulo em estado e risco."
+    ],
+    "rules": [
+      {
+        "name": "The One Action Color Rule",
+        "body": "Azul é a única cor de ação. Se algo é azul e não é clicável, está errado.",
+        "section": "colors"
+      },
+      {
+        "name": "The Result Colors Rule",
+        "body": "Verde, laranja e vermelho só descrevem algo que aconteceu. Nunca enfeite, nunca série de dados, nunca estado em andamento.",
+        "section": "colors"
+      },
+      {
+        "name": "The Crimson Is Identity Rule",
+        "body": "O crimson marca a Orison e nada mais. Não classifica ação, erro nem risco (F-GC-09-02, DC-GC-09-002).",
+        "section": "colors"
+      },
+      {
+        "name": "The Cold Neutral Rule",
+        "body": "A rampa fria foi escolhida pela usabilidade em sessões longas, não pela estética. Não reintroduza o preto e o off-white quentes da v3.0 em superfícies de produto.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Shrink Rule",
+        "body": "A escala não encolhe no celular. 16 px no desktop é 16 px a 360 px (F02, PG-GC-09-03).",
+        "section": "typography"
+      },
+      {
+        "name": "The Numbers In Montserrat Rule",
+        "body": "Todo número, em qualquer contexto, usa Montserrat com `tnum` e `lnum`. A fonte de títulos nunca escreve números.",
+        "section": "typography"
+      },
+      {
+        "name": "The 12 px Floor Rule",
+        "body": "Nenhum texto abaixo de 12 px. Peso 300 saiu do sistema.",
+        "section": "typography"
+      },
+      {
+        "name": "The Inspector Stays Rule",
+        "body": "Decidir não pode custar a visão da fila. O inspetor convive com ela; só vira gaveta por falta de largura.",
+        "section": "layout"
+      },
+      {
+        "name": "The Float Only Rule",
+        "body": "Sombra marca o que está acima da página, nunca um painel da página.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Straight Surface Rule",
+        "body": "Raio é propriedade de controle, não de superfície. Card arredondado não existe neste sistema.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** usar azul só em ação, link, foco, aba ativa e seleção.",
+      "**Do** acompanhar toda cor de estado e de risco com texto e ícone (PG-GC-09-01).",
+      "**Do** mostrar motivo, owner e remediação em toda falha (DC-GC-09-008).",
+      "**Do** dizer, no mesmo lugar do claim, o que o número comprova e o que não comprova (DC-GC-09-005, DC-GC-09-009).",
+      "**Do** escrever todo número em Montserrat tabular.",
+      "**Do** manter todo texto acima de 4,5:1 e toda borda de controle e foco acima de 3:1 no tema em que aparecem.",
+      "**Do** dar 44 px de alvo de toque abaixo de 900 px.",
+      "**Do** pedir confirmação digitada para ação irreversível."
+    ],
+    "donts": [
+      "**Don't** usar crimson em ação, erro, risco, dado ou texto.",
+      "**Don't** usar verde, laranja ou vermelho para estado em andamento ou série de dados.",
+      "**Don't** inferir um nível de risco que o contrato não deu.",
+      "**Don't** apresentar reconciliação, mock ou capability como outcome.",
+      "**Don't** arredondar superfície nem usar pílula fora de marca circular.",
+      "**Don't** pôr sombra em painel da página.",
+      "**Don't** encolher a escala de texto no celular nem usar peso 300.",
+      "**Don't** usar dois eixos y num mesmo gráfico.",
+      "**Don't** importar o Blueprint inteiro, seus ícones ou componentes como DS da Orison (DC-GC-09-016).",
+      "**Don't** escrever texto abaixo de 12 px."
+    ]
+  }
+}

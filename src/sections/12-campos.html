@@ -1,0 +1,28 @@
+<!-- 12 · Campos e seleção -->
+<section id="sec-campos" class="doc-section" aria-labelledby="sec-campos-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F07</p>
+    <h2 class="doc-title" id="sec-campos-title">Campos e seleção</h2>
+    <p class="doc-lead">
+      Rótulo sempre acima, ajuda abaixo, erro com ícone e instrução. O campo
+      nunca depende do placeholder para dizer o que pede.
+    </p>
+  </header>
+
+  <div class="specimen">
+    <label class="field"><span class="field-label">Justificativa</span><input class="input" value="Conforme baseline de outubro"><span class="field-help">Aparece no histórico da decisão.</span></label>
+    <label class="field"><span class="field-label">Revisão esperada</span><input class="input is-focus" value="15" inputmode="numeric"></label>
+    <label class="field"><span class="field-label">Valor aprovado</span><input class="input is-error" value="R$ 7.98O,50" aria-invalid="true" aria-describedby="err-valor"><span class="field-error" id="err-valor"><i class="ico" data-icon="falha-fechar"></i>Use só números e vírgula.</span></label>
+    <label class="field"><span class="field-label">Fonte</span><input class="input" value="ERP sintético" disabled></label>
+    <label class="field"><span class="field-label">Código</span><input class="input" value="SKU-88" readonly></label>
+    <label class="field"><span class="field-label">Risco</span><span class="select-wrap"><select class="input select"><option>Todos</option><option>Irreversível</option><option>Alto</option><option>Médio</option><option>Baixo</option></select><i class="ico" data-icon="expandir"></i></span></label>
+  </div>
+
+  <div class="specimen">
+    <label class="check"><input type="checkbox" checked> Notificar owner</label>
+    <label class="check"><input type="checkbox"> Exigir dupla aprovação</label>
+    <label class="check"><input type="radio" name="rev" checked> Revisão atual</label>
+    <label class="check"><input type="radio" name="rev"> Revisão anterior</label>
+    <span class="check"><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="sw-label" data-switch></button><span id="sw-label">Writeback automático: <b data-switch-state>ligado</b></span></span>
+  </div>
+</section>

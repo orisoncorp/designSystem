@@ -1,0 +1,53 @@
+/* ═══ MARCA · logo v2 ═══
+   O único arquivo que pode ler --color-crimson (DESIGN.md, The Crimson Is
+   Identity Rule). Símbolo D2 "Lâmina" e wordmark Hanken 600 em contorno,
+   ambos em currentColor a partir do sprite src/assets/symbol.svg. */
+
+.logo-stage {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  padding: var(--space-6);
+  border: var(--border-thin) solid var(--color-border);
+}
+
+.logo-stage.on-dark  { background: #1c2127; color: #f6f7f9; }
+.logo-stage.on-light { background: #ffffff; color: #1c2127; }
+.logo-stage.on-paper { background: #f6f7f9; color: #1c2127; }
+.logo-stage.on-photo { background: linear-gradient(135deg, #2f4a5c 0%, #8c7452 60%, #c9b089 100%); color: #ffffff; }
+
+.logo-symbol { width: 160px; height: 160px; }
+
+/* Lockup horizontal: maiúsculas = 0,38 × símbolo; vão = 0,40 × símbolo. */
+.lockup-h { display: flex; align-items: center; gap: calc(var(--lockup-size, 72px) * 0.4); }
+.lockup-h .logo-mark { width: var(--lockup-size, 72px); height: var(--lockup-size, 72px); }
+.lockup-h .wordmark { height: calc(var(--lockup-size, 72px) * 0.38 * 74 / 70); width: auto; }
+
+/* Lockup vertical: nome = 1,5 × símbolo; vão = 0,28 × símbolo. */
+.lockup-v { display: grid; justify-items: center; gap: calc(var(--lockup-size, 120px) * 0.28); }
+.lockup-v .logo-mark { width: var(--lockup-size, 120px); height: var(--lockup-size, 120px); }
+.lockup-v .wordmark { width: calc(var(--lockup-size, 120px) * 1.5); height: auto; }
+
+.size-row { display: flex; align-items: flex-end; gap: var(--space-6); flex-wrap: wrap; }
+.size-row figure { display: grid; justify-items: center; gap: var(--space-2); }
+.size-row figcaption { font-size: var(--text-label); color: var(--text-muted); }
+
+.clearspace {
+  position: relative;
+  padding: calc(var(--clear, 120px) / 4);
+  outline: 1px dashed var(--color-link);
+  outline-offset: 0;
+}
+
+.dont-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-3); }
+.dont { display: grid; gap: var(--space-2); }
+.dont .logo-stage { min-height: 160px; }
+.dont .logo-symbol { width: 88px; height: 88px; }
+.dont-caption { display: flex; gap: var(--space-2); align-items: flex-start; font-size: var(--text-meta); }
+.dont-caption .ico { color: var(--text-danger); }
+
+/* Variações proibidas, desenhadas de propósito. */
+.dont-stretch .logo-symbol { transform: scaleX(1.4); }
+.dont-rotate .logo-symbol { transform: rotate(18deg); }
+.dont-color .logo-symbol { color: var(--color-crimson); }
+.dont-busy { background: repeating-linear-gradient(45deg, #2f4a5c 0 8px, #c9b089 8px 16px) !important; }

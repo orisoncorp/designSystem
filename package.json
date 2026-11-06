@@ -1,17 +1,21 @@
 {
   "name": "@orison/design-system",
-  "version": "3.0.0",
-  "description": "Orison Design System \u2014 Brand Book + Token Library",
+  "version": "4.0.0",
+  "description": "Orison Design System v4 — marca, tokens, componentes e semântica operacional",
   "author": "Orison <orison.ltda@gmail.com>",
   "license": "MIT",
   "main": "index.html",
   "exports": {
     "./tokens": "./src/tokens/tokens.css",
+    "./motion": "./src/tokens/motion-tokens.css",
+    "./tokens.json": "./tokens/orison.tokens.json",
+    "./base": "./src/styles/base.css",
     "./components": "./src/styles/components.css",
-    "./typography": "./src/styles/typography.css",
-    "./layout": "./src/styles/layout.css",
-    "./animations": "./src/styles/animations.css",
-    "./symbol": "./src/assets/symbol.svg"
+    "./patterns": "./src/styles/patterns.css",
+    "./dataviz": "./src/styles/dataviz.css",
+    "./brand": "./src/styles/brand.css",
+    "./symbol": "./src/assets/symbol.svg",
+    "./icons/*": "./src/assets/icons/*.svg"
   },
   "scripts": {
     "dev": "vite",

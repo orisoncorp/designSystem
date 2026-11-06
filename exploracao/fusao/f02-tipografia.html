@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F02 Tipografia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --ok: #2f8a55;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1360px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 86ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--ok); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .spec { font: 12px/1.6 ui-monospace, monospace; color: var(--ink); background: #141416; padding: 8px 10px; }
+  .sample { background: #f6f7f9; color: #1c2127; padding: 12px 14px; font-family: 'Montserrat', sans-serif; }
+
+  /* ── prévias ── */
+  .pvs { display: grid; grid-template-columns: 1.25fr 1fr 380px; gap: 16px; margin-top: 16px; align-items: start; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .pv { font-family: 'Montserrat', sans-serif; font-size: var(--ui); line-height: 1.4; font-weight: var(--w-text); }
+  .num { font-family: 'Montserrat', sans-serif; font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; }
+  .lbl { font-size: var(--label); font-weight: var(--w-strong); letter-spacing: var(--label-track); text-transform: var(--label-case); color: var(--muted); }
+  .lbl-head { text-transform: var(--head-case); letter-spacing: var(--head-track); }
+
+  /* produto (claro) */
+  .prod { background: #f6f7f9; color: #1c2127; border: 1px solid #d3d8de; --muted: #5f6b7c; }
+  .prod .top { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-bottom: 1px solid #d3d8de; }
+  .prod .top b { font-weight: 600; letter-spacing: .1em; font-size: 14px; }
+  .prod .body { padding: 18px 16px; display: grid; gap: 14px; }
+  .prod h3 { margin: 0; font-size: var(--title); font-weight: var(--w-head); line-height: 1.25; }
+  .prod h4 { margin: 0 0 6px; font-size: var(--section); font-weight: var(--w-head); }
+  .prod p { margin: 0; font-size: var(--body); line-height: 1.5; }
+  .prod .meta { font-size: var(--meta); color: var(--muted); }
+  .btn { font: var(--w-strong) var(--ui) 'Montserrat', sans-serif; padding: 8px 14px; min-height: 36px; border: 1px solid transparent; }
+  .btn-p { background: #2d72d2; color: #fff; }
+  .btn-s { background: #fff; color: #1c2127; border-color: #738091; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .kpi { background: #fff; border: 1px solid #d3d8de; padding: 12px; }
+  .kpi .v { font-size: var(--kpi); font-weight: var(--w-kpi); margin-top: 4px; white-space: nowrap; line-height: 1.15; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d3d8de; font-size: var(--ui); }
+  th { text-align: left; padding: 8px 10px; border-bottom: 1px solid #d3d8de; }
+  td { padding: 9px 10px; border-bottom: 1px solid #d3d8de; }
+  tr:last-child td { border-bottom: 0; }
+  .r { text-align: right; }
+  .tag { display: inline-flex; gap: 6px; align-items: center; font-size: var(--label); font-weight: var(--w-strong); padding: 2px 8px; border: 1px solid currentColor; }
+  .ok { color: #1c6e42; background: #e0eee7; } .warn { color: #935610; background: #f7ecdf; } .bad { color: #ac2f33; background: #f8e5e5; }
+  .field { display: grid; gap: 4px; }
+  .field input { font: var(--w-text) var(--ui) 'Montserrat', sans-serif; padding: 8px 10px; border: 1px solid #738091; background: #fff; color: #1c2127; }
+
+  /* marca (escuro) */
+  .brand { background: #1c2127; color: #f6f7f9; border: 1px solid #404854; padding: 28px 24px; --muted: #abb3bf; display: grid; gap: 14px; }
+  .brand .idx { font-size: 12px; }
+  .brand .dsp { font-family: var(--display); font-weight: var(--display-w); font-size: 40px; letter-spacing: var(--display-track); text-transform: var(--display-case); line-height: 1.12; margin: 0; }
+  .brand .thesis { font-size: var(--body); line-height: 1.55; margin: 0; max-width: 46ch; }
+  .brand .big { font-size: 36px; font-weight: var(--w-kpi); }
+  .brand .rule { height: 2px; width: 48px; background: #8b1a1a; }
+
+  /* operador móvel */
+  .phone { width: 360px; background: #f6f7f9; color: #1c2127; border: 1px solid #d3d8de; outline: 8px solid #2a2a2e; border-radius: 0; --muted: #5f6b7c; }
+  .phone .top { padding: 10px 14px; background: #fff; border-bottom: 1px solid #d3d8de; display: flex; justify-content: space-between; align-items: center; }
+  .phone .top b { font-weight: 600; letter-spacing: .1em; font-size: 14px; }
+  .phone .item { background: #fff; border-bottom: 1px solid #d3d8de; padding: 12px 14px; display: grid; gap: 6px; }
+  .phone .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .phone .obj { font-size: var(--body); font-weight: var(--w-strong); }
+  .phone .val { font-size: var(--body); }
+  .phone .desc { font-size: var(--meta); color: var(--muted); }
+  .phone .cta { padding: 14px; display: grid; gap: 8px; }
+  .phone .cta .btn { min-height: 44px; width: 100%; }
+
+  .leg { margin-top: 16px; }
+  .leg table { background: var(--card); border-color: var(--line); color: var(--ink); font: 13px system-ui; }
+  .leg th, .leg td { border-color: var(--line); }
+  .leg th { color: var(--muted); font-weight: 600; }
+  .warnc { color: #fbb360; } .failc { color: #f28b82; font-weight: 600; } .passc { color: #7ddfa7; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  @media (max-width: 1300px) { .pvs { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F02 · Tipografia de interface</h1>
+  <p class="lead">
+    <strong>Já decidido:</strong> Montserrat para texto, interface e todos os
+    números (algarismos tabulares), legibilidade máxima, piso de 12 px. As cores
+    vêm da F01 (N2 · A1 · S1).
+  </p>
+  <p class="lead">
+    Quatro perguntas: a escala, os pesos, o estilo dos rótulos e a fonte de
+    títulos da marca. As prévias mostram a combinação numa tela de produto
+    (claro), numa abertura de marca (escuro) e no celular de um operador,
+    em 360 px, onde a DR-09 manda testar (PG-GC-09-03).
+  </p>
+</header>
+
+<main>
+  <h2>1 · Escala</h2>
+  <p class="lead">Tamanhos por papel. A escala não encolhe no celular: 16 px no desktop é 16 px a 360 px.</p>
+  <div class="opts" data-q="scale"></div>
+
+  <h2>2 · Pesos</h2>
+  <p class="lead">A v3.0 usava só 300 e 400. Peso leve em tamanho pequeno perde leitura; a DR-09 aponta esse custo de adoção (F-GC-09-07).</p>
+  <div class="opts" data-q="weight"></div>
+
+  <h2>3 · Rótulos</h2>
+  <p class="lead">Rótulos de campo, cabeçalhos de tabela e nomes de KPI. Caixa alta reconhece estrutura, mas lê mais devagar e achata acentos.</p>
+  <div class="opts" data-q="label"></div>
+
+  <h2>4 · Títulos da marca</h2>
+  <p class="lead">Só para expressão de marca (aberturas, capas, decks). Interface e números ficam em Montserrat em qualquer opção.</p>
+  <div class="opts" data-q="display"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="pvs" id="pvs">
+    <div><div class="pv-title">Produto · claro</div><div class="pv prod" id="pv-prod"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="pv brand" id="pv-brand"></div></div>
+    <div><div class="pv-title">Operador · 360 px</div><div class="pv phone" id="pv-phone"></div></div>
+  </div>
+
+  <h2>Legibilidade da combinação</h2>
+  <div class="leg"><table id="leg"></table></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: T3 mas com tabela em 14 px)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const Q = {
+  scale: [
+    { id: 'T1', name: 'Escala v3.0', src: 'Orison v3.0',
+      why: 'A rampa de texto atual. Prosa em 16, interface em 14, rótulo em 12. Equilibrada para leitura e documentação.',
+      v: { title: 20, section: 18, body: 16, ui: 14, label: 12, meta: 13, kpi: 26 } },
+    { id: 'T2', name: 'Compacta', src: 'piloto / Blueprint',
+      why: 'A escala do piloto: tudo em 14, título em 20, seção em 15. Mais dados por tela; no celular o corpo de 14 já pede esforço.',
+      v: { title: 20, section: 15, body: 14, ui: 14, label: 12, meta: 12, kpi: 22 } },
+    { id: 'T3', name: 'Legível', src: 'DR-09 · PG-GC-09-03',
+      why: 'Corpo e interface em 16, rótulo em 13, metadado em 14. Menos densidade, leitura sem zoom no celular. O teste de adoção da DR-09 aponta para cá.',
+      v: { title: 24, section: 18, body: 16, ui: 16, label: 13, meta: 14, kpi: 28 } },
+  ],
+  weight: [
+    { id: 'W1', name: '400 + 500', src: 'proposta',
+      why: 'Texto em 400; rótulos, botões, títulos e números em 500. Dois pesos, contraste discreto, aparência calma.',
+      v: { text: 400, strong: 500, head: 500, kpi: 500 } },
+    { id: 'W2', name: '400 + 600', src: 'piloto',
+      why: 'Texto em 400; rótulos e títulos em 600, como no piloto. Hierarquia mais nítida, leitura rápida da estrutura; números em 500.',
+      v: { text: 400, strong: 600, head: 600, kpi: 500 } },
+    { id: 'W3', name: '300 + 400', src: 'Orison v3.0',
+      why: 'A regra da v3.0: leve e regular. Elegante em tamanho grande; em 12–14 px e em tela clara perde contraste de traço.',
+      v: { text: 300, strong: 400, head: 400, kpi: 300 } },
+  ],
+  label: [
+    { id: 'L1', name: 'Caixa alta em todos', src: 'Orison v3.0',
+      why: 'Todo rótulo em caixa alta com tracking 0,08 em, como na v3.0. Estrutura muito visível; mais lento de ler.',
+      v: { labelCase: 'uppercase', labelTrack: '.08em', headCase: 'uppercase', headTrack: '.08em' } },
+    { id: 'L2', name: 'Frase normal em todos', src: 'Blueprint / piloto',
+      why: 'Rótulos como frase (“Valor em fila”), sem tracking, em peso forte. Leitura mais rápida e acentos intactos.',
+      v: { labelCase: 'none', labelTrack: '0', headCase: 'none', headTrack: '0' } },
+    { id: 'L3', name: 'Caixa alta só em cabeçalhos', src: 'proposta',
+      why: 'Caixa alta apenas em cabeçalho de tabela e nome de KPI; rótulo de campo e de seção em frase normal. Estrutura onde ela ajuda a escanear.',
+      v: { labelCase: 'none', labelTrack: '0', headCase: 'uppercase', headTrack: '.06em' } },
+  ],
+  display: [
+    { id: 'D1', name: 'Cormorant Garamond', src: 'Orison v3.0',
+      why: 'A serifa editorial da v3.0, só em títulos de marca. Contraste máximo com a interface; nunca em números.',
+      v: { family: "'Cormorant Garamond', serif", w: 300, track: '0.02em', case: 'none' } },
+    { id: 'D2', name: 'Hanken Grotesk', src: 'logo v2',
+      why: 'A família do wordmark aprovado. Marca coerente do logo ao título; mais contemporânea e institucional.',
+      v: { family: "'Hanken Grotesk', sans-serif", w: 500, track: '-0.01em', case: 'none' } },
+    { id: 'D3', name: 'Montserrat', src: 'interface',
+      why: 'Uma família só para tudo. Máxima consistência e menos manutenção; a marca perde um registro próprio de expressão.',
+      v: { family: "'Montserrat', sans-serif", w: 500, track: '-0.01em', case: 'none' } },
+  ],
+};
+
+const KEY = 'orison-fusao-f02';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"scale":"T3","weight":"W2","label":"L3","display":"D2"},"notes":""}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+const specText = (q, o) => q === 'scale' ? Object.entries(o.v).map(([k, x]) => `${k} ${x}px`).join(' · ')
+  : q === 'weight' ? `texto ${o.v.text} · forte ${o.v.strong} · título ${o.v.head} · número ${o.v.kpi}`
+  : q === 'label' ? `rótulo: ${o.v.labelCase === 'none' ? 'frase' : 'caixa alta'} · cabeçalho: ${o.v.headCase === 'none' ? 'frase' : 'caixa alta'}`
+  : `${o.v.family.split(',')[0].replace(/'/g, '')} ${o.v.w}`;
+
+const sampleFor = (q, o) => {
+  if (q === 'display') return `<div class="sample" style="background:#1c2127;color:#f6f7f9;font-family:${o.v.family};font-weight:${o.v.w};font-size:30px;letter-spacing:${o.v.track};line-height:1.15">Transformação operacional permanente</div>`;
+  if (q === 'weight') return `<div class="sample"><span style="font-weight:${o.v.head};font-size:18px">Fila de propostas</span><br><span style="font-weight:${o.v.text};font-size:14px">12 objetos aguardando decisão</span> · <span style="font-weight:${o.v.strong};font-size:13px">Aprovar</span></div>`;
+  if (q === 'label') return `<div class="sample" style="font-size:13px"><span style="font-weight:600;text-transform:${o.v.headCase};letter-spacing:${o.v.headTrack};color:#5f6b7c">Valor em fila</span>&nbsp;&nbsp;·&nbsp;&nbsp;<span style="font-weight:600;text-transform:${o.v.labelCase};letter-spacing:${o.v.labelTrack};color:#5f6b7c">Justificativa da aprovação</span></div>`;
+  return `<div class="sample"><span style="font-size:${o.v.title}px;font-weight:600">Título ${o.v.title}</span><br><span style="font-size:${o.v.body}px">Corpo de texto em ${o.v.body} px para leitura</span><br><span style="font-size:${o.v.label}px;color:#5f6b7c;font-weight:600">Rótulo ${o.v.label} px</span></div>`;
+};
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="spec">${specText(q, o)}</div>
+      ${sampleFor(q, o)}
+    </button>`).join('');
+});
+
+const OK = '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+const WARN = '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 13H1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+const BAD = '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2"/></svg>';
+
+function vars() {
+  const s = find('scale', state.pick.scale).v, w = find('weight', state.pick.weight).v;
+  const l = find('label', state.pick.label).v, d = find('display', state.pick.display).v;
+  return {
+    '--title': s.title + 'px', '--section': s.section + 'px', '--body': s.body + 'px', '--ui': s.ui + 'px',
+    '--label': s.label + 'px', '--meta': s.meta + 'px', '--kpi': s.kpi + 'px',
+    '--w-text': w.text, '--w-strong': w.strong, '--w-head': w.head, '--w-kpi': w.kpi,
+    '--label-case': l.labelCase, '--label-track': l.labelTrack, '--head-case': l.headCase, '--head-track': l.headTrack,
+    '--display': d.family, '--display-w': d.w, '--display-track': d.track, '--display-case': d.case,
+  };
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  const v = vars();
+  const style = Object.entries(v).map(([k, x]) => `${k}:${x}`).join(';');
+  document.getElementById('pvs').setAttribute('style', style);
+
+  document.getElementById('pv-prod').innerHTML = `
+    <div class="top"><b>ORISON</b><span class="meta">Operação</span></div>
+    <div class="body">
+      <div><h3>Fila de propostas</h3><p class="meta">12 objetos aguardando decisão · atualizado 14:32</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-p">Aprovar proposta</button><button class="btn btn-s">Ver evidência</button></div>
+      <div class="kpis">
+        <div class="kpi"><div class="lbl lbl-head">Valor em fila</div><div class="v num">R$ 1.284.930,00</div></div>
+        <div class="kpi"><div class="lbl lbl-head">Propostas</div><div class="v num">47</div></div>
+        <div class="kpi"><div class="lbl lbl-head">Reconciliadas</div><div class="v num">98,2%</div></div>
+      </div>
+      <table>
+        <thead><tr><th class="lbl lbl-head">Objeto</th><th class="lbl lbl-head r">Valor</th><th class="lbl lbl-head">Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Pedido PC-20481</td><td class="r num">R$ 48.210,00</td><td><span class="tag ok">${OK}Reconciliado</span></td></tr>
+          <tr><td>Contrato CT-1193</td><td class="r num">R$ 7.980,50</td><td><span class="tag warn">${WARN}Divergência</span></td></tr>
+          <tr><td>Estoque SKU-88</td><td class="r num">R$ 112.400,00</td><td><span class="tag bad">${BAD}Writeback falhou</span></td></tr>
+        </tbody>
+      </table>
+      <div><h4>Contexto da decisão</h4><p>O destino recusou a revisão 14 do SKU-88. A aprovação reabre o writeback com a revisão atual; a reconciliação confirma a mutação antes de qualquer resultado ser registrado.</p></div>
+      <label class="field"><span class="lbl">Justificativa da aprovação</span><input value="Conforme baseline de outubro" aria-label="Justificativa"></label>
+    </div>`;
+
+  document.getElementById('pv-brand').innerHTML = `
+    <div class="lbl lbl-head idx">Capítulo 02 · Método</div>
+    <p class="dsp">Transformação operacional permanente</p>
+    <div class="rule"></div>
+    <p class="thesis">Cada decisão da operação passa por proposta, autorização, execução e reconciliação. O resultado só é declarado quando medido contra a baseline.</p>
+    <div><div class="lbl lbl-head">Economia medida no primeiro loop</div><div class="big num">R$ 94.218,40</div></div>`;
+
+  document.getElementById('pv-phone').innerHTML = `
+    <div class="top"><b>ORISON</b><span class="lbl">3 pendentes</span></div>
+    <div class="item"><div class="row"><span class="obj">Estoque SKU-88</span><span class="val num">R$ 112.400,00</span></div>
+      <span class="desc">Writeback falhou · owner Operações</span><span class="tag bad" style="justify-self:start">${BAD}Falhou · risco alto</span></div>
+    <div class="item"><div class="row"><span class="obj">Contrato CT-1193</span><span class="val num">R$ 7.980,50</span></div>
+      <span class="desc">Divergência de 3,2% na reconciliação</span><span class="tag warn" style="justify-self:start">${WARN}Divergência</span></div>
+    <div class="item"><div class="row"><span class="obj">Pedido PC-20481</span><span class="val num">R$ 48.210,00</span></div>
+      <span class="desc">Reconciliado às 14:02</span><span class="tag ok" style="justify-self:start">${OK}Reconciliado</span></div>
+    <div class="cta"><button class="btn btn-p">Revisar SKU-88</button><button class="btn btn-s">Ver todos</button></div>`;
+
+  const s = find('scale', state.pick.scale).v, w = find('weight', state.pick.weight).v;
+  const rows = [
+    ['Corpo / prosa', s.body, w.text], ['Interface (tabela, botão, campo)', s.ui, w.text], ['Metadado', s.meta, w.text],
+    ['Rótulo', s.label, w.strong], ['Título de página', s.title, w.head], ['Número de KPI', s.kpi, w.kpi],
+  ];
+  const verdict = (px, wt, role) => {
+    if (px < 12) return ['failc', 'abaixo do piso de 12 px'];
+    if (wt <= 300 && px < 18) return ['failc', 'peso 300 abaixo de 18 px perde traço'];
+    if (role.startsWith('Corpo') && px < 16) return ['warnc', 'corpo abaixo de 16 px pede zoom no celular'];
+    if (role.startsWith('Interface') && px < 14) return ['warnc', 'interface abaixo de 14 px'];
+    return ['passc', 'ok'];
+  };
+  document.getElementById('leg').innerHTML = '<thead><tr><th>Papel</th><th>Tamanho</th><th>Peso</th><th>Leitura</th></tr></thead><tbody>' +
+    rows.map(([n, px, wt]) => { const [c, t] = verdict(px, wt, n); return `<tr><td>${n}</td><td>${px} px</td><td>${wt}</td><td class="${c}">${t}</td></tr>`; }).join('') + '</tbody>';
+
+  const p = state.pick;
+  summaryEl.textContent = `F02 · Tipografia\nEscala: ${p.scale} · Pesos: ${p.weight} · Rótulos: ${p.label} · Títulos: ${p.display}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

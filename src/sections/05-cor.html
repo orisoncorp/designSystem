@@ -1,0 +1,78 @@
+<!-- 05 · Cor -->
+<section id="sec-cor" class="doc-section" aria-labelledby="sec-cor-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Fundamentos · F01</p>
+    <h2 class="doc-title" id="sec-cor-title">Cor</h2>
+    <p class="doc-lead">
+      Neutros frios sustentam 90% da tela. Uma cor de ação, três de resultado,
+      quatro de dados e uma de marca, cada uma com um único papel. Clique numa
+      amostra para copiar o token; Alt ou Shift copia o hexadecimal.
+    </p>
+  </header>
+
+  <h3 class="block-title">Neutra fria</h3>
+  <p class="meta">Escolhida pela usabilidade em sessões longas de operação.</p>
+  <div class="swatches">
+    <button type="button" class="swatch" data-token="--color-canvas" data-name="Canvas"></button>
+    <button type="button" class="swatch" data-token="--color-surface" data-name="Superfície"></button>
+    <button type="button" class="swatch" data-token="--color-raised" data-name="Elevada"></button>
+    <button type="button" class="swatch" data-token="--color-border" data-name="Borda"></button>
+    <button type="button" class="swatch" data-token="--color-control" data-name="Borda de controle"></button>
+    <button type="button" class="swatch" data-token="--text-muted" data-name="Tinta secundária"></button>
+    <button type="button" class="swatch" data-token="--text-primary" data-name="Tinta"></button>
+    <button type="button" class="swatch" data-token="--color-nav" data-name="Trilho de navegação"></button>
+  </div>
+
+  <h3 class="block-title">Ação</h3>
+  <div class="swatches">
+    <button type="button" class="swatch" data-token="--color-action" data-name="Azul de ação"></button>
+    <button type="button" class="swatch" data-token="--color-action-hover" data-name="Hover"></button>
+    <button type="button" class="swatch" data-token="--color-action-active" data-name="Pressionado"></button>
+    <button type="button" class="swatch" data-token="--color-focus" data-name="Foco"></button>
+    <button type="button" class="swatch" data-token="--color-selected" data-name="Seleção"></button>
+  </div>
+  <div class="rule"><span class="rule-name">Uma só cor de ação.</span><span class="meta">Azul é botão primário, link, foco, aba ativa e seleção. Hover e pressionado escurecem nos dois temas.</span></div>
+
+  <h3 class="block-title">Resultado</h3>
+  <div class="swatches">
+    <button type="button" class="swatch" data-token="--color-success" data-name="Sucesso"></button>
+    <button type="button" class="swatch" data-token="--text-success" data-name="Texto de sucesso"></button>
+    <button type="button" class="swatch" data-token="--color-warning" data-name="Atenção"></button>
+    <button type="button" class="swatch" data-token="--text-warning" data-name="Texto de atenção"></button>
+    <button type="button" class="swatch" data-token="--color-danger" data-name="Falha"></button>
+    <button type="button" class="swatch" data-token="--text-danger" data-name="Texto de falha"></button>
+  </div>
+  <div class="rule"><span class="rule-name">Cor é resultado.</span><span class="meta">Verde, laranja e vermelho descrevem algo que aconteceu. Nunca enfeite, série de dados ou estado em andamento.</span></div>
+
+  <h3 class="block-title">Marca e evidência</h3>
+  <div class="swatches">
+    <button type="button" class="swatch" data-token="--color-crimson" data-name="Crimson Orison"></button>
+    <button type="button" class="swatch" data-token="--evidence-env-bg" data-name="Faixa de ambiente"></button>
+    <button type="button" class="swatch" data-token="--evidence-env-text" data-name="Texto da faixa"></button>
+  </div>
+  <div class="rule"><span class="rule-name">Crimson é identidade.</span><span class="meta">Só em peças de marca. Não classifica ação, erro nem risco (F-GC-09-02).</span></div>
+
+  <h3 class="block-title">Contraste medido neste tema</h3>
+  <p class="meta">Calculado no navegador a partir dos tokens. Texto ≥ 4,5:1; borda de controle e foco ≥ 3:1.</p>
+  <div class="scroll-x">
+    <table class="token-table">
+      <thead><tr><th>Par</th><th>Texto</th><th>Fundo</th><th>Razão</th></tr></thead>
+      <tbody>
+        <tr><td>Tinta sobre canvas</td><td><code>--text-primary</code></td><td><code>--color-canvas</code></td><td data-contrast="--text-primary|--color-canvas"></td></tr>
+        <tr><td>Tinta sobre superfície</td><td><code>--text-primary</code></td><td><code>--color-surface</code></td><td data-contrast="--text-primary|--color-surface"></td></tr>
+        <tr><td>Secundária sobre canvas</td><td><code>--text-muted</code></td><td><code>--color-canvas</code></td><td data-contrast="--text-muted|--color-canvas"></td></tr>
+        <tr><td>Secundária sobre superfície</td><td><code>--text-muted</code></td><td><code>--color-surface</code></td><td data-contrast="--text-muted|--color-surface"></td></tr>
+        <tr><td>Botão primário</td><td><code>--color-action-fg</code></td><td><code>--color-action</code></td><td data-contrast="--color-action-fg|--color-action"></td></tr>
+        <tr><td>Botão de perigo</td><td><code>--color-action-fg</code></td><td><code>--color-danger</code></td><td data-contrast="--color-action-fg|--color-danger"></td></tr>
+        <tr><td>Link</td><td><code>--color-link</code></td><td><code>--color-surface</code></td><td data-contrast="--color-link|--color-surface"></td></tr>
+        <tr><td>Tag de sucesso</td><td><code>--text-success</code></td><td><code>--bg-success</code></td><td data-contrast="--text-success|--bg-success"></td></tr>
+        <tr><td>Tag de atenção</td><td><code>--text-warning</code></td><td><code>--bg-warning</code></td><td data-contrast="--text-warning|--bg-warning"></td></tr>
+        <tr><td>Tag de falha</td><td><code>--text-danger</code></td><td><code>--bg-danger</code></td><td data-contrast="--text-danger|--bg-danger"></td></tr>
+        <tr><td>Faixa de ambiente</td><td><code>--evidence-env-text</code></td><td><code>--evidence-env-bg</code></td><td data-contrast="--evidence-env-text|--evidence-env-bg"></td></tr>
+        <tr><td>Navegação</td><td><code>--color-nav-text</code></td><td><code>--color-nav</code></td><td data-contrast="--color-nav-text|--color-nav"></td></tr>
+        <tr><td>Borda de controle (3:1)</td><td><code>--color-control</code></td><td><code>--color-surface</code></td><td data-contrast="--color-control|--color-surface|3"></td></tr>
+        <tr><td>Foco (3:1)</td><td><code>--color-focus</code></td><td><code>--color-canvas</code></td><td data-contrast="--color-focus|--color-canvas|3"></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
