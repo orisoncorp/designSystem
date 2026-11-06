@@ -111,8 +111,18 @@ check(
   const src = stripComments(read('src/tokens/tokens.css'));
   const block = (start) => { const i = src.indexOf(start); return src.slice(i, src.indexOf('\n}', i)); };
   const parse = (b) => Object.fromEntries([...b.matchAll(/(--[\w-]+):\s*(#[0-9a-fA-F]{6})\s*;/g)].map((m) => [m[1], m[2].toLowerCase()]));
-  const light = parse(block(':root {'));
-  const dark = { ...light, ...parse(block("[data-theme='dark'] {")) };
+  // Tokens que apontam para outro token: var() resolve onde é declarado,
+  // então o bloco escuro precisa redeclará-los (senão um trecho escuro dentro
+  // de página clara herda o valor claro).
+  const refs = (b) => Object.fromEntries([...b.matchAll(/(--[\w-]+):\s*var\((--[\w-]+)\)\s*;/g)].map((m) => [m[1], m[2]]));
+  const lightBlock = block(':root {');
+  const darkBlock = block("[data-theme='dark'] {");
+  const lightRefs = refs(lightBlock);
+  const darkRefs = refs(darkBlock);
+  const light = parse(lightBlock);
+  const dark = { ...light, ...parse(darkBlock) };
+  for (const [name, target] of Object.entries(lightRefs)) if (light[target]) light[name] = light[target];
+  for (const [name, target] of Object.entries(darkRefs)) if (dark[target]) dark[name] = dark[target];
   const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
   const PAIRS = [
@@ -126,7 +136,8 @@ check(
     ['--evidence-env-text', '--evidence-env-bg', 4.5], ['--color-nav-text', '--color-nav', 4.5], ['--color-nav-fg', '--color-nav-active', 4.5],
     ['--color-control', '--color-surface', 3], ['--color-focus', '--color-canvas', 3], ['--color-focus', '--color-surface', 3],
   ];
-  const hits = [];
+  PAIRS.push(['--risk-fill-fg', '--risk-fill', 4.5]);
+  const hits = Object.keys(lightRefs).filter((n) => !darkRefs[n] && !(n in parse(darkBlock))).map((n) => `escuro: ${n} usa var() e não é redeclarado no tema escuro`);
   for (const [theme, t] of [['claro', light], ['escuro', dark]]) {
     for (const [fg, bg, min] of PAIRS) {
       if (!t[fg] || !t[bg]) { hits.push(`${theme}: ${fg} ou ${bg} sem valor hexadecimal`); continue; }

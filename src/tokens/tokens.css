@@ -188,9 +188,12 @@
   --evidence-env-bg:   #5c4405;
   --evidence-env-text: #fbd065;
 
+  /* Redeclarado: var() resolve onde é declarado; sem isto, um bloco escuro
+     dentro de página clara herdaria o preenchimento claro. */
+  --risk-fill:    var(--text-primary);
   --risk-fill-fg: #1c2127;
 
-  --data-4:       #c98500;
+  --data-4:      #c98500;
   --data-context: #5f6b7c;
   --data-grid:    #2f343c;
   --data-axis:    #8f99a8;
