@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   ORISON DESIGN SYSTEM · v4.0.0 — ponto de entrada único
+   ORISON DESIGN SYSTEM · v4 — ponto de entrada único
 
    Monta o site a partir das seções em src/sections/, injeta o sprite do
    logo, constrói o índice e liga os poucos comportamentos da página:
@@ -19,6 +19,7 @@ import './styles/sidebar.css';
 import './styles/brand.css';
 
 import symbolSprite from './assets/symbol.svg?raw';
+import { version } from '../package.json';
 
 /* Seções e ícones carregados por convenção de pasta: adicionar um arquivo
    basta, desde que ele tenha uma entrada em NAV_ITEMS. */
@@ -89,7 +90,7 @@ function buildSidebar() {
           <svg role="img" aria-label="Símbolo Orison"><use href="#symbol-small"/></svg>
           <svg class="wordmark" viewBox="0 -2 398.51 74" role="img" aria-label="Orison"><use href="#wordmark"/></svg>
         </a>
-        <span class="sidebar-version">Design System · v4.0.0 · ${NAV_ITEMS.length} seções</span>
+        <span class="sidebar-version">Design System · v${version} · ${NAV_ITEMS.length} seções</span>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Tema escuro</button>
       </div>
       <div class="sidebar-search">
@@ -454,6 +455,153 @@ document.querySelectorAll('[data-timeline]').forEach((tl) => {
   tl.querySelector('[data-timeline-clear]').addEventListener('click', () => { anchor = null; apply(null); });
 });
 
+/* ── Componentes e estados da F13 ── */
+
+const brl = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const nowHM = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+/* Seções recolhíveis (S1): cada uma abre e fecha sozinha. */
+document.querySelectorAll('[data-section-toggle]').forEach((b) => b.addEventListener('click', () => {
+  const open = b.getAttribute('aria-expanded') !== 'true';
+  b.setAttribute('aria-expanded', String(open));
+  document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
+}));
+
+/* Facetas no chip (F2): marcar valores atualiza rótulo e estatística. */
+document.querySelectorAll('[data-facet]').forEach((f) => {
+  const toggle = f.querySelector('[data-facet-toggle]');
+  const pop = f.querySelector('.facet-pop');
+  const values = [...f.querySelectorAll('.facet-value')];
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    pop.hidden = !open;
+  });
+  values.forEach((v) => v.addEventListener('click', () => {
+    v.setAttribute('aria-pressed', String(v.getAttribute('aria-pressed') !== 'true'));
+    const on = values.filter((x) => x.getAttribute('aria-pressed') === 'true');
+    const n = on.reduce((t, x) => t + Number(x.dataset.n), 0);
+    const sum = on.reduce((t, x) => t + Number(x.dataset.sum), 0);
+    f.querySelector('[data-facet-label]').textContent = on.length ? on.map((x) => x.children[1].textContent.toLowerCase()).join(', ') : 'todos';
+    toggle.setAttribute('aria-pressed', String(on.length > 0));
+    f.querySelector('[data-facet-stats]').textContent = n ? `n ${n} · soma R$ ${(sum / 1000).toFixed(1).replace('.', ',')} mil · média R$ ${(sum / n / 1000).toFixed(1).replace('.', ',')} mil` : 'Nenhum valor marcado';
+  }));
+});
+
+/* Período (P3): “Personalizado” abre De e Até, com máscara dd/mm/aaaa. */
+document.querySelectorAll('[data-period]').forEach((g) => {
+  const custom = g.closest('.specimen').querySelector('[data-period-custom]');
+  g.addEventListener('segment-change', (e) => { custom.hidden = e.detail.dataset.value !== 'custom'; });
+});
+document.querySelectorAll('[data-date-mask]').forEach((i) => i.addEventListener('input', () => {
+  const d = i.value.replace(/\D/g, '').slice(0, 8);
+  i.value = [d.slice(0, 2), d.slice(2, 4), d.slice(4)].filter(Boolean).join('/');
+}));
+
+/* Seletor de pessoa: escolher marca a opção. */
+document.querySelectorAll('.person-option').forEach((o) => o.addEventListener('click', () => {
+  o.parentElement.querySelectorAll('.person-option').forEach((x) => x.setAttribute('aria-selected', String(x === o)));
+}));
+
+/* Formulário de action (A1): o impacto acompanha o valor digitado. */
+document.querySelectorAll('[data-action-form]').forEach((form) => {
+  const input = form.querySelector('[data-action-price]');
+  const current = Number(input.dataset.current);
+  input.addEventListener('input', () => {
+    const v = Number(input.value.replace(/\./g, '').replace(',', '.'));
+    if (!Number.isFinite(v) || v <= 0) return;
+    const pct = ((v - current) / current) * 100;
+    form.querySelector('[data-action-new]').textContent = `R$ ${brl(v)}`;
+    form.querySelector('[data-action-delta]').textContent = `${pct >= 0 ? '+' : '−'}${Math.abs(pct).toFixed(1).replace('.', ',')}%`;
+  });
+  form.addEventListener('submit', () => toast('Proposta criada. Aguardando aprovação.'));
+});
+
+/* Dado pessoal (M2): revelar mostra o valor e registra no histórico. */
+document.querySelectorAll('[data-reveal]').forEach((b) => b.addEventListener('click', () => {
+  const field = b.closest('[data-reveal-field]');
+  field.querySelector('[data-masked]').hidden = true;
+  field.querySelector('[data-real]').hidden = false;
+  b.remove();
+  const log = field.closest('.block').querySelector('[data-reveal-log]');
+  if (log) log.textContent = `Revelado por você às ${nowHM()}; registrado no histórico do objeto.`;
+}));
+
+/* Comentários (K1): publicar acrescenta à conversa; @nome vira menção. */
+document.querySelectorAll('[data-comment-form]').forEach((form) => form.addEventListener('submit', () => {
+  const input = form.querySelector('[data-comment-input]');
+  const text = input.value.trim();
+  if (!text) return;
+  const list = form.parentElement.querySelector('[data-comments]');
+  const el = document.createElement('div');
+  el.className = 'comment';
+  el.innerHTML = '<span class="avatar">VC</span><div><b>Você</b> <span class="meta num"></span><p></p></div>';
+  el.querySelector('.meta').textContent = nowHM();
+  const p = el.querySelector('p');
+  text.split(/(@\w+)/).forEach((part) => {
+    if (part.startsWith('@')) { const m = document.createElement('span'); m.className = 'mention'; m.textContent = part; p.append(m); } else p.append(part);
+  });
+  list.append(el);
+  input.value = '';
+  const count = document.querySelector('[data-comment-count]');
+  if (count) count.textContent = list.children.length;
+}));
+
+/* Anexos (U2): o arquivo escolhido entra na lista. */
+document.querySelectorAll('[data-attach-input]').forEach((input) => input.addEventListener('change', () => {
+  const box = input.closest('[data-attach]');
+  [...input.files].forEach((f) => {
+    const row = document.createElement('div');
+    row.className = 'file-row';
+    row.innerHTML = '<i class="ico" data-icon="evidencia"></i><b></b><span class="meta num"></span>';
+    row.querySelector('b').textContent = f.name;
+    row.querySelector('.meta').textContent = `${Math.max(1, Math.round(f.size / 1024))} KB`;
+    renderIcons(row);
+    box.insertBefore(row, input.closest('label'));
+  });
+  input.value = '';
+}));
+
+/* Frescor (D1) e recarga (C3): o número fica, a barra corre, o carimbo atualiza. */
+document.querySelectorAll('[data-reload]').forEach((b) => b.addEventListener('click', () => {
+  const stamp = b.closest('[data-stamp]');
+  const block = stamp.closest('.kpi');
+  block.classList.add('is-loading');
+  block.setAttribute('aria-busy', 'true');
+  setTimeout(() => {
+    block.classList.remove('is-loading');
+    block.removeAttribute('aria-busy');
+    stamp.classList.remove('is-stale');
+    stamp.innerHTML = `<i class="ico" data-icon="aguardando"></i>Lido às <span class="num">${nowHM()}</span>`;
+    renderIcons(stamp);
+  }, 1200);
+}));
+
+/* Gaveta (G1): véu, Esc, foco preso e devolvido. */
+document.querySelectorAll('[data-drawer-open]').forEach((opener) => opener.addEventListener('click', () => {
+  const id = opener.dataset.drawerOpen;
+  const drawer = document.getElementById(id);
+  const scrim = document.querySelector(`[data-drawer-scrim="${id}"]`);
+  const focusables = () => [...drawer.querySelectorAll('button, [href], input, select, textarea')].filter((el) => !el.disabled && el.offsetParent);
+  const close = () => {
+    drawer.hidden = true; scrim.hidden = true;
+    document.removeEventListener('keydown', onKey);
+    opener.focus();
+  };
+  const onKey = (e) => {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    const f = focusables();
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  };
+  drawer.hidden = false; scrim.hidden = false;
+  document.addEventListener('keydown', onKey);
+  scrim.onclick = close;
+  drawer.querySelector('[data-drawer-close]').onclick = close;
+  focusables()[0]?.focus();
+}));
+
 /* ── Switch com rótulo de estado ── */
 document.querySelectorAll('[data-switch]').forEach((sw) => sw.addEventListener('click', () => {
   const on = sw.getAttribute('aria-checked') !== 'true';
@@ -483,8 +631,12 @@ function placeTip(fig, tip, e) {
   tip.style.top = (e.clientY - box.top + 14) + 'px';
 }
 
+/* A largura do SVG acompanha o bloco: o texto fica em 13 px em qualquer
+   tela, em vez de crescer ou encolher com o viewBox. */
+const chartWidth = (fig, min) => Math.max(min, Math.round(fig.querySelector('.chart-body').clientWidth || min));
+
 function lineChart(fig) {
-  const W = 640, H = 280, m = { l: 40, r: 150, t: 12, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const W = chartWidth(fig, 320), H = 280, m = { l: 40, r: 150, t: 12, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
   const x = (i) => m.l + (i / (MONTHS.length - 1)) * iw, y = (v) => m.t + ih - (v / 8) * ih;
   const col = SERIES.map((_, i) => `var(--data-${i + 1})`);
   let g = '';
@@ -515,7 +667,7 @@ function lineChart(fig) {
 }
 
 function barChart(fig) {
-  const W = 460, H = 280, m = { l: 40, r: 8, t: 22, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const W = chartWidth(fig, 280), H = 280, m = { l: 40, r: 8, t: 22, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
   const y = (v) => m.t + ih - (v / 100) * ih, step = iw / BARS.length, bw = step - 16, r = 4;
   let g = '';
   for (let t = 0; t <= 100; t += 25) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--data-grid)"/><text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`;
@@ -550,6 +702,11 @@ function drawCharts() {
     else barChart(fig);
   });
 }
+let chartWidthSeen = 0;
+addEventListener('resize', () => requestAnimationFrame(() => {
+  const w = document.querySelector('[data-chart] .chart-body')?.clientWidth || 0;
+  if (Math.abs(w - chartWidthSeen) > 8) { chartWidthSeen = w; drawCharts(); }
+}));
 
 document.querySelectorAll('[data-chart-table]').forEach((btn) => btn.addEventListener('click', () => {
   const kind = btn.closest('[data-chart]').dataset.chart;

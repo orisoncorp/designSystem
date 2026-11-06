@@ -1,7 +1,7 @@
 <!-- 14 · Tags, alertas e avisos -->
 <section id="sec-feedback" class="doc-section" aria-labelledby="sec-feedback-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F06, F07 e F10</p>
+    <p class="doc-eyebrow">Componentes · F06, F07, F10 e F13</p>
     <h2 class="doc-title" id="sec-feedback-title">Tags, alertas, avisos e confirmação</h2>
     <p class="doc-lead">
       Tag diz o estado do objeto. Alerta em bloco fica na página até ser
@@ -68,5 +68,20 @@
       </div>
     </div>
   </div>
+  <div class="scrim-stage">
+    <form class="dialog" role="group" aria-labelledby="dlg-form" data-action-form onsubmit="return false">
+      <span class="dialog-title" id="dlg-form">Ajustar preço do SKU-88</span>
+      <label class="field" style="min-width:0"><span class="field-label">Novo preço (R$)</span><input class="input" inputmode="decimal" value="7.980,50" data-action-price data-current="7725"></label>
+      <label class="field" style="min-width:0"><span class="field-label">Justificativa</span><input class="input" value="Repasse do custo do Fornecedor Alfa"><span class="field-help">Aparece no histórico da decisão.</span></label>
+      <dl class="props impact" aria-live="polite">
+        <dt>Muda</dt><dd><span class="num nowrap">R$ 7.725,00</span> → <b class="num nowrap" data-action-new>R$ 7.980,50</b> <span class="delta" data-action-delta>+3,3%</span></dd>
+        <dt>Risco</dt><dd><span class="risk risk-medium">Médio</span></dd>
+        <dt>Reversível</dt><dd>Sim, por nova proposta</dd>
+      </dl>
+      <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="submit" class="btn btn-primary">Propor</button></div>
+    </form>
+  </div>
+  <p class="meta">Formulário de action (F13 · A1): os campos abrem no próprio diálogo de confirmação, e o bloco de impacto se atualiza enquanto o operador digita.</p>
+
   <p class="meta">Confirmação com impacto (F10 · G2): o que muda, risco, reversibilidade e owner antes do verbo. Irreversível exige digitar o código; o botão só habilita quando o texto confere.</p>
 </section>

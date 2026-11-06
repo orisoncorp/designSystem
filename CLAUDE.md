@@ -5,8 +5,8 @@ code in this repository.
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.3.0, approved by Nobel on 06-11-2026
-through fusion rounds F01–F12, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.4.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F13, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
 wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
 command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not
@@ -43,7 +43,9 @@ icons, tabs, switch, toast and the two F09 charts, plus the F10 components
 (tooltip, removable tag, segmented control, action menu, typed confirmation,
 undo toast, bulk selection) and the F11 object page (trace toggles, column
 graphs drawn from `data-graph`, network list to simple/deep graph, timeline
-window).
+window), the F12 brand pieces scaler and the F13 pieces (collapsible sections,
+facet chip, date range, action form, reveal, comments, attachments, data reload,
+drawer with focus trap).
 
 ### Sections (23, in seven groups)
 

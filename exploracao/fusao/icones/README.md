@@ -1,4 +1,4 @@
-# Ícones Orison · catálogo (F05, ampliado na F10 e na F11)
+# Ícones Orison · catálogo (F05, ampliado na F10, F11 e F13)
 
 Desenho do Lucide (lucide-static 1.70.0, licença ISC), adaptado: traço 2,
 terminações e junções retas. Tamanhos: 16 px em texto e tag, 20 px em botão e
@@ -38,3 +38,6 @@ navegação. Licença original em `LICENSE-lucide.txt`.
 | `item.svg`           | Item de estoque      | `package`        |
 | `fornecedor.svg`     | Fornecedor           | `truck`          |
 | `ferramenta.svg`     | Ferramenta do agente | `wrench`         |
+| `calendario.svg`     | Data e período       | `calendar`       |
+| `anexar.svg`         | Anexar evidência     | `upload`         |
+| `menu.svg`           | Menu                 | `menu`           |

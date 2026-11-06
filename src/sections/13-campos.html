@@ -1,7 +1,7 @@
 <!-- 13 · Campos e seleção -->
 <section id="sec-campos" class="doc-section" aria-labelledby="sec-campos-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F07 e F10</p>
+    <p class="doc-eyebrow">Componentes · F07, F10 e F13</p>
     <h2 class="doc-title" id="sec-campos-title">Campos e seleção</h2>
     <p class="doc-lead">
       Rótulo sempre acima, ajuda abaixo, erro com ícone e instrução. O campo
@@ -54,5 +54,30 @@
       </div>
     </div>
   </div>
+  <div class="specimen">
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-periodo">Período</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-periodo" data-segmented data-period>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="7">7 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="true" data-value="30">30 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="90">90 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="custom"><i class="ico" data-icon="calendario"></i>Personalizado</button>
+      </div>
+    </div>
+    <div class="row-3" data-period-custom hidden>
+      <label class="field" style="min-width:150px"><span class="field-label">De</span><input class="input" inputmode="numeric" placeholder="dd/mm/aaaa" value="01/11/2026" data-date-mask></label>
+      <label class="field" style="min-width:150px"><span class="field-label">Até</span><input class="input" inputmode="numeric" placeholder="dd/mm/aaaa" value="06/11/2026" data-date-mask></label>
+    </div>
+    <div class="field" style="min-width:min(280px, 100%)">
+      <label class="field-label" for="person-search">Owner</label>
+      <input class="input" id="person-search" role="combobox" aria-expanded="true" aria-controls="person-list" aria-autocomplete="list" value="Ana">
+      <div class="menu" id="person-list" role="listbox" aria-label="Pessoas encontradas">
+        <button type="button" class="person-option" role="option" aria-selected="true"><span class="avatar">AN</span>Ana Nunes<span class="meta">Operações</span></button>
+        <button type="button" class="person-option" role="option" aria-selected="false"><span class="avatar">AS</span>Ana Souza<span class="meta">Financeiro</span></button>
+      </div>
+    </div>
+  </div>
+  <p class="meta">Período (F13 · P3): o caso comum em um clique; “Personalizado” abre De e Até, digitáveis com máscara dd/mm/aaaa. Pessoa: busca por nome, com iniciais e área.</p>
+
   <p class="meta">Controle segmentado (F10 · S1) troca vista ou janela do mesmo conteúdo, de 2 a 4 opções. Não usa a cor de ação; responde às setas do teclado.</p>
 </section>

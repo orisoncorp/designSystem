@@ -33,6 +33,7 @@
           <button type="button" class="tab" role="tab" id="obj-tab-linhagem" aria-controls="obj-panel-linhagem" aria-selected="false">Linhagem</button>
           <button type="button" class="tab" role="tab" id="obj-tab-rede" aria-controls="obj-panel-rede" aria-selected="false">Rede <span class="tab-count num">4</span></button>
           <button type="button" class="tab" role="tab" id="obj-tab-historico" aria-controls="obj-panel-historico" aria-selected="false">Histórico</button>
+          <button type="button" class="tab" role="tab" id="obj-tab-comentarios" aria-controls="obj-panel-comentarios" aria-selected="false">Comentários <span class="tab-count num" data-comment-count>2</span></button>
         </div>
       </div>
 
@@ -61,6 +62,11 @@
             </table>
           </div>
           <span class="meta">Agente de preços v4 · só as propriedades que mudam · aprovação separada obrigatória</span>
+          <div class="stack-2" data-attach>
+            <span class="panel-title">Evidência anexada</span>
+            <div class="file-row"><i class="ico" data-icon="evidencia"></i><b>nota-fiscal-8812.pdf</b><span class="meta num">312 KB</span></div>
+            <label class="btn btn-secondary" style="justify-self:start"><i class="ico" data-icon="anexar"></i>Anexar evidência<input type="file" class="sr-only" data-attach-input></label>
+          </div>
         </div>
       </div>
 
@@ -202,6 +208,15 @@
             <li data-day="5"><span class="num">29/10 11:03</span><i class="ico" data-icon="alerta"></i><span>Divergência de 3,2% em PC-20450</span></li>
           </ol>
         </div>
+      </div>
+      <!-- Comentários: aba no objeto, com menção (F13 · K1) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-comentarios" aria-labelledby="obj-tab-comentarios" hidden>
+        <div class="stack-3" data-comments aria-live="polite">
+          <div class="comment"><span class="avatar">GO</span><div><b>Gerente de operações</b> <span class="meta num">14:09</span><p>Destino recusou a rev. 14. <span class="mention">@Analista</span>, reabre com a 15?</p></div></div>
+          <div class="comment"><span class="avatar">AN</span><div><b>Analista</b> <span class="meta num">14:12</span><p>Reaberta como PC-20482.</p></div></div>
+        </div>
+        <form class="row" data-comment-form onsubmit="return false"><label class="field" style="flex:1;min-width:0"><span class="sr-only">Comentário</span><input class="input" placeholder="Comentar; use @ para mencionar" data-comment-input></label><button type="submit" class="btn btn-secondary">Comentar</button></form>
+        <p class="meta">A conversa fica separada do histórico; a menção notifica a pessoa. Decisões continuam no histórico e no trace.</p>
       </div>
     </div>
 

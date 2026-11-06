@@ -1,7 +1,7 @@
 <!-- 15 · Abas, filtros e navegação -->
 <section id="sec-navegacao" class="doc-section" aria-labelledby="sec-navegacao-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F07, F08 e F10</p>
+    <p class="doc-eyebrow">Componentes · F07, F08, F10 e F13</p>
     <h2 class="doc-title" id="sec-navegacao-title">Abas, filtros, menus e navegação</h2>
     <p class="doc-lead">
       Abas sublinhadas trocam vistas do mesmo objeto. Chips mostram o filtro
@@ -27,6 +27,23 @@
     <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
     <button type="button" class="btn btn-minimal">Limpar filtros</button>
   </div>
+  <div class="specimen" style="min-height:330px;align-items:flex-start">
+    <div class="facet-anchor" data-facet>
+      <button type="button" class="chip" aria-pressed="true" aria-expanded="true" aria-controls="facet-risco" data-facet-toggle>Risco: <span data-facet-label>baixo</span> <i class="ico" data-icon="expandir"></i></button>
+      <div class="facet-pop" id="facet-risco" role="group" aria-label="Valores de risco">
+        <span class="facet-title">Risco</span>
+        <button type="button" class="facet-value" style="--share:62%" aria-pressed="true" data-n="42" data-sum="81200"><i class="ico" data-icon="confirmado"></i><span>Baixo</span><span class="facet-n">42</span></button>
+        <button type="button" class="facet-value" style="--share:26%" aria-pressed="false" data-n="18" data-sum="96400"><i class="ico" data-icon="confirmado"></i><span>Médio</span><span class="facet-n">18</span></button>
+        <button type="button" class="facet-value" style="--share:9%" aria-pressed="false" data-n="6" data-sum="58300"><i class="ico" data-icon="confirmado"></i><span>Alto</span><span class="facet-n">6</span></button>
+        <button type="button" class="facet-value" style="--share:3%" aria-pressed="false" data-n="2" data-sum="112400"><i class="ico" data-icon="confirmado"></i><span>Irreversível</span><span class="facet-n">2</span></button>
+        <span class="facet-stats" aria-live="polite" data-facet-stats>n 42 · soma R$ 81,2 mil · média R$ 1,9 mil</span>
+        <div class="facet-actions"><button type="button" class="btn btn-secondary">Filtrar para</button><button type="button" class="btn btn-minimal">Excluir</button></div>
+      </div>
+    </div>
+    <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
+  </div>
+  <p class="meta">Filtro facetado (F13 · F2): o chip abre os valores do campo com contagem e barra proporcional; a estatística da seleção (n, soma, média) atualiza ao marcar; “Filtrar para” mantém só a seleção e “Excluir” a retira.</p>
+
   <p class="meta">Abas respondem às setas do teclado; só a aba ativa entra na ordem de Tab (padrão WAI-ARIA, aplicado em tempo de execução).</p>
 
   <div class="specimen" style="align-items:flex-start">

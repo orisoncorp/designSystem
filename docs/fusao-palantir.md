@@ -41,23 +41,26 @@ Em toda rodada:
 
 ## Rodadas
 
-| #   | Assunto                 | Decide                                           |
-| --- | ----------------------- | ------------------------------------------------ |
-| F01 | Cor base                | rampa neutra, cor de ação, cores de status       |
-| F02 | Tipografia de interface | escala de UI, pesos, números, piso móvel         |
-| F03 | Espaço e densidade      | base 4 ou 8, alturas de controle, toque          |
-| F04 | Forma e profundidade    | raio de controle, bordas, elevação, foco         |
-| F05 | Iconografia             | grade, traço, tamanhos, conjunto                 |
-| F06 | Semântica operacional   | estado, risk tier, estágio de evidência          |
-| F07 | Componentes básicos     | botão, campo, tag, callout, toast, abas, diálogo |
-| F08 | Padrões de operação     | fila, inspetor, tabela densa, estado vazio       |
-| F09 | Visualização de dados   | paleta categórica, gráficos, KPI                 |
-| F10 | Componentes extras      | dica, tag removível, seleção em massa, menu,     |
-|     |                         | segmentado, confirmação, desfazer, progresso     |
-| F11 | Padrões de aplicação    | página do objeto, comparação, trace, linhagem,   |
-|     |                         | rede, assistente, linha do tempo                 |
-| F12 | Peças de marca          | crimson, hero, banner, deck, proposta,           |
-|     |                         | assinatura, LinkedIn, cartão                     |
+| #   | Assunto                 | Decide                                            |
+| --- | ----------------------- | ------------------------------------------------- |
+| F01 | Cor base                | rampa neutra, cor de ação, cores de status        |
+| F02 | Tipografia de interface | escala de UI, pesos, números, piso móvel          |
+| F03 | Espaço e densidade      | base 4 ou 8, alturas de controle, toque           |
+| F04 | Forma e profundidade    | raio de controle, bordas, elevação, foco          |
+| F05 | Iconografia             | grade, traço, tamanhos, conjunto                  |
+| F06 | Semântica operacional   | estado, risk tier, estágio de evidência           |
+| F07 | Componentes básicos     | botão, campo, tag, callout, toast, abas, diálogo  |
+| F08 | Padrões de operação     | fila, inspetor, tabela densa, estado vazio        |
+| F09 | Visualização de dados   | paleta categórica, gráficos, KPI                  |
+| F10 | Componentes extras      | dica, tag removível, seleção em massa, menu,      |
+|     |                         | segmentado, confirmação, desfazer, progresso      |
+| F11 | Padrões de aplicação    | página do objeto, comparação, trace, linhagem,    |
+|     |                         | rede, assistente, linha do tempo                  |
+| F12 | Peças de marca          | crimson, hero, banner, deck, proposta,            |
+|     |                         | assinatura, LinkedIn, cartão                      |
+| F13 | Componentes e estados   | seções, facetas, frescor, carga, dado pessoal,    |
+|     |                         | formulário, período, comentários, anexos, gaveta, |
+|     |                         | celular                                           |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -235,6 +238,28 @@ Escolhas: K2 · H3 · B1 · D1 · P1 · E1 · L1 · C1. Página:
   com frente escura (símbolo) e verso claro.
 - Os textos das peças são provisórios; a rodada decidiu a composição.
 
+### F13 · Componentes e estados · 06-11-2026
+
+Escolhas: S1 · F2 · D1 · C3 · M2 · A1 · P3 · K1 · U2 · G1 · N1, todas como
+recomendadas. Página: `exploracao/fusao/f13-estados.html`. Origem:
+`docs/cobertura-palantir.md`.
+
+- Seções do inspetor abertas e recolhíveis, com contagem (Selection do Gaia e do
+  Vertex).
+- Filtro facetado no popover do chip, com contagem, barra, n, soma, média,
+  "Filtrar para" e "Excluir".
+- Frescor visível em todo bloco de dados; passado o limite, aviso com
+  "Recarregar". Carregamento: esqueleto na primeira carga; na recarga, o
+  anterior fica e corre uma barra fina.
+- Dado pessoal marcado e mascarado; revelar fica no histórico.
+- Formulário de action dentro do diálogo de confirmação, com impacto ao vivo.
+- Período em segmentado com "Personalizado".
+- Comentários em aba no objeto, com menção.
+- Anexos por botão e lista.
+- Gaveta com véu e foco preso.
+- Celular com barra inferior de quatro destinos.
+- Peças fixas, sem votação: seletor de pessoa e estado "sem permissão".
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -337,13 +362,24 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   também a `data-theme="light"`, para peças claras dentro de seção escura, e a
   invariante do crimson passou a reconhecer as seções de marca pelo nome. Com a
   F12, todas as rodadas propostas foram fechadas.
+- 06-11-2026: o Nobel pediu a cobertura completa das interfaces da Palantir, com
+  o movimento nativo, antes da Elpis e do merge. Auditoria em
+  `docs/cobertura-palantir.md`; rodadas F13 a F15.
+- 06-11-2026: F13 implantada (v4.4.0) nas seções existentes: campos (período,
+  pessoa), avisos (formulário de action), filtros (facetas), semântica (dado
+  pessoal), bancada (seções, gaveta, barra inferior, sem permissão), objeto
+  (comentários, anexos) e dados (frescor, carregamento). Na mesma entrega, o
+  texto dos gráficos passou a ficar em 13 px em qualquer largura e o índice lê a
+  versão do `package.json`.
 
 ## Próximas rodadas
 
-As rodadas propostas (F10 a F12) foram fechadas. Fica em aberto só a F13, motion
-de feedback, que abre apenas se o Nobel reabrir o tema. Peças novas de marca ou
-padrões novos de aplicação seguem o mesmo método: página em `exploracao/fusao/`,
-votação item a item e registro aqui antes de qualquer token.
+Da auditoria de cobertura: F14, interfaces que faltam (shell com trilho e
+commands, inbox, busca global, quadro por estado, mapa, toolbar de canvas,
+assistente com streaming, representação de objeto), e F15, movimento de
+interação, reaberto pelo Nobel. Peças novas de marca ou padrões novos de
+aplicação seguem o mesmo método: página em `exploracao/fusao/`, votação item a
+item e registro aqui antes de qualquer token.
 
 Fontes: `~/Orison/Tatico/palantir-overview/` (réplicas de botão, campo, tag,
 callout, seleção, navegação, sobreposição, feedback, tabela, inspetor e rede),

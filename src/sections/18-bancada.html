@@ -1,7 +1,7 @@
 <!-- 18 · Bancada de operação -->
 <section id="sec-bancada" class="doc-section" aria-labelledby="sec-bancada-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Padrões · F08</p>
+    <p class="doc-eyebrow">Padrões · F08 e F13</p>
     <h2 class="doc-title" id="sec-bancada-title">Bancada de operação</h2>
     <p class="doc-lead">
       Navegação, fila e inspetor convivem. Selecionar uma linha atualiza o
@@ -44,12 +44,38 @@
       <aside class="bench-inspector" aria-label="Inspetor do objeto">
         <div><span class="kpi-name">Inspetor</span><div class="block-title">SKU-88 · Ajuste de estoque</div></div>
         <div class="row"><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span><span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span></div>
-        <dl class="props"><dt>Owner</dt><dd>Operações</dd><dt>Revisão</dt><dd class="num">14</dd><dt>Fonte</dt><dd>ERP sintético</dd></dl>
         <div class="callout callout-danger"><i class="ico" data-icon="falha-fechar"></i><div>Destino recusou a revisão <span class="num">14</span>. Remediação: reabrir com a revisão <span class="num">15</span>.</div></div>
-        <div class="row"><button type="button" class="btn btn-primary">Reabrir com rev. 15</button><button type="button" class="btn btn-minimal">Trace</button></div>
+        <div>
+          <button type="button" class="section-toggle" aria-expanded="true" aria-controls="insp-props" data-section-toggle><i class="ico" data-icon="expandir"></i>Propriedades<span class="section-count num">3</span></button>
+          <div class="section-body" id="insp-props"><dl class="props"><dt>Owner</dt><dd>Operações</dd><dt>Revisão</dt><dd class="num">14</dd><dt>Fonte</dt><dd>ERP sintético</dd></dl></div>
+          <button type="button" class="section-toggle" aria-expanded="true" aria-controls="insp-prop" data-section-toggle><i class="ico" data-icon="expandir"></i>Propostas<span class="section-count num">1</span></button>
+          <div class="section-body meta" id="insp-prop">PC-20481 · aguardando aprovação</div>
+          <button type="button" class="section-toggle" aria-expanded="false" aria-controls="insp-hist" data-section-toggle><i class="ico" data-icon="expandir"></i>Histórico<span class="section-count num">4</span></button>
+          <div class="section-body meta" id="insp-hist" hidden>14:07 reconciliação falhou · 14:06 writeback enviado · 14:05 aprovada · 13:58 proposta</div>
+        </div>
+        <div class="row"><button type="button" class="btn btn-primary">Reabrir com rev. 15</button><button type="button" class="btn btn-minimal" data-drawer-open="drawer-sku88"><i class="ico" data-icon="inspetor"></i>Abrir na gaveta</button></div>
       </aside>
     </div>
+    <nav class="bench-tabbar" aria-label="Navegação do celular">
+      <a href="#sec-bancada" aria-current="page"><i class="ico" data-icon="aguardando"></i>Fila</a>
+      <a href="#sec-bancada"><i class="ico" data-icon="aprovar"></i>Decisões</a>
+      <a href="#sec-bancada"><i class="ico" data-icon="alerta"></i>Alertas</a>
+      <a href="#sec-bancada"><i class="ico" data-icon="menu"></i>Mais</a>
+    </nav>
   </div>
+  <p class="meta">Inspetor com seções recolhíveis (F13 · S1): começam abertas, cada uma recolhe sozinha e mostra a contagem. Abaixo de 1280 px o inspetor abre como gaveta (G1); abaixo de 900 px a navegação vira a barra inferior com quatro destinos (N1). Estreite a janela para ver.</p>
+
+  <div class="drawer-scrim" data-drawer-scrim="drawer-sku88" hidden></div>
+  <aside class="drawer" id="drawer-sku88" role="dialog" aria-modal="true" aria-labelledby="drawer-sku88-title" hidden>
+    <div class="drawer-head"><span id="drawer-sku88-title">SKU-88 · Ajuste de estoque</span><button type="button" class="btn btn-minimal btn-icon" aria-label="Fechar gaveta" data-drawer-close><i class="ico" data-icon="falha-fechar"></i></button></div>
+    <div class="drawer-body">
+      <div class="row"><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span><span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span></div>
+      <dl class="props"><dt>Owner</dt><dd>Operações</dd><dt>Revisão</dt><dd class="num">14</dd><dt>Fonte</dt><dd>ERP sintético</dd></dl>
+      <div class="callout callout-danger"><i class="ico" data-icon="falha-fechar"></i><div>Destino recusou a revisão <span class="num">14</span>. Remediação: reabrir com a revisão <span class="num">15</span>.</div></div>
+      <button type="button" class="btn btn-primary" style="justify-self:start">Reabrir com rev. 15</button>
+      <p class="meta">Gaveta (F13 · G1): desliza da direita com véu; Esc ou clique no véu fecham; o foco fica na gaveta e volta ao botão.</p>
+    </div>
+  </aside>
 
   <div class="block">
     <h3 class="block-title">Estado vazio</h3>
@@ -58,5 +84,15 @@
       <span class="meta">Os filtros ativos não encontram nada na fila de hoje. A fila completa tem 7 objetos.</span>
       <div class="row"><button type="button" class="btn btn-secondary">Limpar filtros</button><button type="button" class="btn btn-minimal">Ver fila completa</button></div>
     </div>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Sem permissão</h3>
+    <div class="empty no-access">
+      <span class="empty-title"><i class="ico" data-icon="autoridade"></i>Sem acesso a este objeto</span>
+      <span class="meta">O SKU-88 pertence ao espaço Controladoria. Seu perfil (Operador) não pode ver os valores.</span>
+      <div class="row"><button type="button" class="btn btn-secondary">Pedir acesso a Controladoria</button></div>
+    </div>
+    <p class="meta">Diz o limite real e o caminho legítimo para pedir acesso; nunca finge que o objeto não existe.</p>
   </div>
 </section>

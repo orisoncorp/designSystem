@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.3.0
+version: 4.4.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -273,7 +273,7 @@ components:
 ---
 
 <!--
-Estado: v4.3.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F12
+Estado: v4.4.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F13
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -524,13 +524,25 @@ depender só de cor.
   opções. Trilho neutro; a opção ativa sobe como superfície elevada com sombra
   de nível 1. Não usa azul: escolher vista não é agir. Setas do teclado mudam a
   opção.
+- **Date range:** segmentado com 7, 30 e 90 dias e "Personalizado", que abre De
+  e Até digitáveis com máscara dd/mm/aaaa.
+- **Person select:** busca por nome em campo combobox; cada opção com iniciais
+  em círculo, nome e área.
+- **Action form:** os campos de uma action abrem no próprio diálogo de
+  confirmação, acima do bloco de impacto, que se atualiza enquanto o operador
+  digita. O botão leva o verbo (Propor, Executar).
+- **Attachments:** botão secundário "Anexar evidência" e a lista de arquivos
+  (ícone, nome, tamanho), em linhas de 36 px.
 
 ### Navigation
 
 - **Style:** trilho lateral escuro de 200 px, itens de 36 px com ícone de 20 px,
   rótulo 14 px em 600 e contagem tabular à direita.
 - **Active:** fundo do item ativo e barra de 3 px em azul à esquerda.
-- **Mobile:** abaixo de 900 px vira gaveta sob a barra superior fixa.
+- **Mobile:** no site do DS, abaixo de 900 px o índice vira gaveta sob a barra
+  superior fixa. No produto, abaixo de 900 px a navegação vira barra inferior
+  com quatro destinos (Fila, Decisões, Alertas, Mais), 56 px de altura, ícone de
+  20 px e rótulo; o destino ativo em azul com barra de 3 px no topo.
 
 ### Tabs
 
@@ -550,6 +562,12 @@ lado do rótulo.
   frase de consequência e um bloco de impacto (o que muda, risco,
   reversibilidade e owner) antes dos botões Cancelar e verbo. Ação irreversível
   acrescenta a confirmação digitada: o botão só habilita quando o texto confere.
+- **Facet filter:** o chip de filtro abre um popover de nível 1 com os valores
+  do campo, contagem e barra proporcional no fundo do item; a estatística da
+  seleção (n, soma, média) atualiza ao marcar; "Filtrar para" e "Excluir".
+- **Drawer:** desliza da direita, com a largura do inspetor (360 px) e véu;
+  nível 3. Esc ou clique no véu fecham; o foco fica preso na gaveta e volta ao
+  botão que a abriu. Abaixo de 1280 px é a forma do inspetor.
 
 ### Feedback
 
@@ -565,6 +583,33 @@ lado do rótulo.
   com etapa e contagem em texto ("34 de 120 · etapa 3 de 4").
 - **Empty state:** alinhado ao texto, com título, explicação (por que está vazio
   e quantos objetos existem fora do filtro) e ação de saída.
+- **No access:** mesmo formato do estado vazio, com cadeado: diz o limite real
+  (de quem é o objeto, qual perfil falta) e o caminho legítimo para pedir
+  acesso. Nunca finge que o objeto não existe.
+- **Freshness:** todo bloco de dados mostra "Lido às 14:32" (13 px, relógio,
+  texto secundário). Passado o limite do bloco, o carimbo vira aviso em
+  `warning-text` com "Recarregar".
+- **Loading:** na primeira carga, esqueleto em `neutral-fill` na forma do
+  conteúdo; na recarga, o conteúdo anterior fica e uma barra de 2 px em azul
+  corre no topo do bloco até o novo chegar.
+
+### Collapsible Sections
+
+No inspetor e no painel de seleção, as seções (Propriedades, Propostas,
+Histórico) têm cabeçalho de 36 px com chevron, título e contagem. Começam
+abertas; cada uma recolhe sozinha.
+
+### Comments
+
+Aba "Comentários" na página do objeto, separada do histórico. Cada comentário
+com iniciais, autor, hora e texto; "@nome" vira menção em azul e notifica.
+Decisões continuam no histórico e no trace.
+
+### Personal Data
+
+Dado pessoal leva a etiqueta acromática "Dado pessoal" (cadeado, contorno em
+tinta, raio 3) no objeto e o valor aparece mascarado até "Revelar". Revelar fica
+no histórico do objeto, com quem e quando (LGPD).
 
 ### Bulk Selection
 

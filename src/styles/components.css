@@ -437,6 +437,88 @@ button.menu-item:focus-visible { outline-offset: -2px; }
 .table .cb { width: 44px; }
 .table .cb input { width: 18px; height: 18px; margin: 0; vertical-align: middle; accent-color: var(--color-action); }
 
+/* ── seções recolhíveis (F13 · S1) ──
+   Começam abertas; cada uma recolhe sozinha; contagem à direita. */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--height-control);
+  padding: 0;
+  border: 0;
+  border-top: var(--border-thin) solid var(--color-border);
+  background: none;
+  color: var(--text-primary);
+  font-family: var(--font-text);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-strong);
+  text-align: left;
+  cursor: pointer;
+}
+
+.section-toggle .ico { transition: transform var(--motion-duration-feedback) var(--motion-easing-feedback); }
+.section-toggle[aria-expanded='false'] .ico { transform: rotate(-90deg); }
+.section-count { margin-left: auto; font-weight: var(--weight-text); color: var(--text-muted); }
+.section-body { padding: 0 0 var(--space-3) var(--space-6); }
+
+/* ── filtro facetado no chip (F13 · F2) ──
+   O chip abre os valores com contagem, barra proporcional, estatística da
+   seleção, “Filtrar para” e “Excluir”. */
+.facet-anchor { position: relative; display: inline-flex; }
+.facet-pop { position: absolute; top: calc(100% + var(--space-1)); left: 0; z-index: 200; display: grid; gap: var(--space-2); width: 260px; padding: var(--space-3); background: var(--color-surface); border-radius: var(--radius-control); box-shadow: var(--elevation-1); }
+.facet-title { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+.facet-value { position: relative; display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 6px; align-items: center; min-height: 28px; padding: 0 var(--space-1); border: 0; background: none; color: var(--text-primary); font-family: var(--font-text); font-size: var(--text-meta); text-align: left; cursor: pointer; }
+.facet-value::before { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--share, 0%); background: var(--color-neutral-fill); }
+.facet-value[aria-pressed='true']::before { background: var(--color-selected); }
+.facet-value > * { position: relative; }
+.facet-value .ico { width: 14px; height: 14px; visibility: hidden; }
+.facet-value[aria-pressed='true'] .ico { visibility: visible; }
+.facet-n { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.facet-stats { font-size: var(--text-label); color: var(--text-muted); }
+.facet-actions { display: flex; gap: var(--space-2); }
+.facet-actions .btn { min-height: 28px; padding: 0 var(--space-2); font-size: var(--text-meta); }
+
+/* ── frescor e carregamento (F13 · D1, C3) ──
+   Todo bloco de dados diz de quando é o número; passado o limite, o
+   carimbo vira aviso. Recarga mantém o anterior e corre uma barra fina. */
+.data-stamp { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-label); color: var(--text-muted); }
+.data-stamp.is-stale { color: var(--text-warning); font-weight: var(--weight-strong); }
+.data-stamp button { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.is-loading { position: relative; overflow: hidden; }
+.is-loading::before { content: ''; position: absolute; top: 0; left: 0; height: 2px; width: 40%; background: var(--color-action); }
+.skeleton { display: block; height: 12px; background: var(--color-neutral-fill); }
+
+/* ── dado pessoal (F13 · M2) ──
+   Etiqueta no objeto e no campo; valor mascarado até revelar; revelar
+   fica no histórico. Acromático, como o risco. */
+.mark-personal { display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border: var(--border-thin) solid var(--text-primary); border-radius: var(--radius-tag); font-size: var(--text-label); font-weight: var(--weight-strong); white-space: nowrap; }
+.masked { letter-spacing: 0.08em; color: var(--text-muted); }
+.reveal { padding: 0; border: 0; background: none; font: inherit; font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--color-link); cursor: pointer; }
+
+/* ── comentários (F13 · K1) ── */
+.comment { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: var(--space-2); font-size: var(--text-meta); }
+.avatar { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: var(--radius-full); background: var(--color-neutral-active); color: var(--text-primary); font-size: var(--text-label); font-weight: var(--weight-strong); }
+.mention { font-weight: var(--weight-strong); color: var(--color-link); }
+
+/* ── anexos (F13 · U2) ── */
+.file-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; min-height: var(--height-row); padding: 0 var(--space-3); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
+.file-row b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--weight-strong); }
+
+/* ── seletor de pessoa (F13, fixo) ── */
+.person-option { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: var(--height-control); padding: 0 var(--space-2); border: 0; background: none; color: var(--text-primary); font: inherit; font-size: var(--text-meta); text-align: left; cursor: pointer; }
+.person-option:hover, .person-option[aria-selected='true'] { background: var(--color-neutral-fill); }
+.person-option .meta { margin-left: auto; }
+
+/* ── gaveta (F13 · G1) ──
+   Desliza da direita sobre o conteúdo, com véu; Esc ou véu fecham; o foco
+   fica preso na gaveta e volta ao botão que a abriu. */
+.drawer-scrim { position: fixed; inset: 0; z-index: 400; background: var(--scrim); }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 401; display: grid; grid-template-rows: auto 1fr; width: min(var(--layout-inspector-width), 100vw); background: var(--color-surface); box-shadow: var(--elevation-3); }
+.drawer-head { display: flex; align-items: center; gap: var(--space-2); min-height: var(--height-topbar); padding: 0 var(--space-2) 0 var(--space-4); border-bottom: var(--border-thin) solid var(--color-border); font-weight: var(--weight-strong); }
+.drawer-head .btn-icon { margin-left: auto; }
+.drawer-body { display: grid; gap: var(--space-3); align-content: start; overflow-y: auto; padding: var(--space-4); }
+
 /* ── tabela (F03 · R2, F04 · V1) ── */
 .table-wrap { background: var(--color-surface); border: var(--border-thin) solid var(--color-border); overflow-x: auto; }
 .table { width: 100%; border-collapse: collapse; font-size: var(--text-ui-dense); }
