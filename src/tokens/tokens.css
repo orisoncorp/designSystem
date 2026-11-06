@@ -12,7 +12,10 @@
    Origem de cada decisão: rodadas F01–F09, docs/fusao-palantir.md.
    ═══════════════════════════════════════════════════════════════════ */
 
-:root {
+/* [data-theme='light'] devolve o tema claro a um trecho dentro de bloco
+   escuro (peças de marca claras numa seção de marca). */
+:root,
+[data-theme='light'] {
   color-scheme: light;
 
   /* ── F01 · neutra fria (Blueprint LIGHT_GRAY / GRAY) ── */

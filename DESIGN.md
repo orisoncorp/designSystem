@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.2.0
+version: 4.3.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -273,7 +273,7 @@ components:
 ---
 
 <!--
-Estado: v4.2.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F11
+Estado: v4.3.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F12
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -337,8 +337,9 @@ quatro de dados e uma de marca, cada uma com um único papel.
 
 ### Tertiary
 
-- **Crimson Orison** (`crimson`): só identidade, em peças de marca. Nunca em
-  ação, estado, risco, série de dados ou texto.
+- **Crimson Orison** (`crimson`): só identidade, em peças de marca, como um
+  filete de 3 px por peça (F12). Nunca em ação, estado, risco, série de dados,
+  texto, fundo ou campo.
 - **Dourado de Ambiente** (`evidence-env-bg`, `evidence-env-text`): a faixa que
   avisa que a tela inteira é sintética, demonstração ou mock.
 - **Séries de Dados** (`data-1` a `data-4`): índigo, turquesa, rosa e ouro, em
@@ -662,6 +663,32 @@ tabela.
 Desenho Lucide adaptado: traço 2 na grade de 24, terminações e junções retas. 16
 px em texto e tag, 20 px em botão e navegação. O catálogo cresce ícone por
 ícone; são 32 em `exploracao/fusao/icones/` (22 da F05, 6 da F10 e 4 da F11).
+
+### Brand Pieces
+
+Peças de comunicação montadas no tamanho de entrega. Toda peça abre pela decisão
+do cliente (DC-GC-09-013), diz o estágio da evidência onde o número aparece e o
+que ele não comprova (MAP-GC-09-B). Sem hero cinematográfico nem persona do
+fundador. Marca no escuro; leitura no claro. Um filete crimson de 3 px por peça,
+abrindo o título ou fechando a assinatura.
+
+- **Hero do site (1440 × 760):** escuro; título Hanken 500 de 64 px, subtítulo,
+  ação primária e link; o símbolo D2 de 820 px cortado à direita, em `raised`,
+  como gráfico.
+- **Banner (1200 × 627):** escuro com a calha; rótulo, título Hanken 64 px,
+  fonte e lockup de 40 px no rodapé. Troca-se só rótulo e título.
+- **Apresentação (1280 × 720):** capa escura com lockup, rótulo, filete e
+  título; slides de conteúdo claros, com rótulo numerado, título Hanken 40 px,
+  até três pontos, número com selo de estágio e rodapé dizendo o que o slide não
+  comprova.
+- **Capa de proposta (A4):** escura; lockup, rótulo, filete, título e o quadro
+  da decisão (cliente, decisão pedida, estágio da evidência, validade).
+- **Assinatura de email (600 × 170):** clara; símbolo de 64 px, divisor, nome,
+  cargo, contato e filete; exportada como imagem com texto alternativo.
+- **LinkedIn:** avatar 400 × 400 com o símbolo claro no escuro; capa 1584 × 396
+  escura com a calha, texto a partir de 560 px, fora da área do avatar.
+- **Cartão (85 × 55 mm):** frente escura só com o símbolo; verso claro com nome,
+  cargo, filete, contato e wordmark.
 
 ### Motion
 

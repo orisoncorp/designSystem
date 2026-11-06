@@ -35,23 +35,24 @@ const NAV_ITEMS = [
   { id: 'sec-simbolo',        num: '02', label: 'Símbolo',                   group: 'marca' },
   { id: 'sec-lockups',        num: '03', label: 'Lockups',                   group: 'marca' },
   { id: 'sec-uso',            num: '04', label: 'Proteção e usos',           group: 'marca' },
-  { id: 'sec-cor',            num: '05', label: 'Cor',                       group: 'fundamentos' },
-  { id: 'sec-tipografia',     num: '06', label: 'Tipografia',                group: 'fundamentos' },
-  { id: 'sec-espaco',         num: '07', label: 'Espaço e layout',           group: 'fundamentos' },
-  { id: 'sec-forma',          num: '08', label: 'Forma e profundidade',      group: 'fundamentos' },
-  { id: 'sec-iconografia',    num: '09', label: 'Iconografia',               group: 'fundamentos' },
-  { id: 'sec-acessibilidade', num: '10', label: 'Acessibilidade',            group: 'fundamentos' },
-  { id: 'sec-botoes',         num: '11', label: 'Botões',                    group: 'componentes' },
-  { id: 'sec-campos',         num: '12', label: 'Campos e seleção',          group: 'componentes' },
-  { id: 'sec-feedback',       num: '13', label: 'Avisos e confirmação',      group: 'componentes' },
-  { id: 'sec-navegacao',      num: '14', label: 'Abas, filtros e menus',     group: 'componentes' },
-  { id: 'sec-tabela',         num: '15', label: 'Tabela',                    group: 'componentes' },
-  { id: 'sec-semantica',      num: '16', label: 'Semântica operacional',     group: 'padroes' },
-  { id: 'sec-bancada',        num: '17', label: 'Bancada de operação',       group: 'padroes' },
-  { id: 'sec-objeto',         num: '18', label: 'Página do objeto',          group: 'padroes' },
-  { id: 'sec-dados',          num: '19', label: 'Visualização de dados',     group: 'padroes' },
-  { id: 'sec-conteudo',       num: '20', label: 'Texto de interface',        group: 'conteudo' },
-  { id: 'sec-recursos',       num: '21', label: 'Tokens e arquivos',         group: 'recursos' },
+  { id: 'sec-pecas',          num: '05', label: 'Peças de marca',            group: 'marca' },
+  { id: 'sec-cor',            num: '06', label: 'Cor',                       group: 'fundamentos' },
+  { id: 'sec-tipografia',     num: '07', label: 'Tipografia',                group: 'fundamentos' },
+  { id: 'sec-espaco',         num: '08', label: 'Espaço e layout',           group: 'fundamentos' },
+  { id: 'sec-forma',          num: '09', label: 'Forma e profundidade',      group: 'fundamentos' },
+  { id: 'sec-iconografia',    num: '10', label: 'Iconografia',               group: 'fundamentos' },
+  { id: 'sec-acessibilidade', num: '11', label: 'Acessibilidade',            group: 'fundamentos' },
+  { id: 'sec-botoes',         num: '12', label: 'Botões',                    group: 'componentes' },
+  { id: 'sec-campos',         num: '13', label: 'Campos e seleção',          group: 'componentes' },
+  { id: 'sec-feedback',       num: '14', label: 'Avisos e confirmação',      group: 'componentes' },
+  { id: 'sec-navegacao',      num: '15', label: 'Abas, filtros e menus',     group: 'componentes' },
+  { id: 'sec-tabela',         num: '16', label: 'Tabela',                    group: 'componentes' },
+  { id: 'sec-semantica',      num: '17', label: 'Semântica operacional',     group: 'padroes' },
+  { id: 'sec-bancada',        num: '18', label: 'Bancada de operação',       group: 'padroes' },
+  { id: 'sec-objeto',         num: '19', label: 'Página do objeto',          group: 'padroes' },
+  { id: 'sec-dados',          num: '20', label: 'Visualização de dados',     group: 'padroes' },
+  { id: 'sec-conteudo',       num: '21', label: 'Texto de interface',        group: 'conteudo' },
+  { id: 'sec-recursos',       num: '22', label: 'Tokens e arquivos',         group: 'recursos' },
 ];
 
 const GROUP_LABELS = {
@@ -333,6 +334,20 @@ document.querySelectorAll('[data-bulk]').forEach((box) => {
   rows[0].checked = true; rows[1].checked = true;
   sync();
 });
+
+/* ── Peças de marca (F12) ──
+   Cada peça tem o tamanho de entrega; aqui ela é reduzida para a largura
+   disponível, sem perder a proporção. */
+function fitPieces() {
+  document.querySelectorAll('[data-piece-w]').forEach((fit) => {
+    const scale = fit.clientWidth / Number(fit.dataset.pieceW);
+    fit.style.height = `${Number(fit.dataset.pieceH) * scale}px`;
+    fit.firstElementChild.style.transform = `scale(${scale})`;
+  });
+}
+fitPieces();
+document.fonts?.ready.then(fitPieces);
+addEventListener('resize', () => requestAnimationFrame(fitPieces));
 
 /* ── Página do objeto (F11) ── */
 

@@ -18,7 +18,7 @@ const src = readFileSync(join(root, 'src/tokens/tokens.css'), 'utf8').replace(/\
 
 const block = (start) => { const i = src.indexOf(start); return src.slice(i, src.indexOf('\n}', i)); };
 const parse = (b) => Object.fromEntries([...b.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
-const light = parse(block(':root {'));
+const light = parse(block(':root'));
 const dark = parse(block("[data-theme='dark'] {"));
 
 function color(hex) {

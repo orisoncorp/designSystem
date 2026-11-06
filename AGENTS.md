@@ -5,8 +5,8 @@ RTK convention for shell commands (for example `rtk npm run build`).
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.2.0, approved by Nobel on 06-11-2026
-through fusion rounds F01–F11, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.3.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F12, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
 wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
 command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not
@@ -45,17 +45,17 @@ undo toast, bulk selection) and the F11 object page (trace toggles, column
 graphs drawn from `data-graph`, network list to simple/deep graph, timeline
 window).
 
-### Sections (22, in seven groups)
+### Sections (23, in seven groups)
 
 | Group       | Files                                                 |
 | ----------- | ----------------------------------------------------- |
 | Início      | `00-capa`, `01-como-usar`                             |
-| Marca       | `02-simbolo`, `03-lockups`, `04-uso`                  |
-| Fundamentos | `05-cor` … `10-acessibilidade`                        |
-| Componentes | `11-botoes` … `15-tabela`                             |
-| Padrões     | `16-semantica`, `17-bancada`, `18-objeto`, `19-dados` |
-| Conteúdo    | `20-conteudo`                                         |
-| Recursos    | `21-recursos`                                         |
+| Marca       | `02-simbolo`, `03-lockups`, `04-uso`, `05-pecas`      |
+| Fundamentos | `06-cor` … `11-acessibilidade`                        |
+| Componentes | `12-botoes` … `16-tabela`                             |
+| Padrões     | `17-semantica`, `18-bancada`, `19-objeto`, `20-dados` |
+| Conteúdo    | `21-conteudo`                                         |
+| Recursos    | `22-recursos`                                         |
 
 Marca sections (and the cover) are
 `<section class="doc-band" data-theme="dark">`; everything else is
@@ -82,9 +82,10 @@ right `group`, run `npm run verify`.
 
 ### Tokens
 
-`src/tokens/tokens.css`: light theme on `:root`, dark theme on
-`[data-theme='dark']`, same semantic names in both (`--color-*`, `--text-*`,
-`--bg-*`, `--data-*`, `--space-*`, `--radius-*`, `--elevation-*`, …).
+`src/tokens/tokens.css`: light theme on `:root, [data-theme='light']`, dark
+theme on `[data-theme='dark']` (`data-theme="light"` restores light inside a
+dark band), same semantic names in both (`--color-*`, `--text-*`, `--bg-*`,
+`--data-*`, `--space-*`, `--radius-*`, `--elevation-*`, …).
 `src/tokens/motion-tokens.css` holds only feedback motion.
 
 ### The ten invariants (`scripts/verify-system.mjs`)
@@ -93,7 +94,7 @@ right `group`, run `npm run verify`.
 | --- | ------------------------------------------------------------------------ |
 | 1   | No `font-size` below 12px                                                |
 | 2   | `letter-spacing` always in `em`                                          |
-| 3   | `--color-crimson` only in `brand.css`, `tokens.css`, sections 00–05      |
+| 3   | `--color-crimson` only in `brand.css`, `tokens.css`, brand sections, cor |
 | 4   | No hex colour outside `tokens.css` and `brand.css`                       |
 | 5   | `border-radius` only 0, 3px, 4px, 50%, 9999px or a radius token          |
 | 6   | Every `--motion-*` token is consumed                                     |

@@ -60,7 +60,8 @@ check(
 
 /* ── 3. Crimson é identidade ── */
 {
-  const allowed = (f) => f.endsWith('brand.css') || f.endsWith('tokens.css') || /sections\/0[0-4]-/.test(f) || /sections\/05-cor/.test(f);
+  // Seções de marca e a de cor, pelo nome (a numeração muda quando entra seção nova).
+  const allowed = (f) => f.endsWith('brand.css') || f.endsWith('tokens.css') || /sections\/\d+-(capa|como-usar|simbolo|lockups|uso|pecas|cor)\.html$/.test(f);
   check(
     'Crimson só na marca',
     scan([...css, ...html, ...js].filter((f) => !allowed(f)), /--color-crimson/),
@@ -115,7 +116,7 @@ check(
   // então o bloco escuro precisa redeclará-los (senão um trecho escuro dentro
   // de página clara herda o valor claro).
   const refs = (b) => Object.fromEntries([...b.matchAll(/(--[\w-]+):\s*var\((--[\w-]+)\)\s*;/g)].map((m) => [m[1], m[2]]));
-  const lightBlock = block(':root {');
+  const lightBlock = block(':root');
   const darkBlock = block("[data-theme='dark'] {");
   const lightRefs = refs(lightBlock);
   const darkRefs = refs(darkBlock);

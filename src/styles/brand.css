@@ -51,3 +51,56 @@
 .dont-rotate .logo-symbol { transform: rotate(18deg); }
 .dont-color .logo-symbol { color: var(--color-crimson); }
 .dont-busy { background: repeating-linear-gradient(45deg, #2f4a5c 0 8px, #c9b089 8px 16px) !important; }
+
+/* ═══ PEÇAS DE MARCA · F12 ═══
+   Cada peça é montada no tamanho de entrega (px) e reduzida na tela por
+   main.js (data-piece-w / data-piece-h). Tema escuro para marca; peças claras
+   usam data-theme="light". Crimson só no filete de assinatura (K2). */
+
+.piece-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-end; }
+.piece-fit { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border: var(--border-thin) solid var(--color-border); }
+.piece-fit.is-full { flex-basis: 100%; }
+
+.piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--color-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-text);
+}
+
+.piece[data-theme='light'] { background: var(--color-surface); }
+.piece h3, .piece p, .piece ul { margin: 0; }
+
+/* Título de marca: Hanken 500, tracking −0,01 em. */
+.piece-display { font-family: var(--font-display); font-weight: var(--weight-display); letter-spacing: var(--tracking-display); line-height: 1.08; }
+.piece-eyebrow { font-size: 14px; font-weight: var(--weight-strong); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+.piece-sub { color: var(--text-muted); line-height: 1.5; }
+.piece-muted { color: var(--text-muted); }
+
+/* Filete de assinatura (K2): 3 px de crimson, um por peça. Abre o título ou
+   fecha a assinatura; nunca vira campo, fundo ou texto. */
+.brand-rule { display: block; width: 64px; height: 3px; background: var(--color-crimson); }
+.brand-rule.is-short { width: 40px; }
+
+/* Calha da v3 como textura de marca no escuro. */
+.piece-rails { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, var(--color-border) 0 1px, transparent 1px); background-size: 25% 100%; opacity: 0.6; }
+
+/* Símbolo em escala (H3): cortado, em tom quase do fundo. */
+.piece-symbol-bg { position: absolute; color: var(--color-raised); pointer-events: none; }
+.piece-symbol-bg svg { display: block; width: 100%; height: 100%; }
+
+.piece-nav { position: absolute; top: 0; left: 64px; right: 64px; display: flex; align-items: center; gap: 40px; height: 88px; border-bottom: var(--border-thin) solid var(--color-border); font-size: 16px; font-weight: 500; }
+.piece-nav-links { display: flex; gap: 32px; margin-left: auto; color: var(--text-muted); }
+
+.piece-meta { width: 100%; border-collapse: collapse; font-size: 16px; }
+.piece-meta td { padding: 12px 0; border-bottom: var(--border-thin) solid var(--color-border); vertical-align: top; }
+.piece-meta td:first-child { width: 38%; padding-top: 14px; font-size: 13px; font-weight: var(--weight-strong); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.piece-divider { align-self: stretch; width: 1px; background: var(--color-border); }
+
+.spec-list { display: grid; grid-template-columns: auto 1fr; gap: var(--space-1) var(--space-4); margin: 0; font-size: var(--text-meta); }
+.spec-list dt { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+.spec-list dd { margin: 0; }

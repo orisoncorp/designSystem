@@ -56,6 +56,8 @@ Em toda rodada:
 |     |                         | segmentado, confirmação, desfazer, progresso     |
 | F11 | Padrões de aplicação    | página do objeto, comparação, trace, linhagem,   |
 |     |                         | rede, assistente, linha do tempo                 |
+| F12 | Peças de marca          | crimson, hero, banner, deck, proposta,           |
+|     |                         | assinatura, LinkedIn, cartão                     |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -217,6 +219,22 @@ Escolhas: V1 · P1 · T2 · L2 · A1 · R3 com R1 e R2 · H1. Página:
   duas visualizações.
 - Linha do tempo em histograma com janela que filtra a lista (Gotham).
 
+### F12 · Peças de marca · 06-11-2026
+
+Escolhas: K2 · H3 · B1 · D1 · P1 · E1 · L1 · C1. Página:
+`exploracao/fusao/f12-marca.html`.
+
+- Crimson como filete de assinatura de 3 px, um por peça; nunca campo nem fundo.
+- Hero com o símbolo D2 em escala, cortado à direita, em tom quase do fundo. O
+  Nobel preferiu H3 à bancada como prova recomendada.
+- Banner editorial com título, rótulo e lockup, sobre a calha.
+- Apresentação com capa escura e slides de conteúdo claros.
+- Capa de proposta inteira no escuro, com o quadro da decisão. O Nobel preferiu
+  P1 à faixa escura recomendada.
+- Assinatura com símbolo, divisor e dados; LinkedIn escuro tipográfico; cartão
+  com frente escura (símbolo) e verso claro.
+- Os textos das peças são provisórios; a rodada decidiu a composição.
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -314,19 +332,18 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   em Padrões; o assistente é a coluna fixa à direita da página. Quatro ícones
   novos (assistente, item, fornecedor, ferramenta) e o token
   `--layout-assistant-width` (320 px).
+- 06-11-2026: F12 implantada (v4.3.0) na seção nova "Peças de marca" (05), no
+  grupo Marca; as seções seguintes passaram a 06–22. O tema claro responde
+  também a `data-theme="light"`, para peças claras dentro de seção escura, e a
+  invariante do crimson passou a reconhecer as seções de marca pelo nome. Com a
+  F12, todas as rodadas propostas foram fechadas.
 
-## Próximas rodadas (proposta)
+## Próximas rodadas
 
-Elementos que a DR-09 e as extrações citam e que ainda não passaram por
-aprovação. Cada rodada aprova um lote por família, item a item (incluir, ajustar
-ou deixar de fora), porque cor, tipo, forma e semântica já estão decididos: a
-rodada decide o que entra e como se arranja.
-
-| #   | Lote                         | Itens                                          |
-| --- | ---------------------------- | ---------------------------------------------- |
-| F12 | Peças de marca e comunicação | hero de site, banners, capa e slides de deck,  |
-|     | (MAP-GC-09-D)                | capa de proposta, assinatura, LinkedIn, cartão |
-| F13 | Motion de feedback           | só se o Nobel reabrir o tema                   |
+As rodadas propostas (F10 a F12) foram fechadas. Fica em aberto só a F13, motion
+de feedback, que abre apenas se o Nobel reabrir o tema. Peças novas de marca ou
+padrões novos de aplicação seguem o mesmo método: página em `exploracao/fusao/`,
+votação item a item e registro aqui antes de qualquer token.
 
 Fontes: `~/Orison/Tatico/palantir-overview/` (réplicas de botão, campo, tag,
 callout, seleção, navegação, sobreposição, feedback, tabela, inspetor e rede),
