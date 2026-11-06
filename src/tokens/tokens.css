@@ -148,6 +148,7 @@
   /* ── F08/F09 · layout e dados ── */
   --layout-nav-width:       200px;
   --layout-inspector-width: 360px;
+  --layout-assistant-width: 320px;   /* F11 · A1: assistente fixo à direita */
   --layout-sidebar-width:   264px;   /* índice deste site */
   --layout-container:       1120px;
   --data-line-width: 2px;

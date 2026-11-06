@@ -5,8 +5,8 @@ RTK convention for shell commands (for example `rtk npm run build`).
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.1.0, approved by Nobel on
-06-11-2026 through fusion rounds F01–F10, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.2.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F11, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
 wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
 command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not
@@ -26,39 +26,44 @@ npm run preview        # Preview the production build
 npm run tokens:export  # tokens.css → tokens/orison.tokens.json (DTCG 2025.10)
 ```
 
-**`npm run verify` is the gate.** `build` depends on it. Run it before you
-claim anything is done.
+**`npm run verify` is the gate.** `build` depends on it. Run it before you claim
+anything is done.
 
 ## Architecture
 
 Static design system site for Orison, a single-page Vite app in vanilla JS +
 CSS. No framework.
 
-`src/main.js` is the single entry point. It imports CSS in layer order,
-loads every `src/sections/*.html` (sorted by filename) and every
+`src/main.js` is the single entry point. It imports CSS in layer order, loads
+every `src/sections/*.html` (sorted by filename) and every
 `src/assets/icons/*.svg` via `import.meta.glob`, injects the logo sprite
-(`src/assets/symbol.svg`), builds the sidebar from `NAV_ITEMS` +
-`GROUP_LABELS`, and wires: theme toggle, generated token values, swatches,
-measured contrast, icons, tabs, switch, toast and the two F09 charts.
+(`src/assets/symbol.svg`), builds the sidebar from `NAV_ITEMS` + `GROUP_LABELS`,
+and wires: theme toggle, generated token values, swatches, measured contrast,
+icons, tabs, switch, toast and the two F09 charts, plus the F10 components
+(tooltip, removable tag, segmented control, action menu, typed confirmation,
+undo toast, bulk selection) and the F11 object page (trace toggles, column
+graphs drawn from `data-graph`, network list to simple/deep graph, timeline
+window).
 
-### Sections (21, in seven groups)
+### Sections (22, in seven groups)
 
-| Group | Files |
-|---|---|
-| Início | `00-capa`, `01-como-usar` |
-| Marca | `02-simbolo`, `03-lockups`, `04-uso` |
-| Fundamentos | `05-cor` … `10-acessibilidade` |
-| Componentes | `11-botoes` … `15-tabela` |
-| Padrões | `16-semantica`, `17-bancada`, `18-dados` |
-| Conteúdo | `19-conteudo` |
-| Recursos | `20-recursos` |
+| Group       | Files                                                 |
+| ----------- | ----------------------------------------------------- |
+| Início      | `00-capa`, `01-como-usar`                             |
+| Marca       | `02-simbolo`, `03-lockups`, `04-uso`                  |
+| Fundamentos | `05-cor` … `10-acessibilidade`                        |
+| Componentes | `11-botoes` … `15-tabela`                             |
+| Padrões     | `16-semantica`, `17-bancada`, `18-objeto`, `19-dados` |
+| Conteúdo    | `20-conteudo`                                         |
+| Recursos    | `21-recursos`                                         |
 
-Marca sections (and the cover) are `<section class="doc-band"
-data-theme="dark">`; everything else is `<section class="doc-section">`.
+Marca sections (and the cover) are
+`<section class="doc-band" data-theme="dark">`; everything else is
+`<section class="doc-section">`.
 
-Adding a section: create the file with the next number, give the `<section>`
-an `aria-labelledby` pointing at its own `<h2>`, add a `NAV_ITEMS` entry with
-the right `group`, run `npm run verify`.
+Adding a section: create the file with the next number, give the `<section>` an
+`aria-labelledby` pointing at its own `<h2>`, add a `NAV_ITEMS` entry with the
+right `group`, run `npm run verify`.
 
 ### Conventions that the page relies on
 
@@ -84,31 +89,30 @@ the right `group`, run `npm run verify`.
 
 ### The ten invariants (`scripts/verify-system.mjs`)
 
-| # | Invariant |
-|---|---|
-| 1 | No `font-size` below 12px |
-| 2 | `letter-spacing` always in `em` |
-| 3 | `--color-crimson` only in `brand.css`, `tokens.css`, sections 00–05 |
-| 4 | No hex colour outside `tokens.css` and `brand.css` |
-| 5 | `border-radius` only 0, 3px, 4px, 50%, 9999px or a radius token |
-| 6 | Every `--motion-*` token is consumed |
-| 7 | Token contrast pairs pass in both themes (text 4.5:1, control/focus 3:1) |
-| 8 | One `<h1>`, `aria-labelledby` per section, every SVG labelled or hidden |
-| 9 | No `tabindex="-1"` in markup |
-| 10 | No weight 300, no Cormorant |
+| #   | Invariant                                                                |
+| --- | ------------------------------------------------------------------------ |
+| 1   | No `font-size` below 12px                                                |
+| 2   | `letter-spacing` always in `em`                                          |
+| 3   | `--color-crimson` only in `brand.css`, `tokens.css`, sections 00–05      |
+| 4   | No hex colour outside `tokens.css` and `brand.css`                       |
+| 5   | `border-radius` only 0, 3px, 4px, 50%, 9999px or a radius token          |
+| 6   | Every `--motion-*` token is consumed                                     |
+| 7   | Token contrast pairs pass in both themes (text 4.5:1, control/focus 3:1) |
+| 8   | One `<h1>`, `aria-labelledby` per section, every SVG labelled or hidden  |
+| 9   | No `tabindex="-1"` in markup                                             |
+| 10  | No weight 300, no Cormorant                                              |
 
 ### CSS layer order (imported in `main.js`)
 
 `tokens.css` · `motion-tokens.css` · `base.css` · `layout.css` · `docs.css` ·
-`components.css` · `patterns.css` · `dataviz.css` · `sidebar.css` ·
-`brand.css`.
+`components.css` · `patterns.css` · `dataviz.css` · `sidebar.css` · `brand.css`.
 
 ### Responsive
 
-Breakpoints `1280px` · `900px` · `600px` (literals: custom properties don't
-work in `@media`). ≤1280 the bench inspector drops below the queue; ≤900 the
-sidebar becomes a drawer under a fixed top bar and controls go to 44px; ≤600
-single column. The text scale never shrinks.
+Breakpoints `1280px` · `900px` · `600px` (literals: custom properties don't work
+in `@media`). ≤1280 the bench inspector drops below the queue; ≤900 the sidebar
+becomes a drawer under a fixed top bar and controls go to 44px; ≤600 single
+column. The text scale never shrinks.
 
 ### Accessibility contract
 
@@ -119,5 +123,5 @@ failures never auto-dismiss, `prefers-reduced-motion` collapses transitions,
 
 ### Exports (`package.json`)
 
-`./tokens`, `./motion`, `./tokens.json`, `./base`, `./components`,
-`./patterns`, `./dataviz`, `./brand`, `./symbol`, `./icons/*`.
+`./tokens`, `./motion`, `./tokens.json`, `./base`, `./components`, `./patterns`,
+`./dataviz`, `./brand`, `./symbol`, `./icons/*`.

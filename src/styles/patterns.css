@@ -1,5 +1,7 @@
-/* ═══ PADRÕES · F06 e F08 ═══
-   Cadeia de estado, KPI com baseline, bancada de operação e estado vazio. */
+/* ═══ PADRÕES · F06, F08 e F11 ═══
+   Cadeia de estado, KPI com baseline, bancada de operação, estado vazio
+   (F06, F08) e página do objeto com comparação, trace, linhagem, rede,
+   histórico e assistente (F11). */
 
 /* ── cadeia de estado no inspetor (F06 · E1) ── */
 .chain { display: grid; }
@@ -107,13 +109,173 @@
 .empty { display: grid; gap: var(--space-2); padding: var(--space-5); max-width: 560px; }
 .empty-title { font-size: var(--text-section); font-weight: var(--weight-strong); }
 
+/* ── página do objeto (F11 · V1) ──
+   Cabeçalho fixo, uma aba por pergunta, assistente fixo à direita (A1). */
+.object-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--layout-assistant-width);
+  background: var(--color-canvas);
+  border: var(--border-thin) solid var(--color-border);
+}
+
+.object-main { display: grid; align-content: start; min-width: 0; }
+.object-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-4); padding: var(--space-4); background: var(--color-surface); border-bottom: var(--border-thin) solid var(--color-border); }
+.object-id { display: grid; gap: 2px; }
+.object-title { font-size: var(--text-title); font-weight: var(--weight-strong); line-height: var(--leading-title); }
+.object-actions { display: flex; gap: var(--space-2); margin-left: auto; }
+.object-tabs { min-width: 0; overflow-x: auto; padding: 0 var(--space-4); background: var(--color-surface); border-bottom: var(--border-thin) solid var(--color-border); }
+.object-tabs .tabs { border-bottom: 0; }
+.object-panel { display: grid; gap: var(--space-3); align-content: start; min-width: 0; padding: var(--space-4); }
+.object-summary { grid-template-columns: 240px minmax(0, 1fr); }
+.panel { display: grid; gap: var(--space-3); align-content: start; min-width: 0; padding: var(--space-4); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+.panel-title { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+
+/* ── comparação da proposta (F11 · P1) ──
+   Só o que muda; proposto em 600, variação ao lado. */
+.diff td { white-space: normal; }
+.diff-old { color: var(--text-muted); }
+.diff-new { font-weight: var(--weight-strong); }
+.delta { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+
+/* ── trace (F11 · T2): a cadeia do inspetor, com dados sob demanda ── */
+.chain-link { padding: 0; border: 0; background: none; font: inherit; font-weight: var(--weight-strong); color: var(--color-link); cursor: pointer; }
+.chain-data { margin: 0; padding: var(--space-2) var(--space-3); overflow-x: auto; background: var(--color-canvas); border: var(--border-thin) solid var(--color-border); font-family: var(--font-mono); font-size: var(--text-label); line-height: 1.5; }
+
+/* ── grafo em colunas: linhagem (F11 · L2) e rede aprofundada (R2) ──
+   As ligações são desenhadas em tempo de execução a partir de data-graph. */
+.lineage,
+.net-deep {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+}
+
+.net-deep { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); border: 0; }
+.lineage-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.lineage-col .panel-title { align-self: flex-start; }
+.lineage-col > .graph-node:nth-child(2) { margin-top: auto; }
+.lineage-col > .graph-node:last-child { margin-bottom: auto; }
+
+.graph-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  padding: var(--space-2) 10px;
+  background: var(--color-raised);
+  border: var(--border-thin) solid var(--color-border);
+  color: var(--text-primary);
+  font-family: var(--font-text);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-strong);
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.graph-node .tag { max-width: 100%; white-space: normal; overflow-wrap: normal; }
+.graph-node > span:not(.tag) { font-size: var(--text-label); font-weight: var(--weight-text); color: var(--text-muted); }
+.graph-node.is-path { border-color: var(--color-action); box-shadow: inset 0 0 0 1px var(--color-action); }
+.graph-node[aria-pressed='true'] { background: var(--color-selected); border-color: var(--color-action); box-shadow: inset 0 0 0 1px var(--color-action); }
+.graph-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.graph-edges path { fill: none; stroke: var(--color-control); stroke-width: 1.5; }
+.graph-edges path.is-path { stroke: var(--color-action); stroke-width: 2; }
+
+/* ── rede (F11 · R3 → R1 / R2) ──
+   Começa em lista; “Abrir na rede” mostra o grafo simples (vínculos
+   diretos) ou aprofundado (segundo grau, com estado em cada nó). */
+.net-stage { display: grid; grid-template-columns: minmax(0, 1fr) 200px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+.net-simple { position: relative; height: 300px; }
+.net-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.net-lines line { stroke: var(--color-control); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.net-lines line.is-hot { stroke: var(--color-action); stroke-width: 2; }
+
+.net-node {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-primary);
+  font-family: var(--font-text);
+  font-size: var(--text-label);
+  cursor: pointer;
+  transform: translate(-50%, -20px);
+}
+
+.net-dot { display: grid; place-items: center; width: 40px; height: 40px; border: 2px solid var(--color-control); border-radius: var(--radius-full); background: var(--color-surface); }
+.net-node b { padding: 0 var(--space-1); background: var(--color-surface); font-weight: var(--weight-strong); white-space: nowrap; }
+.net-node[aria-pressed='true'] .net-dot { border-color: var(--color-action); background: var(--color-selected); }
+.net-card { gap: 6px; }
+.net-selection { display: grid; gap: var(--space-2); align-content: start; padding: var(--space-4); border-left: var(--border-thin) solid var(--color-border); }
+.net-selection .btn { padding: 0; }
+
+/* ── histórico (F11 · H1) ──
+   Eventos por dia; clicar, arrastar ou Shift escolhe a janela que filtra a
+   lista. Uma série só: data-1 na janela, contexto fora dela. */
+.timeline { display: grid; gap: var(--space-2); }
+
+.timeline-hist {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  gap: 3px;
+  align-items: end;
+  height: 120px;
+  border-bottom: var(--border-thin) solid var(--data-axis);
+  touch-action: none;
+  user-select: none;
+}
+
+.timeline-bar { height: var(--h); min-height: 4px; padding: 0; border: 0; border-radius: var(--data-bar-radius) var(--data-bar-radius) 0 0; background: var(--data-1); cursor: pointer; }
+.timeline.has-window .timeline-bar { background: var(--data-context); }
+.timeline.has-window .timeline-bar[aria-pressed='true'] { background: var(--data-1); }
+.timeline-axis { display: flex; justify-content: space-between; font-size: var(--text-label); color: var(--text-muted); }
+.timeline-list { display: grid; margin: 0; padding: 0; list-style: none; font-size: var(--text-meta); }
+.timeline-list li { display: grid; grid-template-columns: 96px 20px minmax(0, 1fr); gap: var(--space-2); align-items: center; min-height: var(--height-row); border-bottom: var(--border-thin) solid var(--color-border); }
+.timeline-list li > .num { color: var(--text-muted); }
+.timeline-list li.is-failed { color: var(--text-danger); }
+
+/* ── assistente (F11 · A1) ──
+   Contexto e revisão à vista, IA real ou fixture, fonte citada, ferramentas
+   listadas. O que propõe vira Proposta; nunca executa. */
+.assistant { display: grid; gap: var(--space-3); align-content: start; min-width: 0; padding: var(--space-4); background: var(--color-surface); border-left: var(--border-thin) solid var(--color-border); }
+.assistant-head { display: flex; align-items: center; gap: var(--space-2); }
+.assistant-head h4 { font-size: var(--text-ui); font-weight: var(--weight-strong); }
+.assistant-head .seal { margin-left: auto; }
+.assistant-context { display: flex; flex-wrap: wrap; gap: 6px; }
+.assistant-msg { display: grid; gap: var(--space-1); font-size: var(--text-meta); }
+.assistant-msg.is-user { justify-self: end; max-width: 85%; padding: 6px 10px; background: var(--color-neutral-fill); }
+.assistant-cite { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--color-link); }
+.assistant-tool { display: flex; align-items: center; gap: 6px; padding-left: var(--space-2); border-left: var(--border-thin) solid var(--color-border); font-size: var(--text-label); color: var(--text-muted); }
+.assistant-output { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 10px; background: var(--color-canvas); border: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
+.assistant-output .tag { margin-left: auto; }
+
 /* Abaixo de 1280 px o inspetor vira gaveta; aqui ele desce para baixo da fila. */
 @media (max-width: 1280px) {
   .bench-body { grid-template-columns: var(--layout-nav-width) minmax(0, 1fr); }
   .bench-inspector { grid-column: 1 / -1; border-left: 0; border-top: var(--border-thin) solid var(--color-border); }
+  .object-page { grid-template-columns: minmax(0, 1fr); }
+  .assistant { border-left: 0; border-top: var(--border-thin) solid var(--color-border); }
 }
 
 @media (max-width: 900px) {
   .bench-body { grid-template-columns: 1fr; }
   .bench-nav { display: none; }
+  .object-summary { grid-template-columns: minmax(0, 1fr); }
+  .net-stage { grid-template-columns: minmax(0, 1fr); }
+  .net-selection { border-left: 0; border-top: var(--border-thin) solid var(--color-border); }
+}
+
+/* Coluna única: o grafo vira lista por coluna e as ligações saem. */
+@media (max-width: 600px) {
+  .lineage, .net-deep { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  .graph-edges { display: none; }
+  .lineage-col > .graph-node { margin: 0; }
 }

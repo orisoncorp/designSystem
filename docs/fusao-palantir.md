@@ -54,6 +54,8 @@ Em toda rodada:
 | F09 | Visualização de dados   | paleta categórica, gráficos, KPI                 |
 | F10 | Componentes extras      | dica, tag removível, seleção em massa, menu,     |
 |     |                         | segmentado, confirmação, desfazer, progresso     |
+| F11 | Padrões de aplicação    | página do objeto, comparação, trace, linhagem,   |
+|     |                         | rede, assistente, linha do tempo                 |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -196,6 +198,25 @@ Escolhas: D1 · R2 · X3 · S1 · M3 · G2 · U1 · P2. Página:
   página, apareceu um defeito no token `--risk-fill`, que não era redeclarado no
   tema escuro; corrigido, e o `verify` passou a cobrir esse caso.
 
+### F11 · Padrões de aplicação · 06-11-2026
+
+Escolhas: V1 · P1 · T2 · L2 · A1 · R3 com R1 e R2 · H1. Página:
+`exploracao/fusao/f11-aplicacao.html`.
+
+- Página do objeto com cabeçalho fixo e abas (Foundry Object View): Resumo,
+  Trace, Linhagem, Rede, Histórico.
+- Comparação da proposta em tabela atual × proposto, como no piloto.
+- Trace na mesma cadeia vertical do inspetor, com atores, hora, duração e dados
+  brutos sob demanda.
+- Linhagem em grafo de colunas (Foundry Data Lineage), com o caminho do objeto
+  em azul. O Nobel preferiu L2 à faixa simples recomendada.
+- Assistente em painel fixo à direita, como no piloto.
+- Rede: decisão composta do Nobel. Começa na lista de relações (R3); "Abrir na
+  rede" leva a um grafo interativo com controle segmentado entre Simples (R1,
+  vínculos diretos) e Aprofundada (R2, segundo grau com estado). Ele gostou das
+  duas visualizações.
+- Linha do tempo em histograma com janela que filtra a lista (Gotham).
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -289,6 +310,10 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   existiam: dica em Botões; tag removível e segmentado em Campos; desfazer,
   progresso e confirmação em Avisos; menu em Abas e filtros; seleção em massa em
   Tabela.
+- 06-11-2026: F11 implantada (v4.2.0) numa seção nova, "Página do objeto" (18),
+  em Padrões; o assistente é a coluna fixa à direita da página. Quatro ícones
+  novos (assistente, item, fornecedor, ferramenta) e o token
+  `--layout-assistant-width` (320 px).
 
 ## Próximas rodadas (proposta)
 
@@ -297,13 +322,11 @@ aprovação. Cada rodada aprova um lote por família, item a item (incluir, ajus
 ou deixar de fora), porque cor, tipo, forma e semântica já estão decididos: a
 rodada decide o que entra e como se arranja.
 
-| #   | Lote                         | Itens                                             |
-| --- | ---------------------------- | ------------------------------------------------- |
-| F11 | Padrões de aplicação         | object view, proposta com diff, trace e linhagem, |
-|     | (Foundry, AIP, Gotham)       | assistente com contexto, visão de rede, timeline  |
-| F12 | Peças de marca e comunicação | hero de site, banners, capa e slides de deck,     |
-|     | (MAP-GC-09-D)                | capa de proposta, assinatura, LinkedIn, cartão    |
-| F13 | Motion de feedback           | só se o Nobel reabrir o tema                      |
+| #   | Lote                         | Itens                                          |
+| --- | ---------------------------- | ---------------------------------------------- |
+| F12 | Peças de marca e comunicação | hero de site, banners, capa e slides de deck,  |
+|     | (MAP-GC-09-D)                | capa de proposta, assinatura, LinkedIn, cartão |
+| F13 | Motion de feedback           | só se o Nobel reabrir o tema                   |
 
 Fontes: `~/Orison/Tatico/palantir-overview/` (réplicas de botão, campo, tag,
 callout, seleção, navegação, sobreposição, feedback, tabela, inspetor e rede),

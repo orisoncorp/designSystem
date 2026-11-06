@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.1.0
+version: 4.2.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -259,10 +259,21 @@ components:
     backgroundColor: "{colors.selected}"
     padding: "4px 12px"
     height: "44px"
+  object-header:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.title}"
+    padding: "16px"
+  assistant-panel:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.meta}"
+    padding: "16px"
+    width: "320px"
 ---
 
 <!--
-Estado: v4.1.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F10
+Estado: v4.2.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F11
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -408,7 +419,9 @@ a linha de tabela tem 36 px.
 A tela de operação é uma bancada de três regiões fixas: navegação lateral escura
 de 200 px, fila no centro e inspetor de 360 px à direita. Selecionar uma linha
 atualiza o inspetor sem sair da fila. Filtros ficam como chips acima da tabela,
-sempre visíveis quando ativos. Barra superior de 48 px.
+sempre visíveis quando ativos. Barra superior de 48 px. O assistente, quando
+existe, é uma coluna fixa de 320 px à direita do inspetor ou da página do
+objeto; abaixo de 1280 px desce para baixo dela, como o inspetor.
 
 No produto, blocos têm borda de 1 px e 12 px de intervalo. A calha de 2 px da
 v3.0 sobrevive só como assinatura em páginas de marca do tema escuro.
@@ -559,6 +572,62 @@ barra de ações sobre o fundo de seleção: contagem, ações e "Limpar seleç�
 lote só reúne itens do mesmo nível de risco; ação irreversível nunca vai em
 lote.
 
+### Object View
+
+Quando o inspetor não basta, o objeto abre numa página. Cabeçalho fixo com tipo
+e fonte, código em 24 px, estado, risco, owner e ações (Mais ações e o verbo
+primário). Abaixo, abas sublinhadas, uma por pergunta: Resumo, Trace, Linhagem,
+Rede, Histórico. O Resumo mostra as propriedades à esquerda e a proposta aberta
+à direita.
+
+### Proposal Diff
+
+Tabela de três colunas: campo, atual e proposto. Só as propriedades que mudam. O
+atual em texto secundário, o proposto em peso 600 com a variação ao lado (+3,3%,
++20). A base da proposta (revisão) fica no título do bloco. É a mesma tabela no
+inspetor, na página do objeto e no diálogo de confirmação.
+
+### Execution Trace
+
+A cadeia vertical do estado operacional, aplicada à execução: etapa, quem agiu,
+hora e duração; "Ver dados" abre o registro bruto da etapa em fonte mono. Só
+etapas observadas; nenhum raciocínio interno do modelo é inferido.
+
+### Lineage
+
+Grafo em colunas: fontes, transformações, objetos e actions, cada nó com nome e
+versão ou transação. O caminho do objeto em foco fica em azul; os demais
+vínculos em cinza de controle. Clicar num nó mostra o detalhe abaixo. Em coluna
+única (abaixo de 600 px), o grafo vira lista por coluna e as ligações saem.
+
+### Network View
+
+Começa em lista: relações agrupadas por tipo, em tabelas curtas com estado.
+"Abrir na rede" leva ao grafo, com um controle segmentado de profundidade:
+
+- **Simples:** vínculos diretos; nós circulares com ícone por tipo, arestas
+  retas; a seleção acende em azul o nó e as arestas dele.
+- **Aprofundada:** primeiro e segundo grau, em colunas; cada nó é um cartão com
+  código e tag de estado.
+
+Os dois têm painel de seleção (nome, tipo, vínculos, "Abrir no inspetor") e
+"Voltar à lista".
+
+### Timeline
+
+Histograma de eventos por dia, numa série só (`data-1`), com a lista de eventos
+abaixo. Clicar escolhe um dia; arrastar ou Shift estende a janela. Fora da
+janela as barras passam a `data-context` e a lista mostra só os eventos da
+janela. "Limpar janela" volta a todos os dias. Falha aparece na lista em
+vermelho, com ícone.
+
+### Assistant
+
+Coluna fixa à direita. Mostra o contexto capturado (objeto e revisão) como tags
+de valor; diz se a resposta vem de IA real ou de fixture (selo de evidência);
+cita a fonte; lista as ferramentas usadas. O que o assistente propõe vira
+Proposta na fila, com tag de estado; ele nunca executa.
+
 ### Operational State (signature)
 
 Oito estados: Proposta, Aguardando aprovação, Aprovada, Writeback enviado,
@@ -592,7 +661,7 @@ tabela.
 
 Desenho Lucide adaptado: traço 2 na grade de 24, terminações e junções retas. 16
 px em texto e tag, 20 px em botão e navegação. O catálogo cresce ícone por
-ícone; são 28 em `exploracao/fusao/icones/` (22 da F05 e 6 da F10).
+ícone; são 32 em `exploracao/fusao/icones/` (22 da F05, 6 da F10 e 4 da F11).
 
 ### Motion
 

@@ -48,9 +48,10 @@ const NAV_ITEMS = [
   { id: 'sec-tabela',         num: '15', label: 'Tabela',                    group: 'componentes' },
   { id: 'sec-semantica',      num: '16', label: 'Semântica operacional',     group: 'padroes' },
   { id: 'sec-bancada',        num: '17', label: 'Bancada de operação',       group: 'padroes' },
-  { id: 'sec-dados',          num: '18', label: 'Visualização de dados',     group: 'padroes' },
-  { id: 'sec-conteudo',       num: '19', label: 'Texto de interface',        group: 'conteudo' },
-  { id: 'sec-recursos',       num: '20', label: 'Tokens e arquivos',         group: 'recursos' },
+  { id: 'sec-objeto',         num: '18', label: 'Página do objeto',          group: 'padroes' },
+  { id: 'sec-dados',          num: '19', label: 'Visualização de dados',     group: 'padroes' },
+  { id: 'sec-conteudo',       num: '20', label: 'Texto de interface',        group: 'conteudo' },
+  { id: 'sec-recursos',       num: '21', label: 'Tokens e arquivos',         group: 'recursos' },
 ];
 
 const GROUP_LABELS = {
@@ -243,6 +244,7 @@ document.querySelectorAll('[data-tabs]').forEach((list) => {
       document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
     });
     tab.focus();
+    document.dispatchEvent(new Event('orison:layout'));
   };
   tabs.forEach((t) => { t.tabIndex = t.getAttribute('aria-selected') === 'true' ? 0 : -1; });
   list.addEventListener('click', (e) => { const t = e.target.closest('[role="tab"]'); if (t) select(t); });
@@ -277,7 +279,10 @@ function roving(items, keys, onMove) {
 /* Controle segmentado (F10 · S1): radiogroup; a seta seleciona. */
 document.querySelectorAll('[data-segmented]').forEach((group) => {
   const segs = [...group.querySelectorAll('[role="radio"]')];
-  const select = (seg) => segs.forEach((s) => { const on = s === seg; s.setAttribute('aria-checked', String(on)); s.tabIndex = on ? 0 : -1; });
+  const select = (seg) => {
+    segs.forEach((s) => { const on = s === seg; s.setAttribute('aria-checked', String(on)); s.tabIndex = on ? 0 : -1; });
+    group.dispatchEvent(new CustomEvent('segment-change', { detail: seg }));
+  };
   roving(segs, ['ArrowLeft', 'ArrowRight'], select);
   select(segs.find((s) => s.getAttribute('aria-checked') === 'true') || segs[0]);
   group.addEventListener('click', (e) => { const s = e.target.closest('[role="radio"]'); if (s) select(s); });
@@ -327,6 +332,111 @@ document.querySelectorAll('[data-bulk]').forEach((box) => {
   box.querySelector('[data-bulk-clear]').addEventListener('click', () => { rows.forEach((r) => { r.checked = false; }); sync(); all.focus(); });
   rows[0].checked = true; rows[1].checked = true;
   sync();
+});
+
+/* ── Página do objeto (F11) ── */
+
+/* Grafo em colunas (linhagem L2 e rede aprofundada R2): liga os nós
+   depois do layout; refaz ao trocar de aba, de tema ou de largura. */
+function drawGraphs() {
+  document.querySelectorAll('[data-graph]').forEach((g) => {
+    if (!g.offsetParent) return;
+    const box = g.getBoundingClientRect();
+    const svg = g.querySelector('.graph-edges');
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    svg.innerHTML = g.dataset.graph.split(',').map((edge) => {
+      const hot = edge.endsWith('*');
+      const [a, b] = edge.replace('*', '').split('>').map((k) => g.querySelector(`[data-node="${k}"]`).getBoundingClientRect());
+      const x1 = a.right - box.left, y1 = a.top + a.height / 2 - box.top;
+      const x2 = b.left - box.left, y2 = b.top + b.height / 2 - box.top, m = (x1 + x2) / 2;
+      return `<path class="${hot ? 'is-path' : ''}" d="M${x1} ${y1} C ${m} ${y1} ${m} ${y2} ${x2} ${y2}"/>`;
+    }).join('');
+  });
+}
+document.addEventListener('orison:layout', () => requestAnimationFrame(drawGraphs));
+addEventListener('resize', () => requestAnimationFrame(drawGraphs));
+themeBtn.addEventListener('click', () => requestAnimationFrame(drawGraphs));
+
+/* Seleção na rede: atualiza o painel; no grafo simples, acende as arestas. */
+function selectNetNode(net, node) {
+  const [name, type, links] = node.dataset.detail.split('|');
+  net.querySelector('[data-sel-name]').textContent = name;
+  net.querySelector('[data-sel-type]').textContent = type;
+  net.querySelector('[data-sel-links]').textContent = links;
+  net.querySelectorAll('.net-lines line').forEach((l) => l.classList.toggle('is-hot', [l.dataset.a, l.dataset.b].includes(node.dataset.node)));
+}
+
+/* Nó clicável: um selecionado por grafo. */
+document.addEventListener('click', (e) => {
+  const node = e.target.closest('.graph-node, .net-node');
+  if (!node) return;
+  const canvas = node.closest('[data-graph], [data-network-canvas]');
+  canvas.querySelectorAll('[aria-pressed]').forEach((n) => n.setAttribute('aria-pressed', String(n === node)));
+  const net = node.closest('[data-network]');
+  if (net) selectNetNode(net, node);
+  else node.closest('.object-panel')?.querySelector('[data-graph-detail]')?.replaceChildren(node.dataset.detail);
+});
+
+/* Trace: “Ver dados” abre o bruto da etapa. */
+document.querySelectorAll('[data-trace-toggle]').forEach((b) => b.addEventListener('click', () => {
+  const pre = b.closest('.stack-1').querySelector('.chain-data');
+  pre.hidden = !pre.hidden;
+  b.setAttribute('aria-expanded', String(!pre.hidden));
+  b.textContent = pre.hidden ? 'Ver dados' : 'Ocultar dados';
+}));
+
+/* Rede (R3 → R1 / R2): lista primeiro; o segmentado troca a profundidade. */
+document.querySelectorAll('[data-network]').forEach((net) => {
+  const list = net.querySelector('[data-network-list]');
+  const view = net.querySelector('[data-network-view]');
+  const caption = net.querySelector('[data-network-caption]');
+  const show = (mode) => {
+    net.querySelectorAll('[data-network-canvas]').forEach((c) => { c.hidden = c.dataset.networkCanvas !== mode; });
+    caption.textContent = mode === 'deep' ? 'Primeiro e segundo grau, com o estado de cada objeto.' : 'Vínculos diretos do SKU-88.';
+    const current = net.querySelector(`[data-network-canvas="${mode}"] [aria-pressed="true"]`);
+    if (current) selectNetNode(net, current);
+    requestAnimationFrame(drawGraphs);
+  };
+  net.querySelector('[data-network-mode]').addEventListener('segment-change', (e) => show(e.detail.dataset.value));
+  net.querySelector('[data-network-open]').addEventListener('click', () => {
+    list.hidden = true; view.hidden = false;
+    show(net.querySelector('[data-network-mode] [aria-checked="true"]').dataset.value);
+    view.querySelector('[role="radio"][aria-checked="true"]').focus();
+  });
+  net.querySelector('[data-network-close]').addEventListener('click', () => {
+    view.hidden = true; list.hidden = false;
+    net.querySelector('[data-network-open]').focus();
+  });
+});
+
+/* Histórico (H1): clicar escolhe um dia; arrastar ou Shift estende a janela. */
+document.querySelectorAll('[data-timeline]').forEach((tl) => {
+  const bars = [...tl.querySelectorAll('.timeline-bar')];
+  const items = [...tl.querySelectorAll('.timeline-list li')];
+  const label = tl.querySelector('[data-timeline-label]');
+  const days = bars.map((b) => b.getAttribute('aria-label').split(':')[0]);
+  let anchor = null;
+  let dragging = false;
+  const apply = (a, b) => {
+    const [lo, hi] = a === null ? [-1, -1] : [Math.min(a, b), Math.max(a, b)];
+    tl.classList.toggle('has-window', a !== null);
+    bars.forEach((bar, i) => bar.setAttribute('aria-pressed', String(i >= lo && i <= hi)));
+    let n = 0;
+    items.forEach((li) => { const d = Number(li.dataset.day); li.hidden = a !== null && (d < lo || d > hi); if (!li.hidden) n += 1; });
+    label.textContent = a === null ? 'Todos os dias' : `Janela: ${days[lo]}${hi > lo ? ` a ${days[hi]}` : ''} · ${n} ${n === 1 ? 'evento listado' : 'eventos listados'}`;
+  };
+  bars.forEach((bar, i) => {
+    bar.addEventListener('pointerdown', (e) => { if (e.shiftKey && anchor !== null) return; anchor = i; dragging = true; apply(i, i); });
+    bar.addEventListener('click', (e) => { if (e.shiftKey && anchor !== null) apply(anchor, i); else if (e.detail === 0) { anchor = i; apply(i, i); } });
+  });
+  // Ponteiro de toque fica preso ao primeiro alvo; o dia sob o dedo vem da posição.
+  tl.querySelector('[data-timeline-hist]').addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const bar = document.elementFromPoint(e.clientX, e.clientY)?.closest('.timeline-bar');
+    if (bar && bars.includes(bar)) apply(anchor, bars.indexOf(bar));
+  });
+  addEventListener('pointerup', () => { dragging = false; });
+  tl.querySelector('[data-timeline-clear]').addEventListener('click', () => { anchor = null; apply(null); });
 });
 
 /* ── Switch com rótulo de estado ── */
