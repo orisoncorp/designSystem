@@ -1,8 +1,8 @@
 <!-- 14 · Abas, filtros e navegação -->
 <section id="sec-navegacao" class="doc-section" aria-labelledby="sec-navegacao-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F07 e F08</p>
-    <h2 class="doc-title" id="sec-navegacao-title">Abas, filtros e navegação</h2>
+    <p class="doc-eyebrow">Componentes · F07, F08 e F10</p>
+    <h2 class="doc-title" id="sec-navegacao-title">Abas, filtros, menus e navegação</h2>
     <p class="doc-lead">
       Abas sublinhadas trocam vistas do mesmo objeto. Chips mostram o filtro
       ativo. A navegação lateral escura persiste sem competir com o conteúdo.
@@ -28,4 +28,23 @@
     <button type="button" class="btn btn-minimal">Limpar filtros</button>
   </div>
   <p class="meta">Abas respondem às setas do teclado; só a aba ativa entra na ordem de Tab (padrão WAI-ARIA, aplicado em tempo de execução).</p>
+
+  <div class="specimen" style="align-items:flex-start">
+    <div class="menu" role="menu" aria-label="Ações da proposta PC-20481" data-menu>
+      <div class="menu-head" role="presentation">Proposta</div>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="aprovar"></i>Aprovar…<span class="menu-key">A</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="owner"></i>Atribuir owner<span class="menu-key">O</span></button>
+      <div class="menu-sep" role="separator"></div>
+      <div class="menu-head" role="presentation">Objeto</div>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="inspetor"></i>Abrir no inspetor<span class="menu-key">I</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="copiar"></i>Copiar ID<span class="menu-key">Ctrl C</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="historico"></i>Ver histórico<span class="menu-key">H</span></button>
+      <div class="menu-sep" role="separator"></div>
+      <button type="button" class="menu-item is-danger" role="menuitem"><i class="ico" data-icon="reverter"></i>Reverter writeback…</button>
+    </div>
+    <div class="stack-2" style="max-width:52ch">
+      <p class="meta">Menu de ações (F10 · M3), aberto pelo botão <i class="ico" data-icon="mais"></i> “Mais ações” ou pelo clique direito na linha. Seções com título, atalho à direita e setas do teclado.</p>
+      <p class="meta">A ação destrutiva fica sozinha no fim, em texto vermelho, sem fundo. Reticências indicam que o item abre uma confirmação; nada destrutivo executa direto do menu.</p>
+    </div>
+  </div>
 </section>

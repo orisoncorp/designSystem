@@ -1,11 +1,12 @@
 <!-- 13 · Tags, alertas e avisos -->
 <section id="sec-feedback" class="doc-section" aria-labelledby="sec-feedback-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F06 e F07</p>
-    <h2 class="doc-title" id="sec-feedback-title">Tags, alertas e avisos</h2>
+    <p class="doc-eyebrow">Componentes · F06, F07 e F10</p>
+    <h2 class="doc-title" id="sec-feedback-title">Tags, alertas, avisos e confirmação</h2>
     <p class="doc-lead">
       Tag diz o estado do objeto. Alerta em bloco fica na página até ser
-      resolvido. Toast só confirma, e falha nunca some sozinha.
+      resolvido. Toast só confirma, e falha nunca some sozinha. Antes de agir,
+      a confirmação mostra o que muda.
     </p>
   </header>
 
@@ -26,6 +27,46 @@
   <div class="specimen">
     <button type="button" class="btn btn-secondary" data-toast="success">Mostrar confirmação</button>
     <button type="button" class="btn btn-secondary" data-toast="danger">Mostrar falha</button>
-    <span class="meta">Sucesso some em 5 s (pausa com hover ou foco); falha fica até ser fechada.</span>
+    <button type="button" class="btn btn-secondary" data-toast="undo">Aprovar com desfazer</button>
+    <span class="meta">Sucesso some em 5 s (pausa com hover ou foco); falha fica até ser fechada. Desfazer dura 10 s e só existe antes do writeback: depois, voltar atrás é Reverter, uma nova proposta (F10 · U1).</span>
   </div>
+
+  <div class="block">
+    <div class="progress">
+      <div class="progress-head"><b id="prog-lote">Reconciliando lote LT-0912</b><span class="num">34 de 120</span></div>
+      <div class="progress-track" role="progressbar" aria-labelledby="prog-lote" aria-valuemin="0" aria-valuemax="120" aria-valuenow="34" aria-valuetext="34 de 120, etapa 3 de 4"><div class="progress-fill" style="--progress:28%"></div></div>
+      <span class="meta">Etapa 3 de 4 · cerca de 2 min</span>
+    </div>
+    <p class="meta">Processo longo (F10 · P2): barra neutra, porque andamento não é resultado; etapa e contagem em texto.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="scrim-stage">
+      <div class="dialog" role="group" aria-labelledby="dlg-aprovar">
+        <span class="dialog-title" id="dlg-aprovar">Aprovar a proposta PC-20481?</span>
+        <p class="dialog-body">O writeback vai para o ERP sintético assim que você aprovar.</p>
+        <dl class="props impact">
+          <dt>Muda</dt><dd>Preço do SKU-88: <span class="num nowrap">R$ 7.725,00</span> → <span class="num nowrap">R$ 7.980,50</span></dd>
+          <dt>Risco</dt><dd><span class="risk risk-medium">Médio</span></dd>
+          <dt>Reversível</dt><dd>Sim, por nova proposta</dd>
+          <dt>Owner</dt><dd>Operações</dd>
+        </dl>
+        <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="button" class="btn btn-primary"><i class="ico" data-icon="aprovar"></i>Aprovar</button></div>
+      </div>
+    </div>
+    <div class="scrim-stage">
+      <div class="dialog" role="group" aria-labelledby="dlg-excluir">
+        <span class="dialog-title" id="dlg-excluir">Excluir o lote LT-0912 do destino?</span>
+        <p class="dialog-body">O ERP não guarda versão anterior deste lote. Não há como reverter.</p>
+        <dl class="props impact">
+          <dt>Muda</dt><dd>Remove 120 lançamentos do ERP</dd>
+          <dt>Risco</dt><dd><span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span></dd>
+          <dt>Owner</dt><dd>Controladoria</dd>
+        </dl>
+        <label class="field"><span class="field-label">Digite LT-0912 para confirmar</span><input class="input" data-typed-confirm="LT-0912" autocomplete="off"></label>
+        <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="button" class="btn btn-danger" disabled data-typed-target>Excluir lote</button></div>
+      </div>
+    </div>
+  </div>
+  <p class="meta">Confirmação com impacto (F10 · G2): o que muda, risco, reversibilidade e owner antes do verbo. Irreversível exige digitar o código; o botão só habilita quando o texto confere.</p>
 </section>

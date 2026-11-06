@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.0.0
+version: 4.1.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -234,10 +234,35 @@ components:
     padding: "0 12px"
   table-row-selected:
     backgroundColor: "{colors.selected}"
+  tooltip:
+    backgroundColor: "{colors.text-primary}"
+    textColor: "{colors.canvas}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.control}"
+    padding: "6px 10px"
+  tag-value:
+    backgroundColor: "{colors.neutral-fill}"
+    textColor: "{colors.text-primary}"
+    typography: "{typography.label}"
+    rounded: "{rounded.tag}"
+    padding: "1px 0 1px 8px"
+  segmented:
+    backgroundColor: "{colors.neutral-fill}"
+    textColor: "{colors.text-muted}"
+    rounded: "{rounded.control}"
+    padding: "2px"
+    height: "36px"
+  segmented-active:
+    backgroundColor: "{colors.raised}"
+    textColor: "{colors.text-primary}"
+  bulk-bar:
+    backgroundColor: "{colors.selected}"
+    padding: "4px 12px"
+    height: "44px"
 ---
 
 <!--
-Estado: v4.0.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F09
+Estado: v4.1.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F10
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -452,6 +477,7 @@ depender só de cor.
 - **Minimal:** só texto e ícone, para ações de baixa ênfase em barras e tabelas.
 - **Danger:** vermelho de falha com texto branco; para ação irreversível, exige
   confirmação digitada no diálogo.
+- **Icon-only:** quadrado de 36 px, sempre com dica (ver Overlays).
 - **Hover / Active:** escurecem nos dois temas; nunca clareiam sob texto branco.
   **Disabled:** fundo neutro e texto desabilitado. **Loading:** spinner e verbo
   no gerúndio ("Aprovando…").
@@ -477,6 +503,13 @@ depender só de cor.
 - **Focus:** contorno de foco de 2 px afastado 2 px.
 - **Error / Disabled:** erro com borda dupla em vermelho e mensagem com ícone;
   desabilitado em neutro; somente leitura com borda tracejada.
+- **Multi-select:** valores escolhidos viram tags neutras removíveis (fundo
+  neutro, borda de 1 px, texto em tinta). O X tem área própria de 24 px,
+  separada por um traço. Tag de valor nunca usa cor de estado.
+- **Segmented control:** troca de vista ou janela do mesmo conteúdo, de 2 a 4
+  opções. Trilho neutro; a opção ativa sobe como superfície elevada com sombra
+  de nível 1. Não usa azul: escolher vista não é agir. Setas do teclado mudam a
+  opção.
 
 ### Navigation
 
@@ -490,6 +523,20 @@ depender só de cor.
 Sublinhadas: barra de 3 px na cor de ação sob a aba ativa; contagem tabular ao
 lado do rótulo.
 
+### Overlays
+
+- **Tooltip:** invertida (fundo em tinta, texto no canvas), 14 px, raio 4 e
+  seta. Abre com hover após 300 ms e com foco; Esc fecha. Complementa o controle
+  e nunca é o único lugar de uma informação.
+- **Action menu:** nível 1. Seções com título em caixa alta, atalho à direita e
+  divisores. A ação destrutiva fica sozinha no fim, em texto vermelho, sem
+  fundo; reticências indicam que o item abre uma confirmação, e nada destrutivo
+  executa direto do menu.
+- **Confirmation dialog:** nível 3 com véu. Título em pergunta com o verbo, uma
+  frase de consequência e um bloco de impacto (o que muda, risco,
+  reversibilidade e owner) antes dos botões Cancelar e verbo. Ação irreversível
+  acrescenta a confirmação digitada: o botão só habilita quando o texto confere.
+
 ### Feedback
 
 - **Callout:** barra lateral de 3 px na cor do tipo, fundo tingido, ícone e
@@ -497,8 +544,20 @@ lado do rótulo.
 - **Toast:** canto inferior direito, nível 3; sucesso some em 5 s (pausa com
   hover ou foco); falha fica até ser fechada. O toast nunca substitui o estado
   no objeto.
+- **Undo:** só antes do writeback. O toast de sucesso traz "Desfazer" e fica 10
+  s; essa janela é o atraso do envio. Depois que o destino aplicou, voltar atrás
+  é "Reverter": uma nova proposta, com o próprio risco.
+- **Progress:** barra de 4 px em tinta neutra, porque andamento não é resultado,
+  com etapa e contagem em texto ("34 de 120 · etapa 3 de 4").
 - **Empty state:** alinhado ao texto, com título, explicação (por que está vazio
   e quantos objetos existem fora do filtro) e ação de saída.
+
+### Bulk Selection
+
+Checkbox no cabeçalho com estado parcial. Ao marcar, a barra de filtros vira
+barra de ações sobre o fundo de seleção: contagem, ações e "Limpar seleção". O
+lote só reúne itens do mesmo nível de risco; ação irreversível nunca vai em
+lote.
 
 ### Operational State (signature)
 
@@ -533,7 +592,7 @@ tabela.
 
 Desenho Lucide adaptado: traço 2 na grade de 24, terminações e junções retas. 16
 px em texto e tag, 20 px em botão e navegação. O catálogo cresce ícone por
-ícone; os 22 iniciais estão em `exploracao/fusao/icones/`.
+ícone; são 28 em `exploracao/fusao/icones/` (22 da F05 e 6 da F10).
 
 ### Motion
 

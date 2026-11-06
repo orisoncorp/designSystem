@@ -1,7 +1,7 @@
 <!-- 15 · Tabela -->
 <section id="sec-tabela" class="doc-section" aria-labelledby="sec-tabela-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F03 e F04</p>
+    <p class="doc-eyebrow">Componentes · F03, F04 e F10</p>
     <h2 class="doc-title" id="sec-tabela-title">Tabela</h2>
     <p class="doc-lead">
       Linha de 36 px, texto de 14 px no desktop, divisores só horizontais.
@@ -21,4 +21,29 @@
       </tbody>
     </table>
   </div>
+
+  <h3 class="block-title">Seleção em massa</h3>
+  <div data-bulk>
+    <div class="specimen" data-bulk-filters style="margin:0 0 var(--space-2)">
+      <button type="button" class="chip" aria-pressed="true">Risco: baixo <i class="ico" data-icon="falha-fechar"></i></button>
+      <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
+    </div>
+    <div class="bulk-bar" data-bulk-bar hidden>
+      <span class="bulk-count" data-bulk-count aria-live="polite">0 selecionadas</span>
+      <button type="button" class="btn btn-secondary"><i class="ico" data-icon="owner"></i>Atribuir owner</button>
+      <button type="button" class="btn btn-primary" data-bulk-approve><i class="ico" data-icon="aprovar"></i>Aprovar</button>
+      <button type="button" class="btn btn-minimal" data-bulk-clear>Limpar seleção</button>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col" class="cb"><input type="checkbox" aria-label="Selecionar todas" data-bulk-all></th><th scope="col">Proposta</th><th scope="col">Owner</th><th scope="col">Risco</th><th scope="col" class="r">Valor</th></tr></thead>
+        <tbody>
+          <tr><td class="cb"><input type="checkbox" aria-label="Selecionar PC-20481" data-bulk-row></td><td class="code">PC-20481</td><td>Operações</td><td><span class="risk">Baixo</span></td><td class="r">R$ 7.980,50</td></tr>
+          <tr><td class="cb"><input type="checkbox" aria-label="Selecionar PC-20477" data-bulk-row></td><td class="code">PC-20477</td><td>Financeiro</td><td><span class="risk">Baixo</span></td><td class="r">R$ 1.204,00</td></tr>
+          <tr><td class="cb"><input type="checkbox" aria-label="Selecionar PC-20470" data-bulk-row></td><td class="code">PC-20470</td><td>Operações</td><td><span class="risk">Baixo</span></td><td class="r">R$ 312,90</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="meta">Ao marcar, a barra de filtros vira barra de ações (F10 · X3); o cabeçalho mostra o estado parcial. Lote só com o mesmo nível de risco; irreversível nunca vai em lote.</p>
 </section>

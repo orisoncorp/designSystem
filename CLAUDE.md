@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.0.0, approved by Nobel on
-06-11-2026 through fusion rounds F01–F09, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.1.0, approved by Nobel on
+06-11-2026 through fusion rounds F01–F10, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
 wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
 command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not

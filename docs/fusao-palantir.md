@@ -52,6 +52,8 @@ Em toda rodada:
 | F07 | Componentes básicos     | botão, campo, tag, callout, toast, abas, diálogo |
 | F08 | Padrões de operação     | fila, inspetor, tabela densa, estado vazio       |
 | F09 | Visualização de dados   | paleta categórica, gráficos, KPI                 |
+| F10 | Componentes extras      | dica, tag removível, seleção em massa, menu,     |
+|     |                         | segmentado, confirmação, desfazer, progresso     |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -168,6 +170,32 @@ Escolhas: C3 · K3 · B2.
 - KPI com baseline, janela, critério e selo de evidência.
 - Barras com a ponta livre arredondada em 4 px e base reta no zero.
 
+### F10 · Componentes complementares · 06-11-2026
+
+Escolhas: D1 · R2 · X3 · S1 · M3 · G2 · U1 · P2. Página:
+`exploracao/fusao/f10-complementares.html`.
+
+- Dica invertida (fundo em tinta), 14 px, com seta; abre com hover e com foco,
+  Esc fecha. O Nobel preferiu D1 a D3: a dica não mostra atalho; atalhos ficam
+  no menu.
+- Tag de valor neutra e removível, com o X numa área própria de 24 px separada
+  por um traço.
+- Seleção em massa: checkbox parcial preenchido no cabeçalho; ao marcar, a barra
+  de filtros vira barra de ações (contagem, ações, "Limpar seleção"). Lote só
+  com o mesmo nível de risco; irreversível nunca vai em lote.
+- Controle segmentado com trilho neutro e opção ativa elevada, sem azul.
+- Menu de ações em seções, com atalho à direita e a ação destrutiva sozinha no
+  fim, em texto vermelho, abrindo confirmação.
+- Confirmação em diálogo com bloco de impacto: o que muda, risco,
+  reversibilidade e owner. Irreversível acrescenta a confirmação digitada.
+- Desfazer no toast por 10 s, só antes do writeback; a janela é o atraso do
+  envio. Depois, voltar atrás é "Reverter", uma nova proposta.
+- Progresso com barra neutra de 4 px, etapa e contagem em texto.
+- Implantação: seis ícones novos no catálogo (tabela, rede, linha do tempo,
+  copiar, inspetor, mais), todos Lucide com as regras da F05. Ao montar a
+  página, apareceu um defeito no token `--risk-fill`, que não era redeclarado no
+  tema escuro; corrigido, e o `verify` passou a cobrir esse caso.
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -257,6 +285,10 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   ícones, `verify` com dez invariantes v4 e export DTCG em
   `tokens/orison.tokens.json`. A variante crimson do logo foi retirada pelo
   Nobel e pode voltar no futuro.
+- 06-11-2026: F10 implantada (v4.1.0). Os componentes entraram nas seções que já
+  existiam: dica em Botões; tag removível e segmentado em Campos; desfazer,
+  progresso e confirmação em Avisos; menu em Abas e filtros; seleção em massa em
+  Tabela.
 
 ## Próximas rodadas (proposta)
 
@@ -267,8 +299,6 @@ rodada decide o que entra e como se arranja.
 
 | #   | Lote                         | Itens                                             |
 | --- | ---------------------------- | ------------------------------------------------- |
-| F10 | Componentes complementares   | tooltip, tag removível, checkbox indeterminado,   |
-|     |                              | controle segmentado, toast com desfazer, menu     |
 | F11 | Padrões de aplicação         | object view, proposta com diff, trace e linhagem, |
 |     | (Foundry, AIP, Gotham)       | assistente com contexto, visão de rede, timeline  |
 | F12 | Peças de marca e comunicação | hero de site, banners, capa e slides de deck,     |

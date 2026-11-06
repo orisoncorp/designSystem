@@ -16,6 +16,9 @@
   gap: var(--space-5);
 }
 
+/* Filhos da grade podem encolher: tabela e barra rolam dentro de si. */
+.doc-section > * { min-width: 0; }
+
 .doc-section + .doc-section { border-top: var(--border-thin) solid var(--color-border); }
 
 /* Seções de marca: tema escuro, largura total. */

@@ -13,6 +13,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const { version } = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const src = readFileSync(join(root, 'src/tokens/tokens.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const block = (start) => { const i = src.indexOf(start); return src.slice(i, src.indexOf('\n}', i)); };
@@ -39,7 +40,7 @@ function toToken(value) {
 }
 
 const raw = {};
-const out = { $description: 'Orison Design System v4.0.0 · gerado de src/tokens/tokens.css · tema claro como base; escuro em $extensions["org.orison.theme.dark"]' };
+const out = { $description: `Orison Design System v${version} · gerado de src/tokens/tokens.css · tema claro como base; escuro em $extensions["org.orison.theme.dark"]` };
 for (const [name, value] of Object.entries(light)) {
   if (name === 'color-scheme') continue;
   const [group, ...rest] = name.split('-');

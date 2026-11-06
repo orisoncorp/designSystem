@@ -132,7 +132,7 @@ check(
     ['--color-action-fg', '--color-danger', 4.5], ['--color-action-fg', '--color-danger-hover', 4.5],
     ['--color-link', '--color-surface', 4.5], ['--color-link', '--color-selected', 4.5],
     ['--text-success', '--bg-success', 4.5], ['--text-warning', '--bg-warning', 4.5], ['--text-danger', '--bg-danger', 4.5],
-    ['--text-info', '--bg-info', 4.5], ['--text-muted', '--color-neutral-fill', 4.5],
+    ['--text-info', '--bg-info', 4.5], ['--text-muted', '--color-neutral-fill', 4.5], ['--text-danger', '--color-surface', 4.5], ['--color-canvas', '--text-primary', 4.5],
     ['--evidence-env-text', '--evidence-env-bg', 4.5], ['--color-nav-text', '--color-nav', 4.5], ['--color-nav-fg', '--color-nav-active', 4.5],
     ['--color-control', '--color-surface', 3], ['--color-focus', '--color-canvas', 3], ['--color-focus', '--color-surface', 3],
   ];

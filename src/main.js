@@ -43,8 +43,8 @@ const NAV_ITEMS = [
   { id: 'sec-acessibilidade', num: '10', label: 'Acessibilidade',            group: 'fundamentos' },
   { id: 'sec-botoes',         num: '11', label: 'Botões',                    group: 'componentes' },
   { id: 'sec-campos',         num: '12', label: 'Campos e seleção',          group: 'componentes' },
-  { id: 'sec-feedback',       num: '13', label: 'Tags, alertas e avisos',    group: 'componentes' },
-  { id: 'sec-navegacao',      num: '14', label: 'Abas, filtros e navegação', group: 'componentes' },
+  { id: 'sec-feedback',       num: '13', label: 'Avisos e confirmação',      group: 'componentes' },
+  { id: 'sec-navegacao',      num: '14', label: 'Abas, filtros e menus',     group: 'componentes' },
   { id: 'sec-tabela',         num: '15', label: 'Tabela',                    group: 'componentes' },
   { id: 'sec-semantica',      num: '16', label: 'Semântica operacional',     group: 'padroes' },
   { id: 'sec-bancada',        num: '17', label: 'Bancada de operação',       group: 'padroes' },
@@ -196,19 +196,23 @@ function refreshComputed() {
    Sucesso some em 5 s, com pausa em hover ou foco; falha fica até fechar. */
 const toastRegion = document.getElementById('toast-region');
 
-function toast(message, kind = 'success') {
+function toast(message, kind = 'success', { undo } = {}) {
   const el = document.createElement('div');
   el.className = `toast ${kind === 'danger' ? 'toast-danger' : ''}`;
   el.setAttribute('role', kind === 'danger' ? 'alert' : 'status');
   el.innerHTML = `<i class="ico" data-icon="${kind === 'danger' ? 'falha-fechar' : 'confirmado'}"></i><span>${message}</span>
-    <button type="button" class="btn btn-minimal btn-icon" aria-label="Fechar aviso"><i class="ico" data-icon="falha-fechar"></i></button>`;
+    ${undo ? '<button type="button" class="btn btn-minimal toast-action" data-undo>Desfazer</button>' : ''}
+    <button type="button" class="btn btn-minimal btn-icon" aria-label="Fechar aviso" data-close><i class="ico" data-icon="falha-fechar"></i></button>`;
   renderIcons(el);
-  el.querySelector('button').addEventListener('click', () => el.remove());
+  el.querySelector('[data-close]').addEventListener('click', () => el.remove());
+  el.querySelector('[data-undo]')?.addEventListener('click', () => { el.remove(); undo(); });
   toastRegion.appendChild(el);
   if (kind === 'danger') return;
-  let timer = setTimeout(() => el.remove(), 5000);
+  // Desfazer (F10 · U1): janela de 10 s, que é o atraso antes do writeback.
+  const life = undo ? 10000 : 5000;
+  let timer = setTimeout(() => el.remove(), life);
   const pause = () => clearTimeout(timer);
-  const resume = () => { timer = setTimeout(() => el.remove(), 5000); };
+  const resume = () => { timer = setTimeout(() => el.remove(), life); };
   el.addEventListener('mouseenter', pause);
   el.addEventListener('mouseleave', resume);
   el.addEventListener('focusin', pause);
@@ -217,6 +221,7 @@ function toast(message, kind = 'success') {
 
 document.querySelectorAll('[data-toast]').forEach((b) => b.addEventListener('click', () => {
   if (b.dataset.toast === 'danger') toast('<b>Writeback do SKU-88 falhou.</b> Owner: Operações.', 'danger');
+  else if (b.dataset.toast === 'undo') toast('PC-20481 aprovada. Writeback em 10 s.', 'success', { undo: () => toast('Aprovação desfeita. Nada foi enviado.') });
   else toast('Proposta PC-20481 aprovada.');
 }));
 
@@ -247,6 +252,81 @@ document.querySelectorAll('[data-tabs]').forEach((list) => {
     if (e.key === 'ArrowRight') { e.preventDefault(); select(tabs[(i + 1) % tabs.length]); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); select(tabs[(i - 1 + tabs.length) % tabs.length]); }
   });
+});
+
+/* ── Grupo com tabindex itinerante e setas (segmentado e menu) ──
+   Só o item ativo entra na ordem de Tab; aplicado em tempo de execução. */
+function roving(items, keys, onMove) {
+  const [prev, next] = keys;
+  items.forEach((it, i) => { it.tabIndex = i === 0 ? 0 : -1; });
+  items.forEach((it) => it.addEventListener('keydown', (e) => {
+    const i = items.indexOf(it);
+    let j = -1;
+    if (e.key === next) j = (i + 1) % items.length;
+    if (e.key === prev) j = (i - 1 + items.length) % items.length;
+    if (e.key === 'Home') j = 0;
+    if (e.key === 'End') j = items.length - 1;
+    if (j < 0) return;
+    e.preventDefault();
+    items.forEach((x, k) => { x.tabIndex = k === j ? 0 : -1; });
+    items[j].focus();
+    onMove?.(items[j]);
+  }));
+}
+
+/* Controle segmentado (F10 · S1): radiogroup; a seta seleciona. */
+document.querySelectorAll('[data-segmented]').forEach((group) => {
+  const segs = [...group.querySelectorAll('[role="radio"]')];
+  const select = (seg) => segs.forEach((s) => { const on = s === seg; s.setAttribute('aria-checked', String(on)); s.tabIndex = on ? 0 : -1; });
+  roving(segs, ['ArrowLeft', 'ArrowRight'], select);
+  select(segs.find((s) => s.getAttribute('aria-checked') === 'true') || segs[0]);
+  group.addEventListener('click', (e) => { const s = e.target.closest('[role="radio"]'); if (s) select(s); });
+});
+
+/* Menu de ações (F10 · M3): setas percorrem os itens. */
+document.querySelectorAll('[data-menu]').forEach((menu) => roving([...menu.querySelectorAll('[role="menuitem"]')], ['ArrowUp', 'ArrowDown']));
+
+/* Dica (F10 · D1): Esc fecha até o ponteiro ou o foco saírem. */
+document.querySelectorAll('[data-tip]').forEach((wrap) => {
+  wrap.addEventListener('keydown', (e) => { if (e.key === 'Escape') wrap.classList.add('is-dismissed'); });
+  const reset = () => wrap.classList.remove('is-dismissed');
+  wrap.addEventListener('mouseleave', reset);
+  wrap.addEventListener('focusout', reset);
+});
+
+/* Tag removível (F10 · R2): o foco volta ao campo. */
+document.querySelectorAll('[data-multi]').forEach((multi) => multi.addEventListener('click', (e) => {
+  const x = e.target.closest('.tag-remove');
+  if (!x) return;
+  x.closest('.tag').remove();
+  multi.querySelector('input')?.focus();
+}));
+
+/* Confirmação digitada: o botão só habilita quando o texto confere. */
+document.querySelectorAll('[data-typed-confirm]').forEach((input) => {
+  const target = input.closest('.dialog').querySelector('[data-typed-target]');
+  input.addEventListener('input', () => { target.disabled = input.value.trim() !== input.dataset.typedConfirm; });
+});
+
+/* Seleção em massa (F10 · X3): parcial no cabeçalho; filtros viram ações. */
+document.querySelectorAll('[data-bulk]').forEach((box) => {
+  const all = box.querySelector('[data-bulk-all]');
+  const rows = [...box.querySelectorAll('[data-bulk-row]')];
+  const sync = () => {
+    const n = rows.filter((r) => r.checked).length;
+    all.checked = n === rows.length;
+    all.indeterminate = n > 0 && n < rows.length;
+    rows.forEach((r) => r.closest('tr').setAttribute('aria-selected', String(r.checked)));
+    box.querySelector('[data-bulk-bar]').hidden = n === 0;
+    box.querySelector('[data-bulk-filters]').hidden = n > 0;
+    box.querySelector('[data-bulk-count]').textContent = `${n} ${n === 1 ? 'selecionada' : 'selecionadas'}`;
+    box.querySelector('[data-bulk-approve]').lastChild.textContent = `Aprovar ${n}`;
+  };
+  all.addEventListener('change', () => { rows.forEach((r) => { r.checked = all.checked; }); sync(); });
+  rows.forEach((r) => r.addEventListener('change', sync));
+  box.querySelector('[data-bulk-clear]').addEventListener('click', () => { rows.forEach((r) => { r.checked = false; }); sync(); all.focus(); });
+  rows[0].checked = true; rows[1].checked = true;
+  sync();
 });
 
 /* ── Switch com rótulo de estado ── */

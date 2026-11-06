@@ -1,7 +1,7 @@
 <!-- 12 · Campos e seleção -->
 <section id="sec-campos" class="doc-section" aria-labelledby="sec-campos-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F07</p>
+    <p class="doc-eyebrow">Componentes · F07 e F10</p>
     <h2 class="doc-title" id="sec-campos-title">Campos e seleção</h2>
     <p class="doc-lead">
       Rótulo sempre acima, ajuda abaixo, erro com ícone e instrução. O campo
@@ -25,4 +25,34 @@
     <label class="check"><input type="radio" name="rev"> Revisão anterior</label>
     <span class="check"><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="sw-label" data-switch></button><span id="sw-label">Writeback automático: <b data-switch-state>ligado</b></span></span>
   </div>
+
+  <div class="specimen">
+    <div class="field" style="min-width:min(340px, 100%)">
+      <label class="field-label" for="owners-input">Owners</label>
+      <div class="multi" data-multi>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Operações</span><button type="button" class="tag-remove" aria-label="Remover Operações"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Financeiro</span><button type="button" class="tag-remove" aria-label="Remover Financeiro"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Comercial</span><button type="button" class="tag-remove" aria-label="Remover Comercial"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <input id="owners-input" placeholder="Adicionar">
+      </div>
+      <span class="field-help">Tag de valor é neutra; o X tem área própria (F10 · R2).</span>
+    </div>
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-vista">Vista</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-vista" data-segmented>
+        <button type="button" class="segment" role="radio" aria-checked="true"><i class="ico" data-icon="tabela"></i>Tabela</button>
+        <button type="button" class="segment" role="radio" aria-checked="false"><i class="ico" data-icon="rede"></i>Rede</button>
+        <button type="button" class="segment" role="radio" aria-checked="false"><i class="ico" data-icon="linha-do-tempo"></i>Linha do tempo</button>
+      </div>
+    </div>
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-janela">Janela</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-janela" data-segmented>
+        <button type="button" class="segment" role="radio" aria-checked="false">7 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="true">30 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false">90 dias</button>
+      </div>
+    </div>
+  </div>
+  <p class="meta">Controle segmentado (F10 · S1) troca vista ou janela do mesmo conteúdo, de 2 a 4 opções. Não usa a cor de ação; responde às setas do teclado.</p>
 </section>

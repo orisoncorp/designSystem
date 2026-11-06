@@ -1,7 +1,7 @@
 <!-- 11 · Botões -->
 <section id="sec-botoes" class="doc-section" aria-labelledby="sec-botoes-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Componentes · F07</p>
+    <p class="doc-eyebrow">Componentes · F07 e F10</p>
     <h2 class="doc-title" id="sec-botoes-title">Botões</h2>
     <p class="doc-lead">
       Quatro variantes. Uma ação primária por região. Hover e pressionado
@@ -43,9 +43,11 @@
 
   <div class="specimen">
     <button type="button" class="btn btn-primary"><span class="spinner" aria-hidden="true"></span>Aprovando…</button>
-    <button type="button" class="btn btn-secondary btn-icon" aria-label="Buscar"><i class="ico" data-icon="buscar"></i></button>
-    <button type="button" class="btn btn-secondary btn-icon" aria-label="Filtrar"><i class="ico" data-icon="filtrar"></i></button>
+    <span class="has-tip" data-tip><button type="button" class="btn btn-secondary btn-icon" aria-labelledby="tip-buscar"><i class="ico" data-icon="buscar"></i></button><span class="tooltip" role="tooltip" id="tip-buscar">Buscar</span></span>
+    <span class="has-tip" data-tip><button type="button" class="btn btn-secondary btn-icon" aria-labelledby="tip-filtrar"><i class="ico" data-icon="filtrar"></i></button><span class="tooltip" role="tooltip" id="tip-filtrar">Filtrar</span></span>
+    <span class="has-tip" data-tip><button type="button" class="btn btn-secondary btn-icon" aria-labelledby="tip-inspetor"><i class="ico" data-icon="inspetor"></i></button><span class="tooltip" role="tooltip" id="tip-inspetor">Abrir no inspetor</span></span>
   </div>
+  <p class="meta">Botão só com ícone sempre tem dica (F10 · D1): fundo invertido, 14 px, abre com hover e com foco, fecha com Esc. A dica repete o nome do botão; nunca é o único lugar de uma informação.</p>
 
   <div class="grid-2">
     <div class="rule"><span class="rule-name">Uma primária por região.</span><span class="meta">Se duas ações disputam o azul, uma delas é secundária.</span></div>

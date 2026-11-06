@@ -1,6 +1,8 @@
-/* ═══ COMPONENTES · F07 ═══
+/* ═══ COMPONENTES · F07 e F10 ═══
    Botões, campos, seleção, tags, risco, selo de evidência, alertas,
-   toast, abas, chips e tabela. Raio só em controle (F04 · K2). */
+   toast, abas, chips e tabela (F07); dica, tag removível, segmentado,
+   menu de ações, confirmação, desfazer, progresso e seleção em massa
+   (F10). Raio só em controle (F04 · K2). */
 
 .ico { width: var(--icon-inline); height: var(--icon-inline); flex: none; display: inline-block; vertical-align: -3px; }
 .ico svg { width: 100%; height: 100%; }
@@ -215,6 +217,11 @@
 .toast-danger { border-left: var(--indicator) solid var(--color-danger); }
 .toast .btn-icon { margin-left: auto; min-height: 28px; width: 28px; }
 
+/* Desfazer (F10 · U1): só antes do writeback; a janela é o atraso do envio. */
+.toast { align-items: center; }
+.toast-action { margin-left: auto; min-height: 28px; padding: 0 var(--space-2); font-size: var(--text-meta); }
+.toast .toast-action + .btn-icon { margin-left: 0; }
+
 /* ── abas (F07 · A1) ── */
 .tabs { display: flex; gap: var(--space-5); border-bottom: var(--border-thin) solid var(--color-border); }
 
@@ -267,6 +274,16 @@
 .menu-item { display: flex; align-items: center; min-height: var(--height-row); padding: 0 var(--space-3); }
 .menu-item[aria-selected='true'] { background: var(--color-selected); }
 
+/* Menu de ações (F10 · M3): seções, atalho à direita, perigo isolado no fim. */
+button.menu-item { width: 100%; gap: 10px; border: 0; background: none; font: inherit; color: var(--text-primary); text-align: left; cursor: pointer; }
+button.menu-item:hover, button.menu-item.is-hover { background: var(--color-neutral-fill); }
+button.menu-item:focus-visible { outline-offset: -2px; }
+.menu-item .ico { color: var(--text-muted); }
+.menu-key { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); }
+.menu-head { padding: var(--space-2) var(--space-3) var(--space-1); font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+.menu-sep { height: 1px; margin: var(--space-1) 0; background: var(--color-border); }
+.menu-item.is-danger, .menu-item.is-danger .ico { color: var(--text-danger); }
+
 .dialog {
   background: var(--color-surface);
   border-radius: var(--radius-control);
@@ -274,11 +291,151 @@
   padding: var(--space-4);
   display: grid;
   gap: var(--space-3);
-  max-width: 400px;
+  max-width: 440px;
 }
 
 .dialog-title { font-size: var(--text-section); font-weight: var(--weight-strong); }
+
+/* Confirmação com impacto (F10 · G2): o que muda, risco, reversibilidade e
+   owner antes do verbo. Irreversível acrescenta a confirmação digitada. */
+.dialog-body { font-size: var(--text-meta); color: var(--text-muted); }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-1); }
+.impact { margin: 0; padding: 10px var(--space-3); background: var(--color-canvas); border: var(--border-thin) solid var(--color-border); align-items: center; }
+.impact dd { margin: 0; }
 .scrim-stage { position: relative; background: var(--scrim); padding: var(--space-6); display: grid; place-items: center; }
+
+/* ── dica (F10 · D1) ──
+   Invertida, 14 px. Complementa; nunca é a única fonte da informação.
+   Abre com hover (após 300 ms) e com foco; Esc fecha. */
+.has-tip { position: relative; display: inline-flex; }
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: 50%;
+  z-index: 200;
+  width: max-content;
+  max-width: 260px;
+  padding: 6px 10px;
+  border-radius: var(--radius-control);
+  background: var(--text-primary);
+  color: var(--color-canvas);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-text);
+  line-height: 1.35;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%);
+  transition: opacity var(--motion-duration-feedback) var(--motion-easing-feedback), visibility 0s linear var(--motion-duration-feedback);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.has-tip:hover .tooltip { transition-delay: 300ms; }
+.has-tip:hover .tooltip,
+.has-tip:focus-within .tooltip,
+.tooltip.is-open { opacity: 1; visibility: visible; }
+.has-tip.is-dismissed .tooltip { opacity: 0; visibility: hidden; }
+
+/* ── tag removível (F10 · R2) ──
+   Valor neutro de seleção múltipla; o X tem área própria de 24 px. */
+.tag-value { color: var(--text-primary); background: var(--color-neutral-fill); border-color: var(--color-border); }
+.tag-removable { gap: 0; padding-right: 0; }
+.tag-removable .tag-label { padding-right: 6px; }
+
+.tag-remove {
+  display: inline-grid;
+  place-items: center;
+  align-self: stretch;
+  width: 24px;
+  padding: 0;
+  border: 0;
+  border-left: var(--border-thin) solid var(--color-border);
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.tag-remove:hover { color: var(--text-primary); background: var(--color-neutral-hover); }
+.tag-remove .ico { width: 14px; height: 14px; }
+
+.multi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--height-control);
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-thin) solid var(--color-control);
+  border-radius: var(--radius-control);
+  background: var(--color-raised);
+}
+
+.multi:focus-within { outline: var(--focus-width) solid var(--color-focus); outline-offset: var(--focus-offset); }
+.multi input { flex: 1; min-width: 96px; border: 0; outline: 0; background: transparent; color: var(--text-primary); font-family: var(--font-text); font-size: var(--text-meta); }
+.multi input::placeholder { color: var(--text-muted); opacity: 1; }
+
+/* ── controle segmentado (F10 · S1) ──
+   Trilho neutro; a opção ativa sobe como superfície. Não usa a cor de
+   ação: escolher vista não é agir. */
+.segmented { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-control); background: var(--color-neutral-fill); }
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-tag);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-text);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-strong);
+  cursor: pointer;
+}
+
+.segment:hover { color: var(--text-primary); }
+.segment[aria-checked='true'] { background: var(--color-raised); color: var(--text-primary); box-shadow: var(--elevation-1); }
+
+/* ── progresso (F10 · P2) ──
+   Andamento é estado neutro (F06): tinta neutra, etapa e contagem em texto. */
+.progress { display: grid; gap: 6px; max-width: 420px; }
+.progress-head { display: flex; justify-content: space-between; gap: var(--space-3); font-size: var(--text-meta); }
+.progress-head b { font-weight: var(--weight-strong); }
+.progress-track { height: 4px; background: var(--color-neutral-fill); }
+.progress-fill { width: var(--progress, 0%); height: 100%; background: var(--text-primary); }
+
+/* ── seleção em massa (F10 · X3) ──
+   Ao marcar, a barra de filtros vira barra de ações. Lote só com o mesmo
+   nível de risco; irreversível nunca vai em lote. */
+.bulk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-selected);
+  border: var(--border-thin) solid var(--color-border);
+  border-bottom: 0;
+}
+
+.bulk-bar .btn { min-height: 32px; padding: 0 10px; font-size: var(--text-meta); }
+.bulk-count { margin-right: var(--space-2); font-size: var(--text-meta); font-weight: var(--weight-strong); }
+.table .cb { width: 44px; }
+.table .cb input { width: 18px; height: 18px; margin: 0; vertical-align: middle; accent-color: var(--color-action); }
 
 /* ── tabela (F03 · R2, F04 · V1) ── */
 .table-wrap { background: var(--color-surface); border: var(--border-thin) solid var(--color-border); overflow-x: auto; }
