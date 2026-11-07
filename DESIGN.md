@@ -274,7 +274,7 @@ components:
 
 <!--
 Estado: v4.7.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F16
-(docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
+(registro em docs/, páginas em exploracao/fusao/) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
 
@@ -296,11 +296,10 @@ tabela em 14 px no desktop. A cor é um canal semântico escasso: azul quer dize
 "clique aqui"; verde, laranja e vermelho querem dizer "isto aconteceu". Todo o
 resto é neutro.
 
-A referência é a Palantir, convertida e não copiada: marca acromática e produto
-com intents (MC-09-002), três sistemas separados (marca, toolkit, aplicação) e
-três camadas com autoridades distintas (marca, semântica operacional, evidência;
-MAP-GC-09-A). O Blueprint inspirou cores e proporções, item a item, mas não é o
-DS da Orison (DC-GC-09-016).
+Três sistemas separados (marca, componentes, aplicação) e três camadas com
+autoridades distintas: a marca identifica, a semântica operacional diz estado e
+risco, a evidência diz o quanto o número sustenta. Cada valor foi decidido item
+a item, em rodadas de aprovação.
 
 **Key Characteristics:**
 
@@ -317,8 +316,8 @@ DS da Orison (DC-GC-09-016).
 
 ## Colors
 
-Neutros frios do Blueprint sustentam a tela; uma cor de ação, três de resultado,
-quatro de dados e uma de marca, cada uma com um único papel.
+Neutros frios sustentam a tela; uma cor de ação, três de resultado, quatro de
+dados e uma de marca, cada uma com um único papel.
 
 ### Primary
 
@@ -368,7 +367,7 @@ quatro de dados e uma de marca, cada uma com um único papel.
 aconteceu. Nunca enfeite, nunca série de dados, nunca estado em andamento.
 
 **The Crimson Is Identity Rule.** O crimson marca a Orison e nada mais. Não
-classifica ação, erro nem risco (F-GC-09-02, DC-GC-09-002).
+classifica ação, erro nem risco.
 
 **The Cold Neutral Rule.** A rampa fria foi escolhida pela usabilidade em
 sessões longas, não pela estética. Não reintroduza o preto e o off-white quentes
@@ -403,7 +402,7 @@ a marca fala.
 ### Named Rules
 
 **The No Shrink Rule.** A escala não encolhe no celular. 16 px no desktop é 16
-px a 360 px (F02, PG-GC-09-03).
+px a 360 px (F02).
 
 **The Numbers In Montserrat Rule.** Todo número, em qualquer contexto, usa
 Montserrat com `tnum` e `lnum`. A fonte de títulos nunca escreve números.
@@ -782,10 +781,10 @@ F13 e 14 da F14).
 ### Brand Pieces
 
 Peças de comunicação montadas no tamanho de entrega. Toda peça abre pela decisão
-do cliente (DC-GC-09-013), diz o estágio da evidência onde o número aparece e o
-que ele não comprova (MAP-GC-09-B). Sem hero cinematográfico nem persona do
-fundador. Marca no escuro; leitura no claro. Um filete crimson de 3 px por peça,
-abrindo o título ou fechando a assinatura.
+do cliente, diz o estágio da evidência onde o número aparece e o que ele não
+comprova. Sem hero cinematográfico nem persona do fundador. Marca no escuro;
+leitura no claro. Um filete crimson de 3 px por peça, abrindo o título ou
+fechando a assinatura.
 
 - **Hero do site (1440 × 760):** escuro; título Hanken 500 de 64 px, subtítulo,
   ação primária e link; o símbolo D2 de 820 px cortado à direita, em `raised`,
@@ -808,9 +807,9 @@ abrindo o título ou fechando a assinatura.
 ### Motion
 
 Movimento comunica transição de estado, continuidade, progresso ou conclusão;
-nunca é teatro (DC-GC-09-011). Entrada com a curva do Blueprint
-(`cubic-bezier(0.4, 1, 0.75, 0.9)`); saída acelerada
-(`cubic-bezier(0.55, 0.06, 0.68, 0.19)`). Tokens em `motion-tokens.css`:
+nunca é teatro. Entrada desacelerada (`cubic-bezier(0.4, 1, 0.75, 0.9)`); saída
+acelerada (`cubic-bezier(0.55, 0.06, 0.68, 0.19)`). Tokens em
+`motion-tokens.css`:
 
 - **Feedback (120 ms):** hover, pressão, chevron de seção.
 - **Menu, dica e popover:** sem movimento. A dica mantém só o atraso de 300 ms
@@ -842,11 +841,10 @@ JavaScript: streaming, reprodução e interpolações saem na hora.
 ### Do:
 
 - **Do** usar azul só em ação, link, foco, aba ativa e seleção.
-- **Do** acompanhar toda cor de estado e de risco com texto e ícone
-  (PG-GC-09-01).
-- **Do** mostrar motivo, owner e remediação em toda falha (DC-GC-09-008).
+- **Do** acompanhar toda cor de estado e de risco com texto e ícone.
+- **Do** mostrar motivo, owner e remediação em toda falha.
 - **Do** dizer, no mesmo lugar do claim, o que o número comprova e o que não
-  comprova (DC-GC-09-005, DC-GC-09-009).
+  comprova.
 - **Do** escrever todo número em Montserrat tabular.
 - **Do** manter todo texto acima de 4,5:1 e toda borda de controle e foco acima
   de 3:1 no tema em que aparecem.
@@ -864,6 +862,6 @@ JavaScript: streaming, reprodução e interpolações saem na hora.
 - **Don't** pôr sombra em painel da página.
 - **Don't** encolher a escala de texto no celular nem usar peso 300.
 - **Don't** usar dois eixos y num mesmo gráfico.
-- **Don't** importar o Blueprint inteiro, seus ícones ou componentes como DS da
-  Orison (DC-GC-09-016).
+- **Don't** importar um design system de terceiro inteiro, com ícones e
+  componentes.
 - **Don't** escrever texto abaixo de 12 px.
