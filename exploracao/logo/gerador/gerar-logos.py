@@ -156,9 +156,11 @@ def png(svg, path, w, h):
     open(src, 'w').write(svg)
     QUEUE.append({"svg": src, "png": path, "w": w, "h": h})
 
-BG = {'black': '#0a0a0a', 'midnight': '#111113', 'white': '#e8e6e1'}
-INK = {'black': '#f7f5f0', 'midnight': '#f7f5f0', 'white': '#0a0a0a'}
-DESC_INK = {'black': '#9a9994', 'midnight': '#9a9994', 'white': '#5c5b57'}
+BG = {'black': '#0a0a0a', 'midnight': '#111113', 'white': '#e8e6e1', 'ds': '#1c2127'}
+INK = {'black': '#f7f5f0', 'midnight': '#f7f5f0', 'white': '#0a0a0a', 'ds': '#f6f7f9'}
+DESC_INK = {'black': '#9a9994', 'midnight': '#9a9994', 'white': '#5c5b57', 'ds': '#8f99a8'}
+# 'ds': canvas, texto e apoio escuros do Orison Design System v4.7 (pedido do
+# Nobel na aparência v2 do dotfiles, A05, 07-11-2026).
 
 def build(set_dir, symfn):
     os.makedirs(f'{set_dir}/svg', exist_ok=True)
@@ -181,6 +183,8 @@ def build(set_dir, symfn):
     png(lockup_v(symfn, INK['midnight'], 1024, 1024, 380, BG['midnight'], DESC_INK['midnight']),
         f'{set_dir}/14_google-picture.png', 1024, 1024)
     png(symbol_sq(symfn, '#0a0a0a', 1000), f'{set_dir}/15_symbol-transparent-dark.png', 1000, 1000)
+    png(lockup_v(symfn, INK['ds'], 2560, 1440, 230, BG['ds'], DESC_INK['ds']),
+        f'{set_dir}/16_wallpaper-ds-2560x1440.png', 2560, 1440)
     for px in (16, 32, 48, 180, 512):
         size = 'favicon' if px <= 24 else 'small' if px <= 48 else 'full'
         png(symbol_sq(symfn, '#f7f5f0', px, BG['black'], 0.86, size), f'{set_dir}/favicon/favicon-{px}.png', px, px) \
