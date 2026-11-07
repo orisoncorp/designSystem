@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.5.0
+version: 4.6.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -273,7 +273,7 @@ components:
 ---
 
 <!--
-Estado: v4.5.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F14
+Estado: v4.6.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F15
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -718,6 +718,30 @@ Esc fecha. A página completa de resultados filtra por tipo.
 Todo objeto aparece com um bloco de 24 px em `neutral-fill`, raio 3, com o ícone
 do tipo em 14 px, antes do código: tabela, quadro, mapa, busca, inbox e grafo.
 Sem cor por tipo; a cor fica para resultado e dados.
+
+### System Screens
+
+- **Sign in:** painel dividido. Metade escura de marca (lockup, símbolo D2 em
+  escala em `raised`, filete crimson e título Hanken 32 px); metade clara com o
+  formulário: e-mail de trabalho, senha, "Manter conectado", "Esqueci a senha",
+  Entrar e, abaixo de um divisor, "Entrar com Google" e "Entrar com Microsoft".
+  Verificação em duas etapas com seis campos de 44 × 48 px que avançam sozinhos
+  e aceitam colar. Abaixo de 900 px, as metades empilham.
+- **People:** tabela (pessoa com iniciais e e-mail, papel, áreas, último acesso,
+  estado) e inspetor da pessoa ao lado, com papel, áreas e o teto de risco que
+  ela aprova. Mudar papel e remover acesso abrem confirmação; nada muda direto
+  na linha.
+- **Permissions:** quatro papéis fixos (Admin, Aprovador, Operador, Leitor) numa
+  matriz capacidade × papel. A linha "Aprovar até" mostra o teto de risco com a
+  tag de risco; irreversível sempre exige confirmação digitada.
+- **Invite:** diálogo com e-mail, papel e áreas e um bloco de impacto "Vai
+  poder" / "Não vai" / licença, que acompanha a escolha.
+- **Settings:** seções à esquerda (Organização, Integrações, Notificações,
+  Segurança) e a seção ativa à direita. Ao mudar qualquer campo, a barra do
+  rodapé conta as alterações não salvas, com Descartar e Salvar; sair da página
+  com alteração pede confirmação. Integrações aparecem com o ícone de objeto e
+  tag de estado (Conectado, Falhou, Pendente). Segurança traz o registro de
+  acesso, com falhas em vermelho.
 
 ### Operational State (signature)
 

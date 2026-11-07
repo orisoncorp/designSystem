@@ -1,0 +1,145 @@
+<!-- 21 · Telas de sistema -->
+<section id="sec-sistema" class="doc-section" aria-labelledby="sec-sistema-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Padrões · F15</p>
+    <h2 class="doc-title" id="sec-sistema-title">Telas de sistema</h2>
+    <p class="doc-lead">
+      Entrada, pessoas e permissões, configurações. Fora do alicerce da
+      Palantir, montadas só com o que já foi decidido. A permissão segue a
+      DR-09: quem aprova depende do nível de risco, então cada papel mostra até
+      onde aprova.
+    </p>
+  </header>
+
+  <div class="block">
+    <h3 class="block-title">Entrada</h3>
+    <div class="login-split" role="group" aria-label="Exemplo de tela de entrada">
+      <div class="login-brand" data-theme="dark">
+        <span class="login-symbol"><svg aria-hidden="true"><use href="#symbol-full"/></svg></span>
+        <span class="lockup-h" style="--lockup-size:32px"><svg class="logo-mark" role="img" aria-label="Símbolo Orison"><use href="#symbol-small"/></svg><svg class="wordmark" viewBox="0 -2 398.51 74" role="img" aria-label="Orison"><use href="#wordmark"/></svg></span>
+        <div class="login-claim"><span class="brand-rule"></span><span class="login-title">Decisões operacionais com estado, autoridade e prova.</span></div>
+      </div>
+      <form class="login-form" data-login onsubmit="return false">
+        <span class="block-title">Entrar</span>
+        <label class="field" style="min-width:0"><span class="field-label">E-mail de trabalho</span><input class="input" type="email" autocomplete="username" placeholder="nome@empresa.com.br"></label>
+        <label class="field" style="min-width:0"><span class="field-label">Senha</span><input class="input" type="password" autocomplete="current-password" value="demonstracao"></label>
+        <div class="row" style="justify-content:space-between"><label class="check"><input type="checkbox" checked> Manter conectado</label><a href="#sec-sistema">Esqueci a senha</a></div>
+        <button type="submit" class="btn btn-primary login-wide">Entrar</button>
+        <div class="login-or">ou</div>
+        <button type="button" class="btn btn-secondary login-wide">Entrar com Google</button>
+        <button type="button" class="btn btn-secondary login-wide">Entrar com Microsoft</button>
+      </form>
+    </div>
+    <p class="meta">Entrada (F15 · L1, E1): metade escura é marca, metade clara é produto. E-mail e senha em primeiro plano; Google e Microsoft abaixo do divisor.</p>
+
+    <div class="login-mfa" data-otp>
+      <span class="block-title">Verificação em duas etapas</span>
+      <span class="meta" id="otp-help">Digite o código de 6 dígitos do seu aplicativo autenticador.</span>
+      <div class="otp" role="group" aria-labelledby="otp-help">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 1">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 2">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 3">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 4">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 5">
+        <input class="input" inputmode="numeric" maxlength="1" aria-label="Dígito 6">
+      </div>
+      <a href="#sec-sistema">Usar um código de recuperação</a>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="row"><h3 class="block-title">Pessoas</h3><span class="meta">4 de 10 licenças</span><button type="button" class="btn btn-primary" style="margin-left:auto" data-invite-open><i class="ico" data-icon="owner"></i>Convidar</button></div>
+    <div class="people-layout" data-people>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Pessoa</th><th scope="col">Papel</th><th scope="col">Áreas</th><th scope="col">Último acesso</th><th scope="col">Estado</th></tr></thead>
+          <tbody>
+            <tr aria-selected="true" data-person="Ana Nunes|AN|Aprovador|Operações|medium"><td><span class="person"><span class="avatar">AN</span><span>Ana Nunes<small>ana@cliente.com.br</small></span></span></td><td>Aprovador</td><td>Operações</td><td class="meta num">hoje 14:02</td><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Ativo</span></td></tr>
+            <tr aria-selected="false" data-person="Gilberto Oliveira|GO|Admin|Todas|irreversible"><td><span class="person"><span class="avatar">GO</span><span>Gilberto Oliveira<small>gilberto@cliente.com.br</small></span></span></td><td>Admin</td><td>Todas</td><td class="meta num">hoje 09:40</td><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Ativo</span></td></tr>
+            <tr aria-selected="false" data-person="Marina Souza|MS|Operador|Operações|none"><td><span class="person"><span class="avatar">MS</span><span>Marina Souza<small>marina@cliente.com.br</small></span></span></td><td>Operador</td><td>Operações</td><td class="meta">ontem</td><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Ativo</span></td></tr>
+            <tr aria-selected="false" data-person="Rafael Pires|RP|Leitor|Controladoria|none"><td><span class="person"><span class="avatar">RP</span><span>Rafael Pires<small>rafael@cliente.com.br</small></span></span></td><td>Leitor</td><td>Controladoria</td><td class="meta">—</td><td><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Convite enviado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="people-inspector" aria-label="Pessoa selecionada" aria-live="polite">
+        <div class="row"><span class="avatar" data-p-initials>AN</span><b data-p-name>Ana Nunes</b></div>
+        <dl class="props"><dt>Papel</dt><dd data-p-role>Aprovador</dd><dt>Áreas</dt><dd data-p-areas>Operações</dd><dt>Aprova até</dt><dd data-p-cap><span class="risk risk-medium">Médio</span></dd></dl>
+        <button type="button" class="btn btn-secondary">Mudar papel…</button>
+        <button type="button" class="btn btn-minimal" style="color:var(--text-danger)">Remover acesso…</button>
+      </aside>
+    </div>
+    <p class="meta">Pessoas (F15 · U1): tabela e inspetor, como na bancada. Mudar papel e remover acesso abrem confirmação com impacto; nada muda direto na linha.</p>
+
+    <div class="drawer-scrim" data-invite-scrim hidden></div>
+    <form class="dialog invite-dialog" role="dialog" aria-modal="true" aria-labelledby="invite-title" data-invite hidden onsubmit="return false">
+      <span class="dialog-title" id="invite-title">Convidar pessoa</span>
+      <label class="field" style="min-width:0"><span class="field-label">E-mail</span><input class="input" type="email" placeholder="nome@empresa.com.br" required></label>
+      <label class="field" style="min-width:0"><span class="field-label">Papel</span><span class="select-wrap"><select class="input select" data-invite-role><option>Leitor</option><option>Operador</option><option>Aprovador</option><option>Admin</option></select><i class="ico" data-icon="expandir"></i></span></label>
+      <label class="field" style="min-width:0"><span class="field-label">Áreas</span><span class="select-wrap"><select class="input select" data-invite-area><option>Controladoria</option><option>Operações</option><option>Todas</option></select><i class="ico" data-icon="expandir"></i></span></label>
+      <dl class="props impact" aria-live="polite"><dt>Vai poder</dt><dd data-invite-can>Ver objetos e histórico de Controladoria</dd><dt>Não vai</dt><dd data-invite-cant>Propor, aprovar ou revelar dado pessoal</dd><dt>Licença</dt><dd class="num">5 de 10</dd></dl>
+      <div class="dialog-actions"><button type="button" class="btn btn-secondary" data-invite-close>Cancelar</button><button type="submit" class="btn btn-primary">Enviar convite</button></div>
+    </form>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Permissões</h3>
+    <div class="table-wrap">
+      <table class="table perm-matrix">
+        <thead><tr><th scope="col">Capacidade</th><th scope="col">Admin</th><th scope="col">Aprovador</th><th scope="col">Operador</th><th scope="col">Leitor</th></tr></thead>
+        <tbody>
+          <tr><td>Ver objetos e histórico</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+          <tr><td>Propor action</td><td>Sim</td><td>Sim</td><td>Sim</td><td class="perm-no">—</td></tr>
+          <tr><td>Aprovar até</td><td><span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span></td><td><span class="risk risk-medium">Médio</span></td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+          <tr><td>Revelar dado pessoal</td><td>Sim</td><td>Sim</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+          <tr><td>Gerenciar pessoas e configurações</td><td>Sim</td><td class="perm-no">—</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="meta">Permissão (F15 · P1): quatro papéis fixos, com o teto de risco de quem aprova. Irreversível sempre exige confirmação digitada, mesmo para Admin.</p>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Configurações</h3>
+    <div class="settings-layout" data-settings>
+      <nav class="settings-nav" aria-label="Seções de configurações">
+        <a href="#sec-sistema" aria-current="page" data-set="org">Organização</a>
+        <a href="#sec-sistema" data-set="int">Integrações</a>
+        <a href="#sec-sistema" data-set="not">Notificações</a>
+        <a href="#sec-sistema" data-set="seg">Segurança</a>
+      </nav>
+      <div class="settings-body">
+        <div class="stack-3" data-set-panel="org">
+          <span class="block-title">Organização</span>
+          <label class="field" style="min-width:0"><span class="field-label">Nome da organização</span><input class="input" value="Cliente Exemplo Ltda." data-setting></label>
+          <label class="field" style="min-width:0"><span class="field-label">Fuso horário</span><span class="select-wrap"><select class="input select" data-setting><option>America/Sao_Paulo</option><option>America/Manaus</option><option>America/Recife</option></select><i class="ico" data-icon="expandir"></i></span></label>
+          <label class="field" style="min-width:0"><span class="field-label">Limite de frescor dos dados (min)</span><input class="input" inputmode="numeric" value="30" data-setting><span class="field-help">Passado o limite, o carimbo “Lido às” vira aviso.</span></label>
+        </div>
+        <div class="stack-2" data-set-panel="int" hidden>
+          <span class="block-title">Integrações</span>
+          <div class="integration-row"><span class="obj-icon"><i class="ico" data-icon="dados"></i></span><div><b>ERP sintético</b><span class="meta">Leitura às 14:30</span></div><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Conectado</span></div>
+          <div class="integration-row"><span class="obj-icon"><i class="ico" data-icon="dados"></i></span><div><b>Planilha de compras</b><span class="meta">Falhou às 14:20 · credencial expirada</span></div><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span></div>
+          <div class="integration-row"><span class="obj-icon"><i class="ico" data-icon="dados"></i></span><div><b>E-mail de notificação</b><span class="meta">Não configurado</span></div><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Pendente</span></div>
+        </div>
+        <div class="stack-2" data-set-panel="not" hidden>
+          <span class="block-title">Notificações</span>
+          <label class="check"><input type="checkbox" checked data-setting> Falha de writeback</label>
+          <label class="check"><input type="checkbox" checked data-setting> Menção em comentário</label>
+          <label class="check"><input type="checkbox" data-setting> Proposta aguardando aprovação</label>
+        </div>
+        <div class="stack-2" data-set-panel="seg" hidden>
+          <span class="block-title">Segurança</span>
+          <label class="check"><input type="checkbox" checked data-setting> Exigir verificação em duas etapas</label>
+          <div class="access-log">
+            <span class="panel-title">Registro de acesso</span>
+            <div class="access-row"><span class="num">14:32</span><span>Ana Nunes revelou CPF do sócio · Cliente 0042</span></div>
+            <div class="access-row"><span class="num">14:05</span><span>Ana Nunes aprovou PC-20481 (risco médio)</span></div>
+            <div class="access-row"><span class="num">09:40</span><span>Gilberto Oliveira mudou o papel de Rafael Pires para Leitor</span></div>
+            <div class="access-row is-failed"><span class="num">09:12</span><span>Entrada com falha · marina@cliente.com.br · 3 tentativas</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="savebar" data-savebar hidden><span><b data-save-count>1 alteração</b> não salva</span><button type="button" class="btn btn-minimal" style="margin-left:auto" data-save-discard>Descartar</button><button type="button" class="btn btn-primary" data-save>Salvar</button></div>
+    </div>
+    <p class="meta">Configurações (F15 · C1, S1): seções à esquerda; ao mudar algo, a barra do rodapé conta as alterações, com Descartar e Salvar. Nada vale antes de salvar.</p>
+  </div>
+</section>

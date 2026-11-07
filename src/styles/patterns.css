@@ -317,6 +317,51 @@
 .assistant-bars span { flex: 1; border-radius: var(--data-bar-radius) var(--data-bar-radius) 0 0; background: var(--data-1); }
 .stream-caret { display: inline-block; width: 2px; height: 1em; margin-left: 2px; background: var(--text-primary); vertical-align: -2px; }
 
+/* ── entrada (F15 · L1, E1) ──
+   Metade escura de marca, metade clara de produto. */
+.login-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 460px; border: var(--border-thin) solid var(--color-border); }
+.login-brand { position: relative; display: grid; align-content: space-between; overflow: hidden; padding: var(--space-6); background: var(--color-canvas); color: var(--text-primary); }
+.login-symbol { position: absolute; right: -120px; bottom: -140px; width: 420px; height: 420px; color: var(--color-raised); pointer-events: none; }
+.login-symbol svg { display: block; width: 100%; height: 100%; }
+.login-claim { position: relative; display: grid; gap: var(--space-3); max-width: 340px; }
+.login-title { font-family: var(--font-display); font-size: var(--display-md); font-weight: var(--weight-display); letter-spacing: var(--tracking-display); line-height: 1.1; }
+.login-form { display: grid; gap: var(--space-3); align-content: center; padding: var(--space-6); background: var(--color-surface); }
+.login-form > * { min-width: 0; }
+.login-wide { width: 100%; justify-content: center; }
+.login-or { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-2); align-items: center; font-size: var(--text-label); color: var(--text-muted); }
+.login-or::before, .login-or::after { content: ''; height: 1px; background: var(--color-border); }
+.login-mfa { display: grid; gap: var(--space-2); justify-items: start; max-width: 400px; padding: var(--space-4); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+.otp { display: grid; grid-template-columns: repeat(6, 44px); gap: var(--space-2); }
+.otp .input { height: 48px; padding: 0; text-align: center; font-size: var(--text-section); font-weight: var(--weight-strong); }
+
+/* ── pessoas e permissões (F15 · U1, P1, I1) ── */
+.people-layout { display: grid; grid-template-columns: minmax(0, 1fr) 240px; border: var(--border-thin) solid var(--color-border); background: var(--color-surface); }
+.people-layout .table-wrap { border: 0; }
+.people-inspector { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-4); border-left: var(--border-thin) solid var(--color-border); background: var(--color-canvas); }
+.people-inspector .btn { justify-self: start; }
+.person { display: inline-flex; align-items: center; gap: var(--space-2); }
+.person small { display: block; font-size: var(--text-label); color: var(--text-muted); }
+.perm-matrix td:not(:first-child), .perm-matrix th:not(:first-child) { text-align: center; }
+.perm-matrix td:not(:first-child) { font-weight: var(--weight-strong); }
+.perm-no { color: var(--text-muted); font-weight: var(--weight-text) !important; }
+.invite-dialog { position: fixed; top: 50%; left: 50%; z-index: 401; width: min(440px, calc(100vw - 32px)); transform: translate(-50%, -50%); }
+
+/* ── configurações (F15 · C1, S1) ──
+   Seções à esquerda; barra de alterações no rodapé até salvar. */
+.settings-layout { position: relative; display: grid; grid-template-columns: 200px minmax(0, 1fr); grid-template-rows: 1fr auto; min-height: 380px; border: var(--border-thin) solid var(--color-border); background: var(--color-canvas); }
+.settings-nav { grid-row: 1 / -1; display: grid; align-content: start; padding: var(--space-2) 0; background: var(--color-surface); border-right: var(--border-thin) solid var(--color-border); }
+.settings-nav a { display: flex; align-items: center; min-height: var(--height-control); padding: 0 var(--space-4); color: var(--text-primary); font-size: var(--text-meta); text-decoration: none; }
+.settings-nav a[aria-current='page'] { background: var(--color-selected); box-shadow: inset var(--indicator) 0 0 var(--color-action); font-weight: var(--weight-strong); }
+.settings-body { padding: var(--space-4); max-width: 560px; min-width: 0; }
+.savebar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); background: var(--color-surface); border-top: var(--border-thin) solid var(--color-border); box-shadow: var(--elevation-1); font-size: var(--text-meta); }
+.integration-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
+.integration-row > div { display: grid; }
+.integration-row .tag { margin-left: auto; }
+.access-log { display: grid; gap: 0; margin-top: var(--space-2); }
+.access-row { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--space-2); align-items: center; min-height: var(--height-row); border-bottom: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
+.access-row > .num { color: var(--text-muted); }
+.access-row.is-failed { color: var(--text-danger); }
+
 /* ── barra inferior do celular (F13 · N1) ──
    Quatro destinos ao alcance do polegar; só abaixo de 900 px. */
 .bench-tabbar { display: none; }
@@ -333,6 +378,11 @@
 }
 
 @media (max-width: 900px) {
+  .login-split, .people-layout { grid-template-columns: minmax(0, 1fr); }
+  .login-brand { min-height: 200px; }
+  .people-inspector { border-left: 0; border-top: var(--border-thin) solid var(--color-border); }
+  .settings-layout { grid-template-columns: minmax(0, 1fr); }
+  .settings-nav { grid-row: auto; display: flex; overflow-x: auto; border-right: 0; border-bottom: var(--border-thin) solid var(--color-border); }
   .shell { grid-template-columns: 48px minmax(0, 1fr); }
   .shell-nav { display: none; }
   .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }

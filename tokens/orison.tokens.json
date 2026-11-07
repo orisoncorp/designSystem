@@ -1,5 +1,5 @@
 {
-  "$description": "Orison Design System v4.5.0 · gerado de src/tokens/tokens.css · tema claro como base; escuro em $extensions[\"org.orison.theme.dark\"]",
+  "$description": "Orison Design System v4.6.0 · gerado de src/tokens/tokens.css · tema claro como base; escuro em $extensions[\"org.orison.theme.dark\"]",
   "color": {
     "canvas": {
       "$type": "color",

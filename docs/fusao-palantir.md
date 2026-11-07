@@ -63,6 +63,8 @@ Em toda rodada:
 |     |                         | celular                                           |
 | F14 | Interfaces que faltam   | shell, entre telas, inbox, busca, quadro, mapa,   |
 |     |                         | canvas, vizinhos, assistente, ícone de objeto     |
+| F15 | Telas de sistema        | entrada, pessoas, permissões, convite,            |
+|     |                         | configurações, salvar                             |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -280,6 +282,20 @@ recomendadas. Página: `exploracao/fusao/f14-interfaces.html`.
   conversa.
 - Ícone de objeto em bloco neutro, igual em todas as vistas.
 
+### F15 · Telas de sistema · 06-11-2026
+
+Escolhas: L1 · E1 · U1 · P1 · I1 · C1 · S1, todas como recomendadas. Página:
+`exploracao/fusao/f15-sistema.html`. Fora do alicerce da Palantir, pedidas pelo
+Nobel.
+
+- Entrada em painel dividido: marca escura, formulário claro; e-mail e senha com
+  Google e Microsoft abaixo.
+- Pessoas em tabela com inspetor; mudar papel só com confirmação.
+- Permissões em quatro papéis fixos com teto de risco para aprovar (DR-09).
+- Convite em diálogo com o que a pessoa vai e não vai poder fazer.
+- Configurações com seções à esquerda e barra de alterações até salvar.
+- Peças fixas: duas etapas, registro de acesso, integrações com estado.
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -395,11 +411,11 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   (20), em Padrões; dados, conteúdo e recursos passaram a 21–23. A rede da
   página do objeto ganhou a barra de ferramentas e o expandir vizinhos; o
   assistente, a resposta em andamento; o menu de ações, "Enviar para".
+- 06-11-2026: F15 implantada (v4.6.0) na seção nova "Telas de sistema" (21);
+  dados, conteúdo e recursos passaram a 22–24.
 
 ## Próximas rodadas
 
-- **F15 · Telas de sistema:** login, usuários e permissões, configurações
-  gerais. Fora do alicerce da Palantir; pedidas pelo Nobel em 06-11-2026.
 - **F16 · Movimento de interação:** reaberto pelo Nobel, aplicado a tudo o que
   as rodadas anteriores aprovaram.
 

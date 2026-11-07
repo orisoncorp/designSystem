@@ -52,9 +52,10 @@ const NAV_ITEMS = [
   { id: 'sec-bancada',        num: '18', label: 'Bancada de operação',       group: 'padroes' },
   { id: 'sec-objeto',         num: '19', label: 'Página do objeto',          group: 'padroes' },
   { id: 'sec-aplicacao',      num: '20', label: 'Interfaces de aplicação',   group: 'padroes' },
-  { id: 'sec-dados',          num: '21', label: 'Visualização de dados',     group: 'padroes' },
-  { id: 'sec-conteudo',       num: '22', label: 'Texto de interface',        group: 'conteudo' },
-  { id: 'sec-recursos',       num: '23', label: 'Tokens e arquivos',         group: 'recursos' },
+  { id: 'sec-sistema',        num: '21', label: 'Telas de sistema',          group: 'padroes' },
+  { id: 'sec-dados',          num: '22', label: 'Visualização de dados',     group: 'padroes' },
+  { id: 'sec-conteudo',       num: '23', label: 'Texto de interface',        group: 'conteudo' },
+  { id: 'sec-recursos',       num: '24', label: 'Tokens e arquivos',         group: 'recursos' },
 ];
 
 const GROUP_LABELS = {
@@ -810,6 +811,85 @@ document.querySelectorAll('[data-stream-form]').forEach((form) => {
   };
   form.addEventListener('submit', () => { const q = form.querySelector('[data-stream-input]').value.trim(); if (q) run(q); });
 });
+
+/* ── Telas de sistema (F15) ── */
+
+document.querySelectorAll('[data-login]').forEach((f) => f.addEventListener('submit', () => toast('Demonstração: este formulário não autentica.')));
+
+/* Código de duas etapas: avança sozinho, volta com Backspace, aceita colar. */
+document.querySelectorAll('[data-otp]').forEach((box) => {
+  const cells = [...box.querySelectorAll('.otp .input')];
+  cells.forEach((c, i) => {
+    c.addEventListener('input', () => { c.value = c.value.replace(/\D/g, '').slice(-1); if (c.value && cells[i + 1]) cells[i + 1].focus(); if (cells.every((x) => x.value)) toast('Código conferido (demonstração).'); });
+    c.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !c.value && cells[i - 1]) cells[i - 1].focus(); });
+    c.addEventListener('paste', (e) => { const d = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6); if (!d) return; e.preventDefault(); d.split('').forEach((ch, k) => { if (cells[k]) cells[k].value = ch; }); cells[Math.min(d.length, 5)].focus(); });
+  });
+});
+
+/* Pessoas (U1): selecionar a linha atualiza o inspetor. */
+const CAP = { irreversible: '<span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span>', medium: '<span class="risk risk-medium">Médio</span>', none: '<span class="meta">Não aprova</span>' };
+document.querySelectorAll('[data-people]').forEach((box) => box.addEventListener('click', (e) => {
+  const tr = e.target.closest('tr[data-person]'); if (!tr) return;
+  box.querySelectorAll('tr[data-person]').forEach((r) => r.setAttribute('aria-selected', String(r === tr)));
+  const [name, ini, role, areas, cap] = tr.dataset.person.split('|');
+  box.querySelector('[data-p-name]').textContent = name;
+  box.querySelector('[data-p-initials]').textContent = ini;
+  box.querySelector('[data-p-role]').textContent = role;
+  box.querySelector('[data-p-areas]').textContent = areas;
+  box.querySelector('[data-p-cap]').innerHTML = CAP[cap];
+  renderIcons(box.querySelector('[data-p-cap]'));
+}));
+
+/* Convite (I1): o bloco “Vai poder” acompanha papel e área. */
+const ROLE_CAN = {
+  Leitor: ['Ver objetos e histórico', 'Propor, aprovar ou revelar dado pessoal'],
+  Operador: ['Ver e propor actions', 'Aprovar ou revelar dado pessoal'],
+  Aprovador: ['Ver, propor e aprovar até risco médio; revelar dado pessoal', 'Aprovar risco alto ou irreversível; gerenciar pessoas'],
+  Admin: ['Tudo, inclusive aprovar irreversível (com confirmação digitada) e gerenciar pessoas', 'Nada fica de fora'],
+};
+document.querySelectorAll('[data-invite]').forEach((dlg) => {
+  const scrim = document.querySelector('[data-invite-scrim]');
+  const opener = document.querySelector('[data-invite-open]');
+  const role = dlg.querySelector('[data-invite-role]');
+  const area = dlg.querySelector('[data-invite-area]');
+  const sync = () => {
+    const [can, cant] = ROLE_CAN[role.value];
+    dlg.querySelector('[data-invite-can]').textContent = `${can} · ${area.value === 'Todas' ? 'todas as áreas' : area.value}`;
+    dlg.querySelector('[data-invite-cant]').textContent = cant;
+  };
+  const close = () => { dlg.hidden = true; scrim.hidden = true; document.removeEventListener('keydown', onKey); opener.focus(); };
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  opener.addEventListener('click', () => { dlg.hidden = false; scrim.hidden = false; sync(); document.addEventListener('keydown', onKey); dlg.querySelector('input').focus(); });
+  scrim.addEventListener('click', close);
+  dlg.querySelector('[data-invite-close]').addEventListener('click', close);
+  role.addEventListener('change', sync);
+  area.addEventListener('change', sync);
+  dlg.addEventListener('submit', () => { if (!dlg.querySelector('input').checkValidity()) { dlg.querySelector('input').reportValidity(); return; } close(); toast('Convite enviado.'); });
+});
+
+/* Configurações (C1, S1): seções à esquerda; barra de alterações até salvar. */
+document.querySelectorAll('[data-settings]').forEach((box) => {
+  const fields = [...box.querySelectorAll('[data-setting]')];
+  const val = (f) => (f.type === 'checkbox' ? f.checked : f.value);
+  let saved = fields.map(val);
+  const bar = box.querySelector('[data-savebar]');
+  const sync = () => {
+    const n = fields.filter((f, i) => val(f) !== saved[i]).length;
+    bar.hidden = n === 0;
+    box.querySelector('[data-save-count]').textContent = `${n} ${n === 1 ? 'alteração' : 'alterações'}`;
+    bar.querySelector('span').lastChild.textContent = n === 1 ? ' não salva' : ' não salvas';
+  };
+  fields.forEach((f) => f.addEventListener(f.type === 'checkbox' || f.tagName === 'SELECT' ? 'change' : 'input', sync));
+  box.querySelector('[data-save-discard]').addEventListener('click', () => { fields.forEach((f, i) => { if (f.type === 'checkbox') f.checked = saved[i]; else f.value = saved[i]; }); sync(); });
+  box.querySelector('[data-save]').addEventListener('click', () => { saved = fields.map(val); sync(); toast(`Configurações salvas às ${nowHM()}.`); });
+  box.querySelector('.settings-nav').addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-set]'); if (!a) return;
+    e.preventDefault();
+    box.querySelectorAll('.settings-nav a').forEach((x) => (x === a ? x.setAttribute('aria-current', 'page') : x.removeAttribute('aria-current')));
+    box.querySelectorAll('[data-set-panel]').forEach((p) => { p.hidden = p.dataset.setPanel !== a.dataset.set; });
+  });
+});
+addEventListener('beforeunload', (e) => { if (document.querySelector('[data-savebar]:not([hidden])')) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ── Switch com rótulo de estado ── */
 document.querySelectorAll('[data-switch]').forEach((sw) => sw.addEventListener('click', () => {
