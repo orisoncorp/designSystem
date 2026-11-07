@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.4.0
+version: 4.5.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -273,7 +273,7 @@ components:
 ---
 
 <!--
-Estado: v4.4.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F13
+Estado: v4.5.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F14
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -657,7 +657,9 @@ Começa em lista: relações agrupadas por tipo, em tabelas curtas com estado.
   código e tag de estado.
 
 Os dois têm painel de seleção (nome, tipo, vínculos, "Abrir no inspetor") e
-"Voltar à lista".
+"Voltar à lista". Sobre o grafo, a barra de ferramentas flutuante (nível 1,
+botões de 32 px com dica): selecionar, mover, layout (radial ou em colunas),
+expandir vizinhos por tipo, aproximar, afastar e encaixar.
 
 ### Timeline
 
@@ -673,6 +675,49 @@ Coluna fixa à direita. Mostra o contexto capturado (objeto e revisão) como tag
 de valor; diz se a resposta vem de IA real ou de fixture (selo de evidência);
 cita a fonte; lista as ferramentas usadas. O que o assistente propõe vira
 Proposta na fila, com tag de estado; ele nunca executa.
+
+A resposta chega aos poucos, com cursor, depois das etapas (ferramentas
+chamadas, com marca de concluída). "Parar" interrompe e marca a resposta como
+interrompida; "Gerar de novo" refaz. Gráfico gerado entra na conversa com selo
+de estágio e "Ver tabela". Com movimento reduzido, o texto aparece inteiro.
+
+### Application Shell
+
+Trilho escuro de 48 px com as áreas (Operação, Dados, Agentes, Ajustes), ícone
+de 20 px com dica e barra de 3 px na área ativa; ao lado, a navegação da área
+(200 px) em superfície clara, com o item ativo no fundo de seleção. Abaixo de
+900 px a navegação da área sai e o celular usa a barra inferior.
+
+### Set Views
+
+O mesmo conjunto de objetos em três vistas, trocadas por segmentado: tabela;
+quadro com uma coluna por estado, em que mudar de coluna só acontece pela action
+no menu do cartão, com confirmação, nunca arrastando; e mapa com marcadores do
+ícone de tipo e agrupamento, sem camadas nem ferramentas.
+
+### Paired Views and Send To
+
+Duas vistas lado a lado compartilham a seleção: selecionar numa acende o mesmo
+objeto na outra. "Enviar para" (Rede, Mapa, Quadro) fica no menu de ações e leva
+a seleção como contexto.
+
+### Inbox
+
+Lista de alertas com filtros (não lidos, falhas, menções) e painel de leitura.
+Não lido com barra de 3 px em azul e título em 600; abrir marca como lido. Ações
+na leitura: Abrir, Atribuir, Enviar para, Arquivar.
+
+### Quick Search
+
+Ctrl K em qualquer tela abre a busca no centro, nível 3 com véu: campo de 48 px,
+resultados agrupados por tipo com o ícone do objeto, setas navegam, Enter abre,
+Esc fecha. A página completa de resultados filtra por tipo.
+
+### Object Icon
+
+Todo objeto aparece com um bloco de 24 px em `neutral-fill`, raio 3, com o ícone
+do tipo em 14 px, antes do código: tabela, quadro, mapa, busca, inbox e grafo.
+Sem cor por tipo; a cor fica para resultado e dados.
 
 ### Operational State (signature)
 
@@ -707,7 +752,8 @@ tabela.
 
 Desenho Lucide adaptado: traço 2 na grade de 24, terminações e junções retas. 16
 px em texto e tag, 20 px em botão e navegação. O catálogo cresce ícone por
-ícone; são 32 em `exploracao/fusao/icones/` (22 da F05, 6 da F10 e 4 da F11).
+ícone; são 49 em `exploracao/fusao/icones/` (22 da F05, 6 da F10, 4 da F11, 3 da
+F13 e 14 da F14).
 
 ### Brand Pieces
 

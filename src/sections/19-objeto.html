@@ -1,7 +1,7 @@
 <!-- 19 · Página do objeto -->
 <section id="sec-objeto" class="doc-section" aria-labelledby="sec-objeto-title">
   <header class="doc-head">
-    <p class="doc-eyebrow">Padrões · F11</p>
+    <p class="doc-eyebrow">Padrões · F11, F13 e F14</p>
     <h2 class="doc-title" id="sec-objeto-title">Página do objeto</h2>
     <p class="doc-lead">
       Quando o inspetor não basta: cabeçalho fixo com estado, risco, owner e
@@ -136,16 +136,36 @@
             </div>
             <div class="net-stage">
               <!-- Simples (R1): vínculos diretos, nós por tipo -->
-              <div class="net-simple" data-network-canvas="simple">
-                <svg class="net-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                  <line x1="50" y1="50" x2="18" y2="22" data-a="sku88" data-b="pc20481"/><line x1="50" y1="50" x2="18" y2="78" data-a="sku88" data-b="pc20455"/>
-                  <line x1="50" y1="50" x2="82" y2="22" data-a="sku88" data-b="alfa"/><line x1="50" y1="50" x2="82" y2="78" data-a="sku88" data-b="pc20450"/>
-                </svg>
-                <button type="button" class="net-node" style="left:50%;top:50%" data-node="sku88" aria-pressed="true" data-detail="SKU-88|Item de estoque|4 vínculos diretos"><span class="net-dot"><i class="ico" data-icon="item"></i></span><b>SKU-88</b></button>
-                <button type="button" class="net-node" style="left:18%;top:22%" data-node="pc20481" aria-pressed="false" data-detail="PC-20481|Pedido · aguardando aprovação|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20481</b></button>
-                <button type="button" class="net-node" style="left:18%;top:78%" data-node="pc20455" aria-pressed="false" data-detail="PC-20455|Pedido · reconciliado|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20455</b></button>
-                <button type="button" class="net-node" style="left:82%;top:22%" data-node="alfa" aria-pressed="false" data-detail="Fornecedor Alfa|Fornecedor · contrato CT-1193|fornece o SKU-88"><span class="net-dot"><i class="ico" data-icon="fornecedor"></i></span><b>Fornecedor Alfa</b></button>
-                <button type="button" class="net-node" style="left:82%;top:78%" data-node="pc20450" aria-pressed="false" data-detail="PC-20450|Pedido · divergente|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20450</b></button>
+              <div class="net-simple" data-network-canvas="simple" data-net-canvas>
+                <div class="canvas-toolbar" role="toolbar" aria-label="Ferramentas da rede">
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-pressed="true" aria-labelledby="tip-net-sel" data-net-mode="select"><i class="ico" data-icon="selecionar"></i></button><span class="tooltip" role="tooltip" id="tip-net-sel">Selecionar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-pressed="false" aria-labelledby="tip-net-move" data-net-mode="move"><i class="ico" data-icon="mover"></i></button><span class="tooltip" role="tooltip" id="tip-net-move">Mover</span></span>
+                  <span class="sep"></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-layout" data-net-layout><i class="ico" data-icon="layout"></i></button><span class="tooltip" role="tooltip" id="tip-net-layout">Layout: radial ou colunas</span></span>
+                  <span class="facet-anchor"><span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-expanded="false" aria-controls="net-expand-menu" aria-labelledby="tip-net-exp" data-net-expand><i class="ico" data-icon="expandir-vizinhos"></i></button><span class="tooltip" role="tooltip" id="tip-net-exp">Expandir vizinhos</span></span>
+                    <div class="menu" id="net-expand-menu" role="menu" aria-label="Expandir vizinhos" hidden style="position:absolute;left:0;top:calc(100% + 4px);z-index:5;min-width:220px">
+                      <div class="menu-head" role="presentation">Expandir vizinhos de SKU-88</div>
+                      <button type="button" class="menu-item" role="menuitem" data-expand="pc20470"><i class="ico" data-icon="evidencia"></i>Pedidos<span class="menu-key">1</span></button>
+                      <button type="button" class="menu-item" role="menuitem" data-expand="ct1193"><i class="ico" data-icon="evidencia"></i>Contratos<span class="menu-key">1</span></button>
+                    </div>
+                  </span>
+                  <span class="sep"></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-in" data-net-zoom="in"><i class="ico" data-icon="aproximar"></i></button><span class="tooltip" role="tooltip" id="tip-net-in">Aproximar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-out" data-net-zoom="out"><i class="ico" data-icon="afastar"></i></button><span class="tooltip" role="tooltip" id="tip-net-out">Afastar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-fit" data-net-zoom="fit"><i class="ico" data-icon="encaixar"></i></button><span class="tooltip" role="tooltip" id="tip-net-fit">Encaixar</span></span>
+                </div>
+                <div class="net-zoom" data-net-zoom-layer>
+                  <svg class="net-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <line data-a="sku88" data-b="pc20481"/><line data-a="sku88" data-b="pc20455"/><line data-a="sku88" data-b="alfa"/><line data-a="sku88" data-b="pc20450"/><line data-a="sku88" data-b="pc20470" hidden/><line data-a="sku88" data-b="ct1193" hidden/>
+                  </svg>
+                  <button type="button" class="net-node" style="left:50%;top:50%" data-node="sku88" data-radial="50,50" data-cols="18,50" aria-pressed="true" data-detail="SKU-88|Item de estoque|4 vínculos diretos"><span class="net-dot"><i class="ico" data-icon="item"></i></span><b>SKU-88</b></button>
+                  <button type="button" class="net-node" style="left:18%;top:22%" data-node="pc20481" data-radial="18,22" data-cols="72,14" aria-pressed="false" data-detail="PC-20481|Pedido · aguardando aprovação|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20481</b></button>
+                  <button type="button" class="net-node" style="left:18%;top:78%" data-node="pc20455" data-radial="18,78" data-cols="72,32" aria-pressed="false" data-detail="PC-20455|Pedido · reconciliado|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20455</b></button>
+                  <button type="button" class="net-node" style="left:82%;top:22%" data-node="alfa" data-radial="82,22" data-cols="72,50" aria-pressed="false" data-detail="Fornecedor Alfa|Fornecedor · contrato CT-1193|fornece o SKU-88"><span class="net-dot"><i class="ico" data-icon="fornecedor"></i></span><b>Fornecedor Alfa</b></button>
+                  <button type="button" class="net-node" style="left:82%;top:78%" data-node="pc20450" data-radial="82,78" data-cols="72,68" aria-pressed="false" data-detail="PC-20450|Pedido · divergente|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20450</b></button>
+                  <button type="button" class="net-node" style="left:64%;top:12%" data-node="pc20470" data-radial="64,12" data-cols="72,86" aria-pressed="false" data-detail="PC-20470|Pedido · proposta|vizinho expandido" hidden><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20470</b></button>
+                  <button type="button" class="net-node" style="left:50%;top:88%" data-node="ct1193" data-radial="50,88" data-cols="40,86" aria-pressed="false" data-detail="CT-1193|Contrato · divergente|vizinho expandido" hidden><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>CT-1193</b></button>
+                </div>
               </div>
               <!-- Aprofundada (R2): primeiro e segundo grau, com estado em cada nó -->
               <div class="net-deep" data-network-canvas="deep" data-graph="sku88d>pc20481d*,sku88d>pc20455d,sku88d>pc20450d,sku88d>alfad,pc20450d>os311d,alfad>ct1193d,alfad>sku91d" hidden>
@@ -228,7 +248,8 @@
       <div class="assistant-msg"><span>O custo do Fornecedor Alfa subiu 4,1% em outubro; a proposta repassa 3,3% para manter a margem de 18%.</span><span class="assistant-cite">Fonte: ERP sintético v12 · tx 8812</span></div>
       <div class="assistant-tool"><i class="ico" data-icon="ferramenta"></i>consultar_historico · <span class="num">3</span> resultados</div>
       <div class="assistant-output"><i class="ico" data-icon="evidencia"></i><span>Proposta PC-20482 criada</span><span class="tag tag-pending">Proposta</span></div>
-      <label class="field" style="min-width:0"><span class="sr-only">Pergunta ao assistente</span><input class="input" placeholder="Perguntar sobre este objeto"></label>
+      <div class="stack-2" data-stream-out aria-live="polite"></div>
+      <form class="row" data-stream-form onsubmit="return false"><label class="field" style="flex:1;min-width:0"><span class="sr-only">Pergunta ao assistente</span><input class="input" placeholder="Perguntar sobre este objeto" value="Mostre o preço nos últimos 6 meses" data-stream-input></label><button type="submit" class="btn btn-secondary">Perguntar</button></form>
       <p class="meta">Mostra o contexto e a revisão, diz se é IA real ou fixture, cita a fonte e lista as ferramentas. O que propõe vira Proposta na fila; nunca executa.</p>
     </aside>
   </div>

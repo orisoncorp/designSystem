@@ -61,6 +61,8 @@ Em toda rodada:
 | F13 | Componentes e estados   | seções, facetas, frescor, carga, dado pessoal,    |
 |     |                         | formulário, período, comentários, anexos, gaveta, |
 |     |                         | celular                                           |
+| F14 | Interfaces que faltam   | shell, entre telas, inbox, busca, quadro, mapa,   |
+|     |                         | canvas, vizinhos, assistente, ícone de objeto     |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -260,6 +262,24 @@ recomendadas. Página: `exploracao/fusao/f13-estados.html`. Origem:
 - Celular com barra inferior de quatro destinos.
 - Peças fixas, sem votação: seletor de pessoa e estado "sem permissão".
 
+### F14 · Interfaces que faltam · 06-11-2026
+
+Escolhas: SH1 · C1 · I1 · S1 · B1 · M2 · T1 · G1 · A1 · R1, todas como
+recomendadas. Página: `exploracao/fusao/f14-interfaces.html`.
+
+- Shell com trilho de áreas e navegação da área (Gotham e Foundry).
+- "Enviar para" no menu de ações e vistas pareadas com seleção sincronizada.
+- Inbox com lista, não lidos e painel de leitura.
+- Busca rápida com Ctrl K, resultados agrupados por tipo.
+- Quadro por estado em que mudar de coluna só acontece pela action; nada de
+  arrastar para mudar estado.
+- Mapa como vista leve do conjunto, sem camadas.
+- Barra de ferramentas flutuante no grafo; expandir vizinhos por tipo e layout
+  radial ou em colunas.
+- Assistente com resposta em andamento, Parar, Gerar de novo e gráfico na
+  conversa.
+- Ícone de objeto em bloco neutro, igual em todas as vistas.
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -371,15 +391,21 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   (comentários, anexos) e dados (frescor, carregamento). Na mesma entrega, o
   texto dos gráficos passou a ficar em 13 px em qualquer largura e o índice lê a
   versão do `package.json`.
+- 06-11-2026: F14 implantada (v4.5.0) na seção nova "Interfaces de aplicação"
+  (20), em Padrões; dados, conteúdo e recursos passaram a 21–23. A rede da
+  página do objeto ganhou a barra de ferramentas e o expandir vizinhos; o
+  assistente, a resposta em andamento; o menu de ações, "Enviar para".
 
 ## Próximas rodadas
 
-Da auditoria de cobertura: F14, interfaces que faltam (shell com trilho e
-commands, inbox, busca global, quadro por estado, mapa, toolbar de canvas,
-assistente com streaming, representação de objeto), e F15, movimento de
-interação, reaberto pelo Nobel. Peças novas de marca ou padrões novos de
-aplicação seguem o mesmo método: página em `exploracao/fusao/`, votação item a
-item e registro aqui antes de qualquer token.
+- **F15 · Telas de sistema:** login, usuários e permissões, configurações
+  gerais. Fora do alicerce da Palantir; pedidas pelo Nobel em 06-11-2026.
+- **F16 · Movimento de interação:** reaberto pelo Nobel, aplicado a tudo o que
+  as rodadas anteriores aprovaram.
+
+Depois da F16: exportar as decisões para a Elpis e juntar `refactor/ds-v4` no
+`main`. Peças novas seguem o mesmo método: página em `exploracao/fusao/`,
+votação item a item e registro aqui antes de qualquer token.
 
 Fontes: `~/Orison/Tatico/palantir-overview/` (réplicas de botão, campo, tag,
 callout, seleção, navegação, sobreposição, feedback, tabela, inspetor e rede),

@@ -143,5 +143,7 @@ Três rodadas, na ordem em que uma depende da outra:
    estado, continuidade e progresso, aplicado a tudo o que as rodadas anteriores
    aprovarem.
 
-Depois da F15: exportar as decisões para a Elpis e juntar `refactor/ds-v4` no
+Fora do alicerce da Palantir, o Nobel acrescentou depois a F15 · telas de
+sistema (login, usuários e permissões, configurações); o movimento passou a F16.
+Depois da F16: exportar as decisões para a Elpis e juntar `refactor/ds-v4` no
 `main`.

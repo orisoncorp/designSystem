@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F14 Interfaces que faltam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens, componentes e padrões reais do site v4.4. Só a montagem é nova. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<link rel="stylesheet" href="../../src/styles/patterns.css">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; text-align: right; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .ui p, .ui h4, .ui ul, .ui ol, .ui dl, .ui dd { margin: 0; }
+  .ui ul, .ui ol { padding: 0; list-style: none; }
+  .mini { padding: 14px; flex: 1; display: grid; gap: 10px; align-content: start; position: relative; min-height: 240px; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .cap { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ico-24 { width: 24px; height: 24px; }
+
+  /* moldura de app */
+  .app { display: grid; border: 1px solid var(--color-border); height: 250px; overflow: hidden; font-size: var(--text-meta); background: var(--color-canvas); position: relative; }
+  .rail { background: var(--color-nav); display: grid; align-content: start; gap: 4px; padding: 8px 0; width: 48px; }
+  .rail span { display: grid; place-items: center; height: 40px; color: var(--color-nav-text); }
+  .rail span.on { color: var(--color-nav-fg); box-shadow: inset 3px 0 0 var(--color-action); background: var(--color-nav-active); }
+  .snav { background: var(--color-surface); border-right: 1px solid var(--color-border); padding: 8px 0; display: grid; align-content: start; }
+  .snav span { padding: 0 12px; min-height: 30px; display: flex; align-items: center; }
+  .snav span.on { background: var(--color-selected); box-shadow: inset 3px 0 0 var(--color-action); font-weight: var(--weight-strong); }
+  .snav .grp { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); letter-spacing: var(--tracking-header); text-transform: uppercase; margin-top: 6px; }
+  .darknav { background: var(--color-nav); color: var(--color-nav-text); padding: 8px 0; display: grid; align-content: start; }
+  .darknav span { padding: 0 12px; min-height: 30px; display: flex; align-items: center; gap: 8px; }
+  .darknav span.on { color: var(--color-nav-fg); background: var(--color-nav-active); box-shadow: inset 3px 0 0 var(--color-action); }
+  .darknav .grp { font-size: var(--text-label); letter-spacing: var(--tracking-header); text-transform: uppercase; opacity: .8; margin-top: 6px; }
+  .topb { height: 40px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .content { padding: 12px; display: grid; gap: 8px; align-content: start; }
+  .line { height: 10px; background: var(--color-neutral-fill); }
+  .crumb { color: var(--text-muted); }
+  .crumb b { color: var(--text-primary); }
+
+  /* objetos */
+  .objico { display: inline-grid; place-items: center; width: 24px; height: 24px; flex: none; background: var(--color-neutral-fill); color: var(--text-primary); border-radius: var(--radius-tag); }
+  .objico .ico { width: 14px; height: 14px; }
+  .objico.c1 { background: var(--data-1); color: #fff; } .objico.c2 { background: var(--data-2); color: #fff; } .objico.c3 { background: var(--data-3); color: #fff; }
+  .objrow { display: flex; align-items: center; gap: 8px; min-height: 32px; border-bottom: 1px solid var(--color-border); padding: 0 8px; background: var(--color-surface); font-size: var(--text-meta); }
+  .objrow .meta { margin-left: auto; }
+
+  /* inbox */
+  .inbox { display: grid; grid-template-columns: 1fr 1fr; height: 250px; border: 1px solid var(--color-border); overflow: hidden; }
+  .msg { display: grid; gap: 2px; padding: 8px 10px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); font-size: var(--text-meta); }
+  .msg.unread b { font-weight: var(--weight-strong); }
+  .msg.unread { box-shadow: inset 3px 0 0 var(--color-action); }
+  .msg.sel { background: var(--color-selected); }
+  .msg .t { color: var(--text-muted); font-size: var(--text-label); }
+  .reader { padding: 12px; display: grid; gap: 8px; align-content: start; background: var(--color-canvas); font-size: var(--text-meta); }
+  .bell { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; }
+  .bell .n { position: absolute; top: 2px; right: 0; min-width: 18px; height: 18px; border-radius: var(--radius-full); background: var(--text-primary); color: var(--color-canvas); font-size: 12px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; }
+
+  /* busca */
+  .omni { background: var(--color-surface); box-shadow: var(--elevation-3); border-radius: var(--radius-control); width: 100%; max-width: 420px; justify-self: center; overflow: hidden; }
+  .omni-in { display: flex; gap: 8px; align-items: center; padding: 0 12px; height: 44px; border-bottom: 1px solid var(--color-border); }
+  .omni-in kbd, kbd { font-family: var(--font-text); font-size: var(--text-label); font-weight: 600; border: 1px solid var(--color-border); border-radius: var(--radius-tag); padding: 0 5px; color: var(--text-muted); }
+  .omni-grp { padding: 6px 12px 2px; }
+  .omni-item { display: flex; gap: 8px; align-items: center; min-height: 34px; padding: 0 12px; font-size: var(--text-meta); }
+  .omni-item.on { background: var(--color-selected); }
+  .omni-item .meta { margin-left: auto; }
+  .dd { background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); }
+
+  /* quadro */
+  .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .col { background: var(--color-neutral-fill); padding: 6px; display: grid; gap: 6px; align-content: start; min-height: 190px; }
+  .col-h { display: flex; justify-content: space-between; gap: 4px; font-size: 12px; letter-spacing: 0.02em; font-weight: var(--weight-strong); color: var(--text-muted); text-transform: uppercase; }
+  .card { background: var(--color-surface); border: 1px solid var(--color-border); padding: 6px 8px; display: grid; gap: 4px; font-size: var(--text-label); }
+  .card b { font-size: var(--text-meta); }
+  .card.drag { box-shadow: var(--elevation-3); transform: rotate(-2deg); border-color: var(--color-action); }
+  .col.drop { outline: 2px dashed var(--color-action); outline-offset: -2px; background: var(--color-selected); }
+
+  /* mapa */
+  .map { position: relative; height: 230px; background: var(--color-surface); border: 1px solid var(--color-border); overflow: hidden; }
+  .map svg.base { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map svg.base path { fill: none; stroke: var(--color-border); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+  .pin { position: absolute; transform: translate(-50%, -100%); display: grid; justify-items: center; }
+  .pin i { display: grid; place-items: center; width: 26px; height: 26px; background: var(--color-surface); border: 2px solid var(--color-control); border-radius: var(--radius-full); color: var(--text-primary); }
+  .pin.on i { border-color: var(--color-action); background: var(--color-selected); }
+  .pin .ico { width: 13px; height: 13px; }
+  .cluster { position: absolute; transform: translate(-50%, -50%); width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--text-primary); color: var(--color-canvas); display: grid; place-items: center; font-size: var(--text-label); font-weight: 600; }
+  .layers { position: absolute; left: 8px; top: 8px; background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); padding: 8px; font-size: var(--text-label); display: grid; gap: 4px; }
+  .sel-panel { position: absolute; right: 8px; top: 8px; bottom: 8px; width: 150px; background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); padding: 8px; display: grid; gap: 4px; align-content: start; font-size: var(--text-label); }
+
+  /* toolbar */
+  .canvas { position: relative; height: 230px; background: var(--color-surface); border: 1px solid var(--color-border); overflow: hidden; }
+  .canvas > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .canvas line { stroke: var(--color-control); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .nd { position: absolute; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: var(--radius-full); border: 2px solid var(--color-control); background: var(--color-surface); }
+  .nd.on { border-color: var(--color-action); background: var(--color-selected); }
+  .tb { position: absolute; display: flex; gap: 2px; padding: 3px; background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); }
+  .tb .btn { min-height: 30px; width: 30px; padding: 0; justify-content: center; }
+  .tb .sep { width: 1px; background: var(--color-border); margin: 3px 2px; }
+  .tb .btn.on { background: var(--color-selected); color: var(--color-link); }
+  .fixedbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px; background: var(--color-surface); border: 1px solid var(--color-border); border-bottom: 0; }
+  .fixedbar .btn { min-height: 30px; font-size: var(--text-label); padding: 0 8px; }
+
+  /* assistente */
+  .chat { display: grid; gap: 8px; background: var(--color-surface); border: 1px solid var(--color-border); padding: 12px; font-size: var(--text-meta); }
+  .chat .user { justify-self: end; background: var(--color-neutral-fill); padding: 6px 10px; }
+  .caret { display: inline-block; width: 2px; height: 1em; background: var(--text-primary); vertical-align: -2px; margin-left: 2px; }
+  .chart-mini { border: 1px solid var(--color-border); padding: 8px; display: grid; gap: 6px; }
+  .bars { display: flex; gap: 6px; align-items: flex-end; height: 70px; border-bottom: 1px solid var(--data-axis); }
+  .bars span { flex: 1; background: var(--data-1); border-radius: 2px 2px 0 0; }
+  .steps { display: grid; gap: 4px; font-size: var(--text-label); color: var(--text-muted); }
+  .steps .now { color: var(--text-primary); font-weight: var(--weight-strong); }
+
+  .sheets { display: grid; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 24px; display: grid; gap: 24px; border: 1px solid #404854; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
+  .sheet h3 { margin: 0 0 10px; font-size: var(--text-label); font-weight: var(--weight-strong); text-transform: uppercase; letter-spacing: var(--tracking-header); color: var(--text-muted); }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F14 · Interfaces que faltam</h1>
+  <p class="lead">
+    <strong>Da auditoria</strong> <code>docs/cobertura-palantir.md</code>: as telas e
+    os padrões de Foundry, Gotham e AIP que o DS ainda não tem. Prévias com o CSS
+    real do site v4.4.
+  </p>
+  <p class="lead">
+    Dez perguntas. Quatro admitem “deixar de fora” (quadro, mapa, expandir
+    vizinhos e o ícone colorido por tipo), porque o gate de simplicidade da
+    DR-09 (PG-GC-09-05) pede que só entre o que elimina uma incerteza real do
+    operador. O movimento dessas telas (zoom, layout animado, streaming,
+    reprodução no tempo) vai para a F15.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Shell de aplicação</h2>
+  <p class="lead">Gotham e Foundry lado a lado: trilho de aplicações à esquerda e a navegação da área. Hoje a bancada tem só a navegação.</p>
+  <div class="opts" data-q="shell"></div>
+
+  <h2>2 · Levar objetos entre telas</h2>
+  <p class="lead">App Pairing, Commands e arrastar e soltar: a seleção de uma tela vira contexto em outra.</p>
+  <div class="opts" data-q="cmd"></div>
+
+  <h2>3 · Inbox de alertas</h2>
+  <p class="lead">Inbox do Gotham: triagem de mensagens com “Enviar ao mapa” e “Enviar à rede”. Na Orison: falhas, divergências, menções, propostas atribuídas.</p>
+  <div class="opts" data-q="inbox"></div>
+
+  <h2>4 · Busca global</h2>
+  <p class="lead">Object Explorer do Foundry e a busca rápida (Ctrl K) do estudo de frontend.</p>
+  <div class="opts" data-q="search"></div>
+
+  <h2>5 · Quadro por estado</h2>
+  <p class="lead">Target Workbench: colunas configuráveis. Na Orison, a fila agrupada pelo estado operacional.</p>
+  <div class="opts" data-q="board"></div>
+
+  <h2>6 · Mapa</h2>
+  <p class="lead">Gaia: mapa operacional com seleção, camadas e criação de objetos. Na Orison: CDs, lojas, rotas de entrega.</p>
+  <div class="opts" data-q="map"></div>
+
+  <h2>7 · Ferramentas sobre o canvas</h2>
+  <p class="lead">Toolbar flutuante do Gaia e do Graph: modo, layout, expandir, zoom.</p>
+  <div class="opts" data-q="toolbar"></div>
+
+  <h2>8 · Expandir vizinhos e trocar layout</h2>
+  <p class="lead">Search Around do Graph e do Vertex: a partir de um nó, trazer os vizinhos de um tipo.</p>
+  <div class="opts" data-q="graphx"></div>
+
+  <h2>9 · Assistente com resposta em andamento</h2>
+  <p class="lead">AIP Analyst: o agente chama ferramentas, gera um gráfico e devolve a resposta aos poucos. Regras da F11 continuam: contexto, fonte, fixture ou IA, nunca executa.</p>
+  <div class="opts" data-q="stream"></div>
+
+  <h2>10 · Representação de objeto</h2>
+  <p class="lead">O mesmo objeto aparece igual em tabela, busca, rede, mapa e inbox: o tipo reconhecível de relance.</p>
+  <div class="opts" data-q="objrep"></div>
+
+  <h2>Folha · interfaces escolhidas</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui sheet" data-theme="dark" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  chevD: '<path d="m6 9 6 6 6-6"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+  box: '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/>',
+  file: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/>',
+  truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+  store: '<path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M2 7h20"/>',
+  inbox: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
+  db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  bot: '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/>',
+  ops: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+  net: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+  map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+  cols: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/>',
+  pointer: '<path d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z"/>',
+  hand: '<path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>', minus: '<path d="M5 12h14"/>',
+  fit: '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
+  expand: '<circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/>',
+  layout: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',
+  send: '<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
+  stop: '<rect width="14" height="14" x="5" y="5" rx="1"/>', undo: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  archive: '<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+const tag = (k, t) => ({ p: `<span class="tag tag-pending">${I('clock')}${t}</span>`, w: `<span class="tag tag-warning">${I('alert')}${t}</span>`, d: `<span class="tag tag-danger">${I('x')}${t}</span>`, s: `<span class="tag tag-success">${I('check')}${t}</span>` }[k]);
+const oi = (ic, mode = 'R1') => mode === 'R2' ? I(ic) : `<span class="objico${mode === 'R3' ? ` c${{ box: 1, file: 2, truck: 3, store: 1 }[ic] || 1}` : ''}">${I(ic)}</span>`;
+
+const Q = {
+  shell: [
+    { id: 'SH1', name: 'Trilho e navegação da área', src: 'Gotham + Foundry (shell comum)', why: 'Trilho escuro de 48 px com as áreas (Operação, Dados, Agentes, Ajustes) e, ao lado, a navegação da área ativa. Escala para muitas telas; duas camadas para aprender.' },
+    { id: 'SH2', name: 'Navegação única com grupos', src: 'bancada atual (F08)', why: 'Uma navegação escura de 200 px, com as áreas como grupos. Uma camada só; fica longa quando o produto cresce.' },
+    { id: 'SH3', name: 'Área no topo', src: 'proposta', why: 'Seletor de área na barra superior; a navegação lateral mostra só a área ativa. Libera a lateral; a área ativa fica menos visível.' },
+  ],
+  cmd: [
+    { id: 'C1', name: '“Enviar para” e pareamento', src: 'Commands + App Pairing', why: '“Enviar para” no menu de ações (Rede, Mapa, Quadro) e duas vistas lado a lado com seleção sincronizada (selecionar numa acende na outra).' },
+    { id: 'C2', name: 'Só “Abrir em…”', src: 'proposta', why: '“Abrir em…” navega para a outra tela levando a seleção como filtro. Simples; sem vistas lado a lado.' },
+    { id: 'C3', name: 'C1 e arrastar e soltar', src: 'Drag and drop do Gotham/Foundry', why: 'C1, mais arrastar objetos de uma vista para outra. Rápido para quem domina; inacessível sem teclado e difícil no toque.' },
+  ],
+  inbox: [
+    { id: 'I1', name: 'Lista e painel de leitura', src: 'Gotham Inbox', why: 'Lista de alertas (não lidos com barra azul), filtros por tipo e, à direita, a leitura com ações: Abrir, Atribuir, Enviar para, Arquivar.' },
+    { id: 'I2', name: 'Alertas como fila', src: 'bancada (F08)', why: 'Alertas são uma fila da bancada, filtrada por tipo; o inspetor mostra o alerta. Nenhuma tela nova; mistura alerta com proposta.' },
+    { id: 'I3', name: 'Sino com popover', src: 'proposta', why: 'Sino com contagem na barra superior; popover com os últimos alertas e “Ver todos”. Sempre à mão; triagem pobre no popover.' },
+  ],
+  search: [
+    { id: 'S1', name: 'Busca rápida e resultados', src: 'estudo de frontend (Ctrl K) + Object Explorer', why: 'Ctrl K abre a busca no centro, com resultados agrupados por tipo e atalhos; Enter leva à página de resultados com filtro por tipo.' },
+    { id: 'S2', name: 'Campo fixo na barra', src: 'proposta', why: 'Campo de busca sempre visível na barra superior, com resultados em lista suspensa. Descobrível; ocupa a barra.' },
+    { id: 'S3', name: 'Só dentro das filas', src: 'F08', why: 'Sem busca global; cada fila busca no próprio conteúdo. Nada novo; achar um objeto sem saber onde está fica difícil.' },
+  ],
+  board: [
+    { id: 'B1', name: 'Colunas, ações no cartão', src: 'Target Workbench', why: 'Uma coluna por estado; cartão com código, risco e owner. Mudar de estado só por action (menu do cartão), nunca arrastando.' },
+    { id: 'B2', name: 'Arrastar propõe', src: 'proposta (com confirmação)', why: 'Arrastar um cartão para outra coluna abre a confirmação da action correspondente. Direto; o gesto parece executar e só propõe.' },
+    { id: 'B3', name: 'Deixar de fora', src: 'PG-GC-09-05', why: 'Sem quadro; a fila com filtro por estado e o segmentado bastam.' },
+  ],
+  map: [
+    { id: 'M1', name: 'Mapa operacional', src: 'Gaia', why: 'Mapa com marcadores por tipo, agrupamento, camadas e painel de seleção. Para operações com CD, loja e rota.' },
+    { id: 'M2', name: 'Mapa como vista', src: 'segmentado (Tabela | Rede | Mapa)', why: 'Mais uma vista do segmentado: marcadores e agrupamento, sem camadas nem ferramentas. Leve.' },
+    { id: 'M3', name: 'Deixar de fora', src: 'PG-GC-09-05', why: 'Sem mapa até aparecer um caso geográfico real de cliente.' },
+  ],
+  toolbar: [
+    { id: 'T1', name: 'Barra flutuante', src: 'Gaia / Graph (toolbar flutuante)', why: 'Barra pequena sobre o canvas: selecionar, mover, layout, expandir, zoom e encaixar, com dica em cada botão.' },
+    { id: 'T2', name: 'Barra fixa acima', src: 'proposta', why: 'As mesmas ferramentas com rótulo numa barra acima do canvas. Mais legível; tira altura do canvas.' },
+    { id: 'T3', name: 'Só zoom', src: 'mínimo', why: 'Só zoom e encaixar no canto. O resto fica no menu do nó.' },
+  ],
+  graphx: [
+    { id: 'G1', name: 'Expandir por tipo e layouts', src: 'Graph Search Around', why: 'Menu do nó: “Expandir vizinhos” por tipo (pedidos, fornecedor). Layout radial ou em colunas na barra.' },
+    { id: 'G2', name: 'Só expandir', src: 'proposta', why: 'Duplo clique ou Enter no nó traz todos os vizinhos; layout fixo.' },
+    { id: 'G3', name: 'Deixar de fora', src: 'F11 (simples e aprofundada)', why: 'A rede simples e a aprofundada bastam; sem exploração livre.' },
+  ],
+  stream: [
+    { id: 'A1', name: 'Em andamento, com gráfico', src: 'AIP Analyst + REA (streaming)', why: 'A resposta chega aos poucos com cursor; “Parar” e “Gerar de novo”; as ferramentas aparecem como etapas; o gráfico gerado entra na conversa com selo e “Ver tabela”.' },
+    { id: 'A2', name: 'Resposta inteira', src: 'proposta', why: 'Sem streaming: mostra as etapas (ferramentas) em andamento e a resposta só quando completa. Mais calmo; espera maior sem texto.' },
+    { id: 'A3', name: 'A1, gráfico fora da conversa', src: 'Workshop (saída em variável)', why: 'A1, mas o gráfico vai para a página do objeto (“Abrir gráfico”) em vez de entrar no chat.' },
+  ],
+  objrep: [
+    { id: 'R1', name: 'Bloco neutro com ícone', src: 'Representação de objeto (estudo)', why: 'Bloco de 24 px em cinza com o ícone do tipo, antes do código, igual em tabela, busca, rede, mapa e inbox.' },
+    { id: 'R2', name: 'Ícone simples', src: 'proposta', why: 'Só o ícone de 16 px, sem bloco. Mais leve; o tipo some em tabela densa.' },
+    { id: 'R3', name: 'Bloco colorido por tipo', src: 'Palantir (bloco colorido)', why: 'Bloco na cor de uma série de dados por tipo. Reconhecível de longe; disputa cor com gráficos e contraria a regra de cor só para resultado e dados.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f14';
+const DEFAULT = { pick: { shell: 'SH1', cmd: 'C1', inbox: 'I1', search: 'S1', board: 'B1', map: 'M2', toolbar: 'T1', graphx: 'G1', stream: 'A1', objrep: 'R1' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── prévias ── */
+const queue = () => `<div class="content"><b>Fila de propostas</b>${['PC-20481', 'PC-20477', 'OS-311'].map((c) => `<div class="objrow">${oi('file', state.pick.objrep)}<b>${c}</b><span class="meta">Médio</span></div>`).join('')}</div>`;
+const shell = (id) => {
+  if (id === 'SH2') return `<div class="app" style="grid-template-columns:150px 1fr"><div class="darknav"><span class="grp">Operação</span><span class="on">Fila</span><span>Decisões</span><span class="grp">Dados</span><span>Fontes</span><span>Linhagem</span><span class="grp">Agentes</span><span>Agentes publicados</span></div>${queue()}</div>`;
+  if (id === 'SH3') return `<div class="app" style="grid-template-rows:40px 1fr"><div class="topb"><b>Orison</b><span class="chip" style="min-height:28px">Operação ${I('chevD')}</span></div><div style="display:grid;grid-template-columns:130px 1fr"><div class="snav"><span class="on">Fila</span><span>Decisões</span><span>Execuções</span></div>${queue()}</div></div>`;
+  return `<div class="app" style="grid-template-columns:48px 130px 1fr"><div class="rail"><span class="on">${I('ops')}</span><span>${I('db')}</span><span>${I('bot')}</span><span>${I('gear')}</span></div><div class="snav"><span class="grp">Operação</span><span class="on">Fila</span><span>Decisões</span><span>Inbox</span><span>Execuções</span></div>${queue()}</div>`;
+};
+
+const cmd = (id) => {
+  const menu = `<div class="menu" style="min-width:200px"><div class="menu-head">Enviar para</div><button type="button" class="menu-item">${I('net')}Rede</button><button type="button" class="menu-item">${I('map')}Mapa</button><button type="button" class="menu-item">${I('cols')}Quadro</button></div>`;
+  const pair = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="panel" style="padding:8px;gap:4px"><span class="cap">Tabela</span><div class="objrow" style="background:var(--color-selected);box-shadow:inset 3px 0 0 var(--color-action)">${oi('box')}<b>SKU-88</b></div><div class="objrow">${oi('box')}<b>SKU-91</b></div></div><div class="canvas" style="height:110px"><svg><line x1="30%" y1="50%" x2="70%" y2="50%"/></svg><span class="nd on" style="left:30%;top:50%"></span><span class="nd" style="left:70%;top:50%"></span></div></div><span class="meta row">${I('link')} Vistas pareadas: selecionar numa acende na outra.</span>`;
+  if (id === 'C2') return `<div class="menu" style="min-width:200px"><div class="menu-head">Abrir em…</div><button type="button" class="menu-item">${I('net')}Rede (com SKU-88)</button><button type="button" class="menu-item">${I('map')}Mapa (com SKU-88)</button></div>`;
+  if (id === 'C3') return `${pair}<div class="row meta"><span class="card drag" style="width:auto">${oi('box')} SKU-88</span> arrastando para a rede…</div>`;
+  return `<div style="display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start">${menu}<div style="display:grid;gap:6px">${pair}</div></div>`;
+};
+
+const msgs = (sel = true) => [['u', 'Reconciliação falhou · SKU-88', '14:07', 'Destino recusou a revisão 14'], ['u', '@Você em PC-20482', '14:12', 'Analista mencionou você'], ['', 'Divergência 3,2% · CT-1193', '09:40', 'Valor aplicado diferente']].map(([u, t, h, b], i) => `<div class="msg${u ? ' unread' : ''}${sel && i === 0 ? ' sel' : ''}"><div class="row"><b>${t}</b><span class="t" style="margin-left:auto">${h}</span></div><span class="meta">${b}</span></div>`).join('');
+const inbox = (id) => {
+  if (id === 'I2') return `<div class="app" style="grid-template-columns:1fr 1fr"><div class="content"><div class="row"><span class="chip" aria-pressed="true" style="min-height:28px">Tipo: alertas ${I('x')}</span></div>${['SKU-88', 'CT-1193'].map((c, i) => `<div class="objrow">${oi('file')}<b>${c}</b>${i ? tag('w', 'Divergente') : tag('d', 'Falhou')}</div>`).join('')}</div><div class="reader" style="border-left:1px solid var(--color-border)"><span class="cap">Inspetor</span><b>SKU-88</b><span class="meta">Reconciliação falhou às 14:07</span></div></div>`;
+  if (id === 'I3') return `<div class="row" style="justify-content:flex-end"><span class="bell">${I('bell', 'ico ico-24')}<span class="n">2</span></span></div><div class="dd" style="width:300px;justify-self:end;overflow:hidden">${msgs(false)}<div class="row" style="padding:8px 10px"><b style="color:var(--color-link);font-size:13px">Ver todos</b></div></div>`;
+  return `<div class="inbox"><div style="display:grid;align-content:start;border-right:1px solid var(--color-border)"><div class="row" style="padding:6px 8px;background:var(--color-surface);border-bottom:1px solid var(--color-border)"><span class="chip" aria-pressed="true" style="min-height:28px">Não lidos 2</span><span class="chip" style="min-height:28px">Falhas</span></div>${msgs()}</div><div class="reader"><div class="row">${oi('file')}<b>SKU-88</b>${tag('d', 'Falhou')}</div><span class="meta">Destino recusou a revisão 14 às 14:07. Owner: Operações.</span><div class="row"><span class="btn btn-primary" style="min-height:30px;font-size:13px">Abrir</span><span class="btn btn-secondary" style="min-height:30px;font-size:13px">${I('user')}Atribuir</span><span class="btn btn-minimal" style="min-height:30px;font-size:13px">${I('send')}Enviar para</span><span class="btn btn-minimal btn-icon" style="min-height:30px;width:30px" aria-label="Arquivar">${I('archive')}</span></div></div></div>`;
+};
+
+const search = (id) => {
+  if (id === 'S2') return `<div class="topb" style="border:1px solid var(--color-border)"><b>Orison</b><span class="input" style="display:flex;align-items:center;gap:6px;min-height:30px;max-width:260px">${I('search')}sku-8</span></div><div class="dd" style="width:300px;margin-left:70px">${[['box', 'SKU-88', 'Item'], ['box', 'SKU-89', 'Item'], ['file', 'PC-20481', 'Pedido · SKU-88']].map(([i, t, m], k) => `<div class="omni-item${k === 0 ? ' on' : ''}">${oi(i, state.pick.objrep)}<b>${t}</b><span class="meta">${m}</span></div>`).join('')}</div>`;
+  if (id === 'S3') return `<div class="row"><span class="input" style="display:flex;align-items:center;gap:6px;max-width:260px">${I('search')}Buscar nesta fila</span></div>${queue()}`;
+  return `<div class="scrim-stage" style="padding:16px"><div class="omni"><div class="omni-in">${I('search')}<span>sku-8</span><kbd style="margin-left:auto">Esc</kbd></div><div class="omni-grp cap">Itens</div>${[['box', 'SKU-88', 'Item de estoque'], ['box', 'SKU-89', 'Item de estoque']].map(([i, t, m], k) => `<div class="omni-item${k === 0 ? ' on' : ''}">${oi(i, state.pick.objrep)}<b>${t}</b><span class="meta">${m}</span></div>`).join('')}<div class="omni-grp cap">Propostas</div><div class="omni-item">${oi('file', state.pick.objrep)}<b>PC-20481</b><span class="meta">usa SKU-88</span></div><div class="row meta" style="padding:6px 12px;border-top:1px solid var(--color-border)"><kbd>↑</kbd><kbd>↓</kbd> navegar <kbd>Enter</kbd> todos os resultados</div></div></div>`;
+};
+
+const card = (c, risk, owner, extra = '') => `<div class="card ${extra}"><div class="row">${oi('file', state.pick.objrep)}<b>${c}</b></div><span>${risk} · ${owner}</span></div>`;
+const board = (id) => {
+  if (id === 'B3') return `<div class="row"><span class="chip" aria-pressed="true" style="min-height:28px">Estado: aguardando ${I('x')}</span></div>${queue()}`;
+  const cols = [['Proposta', [card('PC-20490', 'Baixo', 'Ops')]], ['Aprovação', [card('PC-20481', 'Médio', 'Ops', id === 'B2' ? 'drag' : ''), card('PC-20477', 'Baixo', 'Fin')]], ['Writeback', [card('OS-311', 'Alto', 'Ops')]], ['Resultado', [card('PC-20455', 'Baixo', 'Ops'), card('SKU-88', 'Irrev.', 'Ops')]]];
+  return `<div class="board">${cols.map(([t, cs], i) => `<div class="col${id === 'B2' && i === 2 ? ' drop' : ''}"><div class="col-h"><span>${t}</span><span>${cs.length}</span></div>${cs.join('')}</div>`).join('')}</div>${id === 'B2' ? '<span class="meta">Soltar abre a confirmação “Enviar writeback”.</span>' : '<span class="meta">Mudar de coluna só pela action no menu do cartão.</span>'}`;
+};
+
+const mapBase = `<svg class="base" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C 20 35, 30 45, 50 38 S 80 30, 100 34"/><path d="M10 0 C 15 20, 25 30, 20 60"/><path d="M60 0 C 58 20, 70 35, 65 60"/><path d="M0 15 L 100 22"/></svg>`;
+const map = (id) => {
+  if (id === 'M3') return `<div class="panel"><span class="meta">Sem mapa. Locais aparecem como propriedade (cidade, CD) na tabela e no inspetor.</span></div>`;
+  const pins = `<span class="pin on" style="left:30%;top:45%"><i>${I('box')}</i></span><span class="pin" style="left:55%;top:30%"><i>${I('store')}</i></span><span class="pin" style="left:70%;top:65%"><i>${I('truck')}</i></span><span class="cluster" style="left:18%;top:70%">12</span>`;
+  if (id === 'M2') return `<div class="segmented"><span class="segment">${I('cols')}Tabela</span><span class="segment">${I('net')}Rede</span><span class="segment" aria-checked="true">${I('map')}Mapa</span></div><div class="map">${mapBase}${pins}</div>`;
+  return `<div class="map">${mapBase}${pins}<div class="layers"><b>Camadas</b><label class="row">${I('check')}CDs</label><label class="row">${I('check')}Lojas</label><label class="row" style="color:var(--text-muted)">Rotas</label></div><div class="sel-panel"><span class="cap">Seleção</span><b>CD Guarulhos</b><span class="meta">3 propostas · 1 falha</span><span class="btn btn-minimal" style="min-height:26px;padding:0 4px;font-size:13px">Abrir</span></div></div>`;
+};
+
+const net = (extra = '') => `<svg aria-hidden="true"><line x1="50%" y1="50%" x2="25%" y2="25%"/><line x1="50%" y1="50%" x2="75%" y2="30%"/><line x1="50%" y1="50%" x2="30%" y2="78%"/><line x1="50%" y1="50%" x2="72%" y2="75%"/></svg><span class="nd on" style="left:50%;top:50%"></span><span class="nd" style="left:25%;top:25%"></span><span class="nd" style="left:75%;top:30%"></span><span class="nd" style="left:30%;top:78%"></span><span class="nd" style="left:72%;top:75%"></span>${extra}`;
+const toolbar = (id) => {
+  const b = (ic, on, label) => `<span class="btn btn-minimal${on ? ' on' : ''}" aria-label="${label}">${I(ic)}</span>`;
+  if (id === 'T2') return `<div><div class="fixedbar">${['Selecionar', 'Mover', 'Layout', 'Expandir', 'Zoom +', 'Zoom −', 'Encaixar'].map((t, i) => `<span class="btn ${i === 0 ? 'btn-secondary' : 'btn-minimal'}">${t}</span>`).join('')}</div><div class="canvas" style="height:190px">${net()}</div></div>`;
+  if (id === 'T3') return `<div class="canvas">${net(`<div class="tb" style="right:8px;bottom:8px;flex-direction:column">${b('plus', false, 'Aproximar')}${b('minus', false, 'Afastar')}${b('fit', false, 'Encaixar')}</div>`)}</div>`;
+  return `<div class="canvas">${net(`<div class="tb" style="left:8px;top:8px">${b('pointer', true, 'Selecionar')}${b('hand', false, 'Mover')}<span class="sep"></span>${b('layout', false, 'Layout')}${b('expand', false, 'Expandir')}<span class="sep"></span>${b('plus', false, 'Aproximar')}${b('minus', false, 'Afastar')}${b('fit', false, 'Encaixar')}</div>`)}</div>`;
+};
+
+const graphx = (id) => {
+  if (id === 'G3') return `<div class="canvas" style="height:160px">${net()}</div><span class="meta">Rede simples ou aprofundada (F11), sem exploração livre.</span>`;
+  if (id === 'G2') return `<div class="canvas">${net(`<span class="nd" style="left:88%;top:55%"></span><span class="nd" style="left:12%;top:50%"></span>`)}<span class="meta" style="position:absolute;left:8px;bottom:6px">Duplo clique em SKU-88: +2 vizinhos</span></div>`;
+  return `<div class="canvas">${net(`<div class="menu" style="position:absolute;left:54%;top:30%;min-width:190px"><div class="menu-head">Expandir vizinhos</div><button type="button" class="menu-item">${I('file')}Pedidos<span class="menu-key">3</span></button><button type="button" class="menu-item">${I('truck')}Fornecedor<span class="menu-key">1</span></button><button type="button" class="menu-item">${I('file')}Contratos<span class="menu-key">1</span></button></div><div class="tb" style="left:8px;top:8px"><span class="btn btn-minimal on" style="width:auto;padding:0 8px;font-size:13px">Radial</span><span class="btn btn-minimal" style="width:auto;padding:0 8px;font-size:13px">Colunas</span></div>`)}</div>`;
+};
+
+const stream = (id) => {
+  const head = `<div class="row">${I('bot', 'ico ico-20')}<b>Assistente</b><span class="seal seal-mock" style="margin-left:auto">Fixture</span></div><div class="user">Mostre o preço do SKU-88 nos últimos 6 meses</div>`;
+  const steps = `<div class="steps"><span>${I('check')} consultar_historico · 6 pontos</span><span class="${id === 'A2' ? 'now' : ''}">${id === 'A2' ? I('clock') : I('check')} gerar_grafico${id === 'A2' ? ' · em andamento' : ''}</span></div>`;
+  const chart = `<div class="chart-mini"><div class="row"><b style="font-size:13px">Preço do SKU-88 · R$</b><span class="seal seal-mock" style="margin-left:auto">Ilustrativo</span></div><div class="bars">${[55, 58, 60, 62, 70, 78].map((h) => `<span style="height:${h}%"></span>`).join('')}</div><span style="color:var(--color-link);font-weight:600;font-size:13px">Ver tabela</span></div>`;
+  if (id === 'A2') return `<div class="chat">${head}${steps}<span class="meta">Pensando… a resposta aparece quando estiver completa.</span></div>`;
+  const text = `<p>O preço subiu 4,1% em outubro, depois de quatro meses estável<span class="caret"></span></p>`;
+  const ctrl = `<div class="row"><span class="btn btn-secondary" style="min-height:28px;font-size:13px">${I('stop')}Parar</span><span class="btn btn-minimal" style="min-height:28px;font-size:13px">${I('undo')}Gerar de novo</span></div>`;
+  if (id === 'A3') return `<div class="chat">${head}${steps}${text}<span class="btn btn-secondary" style="justify-self:start;min-height:28px;font-size:13px">Abrir gráfico na página</span>${ctrl}</div>`;
+  return `<div class="chat">${head}${steps}${chart}${text}${ctrl}</div>`;
+};
+
+const objrep = (id) => `<div style="display:grid;gap:6px">${[['box', 'SKU-88', 'Item de estoque'], ['file', 'PC-20481', 'Pedido'], ['truck', 'Fornecedor Alfa', 'Fornecedor'], ['store', 'Loja Centro', 'Loja']].map(([i, t, m]) => `<div class="objrow">${oi(i, id)}<b>${t}</b><span class="meta">${m}</span></div>`).join('')}</div>${id === 'R3' ? '<span class="meta">Cores de série de dados usadas como tipo: conflita com os gráficos (F09).</span>' : ''}`;
+
+const R = { shell, cmd, inbox, search, board, map, toolbar, graphx, stream, objrep };
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui mini" data-pv="${q}:${o.id}"></div>
+    </button>`).join('');
+});
+
+function sheet() {
+  const p = state.pick;
+  const b = (t, html) => `<div><h3>${t}</h3><div style="display:grid;gap:10px">${html}</div></div>`;
+  return [b('Shell', shell(p.shell)), b('Entre telas', cmd(p.cmd)), b('Inbox', inbox(p.inbox)), b('Busca', search(p.search)), b('Quadro', board(p.board)), b('Mapa', map(p.map)), b('Canvas', toolbar(p.toolbar)), b('Vizinhos', graphx(p.graphx)), b('Assistente', stream(p.stream)), b('Objeto', objrep(p.objrep))].join('');
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  document.querySelectorAll('[data-pv]').forEach((el) => { const [q, id] = el.dataset.pv.split(':'); el.innerHTML = R[q](id); });
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F14 · Interfaces\nShell: ${p.shell} · Entre telas: ${p.cmd} · Inbox: ${p.inbox} · Busca: ${p.search} · Quadro: ${p.board} · Mapa: ${p.map} · Canvas: ${p.toolbar} · Vizinhos: ${p.graphx} · Assistente: ${p.stream} · Objeto: ${p.objrep}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

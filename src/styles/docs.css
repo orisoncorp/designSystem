@@ -47,6 +47,8 @@
   align-content: start;
 }
 
+/* Filhos do bloco podem encolher: tabela e quadro rolam dentro de si. */
+.block > * { min-width: 0; }
 .block-title { font-size: var(--text-section); font-weight: var(--weight-strong); line-height: var(--leading-title); }
 
 /* Espécime: palco onde o componente aparece como no produto. */

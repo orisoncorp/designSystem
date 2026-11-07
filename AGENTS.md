@@ -5,8 +5,8 @@ RTK convention for shell commands (for example `rtk npm run build`).
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.4.0, approved by Nobel on 06-11-2026
-through fusion rounds F01–F13, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.5.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F14, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
 wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
 command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not
@@ -45,19 +45,21 @@ undo toast, bulk selection) and the F11 object page (trace toggles, column
 graphs drawn from `data-graph`, network list to simple/deep graph, timeline
 window), the F12 brand pieces scaler and the F13 pieces (collapsible sections,
 facet chip, date range, action form, reveal, comments, attachments, data reload,
-drawer with focus trap).
+drawer with focus trap), and the F14 interfaces (shell rail, set views, paired
+views, inbox, Ctrl K quick search, canvas toolbar and neighbour expansion,
+streaming assistant).
 
-### Sections (23, in seven groups)
+### Sections (24, in seven groups)
 
-| Group       | Files                                                 |
-| ----------- | ----------------------------------------------------- |
-| Início      | `00-capa`, `01-como-usar`                             |
-| Marca       | `02-simbolo`, `03-lockups`, `04-uso`, `05-pecas`      |
-| Fundamentos | `06-cor` … `11-acessibilidade`                        |
-| Componentes | `12-botoes` … `16-tabela`                             |
-| Padrões     | `17-semantica`, `18-bancada`, `19-objeto`, `20-dados` |
-| Conteúdo    | `21-conteudo`                                         |
-| Recursos    | `22-recursos`                                         |
+| Group       | Files                                              |
+| ----------- | -------------------------------------------------- |
+| Início      | `00-capa`, `01-como-usar`                          |
+| Marca       | `02-simbolo`, `03-lockups`, `04-uso`, `05-pecas`   |
+| Fundamentos | `06-cor` … `11-acessibilidade`                     |
+| Componentes | `12-botoes` … `16-tabela`                          |
+| Padrões     | `17-semantica` … `21-dados` (incl. `20-aplicacao`) |
+| Conteúdo    | `22-conteudo`                                      |
+| Recursos    | `23-recursos`                                      |
 
 Marca sections (and the cover) are
 `<section class="doc-band" data-theme="dark">`; everything else is

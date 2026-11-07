@@ -51,9 +51,10 @@ const NAV_ITEMS = [
   { id: 'sec-semantica',      num: '17', label: 'Semântica operacional',     group: 'padroes' },
   { id: 'sec-bancada',        num: '18', label: 'Bancada de operação',       group: 'padroes' },
   { id: 'sec-objeto',         num: '19', label: 'Página do objeto',          group: 'padroes' },
-  { id: 'sec-dados',          num: '20', label: 'Visualização de dados',     group: 'padroes' },
-  { id: 'sec-conteudo',       num: '21', label: 'Texto de interface',        group: 'conteudo' },
-  { id: 'sec-recursos',       num: '22', label: 'Tokens e arquivos',         group: 'recursos' },
+  { id: 'sec-aplicacao',      num: '20', label: 'Interfaces de aplicação',   group: 'padroes' },
+  { id: 'sec-dados',          num: '21', label: 'Visualização de dados',     group: 'padroes' },
+  { id: 'sec-conteudo',       num: '22', label: 'Texto de interface',        group: 'conteudo' },
+  { id: 'sec-recursos',       num: '23', label: 'Tokens e arquivos',         group: 'recursos' },
 ];
 
 const GROUP_LABELS = {
@@ -387,7 +388,8 @@ document.addEventListener('click', (e) => {
   const node = e.target.closest('.graph-node, .net-node');
   if (!node) return;
   const canvas = node.closest('[data-graph], [data-network-canvas]');
-  canvas.querySelectorAll('[aria-pressed]').forEach((n) => n.setAttribute('aria-pressed', String(n === node)));
+  if (!canvas) return;
+  canvas.querySelectorAll('.graph-node, .net-node').forEach((n) => n.setAttribute('aria-pressed', String(n === node)));
   const net = node.closest('[data-network]');
   if (net) selectNetNode(net, node);
   else node.closest('.object-panel')?.querySelector('[data-graph-detail]')?.replaceChildren(node.dataset.detail);
@@ -409,7 +411,7 @@ document.querySelectorAll('[data-network]').forEach((net) => {
   const show = (mode) => {
     net.querySelectorAll('[data-network-canvas]').forEach((c) => { c.hidden = c.dataset.networkCanvas !== mode; });
     caption.textContent = mode === 'deep' ? 'Primeiro e segundo grau, com o estado de cada objeto.' : 'Vínculos diretos do SKU-88.';
-    const current = net.querySelector(`[data-network-canvas="${mode}"] [aria-pressed="true"]`);
+    const current = net.querySelector(`[data-network-canvas="${mode}"] :is(.net-node, .graph-node)[aria-pressed="true"]`);
     if (current) selectNetNode(net, current);
     requestAnimationFrame(drawGraphs);
   };
@@ -601,6 +603,213 @@ document.querySelectorAll('[data-drawer-open]').forEach((opener) => opener.addEv
   drawer.querySelector('[data-drawer-close]').onclick = close;
   focusables()[0]?.focus();
 }));
+
+/* ── Interfaces de aplicação (F14) ── */
+
+/* Shell (SH1): o trilho troca a área; a navegação mostra só as telas dela. */
+const AREAS = {
+  op: ['Operação', ['Fila', 'Decisões', 'Inbox', 'Execuções']],
+  dados: ['Dados', ['Fontes', 'Transformações', 'Linhagem', 'Qualidade']],
+  ag: ['Agentes', ['Agentes publicados', 'Sessões', 'Ferramentas']],
+  aj: ['Ajustes', ['Pessoas', 'Permissões', 'Integrações']],
+};
+document.querySelectorAll('[data-shell]').forEach((shell) => {
+  const nav = shell.querySelector('[data-shell-nav]');
+  const show = (key) => {
+    const [title, items] = AREAS[key];
+    nav.innerHTML = `<span class="shell-nav-title">${title}</span>` + items.map((t, i) => `<a href="#sec-aplicacao"${i === 0 ? ' aria-current="page"' : ''}>${t}</a>`).join('');
+    shell.querySelector('[data-shell-title]').textContent = items[0];
+    shell.querySelectorAll('[data-area]').forEach((b) => b.setAttribute('aria-current', String(b.dataset.area === key)));
+  };
+  shell.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => show(b.dataset.area)));
+  nav.addEventListener('click', (e) => {
+    const a = e.target.closest('a'); if (!a) return;
+    e.preventDefault();
+    nav.querySelectorAll('a').forEach((x) => (x === a ? x.setAttribute('aria-current', 'page') : x.removeAttribute('aria-current')));
+    shell.querySelector('[data-shell-title]').textContent = a.textContent;
+  });
+  show('op');
+});
+
+/* Vistas do conjunto (tabela, quadro, mapa). */
+document.querySelectorAll('[data-views]').forEach((g) => {
+  const block = g.closest('.block');
+  g.addEventListener('segment-change', (e) => block.querySelectorAll('[data-view]').forEach((v) => { v.hidden = v.dataset.view !== e.detail.dataset.value; }));
+});
+
+/* Menu do cartão do quadro (B1): mudar de estado só pela action. */
+document.querySelectorAll('[data-card-menu]').forEach((anchor) => {
+  const btn = anchor.querySelector('button');
+  const menu = anchor.querySelector('.menu');
+  btn.addEventListener('click', () => { const open = menu.hidden; menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); });
+  menu.addEventListener('click', (e) => {
+    const item = e.target.closest('[data-card-action]'); if (!item) return;
+    menu.hidden = true; btn.setAttribute('aria-expanded', 'false');
+    toast(item.dataset.cardAction + '.');
+  });
+});
+
+/* Mapa (M2): um marcador selecionado por vez. */
+document.querySelectorAll('[data-pin]').forEach((pin) => pin.addEventListener('click', () => {
+  pin.parentElement.querySelectorAll('[data-pin]').forEach((p) => p.setAttribute('aria-pressed', String(p === pin)));
+}));
+
+/* Vistas pareadas (C1): selecionar numa acende na outra. */
+document.querySelectorAll('[data-paired]').forEach((box) => {
+  const select = (key) => {
+    box.querySelectorAll('tr[data-pair]').forEach((tr) => tr.setAttribute('aria-selected', String(tr.dataset.pair === key)));
+    box.querySelectorAll('.net-node[data-pair]').forEach((n) => n.setAttribute('aria-pressed', String(n.dataset.pair === key)));
+    box.querySelectorAll('.net-lines line').forEach((l) => l.classList.toggle('is-hot', [l.dataset.a, l.dataset.b].includes(key)));
+  };
+  box.addEventListener('click', (e) => { const el = e.target.closest('[data-pair]'); if (el) select(el.dataset.pair); });
+  select('sku88');
+});
+
+/* Inbox (I1): abrir marca como lido; arquivar tira da lista. */
+document.querySelectorAll('[data-inbox]').forEach((box) => {
+  const reader = box.querySelector('.inbox-reader');
+  const TAGS = { d: ['tag-danger', 'falha-fechar', 'Falhou'], p: ['tag-pending', 'aguardando', 'Menção'], w: ['tag-warning', 'alerta', 'Divergente'] };
+  const count = () => { box.querySelector('[data-unread]').textContent = box.querySelectorAll('.inbox-item.is-unread').length; };
+  const open = (item) => {
+    box.querySelectorAll('.inbox-item').forEach((i) => i.setAttribute('aria-selected', String(i === item)));
+    item.classList.remove('is-unread');
+    const [cls, ico, label] = TAGS[item.dataset.kind];
+    reader.querySelector('[data-reader-head]').innerHTML = `<span class="obj-label">${item.querySelector('.obj-icon').outerHTML}${item.dataset.title}</span><span class="tag ${cls}"><i class="ico" data-icon="${ico}"></i>${label}</span>`;
+    reader.querySelector('[data-reader-body]').textContent = item.dataset.body;
+    renderIcons(reader);
+    count();
+  };
+  box.addEventListener('click', (e) => { const item = e.target.closest('.inbox-item'); if (item) open(item); });
+  box.querySelector('[data-archive]').addEventListener('click', () => {
+    const cur = box.querySelector('.inbox-item[aria-selected="true"]');
+    if (!cur) return;
+    const next = cur.nextElementSibling || cur.previousElementSibling;
+    cur.remove();
+    if (next) open(next); else { reader.querySelector('[data-reader-head]').textContent = 'Inbox vazia'; reader.querySelector('[data-reader-body]').textContent = 'Nenhum alerta pendente.'; }
+    toast('Alerta arquivado.');
+    count();
+  });
+});
+
+/* Busca rápida (S1): Ctrl K em qualquer ponto; setas, Enter, Esc. */
+const OMNI_OBJECTS = [['item', 'SKU-88', 'Item de estoque', '#sec-objeto'], ['evidencia', 'PC-20481', 'Pedido · aguardando aprovação', '#sec-bancada'], ['fornecedor', 'Fornecedor Alfa', 'Fornecedor', '#sec-aplicacao']];
+let omniOpener = null;
+function openOmnibar() {
+  if (document.querySelector('.omnibar-scrim')) return;
+  omniOpener = document.activeElement;
+  const scrim = document.createElement('div');
+  scrim.className = 'omnibar-scrim';
+  scrim.innerHTML = `<div class="omnibar" role="dialog" aria-modal="true" aria-label="Busca rápida">
+    <div class="omnibar-input"><i class="ico" data-icon="buscar"></i><input type="search" placeholder="Buscar seções e objetos" aria-label="Buscar" aria-controls="omni-results" role="combobox" aria-expanded="true"><kbd>Esc</kbd></div>
+    <div class="omnibar-results" id="omni-results" role="listbox" aria-label="Resultados"></div>
+    <div class="omnibar-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> fechar</span></div></div>`;
+  document.body.append(scrim);
+  renderIcons(scrim);
+  const input = scrim.querySelector('input');
+  const results = scrim.querySelector('.omnibar-results');
+  const close = () => { scrim.remove(); omniOpener?.focus?.(); };
+  const items = () => [...results.querySelectorAll('.omnibar-item')];
+  const mark = (i) => { const all = items(); all.forEach((el, k) => el.setAttribute('aria-selected', String(k === i))); all[i]?.scrollIntoView({ block: 'nearest' }); };
+  const draw = () => {
+    const q = input.value.trim().toLowerCase();
+    const groups = {};
+    NAV_ITEMS.filter((n) => !q || n.label.toLowerCase().includes(q)).forEach((n) => { (groups[GROUP_LABELS[n.group]] ??= []).push(`<a class="omnibar-item" role="option" href="#${n.id}"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>${n.label}<span class="meta num">${n.num}</span></a>`); });
+    const objs = OMNI_OBJECTS.filter(([, t, m]) => !q || (t + m).toLowerCase().includes(q)).map(([ic, t, m, h]) => `<a class="omnibar-item" role="option" href="${h}"><span class="obj-icon"><i class="ico" data-icon="${ic}"></i></span><b>${t}</b><span class="meta">${m}</span></a>`);
+    if (objs.length) groups['Objetos de exemplo'] = objs;
+    results.innerHTML = Object.entries(groups).map(([g, list]) => `<div class="omnibar-group">${g}</div>${list.join('')}`).join('') || '<p class="omnibar-group">Nada encontrado</p>';
+    renderIcons(results);
+    mark(0);
+  };
+  input.addEventListener('input', draw);
+  scrim.addEventListener('click', (e) => { if (e.target === scrim) close(); if (e.target.closest('.omnibar-item')) close(); });
+  scrim.addEventListener('keydown', (e) => {
+    const all = items(); const cur = all.findIndex((el) => el.getAttribute('aria-selected') === 'true');
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); mark(Math.min(all.length - 1, cur + 1)); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); mark(Math.max(0, cur - 1)); }
+    if (e.key === 'Enter' && all[cur]) { e.preventDefault(); location.hash = all[cur].getAttribute('href'); close(); }
+    if (e.key === 'Tab') { e.preventDefault(); input.focus(); }
+  });
+  draw();
+  input.focus();
+}
+document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openOmnibar(); } });
+document.querySelectorAll('[data-omnibar-open]').forEach((b) => b.addEventListener('click', openOmnibar));
+
+/* Canvas da rede (T1, G1): modo, layout, expandir vizinhos e zoom. */
+document.querySelectorAll('[data-net-canvas]').forEach((canvas) => {
+  const layer = canvas.querySelector('[data-net-zoom-layer]');
+  let layout = 'radial';
+  let zoom = 1;
+  const place = () => {
+    canvas.querySelectorAll('.net-node[data-node]').forEach((n) => {
+      const [x, y] = n.dataset[layout === 'radial' ? 'radial' : 'cols'].split(',');
+      n.style.left = `${x}%`; n.style.top = `${y}%`;
+    });
+    canvas.querySelectorAll('.net-lines line').forEach((l) => {
+      const a = canvas.querySelector(`.net-node[data-node="${l.dataset.a}"]`);
+      const b = canvas.querySelector(`.net-node[data-node="${l.dataset.b}"]`);
+      l.setAttribute('x1', parseFloat(a.style.left)); l.setAttribute('y1', parseFloat(a.style.top));
+      l.setAttribute('x2', parseFloat(b.style.left)); l.setAttribute('y2', parseFloat(b.style.top));
+    });
+  };
+  canvas.querySelectorAll('[data-net-mode]').forEach((b) => b.addEventListener('click', () => {
+    canvas.querySelectorAll('[data-net-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    canvas.style.cursor = b.dataset.netMode === 'move' ? 'grab' : '';
+  }));
+  canvas.querySelector('[data-net-layout]').addEventListener('click', () => { layout = layout === 'radial' ? 'cols' : 'radial'; place(); });
+  const expBtn = canvas.querySelector('[data-net-expand]');
+  const expMenu = canvas.querySelector('#net-expand-menu');
+  expBtn.addEventListener('click', () => { const open = expMenu.hidden; expMenu.hidden = !open; expBtn.setAttribute('aria-expanded', String(open)); });
+  expMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('[data-expand]'); if (!item) return;
+    const key = item.dataset.expand;
+    canvas.querySelector(`.net-node[data-node="${key}"]`).hidden = false;
+    canvas.querySelector(`.net-lines line[data-b="${key}"]`).hidden = false;
+    item.disabled = true;
+    expMenu.hidden = true; expBtn.setAttribute('aria-expanded', 'false');
+    place();
+  });
+  canvas.querySelectorAll('[data-net-zoom]').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.netZoom;
+    zoom = k === 'fit' ? 1 : Math.min(2, Math.max(0.6, zoom + (k === 'in' ? 0.2 : -0.2)));
+    layer.style.transform = `scale(${zoom})`;
+  }));
+  place();
+});
+
+/* Assistente em andamento (A1): etapas, gráfico com selo, texto aos poucos,
+   Parar e Gerar de novo. Com movimento reduzido, o texto sai inteiro. */
+document.querySelectorAll('[data-stream-form]').forEach((form) => {
+  const out = form.parentElement.querySelector('[data-stream-out]');
+  const ANSWER = 'O preço do SKU-88 ficou estável de maio a setembro e subiu 4,1% em outubro, quando o Fornecedor Alfa reajustou o custo. A proposta PC-20481 repassa 3,3%.';
+  let timer = null;
+  const run = (question) => {
+    clearInterval(timer);
+    out.innerHTML = `<div class="assistant-msg is-user"></div>
+      <div class="assistant-steps"><span><i class="ico" data-icon="confirmado"></i> consultar_historico · 6 pontos</span><span><i class="ico" data-icon="confirmado"></i> gerar_grafico</span></div>
+      <div class="assistant-chart"><div class="row"><b style="font-size:var(--text-label)">Preço do SKU-88 · R$</b><span class="seal seal-mock" style="margin-left:auto">Ilustrativo</span></div><div class="assistant-bars">${[56, 57, 57, 58, 58, 61].map((v) => `<span style="height:${(v - 40) * 4}%"></span>`).join('')}</div><button type="button" class="chain-link" data-chart-toggle>Ver tabela</button></div>
+      <div class="assistant-msg"><span data-stream-text></span><span class="stream-caret" aria-hidden="true"></span><span class="assistant-cite">Fonte: ERP sintético v12 · tx 8812</span></div>
+      <div class="row"><button type="button" class="btn btn-secondary" data-stream-stop><i class="ico" data-icon="parar"></i>Parar</button><button type="button" class="btn btn-minimal" data-stream-again><i class="ico" data-icon="gerar-de-novo"></i>Gerar de novo</button></div>`;
+    out.querySelector('.is-user').textContent = question;
+    renderIcons(out);
+    const text = out.querySelector('[data-stream-text]');
+    const caret = out.querySelector('.stream-caret');
+    const finish = (stopped) => { clearInterval(timer); caret.remove(); if (stopped) text.textContent += ' (interrompida)'; out.querySelector('[data-stream-stop]').disabled = true; };
+    out.querySelector('[data-stream-stop]').onclick = () => finish(true);
+    out.querySelector('[data-stream-again]').onclick = () => run(question);
+    out.querySelector('[data-chart-toggle]').onclick = (e) => {
+      const chart = e.target.closest('.assistant-chart');
+      const bars = chart.querySelector('.assistant-bars');
+      if (bars) { bars.outerHTML = `<table class="table"><tbody>${['mai', 'jun', 'jul', 'ago', 'set', 'out'].map((m, i) => `<tr><td>${m}</td><td class="r">R$ ${[7420, 7430, 7430, 7440, 7420, 7725][i].toLocaleString('pt-BR')},00</td></tr>`).join('')}</tbody></table>`; e.target.textContent = 'Ver gráfico'; }
+      else { chart.querySelector('table').outerHTML = `<div class="assistant-bars">${[56, 57, 57, 58, 58, 61].map((v) => `<span style="height:${(v - 40) * 4}%"></span>`).join('')}</div>`; e.target.textContent = 'Ver tabela'; }
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { text.textContent = ANSWER; finish(false); return; }
+    let i = 0;
+    timer = setInterval(() => { i += 3; text.textContent = ANSWER.slice(0, i); if (i >= ANSWER.length) finish(false); }, 30);
+  };
+  form.addEventListener('submit', () => { const q = form.querySelector('[data-stream-input]').value.trim(); if (q) run(q); });
+});
 
 /* ── Switch com rótulo de estado ── */
 document.querySelectorAll('[data-switch]').forEach((sw) => sw.addEventListener('click', () => {

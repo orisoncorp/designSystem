@@ -190,7 +190,7 @@
    Começa em lista; “Abrir na rede” mostra o grafo simples (vínculos
    diretos) ou aprofundado (segundo grau, com estado em cada nó). */
 .net-stage { display: grid; grid-template-columns: minmax(0, 1fr) 200px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
-.net-simple { position: relative; height: 300px; }
+.net-simple { position: relative; height: 340px; }
 .net-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
 .net-lines line { stroke: var(--color-control); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 .net-lines line.is-hot { stroke: var(--color-action); stroke-width: 2; }
@@ -257,6 +257,66 @@
 .assistant-output { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 10px; background: var(--color-canvas); border: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
 .assistant-output .tag { margin-left: auto; }
 
+/* ── shell com trilho (F14 · SH1) ──
+   Trilho escuro de 48 px com as áreas; ao lado, a navegação da área ativa. */
+.shell { display: grid; grid-template-columns: 48px var(--layout-nav-width) minmax(0, 1fr); min-height: 300px; border: var(--border-thin) solid var(--color-border); background: var(--color-canvas); }
+.shell-rail { display: grid; align-content: start; gap: var(--space-1); padding: var(--space-2) 0; background: var(--color-nav); }
+.shell-rail button { display: grid; place-items: center; height: 40px; border: 0; background: none; color: var(--color-nav-text); cursor: pointer; }
+.shell-rail button .ico { width: var(--icon-nav); height: var(--icon-nav); }
+.shell-rail button[aria-current='true'] { color: var(--color-nav-fg); background: var(--color-nav-active); box-shadow: inset var(--indicator) 0 0 var(--color-action); }
+.shell-nav { display: grid; align-content: start; padding: var(--space-2) 0; background: var(--color-surface); border-right: var(--border-thin) solid var(--color-border); }
+.shell-nav-title { padding: var(--space-2) var(--space-4) var(--space-1); font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+.shell-nav a { display: flex; align-items: center; gap: 10px; min-height: var(--height-control); padding: 0 var(--space-4); color: var(--text-primary); font-size: var(--text-meta); text-decoration: none; }
+.shell-nav a[aria-current='page'] { background: var(--color-selected); box-shadow: inset var(--indicator) 0 0 var(--color-action); font-weight: var(--weight-strong); }
+.shell-main { padding: var(--space-4); display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+
+/* ── quadro por estado (F14 · B1) ──
+   Uma coluna por estado; mudar de coluna só pela action do cartão. */
+.board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); }
+.board-col { display: grid; gap: var(--space-2); align-content: start; min-height: 200px; padding: var(--space-2); background: var(--color-neutral-fill); }
+.board-head { display: flex; justify-content: space-between; font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+.board-card { display: grid; gap: var(--space-1); padding: var(--space-2); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); font-size: var(--text-label); }
+.board-card .row { flex-wrap: nowrap; }
+.board-card .btn-icon { width: 28px; min-height: 28px; margin-left: auto; }
+
+/* ── mapa como vista (F14 · M2) ──
+   Marcadores com o ícone do tipo e agrupamento; sem camadas nem ferramentas. */
+.map-view { position: relative; height: 300px; overflow: hidden; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+.map-view svg.map-base { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map-view .map-base path { fill: none; stroke: var(--color-border); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.map-pin { position: absolute; display: grid; justify-items: center; gap: 2px; padding: 0; border: 0; background: none; color: var(--text-primary); font-family: var(--font-text); font-size: var(--text-label); cursor: pointer; transform: translate(-50%, -100%); }
+.map-pin .obj-icon { width: 30px; height: 30px; border: 2px solid var(--color-control); border-radius: var(--radius-full); background: var(--color-surface); }
+.map-pin[aria-pressed='true'] .obj-icon { border-color: var(--color-action); background: var(--color-selected); }
+.map-pin b { padding: 0 var(--space-1); background: var(--color-surface); font-weight: var(--weight-strong); white-space: nowrap; }
+.map-cluster { position: absolute; display: grid; place-items: center; width: 34px; height: 34px; border-radius: var(--radius-full); background: var(--text-primary); color: var(--color-canvas); font-size: var(--text-label); font-weight: var(--weight-strong); transform: translate(-50%, -50%); }
+
+/* ── vistas pareadas (F14 · C1) ──
+   Duas vistas lado a lado; selecionar numa acende o mesmo objeto na outra. */
+.paired { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); }
+.paired-canvas { position: relative; min-height: 220px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+
+/* ── inbox (F14 · I1) ──
+   Lista com não lidos (barra azul, peso 600) e painel de leitura com ações. */
+.inbox { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); min-height: 300px; border: var(--border-thin) solid var(--color-border); background: var(--color-surface); }
+.inbox-list { display: grid; align-content: start; border-right: var(--border-thin) solid var(--color-border); }
+.inbox-filters { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-bottom: var(--border-thin) solid var(--color-border); }
+.inbox-item { display: grid; gap: 2px; width: 100%; padding: var(--space-2) var(--space-3); border: 0; border-bottom: var(--border-thin) solid var(--color-border); background: none; color: var(--text-primary); font-family: var(--font-text); font-size: var(--text-meta); text-align: left; cursor: pointer; }
+.inbox-item .row { flex-wrap: nowrap; }
+.inbox-item b { font-weight: var(--weight-text); }
+.inbox-item.is-unread { box-shadow: inset var(--indicator) 0 0 var(--color-action); }
+.inbox-item.is-unread b { font-weight: var(--weight-strong); }
+.inbox-item[aria-selected='true'] { background: var(--color-selected); }
+.inbox-time { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.inbox-reader { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-4); background: var(--color-canvas); }
+
+/* ── assistente em andamento (F14 · A1) ── */
+.assistant-steps { display: grid; gap: var(--space-1); font-size: var(--text-label); color: var(--text-muted); }
+.assistant-steps .is-now { color: var(--text-primary); font-weight: var(--weight-strong); }
+.assistant-chart { display: grid; gap: var(--space-2); padding: var(--space-2); border: var(--border-thin) solid var(--color-border); background: var(--color-canvas); }
+.assistant-bars { display: flex; align-items: flex-end; gap: 6px; height: 72px; border-bottom: var(--border-thin) solid var(--data-axis); }
+.assistant-bars span { flex: 1; border-radius: var(--data-bar-radius) var(--data-bar-radius) 0 0; background: var(--data-1); }
+.stream-caret { display: inline-block; width: 2px; height: 1em; margin-left: 2px; background: var(--text-primary); vertical-align: -2px; }
+
 /* ── barra inferior do celular (F13 · N1) ──
    Quatro destinos ao alcance do polegar; só abaixo de 900 px. */
 .bench-tabbar { display: none; }
@@ -273,6 +333,11 @@
 }
 
 @media (max-width: 900px) {
+  .shell { grid-template-columns: 48px minmax(0, 1fr); }
+  .shell-nav { display: none; }
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .paired, .inbox { grid-template-columns: minmax(0, 1fr); }
+  .inbox-list { border-right: 0; border-bottom: var(--border-thin) solid var(--color-border); }
   .bench-body { grid-template-columns: 1fr; }
   .bench-nav { display: none; }
   .bench-tabbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--color-surface); border-top: var(--border-thin) solid var(--color-border); }
@@ -290,3 +355,6 @@
   .graph-edges { display: none; }
   .lineage-col > .graph-node { margin: 0; }
 }
+
+/* Camada de zoom do grafo simples (F14 · T1). */
+.net-zoom { position: absolute; inset: 0; transform-origin: 50% 50%; transition: transform var(--motion-duration-feedback) var(--motion-easing-feedback); }
