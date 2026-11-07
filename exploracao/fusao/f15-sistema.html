@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F15 Telas de sistema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens, componentes, padrões e marca reais do site v4.5. Só a montagem é nova. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<link rel="stylesheet" href="../../src/styles/patterns.css">
+<link rel="stylesheet" href="../../src/styles/brand.css">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; text-align: right; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .ui p, .ui h4, .ui ul, .ui dl, .ui dd { margin: 0; }
+  .mini { padding: 14px; flex: 1; display: grid; gap: 10px; align-content: start; min-height: 240px; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .cap { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .field { min-width: 0; }
+  .input-mock { display: flex; align-items: center; min-width: 0; overflow: hidden; white-space: nowrap; color: var(--text-primary); }
+  .mini .tabs { overflow-x: auto; }
+  .mwrap { overflow-x: auto; }
+  .login-form > *, .login-card > * { min-width: 0; }
+  .ph { color: var(--text-muted); }
+
+  /* login */
+  .login { display: grid; min-height: 470px; border: 1px solid var(--color-border); overflow: hidden; }
+  .login.split { grid-template-columns: 1fr 1fr; }
+  .login-brand { position: relative; overflow: hidden; padding: 20px; display: grid; align-content: space-between; background: var(--color-canvas); color: var(--text-primary); }
+  .login-brand .bg { position: absolute; right: -90px; bottom: -110px; color: var(--color-raised); }
+  .login-brand .bg svg { display: block; width: 300px; height: 300px; }
+  .login-form { padding: 22px; display: grid; gap: 10px; align-content: center; background: var(--color-surface); }
+  .login-card { justify-self: center; align-self: center; width: min(320px, 92%); padding: 20px; display: grid; gap: 10px; background: var(--color-surface); border: 1px solid var(--color-border); }
+  .sso { width: 100%; justify-content: center; }
+  .or { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; font-size: var(--text-label); color: var(--text-muted); }
+  .or::before, .or::after { content: ''; height: 1px; background: var(--color-border); }
+  .disp { font-family: var(--font-display); font-weight: var(--weight-display); letter-spacing: var(--tracking-display); line-height: 1.1; }
+  .code { display: grid; grid-template-columns: repeat(6, 40px); gap: 6px; }
+  .code span { height: 44px; display: grid; place-items: center; border: 1px solid var(--color-control); border-radius: var(--radius-control); background: var(--color-raised); font-size: 20px; font-weight: 600; }
+  .code span.f { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+
+  /* pessoas */
+  .people { display: grid; grid-template-columns: minmax(0, 1fr) 190px; border: 1px solid var(--color-border); background: var(--color-surface); }
+  .people .table-wrap { border: 0; }
+  .insp { border-left: 1px solid var(--color-border); padding: 12px; display: grid; gap: 8px; align-content: start; font-size: var(--text-meta); background: var(--color-canvas); }
+  .avatar { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: var(--radius-full); background: var(--color-neutral-active); font-size: var(--text-label); font-weight: 600; }
+  .person { display: inline-flex; align-items: center; gap: 8px; }
+  .person small { display: block; font-size: var(--text-label); color: var(--text-muted); }
+  .inline-select { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; min-height: 28px; border: 1px solid var(--color-control); border-radius: var(--radius-control); background: var(--color-raised); font-size: var(--text-meta); }
+
+  /* matriz */
+  .matrix { width: 100%; border-collapse: collapse; font-size: var(--text-meta); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .matrix th, .matrix td { height: 32px; padding: 0 8px; border-bottom: 1px solid var(--color-border); text-align: center; white-space: nowrap; }
+  .matrix th:first-child, .matrix td:first-child { text-align: left; }
+  .matrix th { font-size: var(--text-label); font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: var(--tracking-header); }
+  .yes { color: var(--text-primary); font-weight: 600; }
+  .no { color: var(--text-muted); }
+  .box { width: 16px; height: 16px; display: inline-grid; place-items: center; border: 1px solid var(--color-control); border-radius: 3px; background: var(--color-raised); vertical-align: middle; }
+  .box.on { background: var(--color-action); border-color: var(--color-action); color: #fff; }
+  .box .ico { width: 12px; height: 12px; }
+
+  /* configurações */
+  .settings { display: grid; grid-template-columns: 170px minmax(0, 1fr); border: 1px solid var(--color-border); min-height: 300px; position: relative; }
+  .set-nav { background: var(--color-surface); border-right: 1px solid var(--color-border); padding: 8px 0; display: grid; align-content: start; font-size: var(--text-meta); }
+  .set-nav span { min-height: 32px; display: flex; align-items: center; padding: 0 12px; }
+  .set-nav span.on { background: var(--color-selected); box-shadow: inset 3px 0 0 var(--color-action); font-weight: 600; }
+  .set-body { padding: 14px; display: grid; gap: 10px; align-content: start; }
+  .set-body h4 { font-size: var(--text-section); font-weight: 600; }
+  .integration { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--color-surface); border: 1px solid var(--color-border); font-size: var(--text-meta); }
+  .integration .tag { margin-left: auto; }
+  .savebar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: var(--elevation-1); font-size: var(--text-meta); }
+  .savebar .btn { min-height: 30px; font-size: var(--text-meta); }
+  .anchors { display: flex; gap: 16px; font-size: var(--text-meta); border-bottom: 1px solid var(--color-border); padding-bottom: 6px; }
+  .anchors span:first-child { color: var(--color-link); font-weight: 600; }
+
+  .sheets { display: grid; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 24px; display: grid; gap: 24px; border: 1px solid #404854; grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)); }
+  .sheet h3 { margin: 0 0 10px; font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-header); color: var(--text-muted); }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<!-- Sprite do logo copiado de src/assets/symbol.svg (gerado; não editar à mão) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <!-- Logo Orison v2 · gerado por exploracao/logo/gerador (mesma geometria dos arquivos em ~/Orison/Tatico/logos) -->
+  <symbol id="symbol-full" viewBox="0 0 120 120"><path fill="currentColor" d="M65 11.758 A48.5 48.5 0 0 1 65 108.242 L65 103.212 A43.5 43.5 0 0 0 65 16.788 Z M55 11.758 A48.5 48.5 0 0 0 55 108.242 L55 103.212 A43.5 43.5 0 0 1 55 16.788 Z"/><path fill="currentColor" d="M65 29.507 A30.9 30.9 0 0 1 65 90.493 L65 85.413 A25.9 25.9 0 0 0 65 34.587 Z M55 29.507 A30.9 30.9 0 0 0 55 90.493 L55 85.413 A25.9 25.9 0 0 1 55 34.587 Z"/><rect x="57.5" y="11.5" width="5" height="97" fill="currentColor"/></symbol>
+  <symbol id="symbol-small" viewBox="0 0 120 120"><path fill="currentColor" d="M68 12.671 A48 48 0 0 1 68 107.329 L68 99.192 A40 40 0 0 0 68 20.808 Z M52 12.671 A48 48 0 0 0 52 107.329 L52 99.192 A40 40 0 0 1 52 20.808 Z"/><path fill="currentColor" d="M68 33.167 A28 28 0 0 1 68 86.833 L68 78.33 A20 20 0 0 0 68 41.67 Z M52 33.167 A28 28 0 0 0 52 86.833 L52 78.33 A20 20 0 0 1 52 41.67 Z"/><rect x="56" y="12" width="8" height="96" fill="currentColor"/></symbol>
+  <symbol id="symbol-favicon" viewBox="0 0 120 120"><path fill="currentColor" d="M72 11.461 A50 50 0 0 1 72 108.539 L72 96.056 A38 38 0 0 0 72 23.944 Z M48 11.461 A50 50 0 0 0 48 108.539 L48 96.056 A38 38 0 0 1 48 23.944 Z"/><rect x="54" y="10" width="12" height="100" fill="currentColor"/></symbol>
+  <symbol id="wordmark" viewBox="0 -2 398.51 74"><g fill="currentColor"><path transform="matrix(0.1 0 0 -0.1 -4.298 70)" d="M372.4 -14.4Q274.4 -14.4 200.103 30.957Q125.807 76.314 84.303 157.957Q42.8 239.6 42.8 347.998Q42.8 457.4 84.303 539.043Q125.807 620.686 200.103 666.043Q274.4 711.4 372.4 711.4Q472 711.4 546.6 666.2Q621.2 621 662.7 539.402Q704.2 457.803 704.2 347.998Q704.2 239.2 662.2 157.6Q620.2 76 545.6 30.8Q471 -14.4 372.4 -14.4ZM372.278 96.001Q439 96.001 486.861 127.045Q534.723 158.088 561.161 214.696Q587.599 271.305 587.599 348Q587.599 425.635 561.131 482.263Q534.662 538.891 486.746 569.945Q438.829 600.999 372.202 600.999Q307.4 600.999 258.953 570.445Q210.505 539.892 184.453 483.346Q158.401 426.8 158.401 348.042Q158.401 270.2 184.45 213.654Q210.499 157.108 258.941 126.555Q307.383 96.001 372.278 96.001Z"/><path transform="matrix(0.1 0 0 -0.1 80.063 70)" d="M71 0V697H293.8Q377.001 697 428.801 672.7Q480.601 648.4 505.201 603.4Q529.801 558.4 529.801 497Q529.801 403.999 476.6 352.299Q423.4 300.599 324.4 293.199Q304.2 292.599 281.2 292.599Q258.199 292.599 240.2 292.599H186.601V0ZM453.399 0 276.399 306 394.801 320.2 586.801 0ZM186.601 395.401H282Q319.6 395.401 349.199 404.401Q378.799 413.401 396.499 435.2Q414.199 457 414.199 495.6Q414.199 534.799 396.499 555.899Q378.799 576.999 348.899 585.299Q319 593.599 282 593.599H186.601Z"/><path transform="matrix(0.1 0 0 -0.1 150.063 70)" d="M71 0V697H186.601V0Z"/><path transform="matrix(0.1 0 0 -0.1 185.616 70)" d="M295.6 -12.6Q186.2 -12.6 116.4 44.4Q46.6 101.4 31.2 196L144.001 223.801Q155.001 157.801 196.701 124.101Q238.401 90.401 299.4 90.401Q333.2 90.401 360 102.601Q386.799 114.801 402.399 137.701Q417.999 160.6 417.999 190.4Q417.999 220.6 401.199 241.2Q384.4 261.799 352.3 278.399Q320.2 294.999 274 312.599Q210.8 336.999 166.7 365.199Q122.6 393.4 99.8 431.7Q77 470 77 523Q77 578 104 620.4Q131 662.8 179.8 687.1Q228.6 711.4 293 711.4Q361.8 711.4 415.001 680Q468.201 648.6 500.401 586L408.399 529.799Q387 568.399 357 588.699Q327 608.999 289.2 608.999Q261.601 608.999 239.701 598.399Q217.801 587.799 205.201 568.999Q192.601 550.199 192.601 525.4Q192.601 499.4 207.601 479.9Q222.601 460.401 254.201 444.001Q285.801 427.601 334.601 409.201Q398.001 385.401 441.801 357.2Q485.601 329 509.101 290.7Q532.601 252.4 532.601 197.4Q532.601 136.4 502.601 89Q472.601 41.6 419.401 14.5Q366.2 -12.6 295.6 -12.6Z"/><path transform="matrix(0.1 0 0 -0.1 252.502 70)" d="M372.4 -14.4Q274.4 -14.4 200.103 30.957Q125.807 76.314 84.303 157.957Q42.8 239.6 42.8 347.998Q42.8 457.4 84.303 539.043Q125.807 620.686 200.103 666.043Q274.4 711.4 372.4 711.4Q472 711.4 546.6 666.2Q621.2 621 662.7 539.402Q704.2 457.803 704.2 347.998Q704.2 239.2 662.2 157.6Q620.2 76 545.6 30.8Q471 -14.4 372.4 -14.4ZM372.278 96.001Q439 96.001 486.861 127.045Q534.723 158.088 561.161 214.696Q587.599 271.305 587.599 348Q587.599 425.635 561.131 482.263Q534.662 538.891 486.746 569.945Q438.829 600.999 372.202 600.999Q307.4 600.999 258.953 570.445Q210.505 539.892 184.453 483.346Q158.401 426.8 158.401 348.042Q158.401 270.2 184.45 213.654Q210.499 157.108 258.941 126.555Q307.383 96.001 372.278 96.001Z"/><path transform="matrix(0.1 0 0 -0.1 336.864 70)" d="M71 0V697H190.801L526.6 150.802H498.199V697H613.801V0H492.399L158.601 547.198H186.601V0Z"/></g></symbol>
+</svg>
+
+<header>
+  <h1>Fusão · F15 · Telas de sistema</h1>
+  <p class="lead">
+    <strong>Fora do alicerce da Palantir</strong>, pedidas pelo Nobel: entrada,
+    usuários e permissões, configurações gerais. Quase tudo vem do que já foi
+    decidido (campos, tabela, inspetor, diálogo com impacto, gaveta, estados);
+    a rodada decide só a montagem.
+  </p>
+  <p class="lead">
+    Sete perguntas. Três peças entram sem escolha, na folha: verificação em duas
+    etapas, registro de acesso e integrações com estado. Regra da DR-09 que muda
+    o desenho aqui: quem pode aprovar depende do nível de risco, então a
+    permissão mostra o teto de risco de cada papel.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Tela de entrada</h2>
+  <p class="lead">A fronteira entre marca (escuro) e produto (claro).</p>
+  <div class="opts" data-q="login"></div>
+
+  <h2>2 · Como entrar</h2>
+  <p class="lead">PME brasileira costuma ter Google Workspace ou Microsoft 365; nem todo cliente tem.</p>
+  <div class="opts" data-q="auth"></div>
+
+  <h2>3 · Lista de pessoas</h2>
+  <p class="lead">Quem tem acesso, com que papel, em que áreas, quando entrou por último.</p>
+  <div class="opts" data-q="people"></div>
+
+  <h2>4 · Modelo de permissão</h2>
+  <p class="lead">O que cada papel pode fazer. Pela DR-09, aprovar depende do nível de risco da action.</p>
+  <div class="opts" data-q="perm"></div>
+
+  <h2>5 · Convidar pessoa</h2>
+  <p class="lead">E-mail, papel e áreas; antes de enviar, o que a pessoa vai poder fazer.</p>
+  <div class="opts" data-q="invite"></div>
+
+  <h2>6 · Página de configurações</h2>
+  <p class="lead">Organização, integrações, notificações, segurança, aparência.</p>
+  <div class="opts" data-q="settings"></div>
+
+  <h2>7 · Salvar alterações</h2>
+  <p class="lead">Configuração muda o comportamento de todo mundo; precisa ficar claro o que mudou e quando valeu.</p>
+  <div class="opts" data-q="save"></div>
+
+  <h2>Folha · escolhas e peças fixas</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui sheet" data-theme="dark" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', chevD: '<path d="m6 9 6 6 6-6"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  key: '<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>', search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+const lock = (s) => `<span class="lockup-h" style="--lockup-size:${s}px"><svg class="logo-mark" aria-hidden="true"><use href="#${s < 48 ? 'symbol-small' : 'symbol-full'}"/></svg><svg class="wordmark" viewBox="0 -2 398.51 74" aria-hidden="true"><use href="#wordmark"/></svg></span>`;
+const inp = (label, val, ph = false, extra = '') => `<label class="field"><span class="field-label">${label}</span><span class="input input-mock${extra}">${ph ? `<span class="ph">${val}</span>` : val}</span></label>`;
+
+const Q = {
+  login: [
+    { id: 'L1', name: 'Painel dividido', src: 'regra dos temas (marca × produto)', why: 'Metade escura com o lockup e o símbolo em escala (como o hero H3); metade clara com o formulário. A marca fala e o produto começa.' },
+    { id: 'L2', name: 'Cartão central claro', src: 'Blueprint (padrão de app)', why: 'Lockup acima de um cartão claro, no canvas. Sóbrio e rápido; pouca marca.' },
+    { id: 'L3', name: 'Tudo escuro', src: 'site institucional', why: 'Tela escura inteira, formulário escuro. Mais marca; o produto, que é claro, começa com um salto de tema.' },
+  ],
+  auth: [
+    { id: 'E1', name: 'E-mail e senha, com SSO', src: 'proposta', why: 'E-mail e senha em primeiro plano; “Entrar com Google” e “Entrar com Microsoft” abaixo de um divisor.' },
+    { id: 'E2', name: 'SSO primeiro', src: 'Foundry (SSO da organização)', why: 'Botões de Google e Microsoft em destaque; “Usar e-mail e senha” como alternativa. Bom para quem tem Workspace; confunde quem não tem.' },
+    { id: 'E3', name: 'Link por e-mail', src: 'proposta', why: 'Só e-mail: a Orison manda um link de entrada. Sem senha para esquecer; depende de o e-mail chegar rápido.' },
+  ],
+  people: [
+    { id: 'U1', name: 'Tabela e inspetor', src: 'bancada (F08)', why: 'Tabela de pessoas (nome, papel, áreas, último acesso, estado); selecionar abre o inspetor da pessoa ao lado, com ações.' },
+    { id: 'U2', name: 'Tabela e página da pessoa', src: 'página do objeto (F11)', why: 'A pessoa abre numa página própria, com abas (Acesso, Atividade). Mais espaço; tira a lista da vista.' },
+    { id: 'U3', name: 'Papel editável na linha', src: 'proposta', why: 'O papel muda direto na tabela, num seletor. Rápido; mudar permissão sem ver o impacto contraria a DR-09.' },
+  ],
+  perm: [
+    { id: 'P1', name: 'Papéis com teto de risco', src: 'DR-09 (DC-GC-09-004)', why: 'Quatro papéis fixos (Admin, Aprovador, Operador, Leitor) numa matriz papel × capacidade; aprovar mostra até que nível de risco. Simples de explicar ao cliente.' },
+    { id: 'P2', name: 'Matriz livre', src: 'Foundry (permissões granulares)', why: 'Cada área × ação é uma caixa marcável por papel. Flexível; difícil de auditar numa PME.' },
+    { id: 'P3', name: 'Papéis e exceções', src: 'proposta', why: 'P1, mais exceções por pessoa (ex.: “pode aprovar alto em Controladoria”), listadas no inspetor da pessoa.' },
+  ],
+  invite: [
+    { id: 'I1', name: 'Diálogo com impacto', src: 'confirmação G2 + formulário A1', why: 'E-mail, papel e áreas no diálogo; abaixo, o bloco “Vai poder”: ver, propor, aprovar até risco médio. Enviar convite.' },
+    { id: 'I2', name: 'Gaveta', src: 'gaveta G1', why: 'Os mesmos campos numa gaveta lateral, com a lista à vista atrás. Cabe convidar várias pessoas; mais pesado.' },
+    { id: 'I3', name: 'Linha nova na tabela', src: 'proposta', why: 'Uma linha em branco no topo da tabela. Rápido; sem resumo do que a pessoa poderá fazer.' },
+  ],
+  settings: [
+    { id: 'C1', name: 'Navegação lateral', src: 'shell (F14) + Foundry Control Panel', why: 'Seções à esquerda (Organização, Integrações, Notificações, Segurança, Aparência); a seção ativa à direita.' },
+    { id: 'C2', name: 'Página longa com âncoras', src: 'proposta', why: 'Tudo numa página, com links de âncora no topo. Fácil de varrer; longa.' },
+    { id: 'C3', name: 'Abas no topo', src: 'abas (F07)', why: 'Cada seção numa aba sublinhada. Familiar; cinco ou mais abas apertam no celular.' },
+  ],
+  save: [
+    { id: 'S1', name: 'Barra de alterações', src: 'proposta (DR-09: mudança explícita)', why: 'Ao mudar algo, uma barra fixa no rodapé: “2 alterações não salvas”, Descartar, Salvar. Sair da página com alteração pede confirmação.' },
+    { id: 'S2', name: 'Salvar sozinho', src: 'proposta', why: 'Cada mudança vale na hora, com “Salvo às 14:32” e toast com Desfazer. Rápido; mudança de todos sem revisão.' },
+    { id: 'S3', name: 'Salvar por bloco', src: 'proposta', why: 'Cada bloco tem o próprio botão Salvar. Claro por bloco; fácil esquecer um bloco alterado.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f15';
+const DEFAULT = { pick: { login: 'L1', auth: 'E1', people: 'U1', perm: 'P1', invite: 'I1', settings: 'C1', save: 'S1' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── prévias ── */
+const authForm = (id) => {
+  const sso = `<span class="btn btn-secondary sso">Entrar com Google</span><span class="btn btn-secondary sso">Entrar com Microsoft</span>`;
+  if (id === 'E2') return `${sso}<div class="or">ou</div><span class="btn btn-minimal sso">${I('mail')}Usar e-mail e senha</span>`;
+  if (id === 'E3') return `${inp('E-mail de trabalho', 'nome@empresa.com.br', true)}<span class="btn btn-primary sso">${I('mail')}Enviar link de entrada</span><span class="meta">O link vale por 15 minutos.</span>`;
+  return `${inp('E-mail de trabalho', 'nome@empresa.com.br', true)}${inp('Senha', '••••••••••')}<div class="row" style="justify-content:space-between"><label class="check" style="font-size:13px"><span class="box on">${I('check')}</span>Manter conectado</label><span style="color:var(--color-link);font-size:13px;font-weight:600">Esqueci a senha</span></div><span class="btn btn-primary sso">Entrar</span><div class="or">ou</div>${sso}`;
+};
+const login = (id, auth = state.pick.auth) => {
+  const form = `<b style="font-size:var(--text-section)">Entrar</b>${authForm(auth)}`;
+  if (id === 'L2') return `<div class="login" style="background:var(--color-canvas);align-content:center;justify-items:center;gap:10px;padding:10px"><div>${lock(28)}</div><div class="login-card" style="padding:16px">${form}</div></div>`;
+  if (id === 'L3') return `<div class="login" data-theme="dark" style="background:var(--color-canvas);color:var(--text-primary);justify-items:center;align-content:center;gap:10px"><div>${lock(28)}</div><div class="login-card" style="background:var(--color-surface);padding:16px">${form}</div></div>`;
+  return `<div class="login split"><div class="login-brand" data-theme="dark"><span class="bg"><svg aria-hidden="true"><use href="#symbol-full"/></svg></span>${lock(28)}<div style="position:relative;display:grid;gap:8px"><span class="brand-rule"></span><span class="disp" style="font-size:24px">Decisões com estado, autoridade e prova.</span></div></div><div class="login-form">${form}</div></div>`;
+};
+const auth = (id) => `<div class="login-card" style="width:100%">${`<b style="font-size:var(--text-section)">Entrar</b>`}${authForm(id)}</div>`;
+
+const PEOPLE = [['AN', 'Ana Nunes', 'ana@cliente.com.br', 'Aprovador', 'Operações', 'hoje 14:02', 's'], ['GO', 'Gilberto Oliveira', 'gilberto@cliente.com.br', 'Admin', 'Todas', 'hoje 09:40', 's'], ['MS', 'Marina Souza', 'marina@cliente.com.br', 'Operador', 'Operações', 'ontem', 's'], ['RP', 'Rafael Pires', 'rafael@cliente.com.br', 'Leitor', 'Controladoria', '—', 'p']];
+const st = (k) => k === 's' ? '<span class="tag tag-success">' + I('check') + 'Ativo</span>' : '<span class="tag tag-pending">' + I('clock') + 'Convite enviado</span>';
+const peopleTable = (inline = false, cols = 'full') => `<div class="table-wrap"><table class="table"><thead><tr><th>Pessoa</th><th>Papel</th>${cols === 'full' ? '<th>Áreas</th><th>Último acesso</th>' : ''}<th>Estado</th></tr></thead><tbody>${PEOPLE.map(([a, n, e, r, ar, last, k], i) => `<tr${i === 0 && !inline ? ' aria-selected="true"' : ''}><td><span class="person"><span class="avatar">${a}</span><span>${n}<small>${e}</small></span></span></td><td>${inline ? `<span class="inline-select">${r}${I('chevD')}</span>` : r}</td>${cols === 'full' ? `<td>${ar}</td><td class="meta">${last}</td>` : ''}<td>${st(k)}</td></tr>`).join('')}</tbody></table></div>`;
+const people = (id) => {
+  const head = `<div class="row"><b>Pessoas</b><span class="meta">4 de 10 licenças</span><span class="btn btn-primary" style="margin-left:auto;min-height:30px;font-size:13px">${I('plus')}Convidar</span></div>`;
+  if (id === 'U2') return `${head}${peopleTable(false, 'short')}<div class="panel" style="padding:10px"><div class="row"><span class="avatar">AN</span><b>Ana Nunes</b><span class="meta">Aprovador · Operações</span></div><div class="tabs" style="gap:14px"><span class="tab" aria-selected="true">Acesso</span><span class="tab">Atividade</span></div></div>`;
+  if (id === 'U3') return `${head}${peopleTable(true, 'short')}<span class="meta">Trocar o papel salva na hora, sem resumo do impacto.</span>`;
+  return `${head}<div class="people">${peopleTable(false, 'short')}<div class="insp"><div class="row"><span class="avatar">AN</span><b>Ana Nunes</b></div><dl class="props"><dt>Papel</dt><dd>Aprovador</dd><dt>Áreas</dt><dd>Operações</dd><dt>Aprova até</dt><dd><span class="risk risk-medium">Médio</span></dd></dl><span class="btn btn-secondary" style="min-height:30px;font-size:13px">Mudar papel…</span><span class="btn btn-minimal" style="min-height:30px;font-size:13px;color:var(--text-danger)">Remover acesso…</span></div></div>`;
+};
+
+const yes = (t = 'Sim') => `<span class="yes">${t}</span>`, no = '<span class="no">—</span>';
+const perm = (id) => {
+  if (id === 'P2') { const b = (on) => `<span class="box${on ? ' on' : ''}">${on ? I('check') : ''}</span>`; return `<div class="mwrap"><table class="matrix"><thead><tr><th>Operador</th><th>Ver</th><th>Propor</th><th>Aprovar</th><th>Executar</th></tr></thead><tbody>${[['Operações', 1, 1, 0, 0], ['Controladoria', 1, 0, 0, 0], ['Dados', 1, 1, 0, 0], ['Agentes', 1, 0, 0, 0]].map(([a, ...v]) => `<tr><td>${a}</td>${v.map((x) => `<td>${b(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><span class="meta">Uma matriz assim por papel.</span>`; }
+  const t = `<div class="mwrap"><table class="matrix"><thead><tr><th>Capacidade</th><th>Admin</th><th>Aprov.</th><th>Oper.</th><th>Leitor</th></tr></thead><tbody>
+    <tr><td>Ver objetos</td><td>${yes()}</td><td>${yes()}</td><td>${yes()}</td><td>${yes()}</td></tr>
+    <tr><td>Propor action</td><td>${yes()}</td><td>${yes()}</td><td>${yes()}</td><td>${no}</td></tr>
+    <tr><td>Aprovar até</td><td><span class="risk risk-irreversible">Irreversível</span></td><td><span class="risk risk-medium">Médio</span></td><td>${no}</td><td>${no}</td></tr>
+    <tr><td>Revelar dado pessoal</td><td>${yes()}</td><td>${yes()}</td><td>${no}</td><td>${no}</td></tr>
+    <tr><td>Gerenciar pessoas</td><td>${yes()}</td><td>${no}</td><td>${no}</td><td>${no}</td></tr></tbody></table></div>`;
+  if (id === 'P3') return `${t}<div class="callout callout-info">${I('key')}<div><span class="callout-title">1 exceção</span>Ana Nunes aprova até alto em Controladoria, até 31/12.</div></div>`;
+  return `${t}<span class="meta">Irreversível sempre exige confirmação digitada, mesmo para Admin.</span>`;
+};
+
+const inviteFields = () => `${inp('E-mail', 'rafael@cliente.com.br')}${inp('Papel', `Leitor <span style="margin-left:auto">${I('chevD')}</span>`)}${inp('Áreas', '<span class="tag tag-value">Controladoria</span>')}`;
+const canDo = () => `<dl class="props impact"><dt>Vai poder</dt><dd>Ver objetos e histórico de Controladoria</dd><dt>Não vai</dt><dd>Propor, aprovar ou revelar dado pessoal</dd><dt>Licença</dt><dd>5 de 10</dd></dl>`;
+const invite = (id) => {
+  if (id === 'I2') return `<div class="drawer-mock" style="position:relative;height:300px;border:1px solid var(--color-border);overflow:hidden;background:var(--color-canvas)"><div style="position:absolute;inset:0;padding:10px">${peopleTable(false, 'short')}</div><div style="position:absolute;inset:0;background:var(--scrim)"></div><div style="position:absolute;top:0;right:0;bottom:0;width:62%;background:var(--color-surface);box-shadow:var(--elevation-3);padding:12px;display:grid;gap:8px;align-content:start"><b>Convidar pessoa</b>${inviteFields()}<span class="btn btn-primary" style="justify-self:start;min-height:30px;font-size:13px">Enviar convite</span></div></div>`;
+  if (id === 'I3') return `<div class="table-wrap"><table class="table"><tbody><tr aria-selected="true"><td><span class="inline-select" style="min-width:150px"><span class="ph">e-mail</span></span></td><td><span class="inline-select">Leitor ${I('chevD')}</span></td><td><span class="btn btn-primary" style="min-height:28px;font-size:13px">Convidar</span></td></tr>${PEOPLE.slice(0, 2).map(([a, n, e, r]) => `<tr><td><span class="person"><span class="avatar">${a}</span>${n}</span></td><td>${r}</td><td></td></tr>`).join('')}</tbody></table></div>`;
+  return `<div class="scrim-stage" style="padding:14px"><div class="dialog" style="max-width:100%"><span class="dialog-title">Convidar pessoa</span>${inviteFields()}${canDo()}<div class="dialog-actions"><span class="btn btn-secondary">Cancelar</span><span class="btn btn-primary">${I('mail')}Enviar convite</span></div></div></div>`;
+};
+
+const orgForm = () => `${inp('Nome da organização', 'Cliente Exemplo Ltda.')}${inp('Fuso horário', `America/Sao_Paulo <span style="margin-left:auto">${I('chevD')}</span>`)}${inp('Limite de frescor dos dados', '30 min', false)}`;
+const settings = (id, save = state.pick.save) => {
+  const saveUI = save === 'S1' ? `<div class="savebar"><span><b>2 alterações</b> não salvas</span><span class="btn btn-minimal" style="margin-left:auto">Descartar</span><span class="btn btn-primary">Salvar</span></div>` : save === 'S2' ? '<span class="meta row">' + I('check') + ' Salvo às 14:32</span>' : '<span class="btn btn-primary" style="justify-self:start;min-height:30px;font-size:13px">Salvar organização</span>';
+  if (id === 'C2') return `<div class="panel" style="gap:10px;position:relative;padding-bottom:${save === 'S1' ? 56 : 14}px"><div class="anchors"><span>Organização</span><span>Integrações</span><span>Notificações</span><span>Segurança</span></div><h4 style="font-size:var(--text-section)">Organização</h4>${orgForm()}${saveUI}</div>`;
+  if (id === 'C3') return `<div class="panel" style="gap:10px;position:relative;padding-bottom:${save === 'S1' ? 56 : 14}px"><div class="tabs" style="gap:14px"><span class="tab" aria-selected="true">Organização</span><span class="tab">Integrações</span><span class="tab">Notificações</span><span class="tab">Segurança</span></div>${orgForm()}${saveUI}</div>`;
+  return `<div class="settings"><div class="set-nav"><span class="on">Organização</span><span>Integrações</span><span>Notificações</span><span>Segurança</span><span>Aparência</span></div><div class="set-body" style="padding-bottom:${save === 'S1' ? 56 : 14}px"><h4>Organização</h4>${orgForm()}${save === 'S1' ? '' : saveUI}</div>${save === 'S1' ? saveUI : ''}</div>`;
+};
+const save = (id) => settings('C1', id);
+
+const R = { login, auth, people, perm, invite, settings, save };
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui mini" data-pv="${q}:${o.id}"></div>
+    </button>`).join('');
+});
+
+/* Peças fixas. */
+const mfa = () => `<div class="login-card" style="width:100%"><b style="font-size:var(--text-section)">Verificação em duas etapas</b><span class="meta">Digite o código de 6 dígitos do seu aplicativo autenticador.</span><div class="code"><span>4</span><span>8</span><span>1</span><span class="f"></span><span></span><span></span></div><span class="btn btn-primary sso">Verificar</span><span style="color:var(--color-link);font-size:13px;font-weight:600">Usar um código de recuperação</span></div>`;
+const accessLog = () => `<div class="panel" style="gap:4px"><span class="cap">Registro de acesso</span>${[['14:32', 'Ana Nunes revelou CPF do sócio · Cliente 0042'], ['14:05', 'Ana Nunes aprovou PC-20481 (risco médio)'], ['09:40', 'Gilberto Oliveira mudou o papel de Rafael Pires para Leitor'], ['09:12', 'Entrada com falha · marina@cliente.com.br · 3 tentativas']].map(([t, x], i) => `<div class="row" style="min-height:30px;border-bottom:1px solid var(--color-border);font-size:13px;flex-wrap:nowrap"><span class="meta" style="width:44px">${t}</span><span style="${i === 3 ? 'color:var(--text-danger)' : ''}">${x}</span></div>`).join('')}</div>`;
+const integrations = () => `<div style="display:grid;gap:6px">${[['ERP sintético', 'Conectado · leitura às 14:30', 's'], ['Planilha de compras', 'Falhou às 14:20 · credencial expirada', 'd'], ['E-mail de notificação', 'Não configurado', 'p']].map(([n, m, k]) => `<div class="integration">${I('db')}<div><b>${n}</b><div class="meta">${m}</div></div>${k === 's' ? '<span class="tag tag-success">' + I('check') + 'Conectado</span>' : k === 'd' ? '<span class="tag tag-danger">' + I('x') + 'Falhou</span>' : '<span class="tag tag-pending">' + I('clock') + 'Pendente</span>'}</div>`).join('')}</div>`;
+
+function sheet() {
+  const p = state.pick;
+  const b = (t, html) => `<div><h3>${t}</h3><div style="display:grid;gap:10px">${html}</div></div>`;
+  return [b('Entrada', login(p.login, p.auth)), b('Pessoas', people(p.people)), b('Permissões', perm(p.perm)), b('Convite', invite(p.invite)), b('Configurações', settings(p.settings, p.save)), b('Duas etapas (fixo)', mfa()), b('Registro de acesso (fixo)', accessLog()), b('Integrações (fixo)', integrations())].join('');
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  document.querySelectorAll('[data-pv]').forEach((el) => { const [q, id] = el.dataset.pv.split(':'); el.innerHTML = R[q](id); });
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F15 · Telas de sistema\nEntrada: ${p.login} · Como entrar: ${p.auth} · Pessoas: ${p.people} · Permissão: ${p.perm} · Convite: ${p.invite} · Configurações: ${p.settings} · Salvar: ${p.save}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

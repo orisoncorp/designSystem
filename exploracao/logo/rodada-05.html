@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Logo · Rodada 05</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c;
+    --dark: #0a0a0a; --grafite: #27272a; --paper: #e8e6e1; --white: #ffffff;
+    --crimson: #8b1a1a; --mid: #6e6e70;
+    --ok: #2f8a55; --maybe: #b07a1e; --no: #9a3a3a;
+    --wm: 'Hanken Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 56px 0 4px; }
+  .lead { color: var(--muted); max-width: 80ch; margin: 0 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); padding: 16px; }
+  .card.s-ok { outline: 2px solid var(--ok); }
+  .card.s-maybe { outline: 2px solid var(--maybe); }
+  .card.s-no { opacity: .45; }
+  .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .id { font: 600 15px ui-monospace, monospace; }
+  .name { font-weight: 600; }
+  .tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.from { color: #9cc3e6; border-color: #2c4a63; }
+  .why { color: var(--muted); font-size: 14px; margin: 6px 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero > div { display: grid; place-items: center; height: 200px; }
+  .hero svg { width: 128px; height: 128px; }
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .strip > div { display: flex; align-items: center; justify-content: center; gap: 8px; height: 64px; }
+  .strip svg.m { width: 32px; height: 32px; }
+  .strip svg.s { width: 16px; height: 16px; }
+  .legend { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr; margin-top: 2px; }
+  .lockups > div { height: 88px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .lockups svg { width: 40px; height: 40px; }
+  .lockups .name-wm { font: 600 22px/1 var(--wm); letter-spacing: .1em; margin-right: -.1em; }
+  .on-dark { background: var(--dark); color: #f7f5f0; }
+  .on-grafite { background: var(--grafite); color: #f7f5f0; }
+  .on-paper { background: var(--paper); color: #111113; }
+  .on-white { background: var(--white); color: #111113; }
+  .on-crimson { background: var(--crimson); color: #ffffff; }
+  .on-mid { background: var(--mid); color: #ffffff; }
+  .on-photo { background: linear-gradient(135deg, #3d5a6c 0%, #a88a5f 55%, #e2c9a0 100%); color: #ffffff; }
+  .vote { display: flex; gap: 8px; margin-top: 12px; }
+  .vote button { font: 500 13px system-ui, sans-serif; padding: 6px 12px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .vote button[aria-pressed="true"][data-v="ok"] { background: var(--ok); border-color: var(--ok); }
+  .vote button[aria-pressed="true"][data-v="maybe"] { background: var(--maybe); border-color: var(--maybe); }
+  .vote button[aria-pressed="true"][data-v="no"] { background: var(--no); border-color: var(--no); }
+  .wm { display: grid; grid-template-columns: 1fr 1fr; }
+  .wm > div { height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-family: var(--wm); }
+  .wm .big { font-size: 44px; line-height: 1; }
+  .wm .sub { font-size: 12px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; opacity: .75; }
+  .wm-small { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2px; }
+  .wm-small > div { height: 56px; display: flex; align-items: center; justify-content: center; font-family: var(--wm); font-size: 13px; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; color: var(--ink); }
+  .bar textarea { grid-column: 1; width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui, sans-serif; padding: 6px 8px; resize: vertical; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui, sans-serif; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .hero3 { grid-template-columns: 1fr 1fr 1fr; }
+  .on-build { background: #f2f1ee; }
+  .hero .on-build svg { width: 176px; height: 176px; }
+  .lead strong { color: var(--ink); font-weight: 600; }
+  .family + .family { margin-top: 24px; }
+  .card.failed { opacity: .5; }
+  .tag.agr { color: #e7a07a; border-color: #6b3b25; }
+  .wgrid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
+  .whero > div { display: grid; place-items: center; height: 170px; }
+  .whero svg { width: 440px; height: 128px; }
+  .wstrip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .wstrip > div { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; height: 92px; }
+  .wstrip svg.wm1 { width: 120px; height: 35px; }
+  .wstrip svg.wm2 { width: 72px; height: 21px; }
+  .compact { display: flex; gap: 2px; margin-top: 2px; }
+  .compact > div { flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; height: 64px; }
+  .compact svg.m { width: 32px; height: 32px; } .compact svg.s { width: 16px; height: 16px; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="cut-blade" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="55" height="120"/><rect x="65" y="0" width="55" height="120"/>
+    </clipPath>
+    <clipPath id="o-blade" clipPathUnits="userSpaceOnUse"><rect x="-10" y="0" width="41.71" height="120"/><rect x="43.31" y="0" width="500" height="120"/></clipPath>
+    <!-- X1: corte de 6 a 23,44° -->
+    <clipPath id="x1-left" clipPathUnits="userSpaceOnUse">
+      <rect x="-100" y="-100" width="157" height="320" transform="rotate(23.44 60 60)"/>
+    </clipPath>
+    <clipPath id="x1-right" clipPathUnits="userSpaceOnUse">
+      <rect x="63" y="-100" width="157" height="320" transform="rotate(23.44 60 60)"/>
+    </clipPath>
+    <!-- X2: corte vertical de 6 -->
+    <clipPath id="slit6" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="57" height="120"/><rect x="63" y="0" width="57" height="120"/>
+    </clipPath>
+  </defs>
+
+  <symbol id="d2" viewBox="0 0 120 120">
+    <g clip-path="url(#cut-blade)">
+      <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="60" r="28.4" stroke="currentColor" stroke-width="5" fill="none"/>
+    </g>
+    <rect x="57.5" y="11.5" width="5" height="97" fill="currentColor"/>
+  </symbol>
+
+  <!-- X1 · Bloco cortado: o quadrado é cortado a 23,44° e a metade desliza 8 ao longo do corte -->
+  <symbol id="x1" viewBox="0 0 120 120">
+    <g transform="translate(-1.6 3.7)">
+      <rect x="16" y="16" width="88" height="88" fill="currentColor" clip-path="url(#x1-left)"/>
+      <g transform="translate(3.18 -7.34)">
+        <rect x="16" y="16" width="88" height="88" fill="currentColor" clip-path="url(#x1-right)"/>
+      </g>
+    </g>
+  </symbol>
+
+  <!-- X2 · Gume: vesica (dois círculos de raio 56 com centros a 56 de distância), cortada no eixo -->
+  <symbol id="x2" viewBox="0 0 120 120">
+    <path d="M60 11.5 A56 56 0 0 1 60 108.5 A56 56 0 0 1 60 11.5 Z" fill="currentColor" clip-path="url(#slit6)"/>
+  </symbol>
+
+  <!-- X3 · Palavra-eixo (contornos reais da Hanken 600, tracking .1em) -->
+  <symbol id="x3" viewBox="-4 0 421.57 120"><g fill="currentColor"><path d="M37.4 96.45Q27.56 96.45 20.1 91.89Q12.63 87.34 8.47 79.14Q4.3 70.94 4.3 60.05Q4.3 49.06 8.47 40.86Q12.63 32.66 20.1 28.11Q27.56 23.55 37.4 23.55Q47.4 23.55 54.9 28.09Q62.39 32.63 66.56 40.83Q70.72 49.02 70.72 60.05Q70.72 70.98 66.51 79.17Q62.29 87.37 54.79 91.91Q47.3 96.45 37.4 96.45ZM37.39 85.36Q44.09 85.36 48.9 82.24Q53.7 79.12 56.36 73.44Q59.01 67.75 59.01 60.05Q59.01 52.25 56.35 46.57Q53.7 40.88 48.88 37.76Q44.07 34.64 37.38 34.64Q30.87 34.64 26.01 37.71Q21.14 40.78 18.52 46.46Q15.91 52.14 15.91 60.05Q15.91 67.86 18.52 73.54Q21.14 79.22 26.01 82.29Q30.87 85.36 37.39 85.36Z"/><path d="M92.3 95V25H114.67Q123.03 25 128.23 27.44Q133.43 29.88 135.9 34.4Q138.37 38.92 138.37 45.09Q138.37 54.43 133.03 59.62Q127.69 64.81 117.74 65.55Q115.72 65.61 113.41 65.61Q111.1 65.61 109.29 65.61H103.91V95ZM130.7 95 112.92 64.27 124.82 62.84 144.1 95ZM103.91 55.29H113.49Q117.26 55.29 120.24 54.39Q123.21 53.48 124.99 51.29Q126.76 49.1 126.76 45.23Q126.76 41.29 124.99 39.17Q123.21 37.05 120.21 36.22Q117.2 35.38 113.49 35.38H103.91Z"/><rect x="163.30" y="7.5" width="11.61" height="105"/><path d="M221.81 96.27Q210.82 96.27 203.81 90.54Q196.8 84.82 195.26 75.32L206.59 72.52Q207.69 79.15 211.88 82.54Q216.07 85.92 222.19 85.92Q225.59 85.92 228.28 84.7Q230.97 83.47 232.54 81.17Q234.1 78.87 234.1 75.88Q234.1 72.85 232.42 70.78Q230.73 68.71 227.5 67.04Q224.28 65.37 219.64 63.61Q213.29 61.16 208.87 58.32Q204.44 55.49 202.15 51.64Q199.86 47.8 199.86 42.47Q199.86 36.95 202.57 32.69Q205.28 28.43 210.18 25.99Q215.08 23.55 221.55 23.55Q228.46 23.55 233.8 26.71Q239.14 29.86 242.38 36.15L233.14 41.79Q230.99 37.92 227.98 35.88Q224.96 33.84 221.17 33.84Q218.4 33.84 216.2 34.9Q214 35.97 212.73 37.86Q211.47 39.74 211.47 42.23Q211.47 44.85 212.97 46.8Q214.48 48.76 217.65 50.41Q220.83 52.06 225.73 53.9Q232.09 56.29 236.49 59.13Q240.89 61.96 243.25 65.8Q245.61 69.65 245.61 75.18Q245.61 81.3 242.6 86.06Q239.59 90.82 234.24 93.54Q228.9 96.27 221.81 96.27Z"/><path d="M297.01 96.45Q287.17 96.45 279.71 91.89Q272.25 87.34 268.08 79.14Q263.91 70.94 263.91 60.05Q263.91 49.06 268.08 40.86Q272.25 32.66 279.71 28.11Q287.17 23.55 297.01 23.55Q307.02 23.55 314.51 28.09Q322 32.63 326.17 40.83Q330.34 49.02 330.34 60.05Q330.34 70.98 326.12 79.17Q321.9 87.37 314.41 91.91Q306.92 96.45 297.01 96.45ZM297 85.36Q303.7 85.36 308.51 82.24Q313.32 79.12 315.97 73.44Q318.63 67.75 318.63 60.05Q318.63 52.25 315.97 46.57Q313.31 40.88 308.5 37.76Q303.68 34.64 296.99 34.64Q290.48 34.64 285.62 37.71Q280.75 40.78 278.14 46.46Q275.52 52.14 275.52 60.05Q275.52 67.86 278.14 73.54Q280.75 79.22 285.62 82.29Q290.48 85.36 297 85.36Z"/><path d="M351.91 95V25H363.94L397.66 79.85H394.81V25H406.42V95H394.23L360.71 40.04H363.52V95Z"/></g></symbol>
+
+  <!-- X4 · O-lâmina na palavra e sozinho -->
+  <symbol id="x4" viewBox="-4 0 421.57 120"><g fill="currentColor"><path d="M37.4 96.45Q27.56 96.45 20.1 91.89Q12.63 87.34 8.47 79.14Q4.3 70.94 4.3 60.05Q4.3 49.06 8.47 40.86Q12.63 32.66 20.1 28.11Q27.56 23.55 37.4 23.55Q47.4 23.55 54.9 28.09Q62.39 32.63 66.56 40.83Q70.72 49.02 70.72 60.05Q70.72 70.98 66.51 79.17Q62.29 87.37 54.79 91.91Q47.3 96.45 37.4 96.45ZM37.39 85.36Q44.09 85.36 48.9 82.24Q53.7 79.12 56.36 73.44Q59.01 67.75 59.01 60.05Q59.01 52.25 56.35 46.57Q53.7 40.88 48.88 37.76Q44.07 34.64 37.38 34.64Q30.87 34.64 26.01 37.71Q21.14 40.78 18.52 46.46Q15.91 52.14 15.91 60.05Q15.91 67.86 18.52 73.54Q21.14 79.22 26.01 82.29Q30.87 85.36 37.39 85.36Z" clip-path="url(#o-blade)"/><rect x="34.61" y="23.55" width="5.80" height="72.89"/><path d="M92.3 95V25H114.67Q123.03 25 128.23 27.44Q133.43 29.88 135.9 34.4Q138.37 38.92 138.37 45.09Q138.37 54.43 133.03 59.62Q127.69 64.81 117.74 65.55Q115.72 65.61 113.41 65.61Q111.1 65.61 109.29 65.61H103.91V95ZM130.7 95 112.92 64.27 124.82 62.84 144.1 95ZM103.91 55.29H113.49Q117.26 55.29 120.24 54.39Q123.21 53.48 124.99 51.29Q126.76 49.1 126.76 45.23Q126.76 41.29 124.99 39.17Q123.21 37.05 120.21 36.22Q117.2 35.38 113.49 35.38H103.91Z"/><path d="M163.3 95V25H174.91V95Z"/><path d="M221.81 96.27Q210.82 96.27 203.81 90.54Q196.8 84.82 195.26 75.32L206.59 72.52Q207.69 79.15 211.88 82.54Q216.07 85.92 222.19 85.92Q225.59 85.92 228.28 84.7Q230.97 83.47 232.54 81.17Q234.1 78.87 234.1 75.88Q234.1 72.85 232.42 70.78Q230.73 68.71 227.5 67.04Q224.28 65.37 219.64 63.61Q213.29 61.16 208.87 58.32Q204.44 55.49 202.15 51.64Q199.86 47.8 199.86 42.47Q199.86 36.95 202.57 32.69Q205.28 28.43 210.18 25.99Q215.08 23.55 221.55 23.55Q228.46 23.55 233.8 26.71Q239.14 29.86 242.38 36.15L233.14 41.79Q230.99 37.92 227.98 35.88Q224.96 33.84 221.17 33.84Q218.4 33.84 216.2 34.9Q214 35.97 212.73 37.86Q211.47 39.74 211.47 42.23Q211.47 44.85 212.97 46.8Q214.48 48.76 217.65 50.41Q220.83 52.06 225.73 53.9Q232.09 56.29 236.49 59.13Q240.89 61.96 243.25 65.8Q245.61 69.65 245.61 75.18Q245.61 81.3 242.6 86.06Q239.59 90.82 234.24 93.54Q228.9 96.27 221.81 96.27Z"/><path d="M297.01 96.45Q287.17 96.45 279.71 91.89Q272.25 87.34 268.08 79.14Q263.91 70.94 263.91 60.05Q263.91 49.06 268.08 40.86Q272.25 32.66 279.71 28.11Q287.17 23.55 297.01 23.55Q307.02 23.55 314.51 28.09Q322 32.63 326.17 40.83Q330.34 49.02 330.34 60.05Q330.34 70.98 326.12 79.17Q321.9 87.37 314.41 91.91Q306.92 96.45 297.01 96.45ZM297 85.36Q303.7 85.36 308.51 82.24Q313.32 79.12 315.97 73.44Q318.63 67.75 318.63 60.05Q318.63 52.25 315.97 46.57Q313.31 40.88 308.5 37.76Q303.68 34.64 296.99 34.64Q290.48 34.64 285.62 37.71Q280.75 40.78 278.14 46.46Q275.52 52.14 275.52 60.05Q275.52 67.86 278.14 73.54Q280.75 79.22 285.62 82.29Q290.48 85.36 297 85.36Z"/><path d="M351.91 95V25H363.94L397.66 79.85H394.81V25H406.42V95H394.23L360.71 40.04H363.52V95Z"/></g></symbol>
+  <symbol id="x4c" viewBox="-7.49 15.00 90 90"><g fill="currentColor"><path d="M37.4 96.45Q27.56 96.45 20.1 91.89Q12.63 87.34 8.47 79.14Q4.3 70.94 4.3 60.05Q4.3 49.06 8.47 40.86Q12.63 32.66 20.1 28.11Q27.56 23.55 37.4 23.55Q47.4 23.55 54.9 28.09Q62.39 32.63 66.56 40.83Q70.72 49.02 70.72 60.05Q70.72 70.98 66.51 79.17Q62.29 87.37 54.79 91.91Q47.3 96.45 37.4 96.45ZM37.39 85.36Q44.09 85.36 48.9 82.24Q53.7 79.12 56.36 73.44Q59.01 67.75 59.01 60.05Q59.01 52.25 56.35 46.57Q53.7 40.88 48.88 37.76Q44.07 34.64 37.38 34.64Q30.87 34.64 26.01 37.71Q21.14 40.78 18.52 46.46Q15.91 52.14 15.91 60.05Q15.91 67.86 18.52 73.54Q21.14 79.22 26.01 82.29Q30.87 85.36 37.39 85.36Z" clip-path="url(#o-blade)"/><rect x="34.61" y="23.55" width="5.80" height="72.89"/></g></symbol>
+</svg>
+
+<header>
+  <h1>Orison · Logo · Rodada 05 · última divergente</h1>
+  <p class="lead">
+    D2 + W3 é o favorito. Esta é a última rodada fora do padrão; se nada
+    aqui superar o D2, seguimos com ele. Mesmos critérios da rodada 04:
+    um conceito só, no máximo três elementos, medidas com regra, sem cara de
+    ícone em 16 px, uma cor.
+  </p>
+  <p class="lead">
+    Quatro caminhos, dois que abandonam o círculo e dois que mudam onde a
+    marca mora (no próprio nome, como a Palantir faz na maioria das
+    superfícies).
+  </p>
+</header>
+
+<main id="cards"></main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: X4 com a lâmina também no segundo O)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const SURFACES = [
+  ['on-dark', 'Preto'], ['on-grafite', 'Grafite'], ['on-paper', 'Off-white'],
+  ['on-white', 'Branco'], ['on-crimson', 'Crimson'], ['on-mid', 'Cinza'], ['on-photo', 'Foto'],
+];
+
+const KEY = 'orison-logo-r05';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"votes":{},"notes":""}');
+
+const use = (id, cls = '') =>
+  `<svg class="${cls}" role="img" aria-label="Marca ${id}"><use href="#${id}"/></svg>`;
+
+const vote = (id) => `
+  <div class="vote" data-id="${id}">
+    <button type="button" data-v="ok" aria-pressed="false">Aprovar</button>
+    <button type="button" data-v="maybe" aria-pressed="false">Talvez</button>
+    <button type="button" data-v="no" aria-pressed="false">Descartar</button>
+  </div>`;
+
+const head = (s, tag) => `
+  <div class="head"><span class="id">${s.id}</span><span class="name">${s.name}</span>${tag}</div>
+  ${s.story.map((p) => `<p class="why">${p}</p>`).join('')}`;
+
+const symbolCard = (s, ref = false) => `
+  <article class="card" id="card-${s.id}">
+    ${head(s, ref ? '<span class="tag">Favorito · referência</span>' : '<span class="tag agr">Fora do círculo</span>')}
+    <div class="hero">
+      <div class="on-dark">${use(s.sym)}</div>
+      <div class="on-paper">${use(s.sym)}</div>
+    </div>
+    <div class="strip">${SURFACES.map(([c]) => `<div class="${c}">${use(s.sym, 'm')}${use(s.sym, 's')}</div>`).join('')}</div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    <div class="lockups">
+      <div class="on-dark">${use(s.sym)}<span class="name-wm">ORISON</span></div>
+      <div class="on-white">${use(s.sym)}<span class="name-wm">ORISON</span></div>
+    </div>
+    ${ref ? '' : vote(s.id)}
+  </article>`;
+
+const wordCard = (s) => `
+  <article class="card" id="card-${s.id}">
+    ${head(s, '<span class="tag agr">A marca é o nome</span>')}
+    <div class="hero whero">
+      <div class="on-dark">${use(s.sym)}</div>
+      <div class="on-paper">${use(s.sym)}</div>
+    </div>
+    <div class="wstrip">${SURFACES.map(([c]) => `<div class="${c}">${use(s.sym, 'wm1')}${use(s.sym, 'wm2')}</div>`).join('')}</div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    <div class="compact">
+      ${['on-dark', 'on-paper', 'on-crimson', 'on-photo'].map((c) => `<div class="${c}">${use(s.compact, 'm')}${use(s.compact, 's')}</div>`).join('')}
+    </div>
+    <p class="note">${s.compactNote}</p>
+    ${vote(s.id)}
+  </article>`;
+
+const D2 = { id: 'D2', sym: 'd2', name: 'Lâmina',
+  story: ['O favorito. Decidir é cortar: a linha do S2 passa por dentro do corte, sem tocar os anéis.'] };
+
+const SYMBOLS = [
+  { id: 'X1', sym: 'x1', name: 'Bloco cortado',
+    story: [
+      'O bloco é a operação da empresa: sólida, quadrada, sem raio (como as superfícies do DS). Uma decisão a corta a 23,44° e a metade desliza ao longo do corte. A mesma matéria, em outra posição: transformação sem perda.',
+      'Junta as duas ideias mais fortes da rodada 04 (decidir é cortar · a inclinação que gera mudança permanente) num único gesto. Abandona o círculo por completo; o mais forte como avatar e favicon.',
+    ] },
+  { id: 'X2', sym: 'x2', name: 'Gume',
+    story: [
+      'A vesica: a área que só existe onde dois círculos iguais se sobrepõem. É onde a Orison trabalha, no espaço comum entre o engine dela e a semântica do cliente (DR-03, engine compartilhado × semântica do cliente), cortado ao meio pelo eixo.',
+      'A forma também lê como gume de lâmina e como semente. Risco: alguém pode ver um grão de café.',
+    ] },
+];
+
+const WORDS = [
+  { id: 'X3', sym: 'x3', compact: 'd2', name: 'Palavra-eixo',
+    compactNote: 'Ícone compacto (favicon, avatar): continua o D2.',
+    story: [
+      'A Palantir usa o nome como marca principal na maioria das superfícies; o símbolo é secundário. Aqui o “I” de ORISON vira a incisão: atravessa a linha das maiúsculas acima e abaixo, na mesma espessura da letra.',
+      'Sem elemento extra: o nome se basta. Contornos reais da Hanken 600.',
+    ] },
+  { id: 'X4', sym: 'x4', compact: 'x4c', name: 'O-lâmina',
+    compactNote: 'Ícone compacto: o próprio “O” com a lâmina.',
+    story: [
+      'O primeiro “O” do nome recebe a lâmina do D2 (linha com metade da espessura da letra, vão de um quarto de cada lado). Símbolo e nome viram uma peça só, e o “O” sozinho é o ícone.',
+      'Mantém o D2 vivo, mas dentro da palavra, como a primeira letra.',
+    ] },
+];
+
+document.getElementById('cards').innerHTML = `
+  <h2>Referência</h2><div class="grid">${symbolCard(D2, true)}</div>
+  <h2>Fora do círculo</h2><div class="grid">${SYMBOLS.map((s) => symbolCard(s)).join('')}</div>
+  <h2>A marca no nome</h2><div class="wgrid">${WORDS.map(wordCard).join('')}</div>`;
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+
+function render() {
+  document.querySelectorAll('.vote').forEach((g) => {
+    const v = state.votes[g.dataset.id];
+    g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+    const c = document.getElementById('card-' + g.dataset.id);
+    c.classList.remove('s-ok', 's-maybe', 's-no');
+    if (v) c.classList.add('s-' + v);
+  });
+  const pick = (v) => Object.keys(state.votes).filter((k) => state.votes[k] === v).sort().join(', ') || '—';
+  summaryEl.textContent =
+    `Rodada 05\nAprovados: ${pick('ok')}\nTalvez: ${pick('maybe')}\nDescartados: ${pick('no')}` +
+    (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.vote button');
+  if (!b) return;
+  const id = b.parentElement.dataset.id;
+  state.votes[id] = state.votes[id] === b.dataset.v ? undefined : b.dataset.v;
+  if (!state.votes[id]) delete state.votes[id];
+  render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { state.votes = {}; state.notes = ''; notesEl.value = ''; render(); });
+render();
+</script>
+</body>
+</html>

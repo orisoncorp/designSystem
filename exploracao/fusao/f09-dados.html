@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F09 Visualização de dados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt[disabled] { opacity: .5; cursor: not-allowed; }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .val { font: 12px/1.5 ui-monospace, monospace; background: #141416; padding: 8px 10px; white-space: pre-line; }
+  .val .bad { color: #f28b82; } .val .ok { color: #7ddfa7; } .val .warn { color: #fbb360; }
+  .chips { display: flex; gap: 2px; margin-top: 8px; } .chips span { flex: 1; height: 26px; }
+  .tagr { font-size: 12px; font-weight: 600; color: #f28b82; border: 1px solid #6b3b25; padding: 0 6px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: flex; gap: 12px; align-items: center; }
+  .pv-title button { font: 600 12px system-ui; padding: 4px 10px; background: transparent; color: var(--ink); border: 1px solid var(--line); cursor: pointer; }
+
+  /* ── tokens aprovados + paleta de dados ── */
+  .viz-root { --surface: #ffffff; --canvas: #f6f7f9; --border: #d3d8de; --grid: #e5e8eb; --axis: #738091; --text: #1c2127; --text-2: #5f6b7c; --context: #c5cbd3;
+    --ok-text: #1c6e42; --ok-tint: #e0eee7; --bad-text: #ac2f33; --bad-tint: #f8e5e5; --action: #2d72d2; color-scheme: light; }
+  .viz-root.dark { --surface: #252a31; --canvas: #1c2127; --border: #404854; --grid: #2f343c; --axis: #8f99a8; --text: #f6f7f9; --text-2: #abb3bf; --context: #5f6b7c;
+    --ok-text: #72ca9b; --ok-tint: #253735; --bad-text: #fa999c; --bad-tint: #3d2d34; color-scheme: dark; }
+  .viz-root { font-family: 'Montserrat', sans-serif; font-size: 16px; line-height: 1.4; background: var(--canvas); color: var(--text); border: 1px solid #404854; padding: 24px; display: grid; gap: 16px; }
+  .num { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; font-weight: 500; }
+  .hl { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); }
+  .meta { font-size: 14px; color: var(--text-2); }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); padding: 16px; display: grid; gap: 6px; align-content: start; }
+  .kpi .v { font-size: 28px; line-height: 1.15; }
+  .delta { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; font-weight: 600; }
+  .seal { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px dashed currentColor; border-radius: 3px; justify-self: start; }
+  .base { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 14px; }
+  .base span:nth-child(odd) { color: var(--text-2); font-weight: 600; font-size: 13px; }
+  .charts { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+  .chart { background: var(--surface); border: 1px solid var(--border); padding: 16px; display: grid; gap: 10px; position: relative; }
+  .chart-head { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .chart-head h3 { margin: 0; font-size: 18px; font-weight: 600; }
+  .chart-head .tbl { margin-left: auto; font: 600 14px 'Montserrat', sans-serif; background: transparent; color: var(--text); border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--text); }
+  .legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border-radius: 9999px; }
+  svg text { font-family: 'Montserrat', sans-serif; }
+  .tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgba(0,0,0,.15); border-radius: 4px; padding: 8px 10px; font-size: 13px; display: none; z-index: 3; min-width: 160px; }
+  .tip b { display: block; font-size: 13px; margin-bottom: 4px; }
+  .tip div { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+  .tip i { width: 10px; height: 10px; border-radius: 9999px; display: inline-block; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.data th, table.data td { height: 32px; padding: 0 8px; border-bottom: 1px solid var(--border); text-align: right; }
+  table.data th:first-child, table.data td:first-child { text-align: left; }
+  table.data th { font-size: 13px; font-weight: 600; color: var(--text-2); }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  @media (max-width: 1100px) { .charts, .kpis { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F09 · Visualização de dados</h1>
+  <p class="lead">
+    Última rodada. <strong>Regras já fixadas</strong> que a paleta de dados
+    precisa respeitar: azul é ação (F01); verde, laranja e vermelho são
+    resultado e status (F01, F06); crimson é só marca. Uma série de dados não
+    pode parecer “bom”, “ruim” ou “clicável” por acidente.
+  </p>
+  <p class="lead">
+    Todas as paletas abaixo foram medidas com o validador de cor (faixa de
+    luminosidade, croma, separação para daltonismo, separação em visão
+    normal e contraste com a superfície de cada tema), não escolhidas no olho.
+    Regras fixas do método: um eixo só (nunca dois eixos y), legenda sempre
+    que houver duas séries ou mais, rótulo direto até quatro, texto sempre na
+    cor de texto (nunca na cor da série), dica ao passar o mouse e uma vista
+    em tabela.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Paleta categórica</h2>
+  <p class="lead">Para identificar séries (CD Guarulhos, CD Campinas…). A cor segue a entidade, nunca a posição: filtrar não repinta quem sobra.</p>
+  <div class="opts" data-q="palette"></div>
+
+  <h2>2 · Número de destaque (KPI)</h2>
+  <p class="lead">O número que abre o painel. A DR-09 exige baseline, janela e critério para afirmar outcome (DC-GC-09-009).</p>
+  <div class="opts" data-q="kpi"></div>
+
+  <h2>3 · Ponta das barras</h2>
+  <p class="lead">A F04 deixou superfícies retas e controles com 4 px. Barra é marca de dado, não superfície nem controle.</p>
+  <div class="opts" data-q="ends"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="pv-title">Painel do primeiro loop <button id="theme" type="button">Alternar tema</button></div>
+  <div class="viz-root" id="pv"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: C3, mas com rosa no lugar do ouro)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const Q = {
+  palette: [
+    { id: 'C1', name: 'Qualitativa do Blueprint', src: 'Tatico · Blueprint', disabled: true,
+      why: 'As oito cores qualitativas do Blueprint, na ordem publicada. Reprovada pelo validador: dourado e verde ficam quase iguais para daltônicos (protanopia), e o tema escuro sai da faixa de luminosidade. Também usa verde e vermelho, que são status.',
+      light: ['#147EB3', '#29A634', '#D1980B', '#D13913', '#634DBF', '#D17E09', '#9F1239', '#00A396'], dark: ['#2D9CDB', '#3DCC4A', '#E0AD2B', '#EB6847', '#7C6AD4', '#E89B28', '#C0264A', '#13C9BA'],
+      val: '<span class="bad">FAIL</span> CVD: dourado↔verde ΔE 1,7 (protan)\n<span class="bad">FAIL</span> escuro: 5 cores fora da faixa de luz' },
+    { id: 'C2', name: 'Referência validada (8)', src: 'método de dataviz',
+      why: 'Oito cores com ordem testada para daltonismo nos dois temas. Passa em tudo, mas começa em azul (parece ação) e inclui verde, laranja e vermelho (parecem status). Exige legenda e rótulo direto sempre.',
+      light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'], dark: ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#008300', '#9085e9', '#e66767'],
+      val: '<span class="ok">PASS</span> CVD adjacente ΔE 9,1 claro · 8,4 escuro\n<span class="warn">WARN</span> 3 cores < 3:1 no claro → rótulo ou tabela\n<span class="warn">conflito</span> azul = ação; verde/laranja/vermelho = status' },
+    { id: 'C3', name: 'Quatro séries próprias', src: 'Blueprint INDIGO · TURQUOISE · ROSE + ouro',
+      why: 'Índigo, turquesa, rosa e ouro: nenhuma é azul de ação nem verde, laranja ou vermelho de status. Validadas em todos os pares, nos dois temas. Limite de quatro séries por gráfico (proposta Tatico); da quinta em diante, “Outros” ou gráficos pequenos lado a lado.',
+      light: ['#7961DB', '#00A396', '#DB2C6F', '#eda100'], dark: ['#7961DB', '#00A396', '#DB2C6F', '#c98500'],
+      val: '<span class="ok">PASS</span> faixa, croma, visão normal (todos os pares)\n<span class="warn">WARN</span> rosa↔turquesa ΔE 6,3 (deutan) → rótulo direto obrigatório\n<span class="warn">WARN</span> ouro 2,2:1 no claro → rótulo ou tabela' },
+    { id: 'C4', name: 'Foco e contexto', src: 'proposta',
+      why: 'Uma série em foco (índigo) e as demais em cinza. O olho vai direto ao que importa; para comparar várias séries de igual peso, cai para a C3.',
+      light: ['#7961DB', '#c5cbd3', '#c5cbd3', '#c5cbd3'], dark: ['#7961DB', '#5f6b7c', '#5f6b7c', '#5f6b7c'],
+      val: '<span class="ok">PASS</span> foco 4,6:1 no claro · 3,1:1 no escuro\n<span class="warn">WARN</span> contexto abaixo de 3:1 de propósito → identidade pelo rótulo direto' },
+  ],
+  kpi: [
+    { id: 'K1', name: 'Número + variação', src: 'v3.0 / mercado', why: 'Valor grande e a variação contra o período anterior, com seta e rótulo. Cor de status só quando a variação cruza uma meta.' },
+    { id: 'K2', name: 'Número + tendência', src: 'v3.0 (KPI Spark)', why: 'Valor e uma linha curta de tendência dos últimos períodos. Mostra direção; não diz contra o quê se compara.' },
+    { id: 'K3', name: 'Número + baseline', src: 'DR-09 (DC-GC-09-009)', why: 'Valor, baseline com data, janela e critério, e o selo do estágio de evidência. É o único formato que sustenta um claim de outcome.' },
+  ],
+  ends: [
+    { id: 'B1', name: 'Reta', src: 'Orison v3.0', why: 'Barra sem arredondamento, como na v3.0 (“instrumento de precisão”). Coerente com as superfícies retas.' },
+    { id: 'B2', name: 'Ponta de 4 px', src: 'método de dataviz', why: 'Só a ponta livre arredonda 4 px; a base fica reta, ancorada no zero. Coerente com o raio de controle da F04 e com o padrão do método.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f09';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"palette":"C3","kpi":"K3","ends":"B2"},"notes":"","theme":"light","table":{}}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false" ${o.disabled ? 'disabled' : ''}>
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span>${o.disabled ? '<span class="tagr">Reprovada no validador</span>' : ''}<span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      ${o.light ? `<div class="chips">${o.light.map((c) => `<span style="background:${c}"></span>`).join('')}</div><div class="chips">${o.dark.map((c) => `<span style="background:${c}"></span>`).join('')}</div><div class="val" style="margin-top:8px">${o.val}</div>` : ''}
+    </button>`).join('');
+});
+
+/* ── dados ilustrativos ── */
+const MONTHS = ['mai', 'jun', 'jul', 'ago', 'set', 'out'];
+const SERIES = [
+  { name: 'CD Guarulhos', v: [6.8, 6.4, 5.9, 5.1, 4.2, 3.6] },
+  { name: 'CD Campinas', v: [5.2, 5.4, 5.0, 4.9, 4.6, 4.4] },
+  { name: 'CD Curitiba', v: [4.1, 4.5, 4.8, 4.4, 4.0, 3.9] },
+  { name: 'CD Recife', v: [7.4, 7.1, 7.3, 6.6, 6.1, 5.8] },
+];
+const BARS = MONTHS.map((m, i) => ({ m, v: [41.2, 48.9, 52.3, 61.0, 70.4, 94.2][i] }));
+const fmt = (n, d = 1) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+function colors() { const p = find('palette', state.pick.palette); return state.theme === 'dark' ? p.dark : p.light; }
+
+function lineChart() {
+  const W = 760, H = 300, m = { l: 44, r: 168, t: 12, b: 32 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const ymax = 8, x = (i) => m.l + (i / (MONTHS.length - 1)) * iw, y = (v) => m.t + ih - (v / ymax) * ih;
+  const col = colors();
+  const focus = state.pick.palette === 'C4';
+  let g = '';
+  for (let t = 0; t <= ymax; t += 2) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)" stroke-width="1"/><text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end" font-size="13" fill="var(--text-2)" class="num">${t}%</text>`;
+  MONTHS.forEach((mo, i) => { g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="13" fill="var(--text-2)">${mo}</text>`; });
+  const order = focus ? [1, 2, 3, 0] : [0, 1, 2, 3];
+  for (const si of order) {
+    const s = SERIES[si], c = col[si];
+    g += `<polyline fill="none" stroke="var(--surface)" stroke-width="5" stroke-linejoin="round" points="${s.v.map((v, i) => `${x(i)},${y(v)}`).join(' ')}"/>`;
+    g += `<polyline fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${s.v.map((v, i) => `${x(i)},${y(v)}`).join(' ')}"/>`;
+  }
+  // rótulos diretos no fim, com afastamento para não colidir
+  const ends = SERIES.map((s, i) => ({ i, y: y(s.v[s.v.length - 1]) })).sort((a, b) => a.y - b.y);
+  for (let k = 1; k < ends.length; k++) if (ends[k].y - ends[k - 1].y < 18) ends[k].y = ends[k - 1].y + 18;
+  for (const e of ends) { const s = SERIES[e.i]; g += `<circle cx="${x(MONTHS.length - 1)}" cy="${y(s.v[s.v.length - 1])}" r="4" fill="${col[e.i]}" stroke="var(--surface)" stroke-width="2"/><text x="${x(MONTHS.length - 1) + 10}" y="${e.y + 4}" font-size="13" font-weight="${focus && e.i !== 0 ? 400 : 600}" fill="${focus && e.i !== 0 ? 'var(--text-2)' : 'var(--text)'}">${s.name} <tspan class="num">${fmt(s.v[s.v.length - 1])}%</tspan></text>`; }
+  g += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--axis)" stroke-width="1" stroke-dasharray="3 3" visibility="hidden"/><g id="xhdots"></g>`;
+  g += `<rect id="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+  return { svg: `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Ruptura de estoque por CD, maio a outubro">${g}</svg>`, x, y, m, iw, W };
+}
+
+function barChart() {
+  const W = 460, H = 300, m = { l: 48, r: 12, t: 24, b: 32 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const ymax = 100, n = BARS.length, gap = 2, bw = (iw - gap * (n - 1)) / n - 14, step = iw / n;
+  const y = (v) => m.t + ih - (v / ymax) * ih, c = colors()[0], r = state.pick.ends === 'B2' ? 4 : 0;
+  let g = '';
+  for (let t = 0; t <= ymax; t += 25) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end" font-size="13" fill="var(--text-2)" class="num">${t}</text>`;
+  BARS.forEach((b, i) => {
+    const bx = m.l + i * step + (step - bw) / 2, by = y(b.v), bh = m.t + ih - by;
+    const path = r ? `M${bx},${by + bh} V${by + r} Q${bx},${by} ${bx + r},${by} H${bx + bw - r} Q${bx + bw},${by} ${bx + bw},${by + r} V${by + bh} Z` : `M${bx},${by + bh} V${by} H${bx + bw} V${by + bh} Z`;
+    g += `<path d="${path}" fill="${c}" data-bar="${i}"/>`;
+    g += `<text x="${bx + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="13" fill="var(--text-2)">${b.m}</text>`;
+    if (i === n - 1) g += `<text x="${bx + bw / 2}" y="${by - 6}" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)" class="num">${fmt(b.v)}</text>`;
+    g += `<rect x="${m.l + i * step}" y="${m.t}" width="${step}" height="${ih}" fill="transparent" data-hitbar="${i}"/>`;
+  });
+  g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${m.t + ih}" y2="${m.t + ih}" stroke="var(--axis)"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Valor reconciliado por mês, em milhares de reais">${g}</svg>`;
+}
+
+function kpis() {
+  const k = state.pick.kpi;
+  const spark = (vals) => { const w = 140, h = 36, mx = Math.max(...vals), mn = Math.min(...vals); return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline fill="none" stroke="${colors()[0]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${vals.map((v, i) => `${(i / (vals.length - 1)) * (w - 4) + 2},${h - 4 - ((v - mn) / (mx - mn || 1)) * (h - 8)}`).join(' ')}"/></svg>`; };
+  const items = [
+    { k: 'Ruptura média', v: '4,4%', prev: '−0,9 p.p. vs. setembro', good: true, s: [5.9, 5.9, 5.8, 5.3, 4.7, 4.4], base: ['Baseline', '5,9% · média mai–jul/2026'], win: ['Janela', 'ago–out/2026'], crit: ['Critério', 'queda ≥ 1 p.p. em 3 meses'], seal: ['ok', 'Outcome medido · validado pelo cliente'] },
+    { k: 'Valor reconciliado', v: 'R$ 94,2 mil', prev: '+33,8% vs. setembro', good: true, s: [41.2, 48.9, 52.3, 61.0, 70.4, 94.2], base: ['Baseline', 'R$ 41,2 mil · maio/2026'], win: ['Janela', 'mai–out/2026'], crit: ['Critério', 'reconciliação técnica confirmada'], seal: ['n', 'Em operação · reconciliação não é outcome'] },
+    { k: 'Writebacks com falha', v: '2', prev: '+1 vs. setembro · acima da meta', good: false, s: [5, 4, 3, 2, 1, 2], base: ['Meta', '≤ 1 por mês'], win: ['Janela', 'outubro/2026'], crit: ['Owner', 'Operações'], seal: ['n', 'Em operação'] },
+  ];
+  const arrow = (up) => `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">${up ? '<path d="M12 19V5M5 12l7-7 7 7"/>' : '<path d="M12 5v14M19 12l-7 7-7-7"/>'}</svg>`;
+  return items.map((it) => {
+    let extra = '';
+    if (k === 'K1') {
+      const color = it.good ? 'var(--text-2)' : 'var(--bad-text)';
+      extra = `<span class="delta" style="color:${color}">${arrow(!it.prev.startsWith('−'))}${it.prev}</span>`;
+    } else if (k === 'K2') extra = `${spark(it.s)}<span class="meta">últimos 6 meses</span>`;
+    else extra = `<div class="base"><span>${it.base[0]}</span><span class="num">${it.base[1]}</span><span>${it.win[0]}</span><span>${it.win[1]}</span><span>${it.crit[0]}</span><span>${it.crit[1]}</span></div><span class="seal" style="color:${it.seal[0] === 'ok' ? 'var(--ok-text)' : 'var(--text-2)'}">${it.seal[1]}</span>`;
+    return `<div class="kpi"><span class="hl">${it.k}</span><span class="v num">${it.v}</span>${extra}</div>`;
+  }).join('');
+}
+
+function tableLine() { return `<table class="data"><thead><tr><th>CD</th>${MONTHS.map((m) => `<th>${m}</th>`).join('')}</tr></thead><tbody>${SERIES.map((s) => `<tr><td>${s.name}</td>${s.v.map((v) => `<td class="num">${fmt(v)}%</td>`).join('')}</tr>`).join('')}</tbody></table>`; }
+function tableBar() { return `<table class="data"><thead><tr><th>Mês</th><th>R$ mil</th></tr></thead><tbody>${BARS.map((b) => `<tr><td>${b.m}</td><td class="num">${fmt(b.v)}</td></tr>`).join('')}</tbody></table>`; }
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  const pv = document.getElementById('pv');
+  pv.classList.toggle('dark', state.theme === 'dark');
+  const col = colors(), lc = lineChart(), focus = state.pick.palette === 'C4';
+  const tl = state.table.line, tb = state.table.bar;
+  pv.innerHTML = `
+    <div class="kpis">${kpis()}</div>
+    <div class="charts">
+      <div class="chart" id="c-line">
+        <div class="chart-head"><h3>Ruptura de estoque por CD</h3><span class="meta">% de SKUs sem saldo · mai–out/2026</span><button class="tbl" data-tbl="line">${tl ? 'Ver gráfico' : 'Ver tabela'}</button></div>
+        <div class="legend">${SERIES.map((s, i) => `<span><i style="background:${col[i]}"></i>${s.name}${focus && i === 0 ? ' (foco)' : ''}</span>`).join('')}</div>
+        ${tl ? tableLine() : lc.svg}
+        <div class="tip" id="tip-line"></div>
+      </div>
+      <div class="chart" id="c-bar">
+        <div class="chart-head"><h3>Valor reconciliado</h3><span class="meta">R$ mil por mês</span><button class="tbl" data-tbl="bar">${tb ? 'Ver gráfico' : 'Ver tabela'}</button></div>
+        ${tb ? tableBar() : barChart()}
+        <div class="tip" id="tip-bar"></div>
+      </div>
+    </div>
+    <span class="seal" style="color:var(--text-2)">Ilustrativo · dados sintéticos de um primeiro loop</span>`;
+
+  // dica no gráfico de linhas (crosshair)
+  const hit = pv.querySelector('#hit');
+  if (hit) {
+    const svg = hit.ownerSVGElement, tip = pv.querySelector('#tip-line'), xh = svg.querySelector('#xh'), dots = svg.querySelector('#xhdots');
+    hit.addEventListener('mousemove', (e) => {
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      const i = Math.max(0, Math.min(MONTHS.length - 1, Math.round(((p.x - lc.m.l) / lc.iw) * (MONTHS.length - 1))));
+      const X = lc.x(i); xh.setAttribute('x1', X); xh.setAttribute('x2', X); xh.setAttribute('visibility', 'visible');
+      dots.innerHTML = SERIES.map((s, si) => `<circle cx="${X}" cy="${lc.y(s.v[i])}" r="5" fill="${col[si]}" stroke="var(--surface)" stroke-width="2"/>`).join('');
+      tip.innerHTML = `<b>${MONTHS[i]}/2026</b>` + SERIES.map((s, si) => ({ s, si })).sort((a, b) => b.s.v[i] - a.s.v[i]).map(({ s, si }) => `<div><span><i style="background:${col[si]}"></i> ${s.name}</span><span class="num">${fmt(s.v[i])}%</span></div>`).join('');
+      const box = pv.querySelector('#c-line').getBoundingClientRect(); tip.style.display = 'block';
+      tip.style.left = Math.min(e.clientX - box.left + 14, box.width - 200) + 'px'; tip.style.top = (e.clientY - box.top + 14) + 'px';
+    });
+    hit.addEventListener('mouseleave', () => { tip.style.display = 'none'; xh.setAttribute('visibility', 'hidden'); dots.innerHTML = ''; });
+  }
+  pv.querySelectorAll('[data-hitbar]').forEach((r) => {
+    const tip = pv.querySelector('#tip-bar');
+    r.addEventListener('mousemove', (e) => { const b = BARS[+r.dataset.hitbar]; tip.innerHTML = `<b>${b.m}/2026</b><div><span>Reconciliado</span><span class="num">R$ ${fmt(b.v)} mil</span></div>`; const box = pv.querySelector('#c-bar').getBoundingClientRect(); tip.style.display = 'block'; tip.style.left = Math.min(e.clientX - box.left + 14, box.width - 180) + 'px'; tip.style.top = (e.clientY - box.top + 14) + 'px'; });
+    r.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+  });
+  const p = state.pick;
+  summaryEl.textContent = `F09 · Visualização de dados\nPaleta: ${p.palette} · KPI: ${p.kpi} · Barras: ${p.ends}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-tbl]'); if (t) { state.table[t.dataset.tbl] = !state.table[t.dataset.tbl]; render(); return; }
+  const b = e.target.closest('.opt'); if (!b || b.disabled) return; state.pick[b.dataset.q] = b.dataset.id; render();
+});
+document.getElementById('theme').addEventListener('click', () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

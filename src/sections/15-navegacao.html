@@ -1,0 +1,72 @@
+<!-- 15 · Abas, filtros e navegação -->
+<section id="sec-navegacao" class="doc-section" aria-labelledby="sec-navegacao-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F07, F08, F10, F13 e F14</p>
+    <h2 class="doc-title" id="sec-navegacao-title">Abas, filtros, menus e navegação</h2>
+    <p class="doc-lead">
+      Abas sublinhadas trocam vistas do mesmo objeto. Chips mostram o filtro
+      ativo. A navegação lateral escura persiste sem competir com o conteúdo.
+    </p>
+  </header>
+
+  <div class="block">
+    <div class="tabs" role="tablist" aria-label="Vistas do objeto" data-tabs>
+      <button type="button" class="tab" role="tab" id="tab-resumo" aria-controls="panel-resumo" aria-selected="true">Resumo</button>
+      <button type="button" class="tab" role="tab" id="tab-trace" aria-controls="panel-trace" aria-selected="false">Trace <span class="tab-count num">12</span></button>
+      <button type="button" class="tab" role="tab" id="tab-evidencia" aria-controls="panel-evidencia" aria-selected="false">Evidência <span class="tab-count num">3</span></button>
+    </div>
+    <div role="tabpanel" id="panel-resumo" aria-labelledby="tab-resumo" class="meta">Resumo do SKU-88: owner, revisão, fonte e cadeia de estados.</div>
+    <div role="tabpanel" id="panel-trace" aria-labelledby="tab-trace" class="meta" hidden>12 eventos do trace, do contexto capturado à reconciliação.</div>
+    <div role="tabpanel" id="panel-evidencia" aria-labelledby="tab-evidencia" class="meta" hidden>3 evidências anexadas, cada uma com estágio e fonte.</div>
+  </div>
+
+  <div class="specimen">
+    <label class="field" style="min-width:260px"><span class="sr-only">Buscar</span><input class="input" placeholder="Buscar código ou objeto"></label>
+    <button type="button" class="chip" aria-pressed="true">Estado: falhou, divergente <i class="ico" data-icon="falha-fechar"></i></button>
+    <button type="button" class="chip" aria-pressed="false">Risco <i class="ico" data-icon="expandir"></i></button>
+    <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
+    <button type="button" class="btn btn-minimal">Limpar filtros</button>
+  </div>
+  <div class="specimen" style="min-height:330px;align-items:flex-start">
+    <div class="facet-anchor" data-facet>
+      <button type="button" class="chip" aria-pressed="true" aria-expanded="true" aria-controls="facet-risco" data-facet-toggle>Risco: <span data-facet-label>baixo</span> <i class="ico" data-icon="expandir"></i></button>
+      <div class="facet-pop" id="facet-risco" role="group" aria-label="Valores de risco">
+        <span class="facet-title">Risco</span>
+        <button type="button" class="facet-value" style="--share:62%" aria-pressed="true" data-n="42" data-sum="81200"><i class="ico" data-icon="confirmado"></i><span>Baixo</span><span class="facet-n">42</span></button>
+        <button type="button" class="facet-value" style="--share:26%" aria-pressed="false" data-n="18" data-sum="96400"><i class="ico" data-icon="confirmado"></i><span>Médio</span><span class="facet-n">18</span></button>
+        <button type="button" class="facet-value" style="--share:9%" aria-pressed="false" data-n="6" data-sum="58300"><i class="ico" data-icon="confirmado"></i><span>Alto</span><span class="facet-n">6</span></button>
+        <button type="button" class="facet-value" style="--share:3%" aria-pressed="false" data-n="2" data-sum="112400"><i class="ico" data-icon="confirmado"></i><span>Irreversível</span><span class="facet-n">2</span></button>
+        <span class="facet-stats" aria-live="polite" data-facet-stats>n 42 · soma R$ 81,2 mil · média R$ 1,9 mil</span>
+        <div class="facet-actions"><button type="button" class="btn btn-secondary">Filtrar para</button><button type="button" class="btn btn-minimal">Excluir</button></div>
+      </div>
+    </div>
+    <button type="button" class="chip" aria-pressed="false">Owner <i class="ico" data-icon="expandir"></i></button>
+  </div>
+  <p class="meta">Filtro facetado (F13 · F2): o chip abre os valores do campo com contagem e barra proporcional; a estatística da seleção (n, soma, média) atualiza ao marcar; “Filtrar para” mantém só a seleção e “Excluir” a retira.</p>
+
+  <p class="meta">Abas respondem às setas do teclado; só a aba ativa entra na ordem de Tab (padrão WAI-ARIA, aplicado em tempo de execução).</p>
+
+  <div class="specimen" style="align-items:flex-start">
+    <div class="menu" role="menu" aria-label="Ações da proposta PC-20481" data-menu>
+      <div class="menu-head" role="presentation">Proposta</div>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="aprovar"></i>Aprovar…<span class="menu-key">A</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="owner"></i>Atribuir owner<span class="menu-key">O</span></button>
+      <div class="menu-sep" role="separator"></div>
+      <div class="menu-head" role="presentation">Objeto</div>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="inspetor"></i>Abrir no inspetor<span class="menu-key">I</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="copiar"></i>Copiar ID<span class="menu-key">Ctrl C</span></button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="historico"></i>Ver histórico<span class="menu-key">H</span></button>
+      <div class="menu-sep" role="separator"></div>
+      <div class="menu-head" role="presentation">Enviar para</div>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="rede"></i>Rede</button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="mapa"></i>Mapa</button>
+      <button type="button" class="menu-item" role="menuitem"><i class="ico" data-icon="quadro"></i>Quadro</button>
+      <div class="menu-sep" role="separator"></div>
+      <button type="button" class="menu-item is-danger" role="menuitem"><i class="ico" data-icon="reverter"></i>Reverter writeback…</button>
+    </div>
+    <div class="stack-2" style="max-width:52ch">
+      <p class="meta">Menu de ações (F10 · M3), aberto pelo botão <i class="ico" data-icon="mais"></i> “Mais ações” ou pelo clique direito na linha. Seções com título, atalho à direita e setas do teclado.</p>
+      <p class="meta">A ação destrutiva fica sozinha no fim, em texto vermelho, sem fundo. Reticências indicam que o item abre uma confirmação; nada destrutivo executa direto do menu.</p>
+    </div>
+  </div>
+</section>

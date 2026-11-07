@@ -1,0 +1,81 @@
+<!-- 17 · Semântica operacional -->
+<section id="sec-semantica" class="doc-section" aria-labelledby="sec-semantica-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Padrões · F06 · DR-09</p>
+    <h2 class="doc-title" id="sec-semantica-title">Semântica operacional</h2>
+    <p class="doc-lead">
+      Três eixos que nunca se fundem num canal visual só: estado (onde a ação
+      está no loop), risco (o que acontece se der errado) e estágio de
+      evidência (o que um número comprova). Marca ≠ estado ≠ risco;
+      autorização ≠ execução; reconciliação ≠ outcome; demo ≠ prova.
+    </p>
+  </header>
+
+  <h3 class="block-title">Estado</h3>
+  <div class="scroll-x">
+    <table class="token-table">
+      <thead><tr><th>Estado</th><th>Significa</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span></td><td class="wrap">Gerada por função ou agente; nada mudou ainda.</td></tr>
+        <tr><td><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span></td><td class="wrap">Precisa de quem tem autoridade sobre a Action.</td></tr>
+        <tr><td><span class="tag tag-pending"><i class="ico" data-icon="aprovar"></i>Aprovada</span></td><td class="wrap">Autorizada; ainda não executada.</td></tr>
+        <tr><td><span class="tag tag-pending"><i class="ico" data-icon="executar"></i>Writeback enviado</span></td><td class="wrap">Mutação enviada ao sistema de destino.</td></tr>
+        <tr><td><span class="tag tag-pending"><i class="ico" data-icon="reconciliar"></i>Reconciliando</span></td><td class="wrap">Conferindo se o destino aplicou.</td></tr>
+        <tr><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span></td><td class="wrap">O destino confirmou a mutação. Não é outcome.</td></tr>
+        <tr><td><span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span></td><td class="wrap">O destino aplicou diferente do proposto.</td></tr>
+        <tr><td><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span></td><td class="wrap">Sempre com motivo, owner e remediação.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="block">
+      <h3 class="block-title">Cadeia no inspetor</h3>
+      <div class="chain" data-chain-demo>
+        <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Proposta</div><div class="chain-meta">Função de reposição · <span class="num">13:58</span> · agente v4</div></div></div>
+        <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Aprovada</div><div class="chain-meta">Gerente de operações · autoridade registrada · <span class="num">14:05</span></div></div></div>
+        <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Writeback enviado</div><div class="chain-meta">ERP sintético · revisão <span class="num">14</span> · <span class="num">14:06</span></div></div></div>
+        <div class="chain-step is-failed"><span class="chain-dot"><i class="ico" data-icon="falha-fechar"></i></span><div class="stack-2"><div><div class="chain-title">Reconciliação falhou</div><div class="chain-meta">Destino recusou a revisão <span class="num">14</span> · <span class="num">14:07</span></div></div><div class="callout callout-danger"><div>Motivo: revisão desatualizada. Owner: Operações. Remediação: reabrir com a revisão <span class="num">15</span>.</div></div></div></div>
+        <div class="chain-step" data-chain-last><span class="chain-dot"><i class="ico" data-icon="aguardando"></i></span><div><div class="chain-title">Resultado</div><div class="chain-meta">não medido</div></div></div>
+      </div>
+      <button type="button" class="btn btn-secondary" style="justify-self:start" data-chain-next><i class="ico" data-icon="avancar"></i>Simular próxima etapa</button>
+      <p class="meta">A etapa nova entra no lugar onde fica, em 200 ms (F16 · E1).</p>
+    </div>
+    <div class="stack-3">
+      <div class="block">
+        <h3 class="block-title">Risco</h3>
+        <div class="row">
+          <span class="risk risk-none"><i class="ico" data-icon="informacao"></i>Não classificado</span>
+          <span class="risk">Risco baixo</span>
+          <span class="risk risk-medium">Risco médio</span>
+          <span class="risk risk-high"><i class="ico" data-icon="risco"></i>Risco alto</span>
+          <span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span>
+        </div>
+        <p class="meta">Acromático, por forma, texto e ícone: não disputa com as cores de resultado. Sem contrato de risco aparece “Não classificado”, nunca um nível inferido.</p>
+      </div>
+      <div class="block">
+        <h3 class="block-title">Estágio de evidência</h3>
+        <div class="env-banner"><i class="ico" data-icon="alerta"></i>Ambiente sintético · dados ilustrativos, sem cliente real</div>
+        <div class="row">
+          <span class="seal"><i class="ico" data-icon="informacao"></i>Capability</span>
+          <span class="seal seal-mock"><i class="ico" data-icon="alerta"></i>Ilustrativo</span>
+          <span class="seal">Em operação</span>
+          <span class="seal">Adotado</span>
+          <span class="seal seal-outcome"><i class="ico" data-icon="confirmado"></i>Outcome medido</span>
+        </div>
+        <p class="meta">Faixa quando a tela inteira é sintética; selo em cada número quando estágios se misturam. Toda peça diz o que não comprova, no mesmo lugar do claim.</p>
+      </div>
+
+      <div class="block">
+        <h3 class="block-title">Dado pessoal</h3>
+        <div class="row"><b>Cliente 0042</b><span class="mark-personal"><i class="ico" data-icon="autoridade"></i>Dado pessoal</span></div>
+        <dl class="props">
+          <dt>Razão social</dt><dd>Cliente Exemplo Ltda.</dd>
+          <dt>CPF do sócio</dt><dd data-reveal-field><span class="masked" data-masked>•••.•••.•••-••</span> <span hidden data-real>123.456.789-00</span> <button type="button" class="reveal" data-reveal>Revelar</button></dd>
+          <dt>Limite</dt><dd class="num">R$ 50.000,00</dd>
+        </dl>
+        <p class="meta" aria-live="polite" data-reveal-log>Revelar fica registrado no histórico do objeto, com quem e quando (LGPD).</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F13 Componentes e estados que faltam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens, componentes e padrões reais do site v4.3. Só os candidatos são CSS local. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<link rel="stylesheet" href="../../src/styles/patterns.css">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; text-align: right; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .ui p, .ui h4, .ui ul, .ui ol, .ui dl, .ui dd { margin: 0; }
+  .ui ul, .ui ol { padding: 0; list-style: none; }
+  .mini { padding: 16px; flex: 1; display: grid; gap: 10px; align-content: start; position: relative; min-height: 200px; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .cap { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .nw { white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* 1 · seções */
+  .sec { border-top: 1px solid var(--color-border); }
+  .sec-h { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: var(--text-meta); font-weight: var(--weight-strong); }
+  .sec-h .count { margin-left: auto; font-weight: var(--weight-text); color: var(--text-muted); }
+  .sec-b { padding: 0 0 10px 24px; font-size: var(--text-meta); }
+
+  /* 2 · facetas */
+  .facets { display: grid; grid-template-columns: 180px 1fr; gap: 12px; }
+  .facet { display: grid; gap: 4px; font-size: var(--text-meta); }
+  .facet-row { display: grid; grid-template-columns: 16px 1fr auto; gap: 6px; align-items: center; position: relative; padding: 2px 4px; }
+  .facet-row .bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--color-neutral-fill); z-index: 0; }
+  .facet-row > * { position: relative; z-index: 1; }
+  .facet-row.on .bar { background: var(--color-selected); }
+  .facet-stats { font-size: var(--text-label); color: var(--text-muted); }
+  .pop { background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); padding: 10px; width: 240px; display: grid; gap: 8px; }
+  .fake-table { display: grid; gap: 0; border: 1px solid var(--color-border); background: var(--color-surface); }
+  .fake-table div { height: 32px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 10px; font-size: var(--text-meta); gap: 8px; }
+  .fake-table div:last-child { border-bottom: 0; }
+
+  /* 3–4 · frescor e carregamento */
+  .kpi-mini { background: var(--color-surface); border: 1px solid var(--color-border); padding: 14px; display: grid; gap: 6px; position: relative; overflow: hidden; }
+  .kpi-mini .v { font-size: var(--text-kpi); font-weight: var(--weight-number); line-height: 1.1; }
+  .stamp { display: inline-flex; gap: 6px; align-items: center; font-size: var(--text-label); color: var(--text-muted); }
+  .stamp.stale { color: var(--text-warning); font-weight: var(--weight-strong); }
+  .faded { opacity: .45; }
+  .sk { background: var(--color-neutral-fill); height: 12px; }
+  .topbar-progress { position: absolute; left: 0; top: 0; height: 2px; width: 40%; background: var(--color-action); }
+  .spin-center { display: grid; place-items: center; height: 120px; color: var(--text-muted); gap: 8px; }
+
+  /* 5 · sensibilidade */
+  .mark-band { display: flex; gap: 8px; align-items: center; padding: 6px 12px; background: var(--text-primary); color: var(--color-canvas); font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: 0.04em; }
+  .mark-tag { display: inline-flex; gap: 4px; align-items: center; padding: 0 6px; border: 1px solid var(--text-primary); border-radius: var(--radius-tag); font-size: var(--text-label); font-weight: var(--weight-strong); }
+  .masked { letter-spacing: 0.1em; color: var(--text-muted); }
+
+  /* 6 · formulário */
+  .form-grid { display: grid; gap: 10px; }
+  .field { min-width: 0; }
+  .drawer-mock { position: relative; height: 290px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-canvas); }
+  .drawer-mock .back { position: absolute; inset: 0; padding: 12px; display: grid; gap: 8px; align-content: start; }
+  .drawer-mock .scrim { position: absolute; inset: 0; background: var(--scrim); }
+  .drawer-mock .drawer { position: absolute; top: 0; right: 0; bottom: 0; width: 58%; background: var(--color-surface); box-shadow: var(--elevation-3); padding: 14px; display: grid; gap: 10px; align-content: start; }
+  .drawer-mock.push .back { right: 58%; }
+  .drawer-mock.push .drawer { box-shadow: none; border-left: 1px solid var(--color-border); }
+  .line { height: 10px; background: var(--color-neutral-fill); }
+
+  /* 7 · data */
+  .cal { background: var(--color-surface); box-shadow: var(--elevation-1); border-radius: var(--radius-control); padding: 10px; display: grid; grid-template-columns: auto 1fr; gap: 12px; width: 100%; }
+  .cal-quick { display: grid; gap: 2px; font-size: var(--text-meta); border-right: 1px solid var(--color-border); padding-right: 10px; }
+  .cal-quick span { padding: 4px 8px; }
+  .cal-quick .on { background: var(--color-selected); color: var(--color-link); font-weight: var(--weight-strong); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; font-size: var(--text-label); text-align: center; }
+  .cal-grid span { padding: 4px 0; }
+  .cal-grid .h { color: var(--text-muted); font-weight: var(--weight-strong); }
+  .cal-grid .in { background: var(--color-selected); }
+  .cal-grid .edge { background: var(--color-action); color: var(--color-action-fg); font-weight: var(--weight-strong); }
+
+  /* 8 · comentários */
+  .cmt { display: grid; grid-template-columns: 28px 1fr; gap: 8px; font-size: var(--text-meta); }
+  .avatar { width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--color-neutral-active); display: grid; place-items: center; font-size: var(--text-label); font-weight: var(--weight-strong); }
+  .mention { color: var(--color-link); font-weight: var(--weight-strong); }
+
+  /* 9 · anexos */
+  .drop { border: 2px dashed var(--color-control); padding: 16px; text-align: center; font-size: var(--text-meta); color: var(--text-muted); display: grid; gap: 4px; }
+  .file { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; padding: 8px 10px; background: var(--color-surface); border: 1px solid var(--color-border); font-size: var(--text-meta); }
+  .file .progress-track { grid-column: 1 / -1; }
+
+  /* 11 · móvel */
+  .phone { width: 220px; height: 300px; border: 1px solid var(--color-border); background: var(--color-canvas); position: relative; overflow: hidden; margin: 0 auto; font-size: var(--text-meta); }
+  .phone-top { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: var(--color-nav); color: var(--color-nav-fg); font-weight: var(--weight-strong); }
+  .phone-body { padding: 10px; display: grid; gap: 8px; }
+  .phone-card { background: var(--color-surface); border: 1px solid var(--color-border); padding: 8px; display: grid; gap: 4px; }
+  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: 56px; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--color-surface); border-top: 1px solid var(--color-border); }
+  .tabbar span { display: grid; place-items: center; align-content: center; gap: 2px; font-size: var(--text-label); color: var(--text-muted); }
+  .tabbar span.on { color: var(--color-link); font-weight: var(--weight-strong); box-shadow: inset 0 3px 0 var(--color-action); }
+  .toptabs { display: flex; gap: 14px; padding: 0 12px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); }
+  .toptabs span { height: 40px; display: flex; align-items: center; color: var(--text-muted); font-weight: var(--weight-strong); border-bottom: 3px solid transparent; }
+  .toptabs span.on { color: var(--text-primary); border-bottom-color: var(--color-action); }
+
+  .sheets { display: grid; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 24px; display: grid; gap: 24px; border: 1px solid #404854; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+  .sheet h3 { margin: 0 0 10px; font-size: var(--text-label); font-weight: var(--weight-strong); text-transform: uppercase; letter-spacing: var(--tracking-header); color: var(--text-muted); }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F13 · Componentes e estados que faltam</h1>
+  <p class="lead">
+    <strong>Da auditoria</strong> <code>docs/cobertura-palantir.md</code>: peças que
+    Foundry, Gotham e o Workshop usam e que o DS v4.3 ainda não tem. As prévias
+    usam o CSS real do site; só o candidato é novo.
+  </p>
+  <p class="lead">
+    Onze perguntas. Três delas admitem “deixar de fora” (sensibilidade,
+    comentários, anexos), porque dependem de uso real de dados de cliente
+    (DR-07). Duas peças entram sem escolha, na folha: seletor de pessoa e o
+    estado “sem permissão”. Movimento fica para a F15.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Seções recolhíveis no inspetor</h2>
+  <p class="lead">Painel Selection do Gaia e do Vertex: cabeçalho do objeto e seções que abrem e fecham.</p>
+  <div class="opts" data-q="sec"></div>
+
+  <h2>2 · Filtro facetado</h2>
+  <p class="lead">Filter List do Workshop e o filtro por histograma: cada valor com contagem e barra proporcional, “Filtrar para” e “Excluir”.</p>
+  <div class="opts" data-q="facet"></div>
+
+  <h2>3 · Frescor dos dados</h2>
+  <p class="lead">Achado do REA: uma tela pode mostrar dados da consulta anterior enquanto a nova carrega. Quem decide precisa saber de quando é o número.</p>
+  <div class="opts" data-q="fresh"></div>
+
+  <h2>4 · Carregamento</h2>
+  <p class="lead">Primeira carga de um bloco ou recarga depois de filtro.</p>
+  <div class="opts" data-q="load"></div>
+
+  <h2>5 · Sensibilidade do dado</h2>
+  <p class="lead">A faixa de classificação do Gotham, convertida para o caso da Orison: dado pessoal e dado de cliente (LGPD).</p>
+  <div class="opts" data-q="mark"></div>
+
+  <h2>6 · Formulário de action</h2>
+  <p class="lead">Action com parâmetros (Workshop): o operador preenche campos antes de propor ou executar.</p>
+  <div class="opts" data-q="form"></div>
+
+  <h2>7 · Data e período</h2>
+  <p class="lead">Date and Time Picker do Workshop: janela de análise, validade, vencimento.</p>
+  <div class="opts" data-q="date"></div>
+
+  <h2>8 · Comentários</h2>
+  <p class="lead">Comments do Workshop: conversa sobre o objeto, com menção a pessoas.</p>
+  <div class="opts" data-q="comm"></div>
+
+  <h2>9 · Anexos e evidência em arquivo</h2>
+  <p class="lead">Media Uploader e PDF Viewer: nota fiscal, contrato, captura de tela como evidência.</p>
+  <div class="opts" data-q="file"></div>
+
+  <h2>10 · Gaveta</h2>
+  <p class="lead">A norma diz que o inspetor vira gaveta abaixo de 1280 px; o componente ainda não existe.</p>
+  <div class="opts" data-q="drawer"></div>
+
+  <h2>11 · Navegação do operador no celular</h2>
+  <p class="lead">PG-GC-09-03: o operador de PME no celular precisa achar estado, risco e o botão certo sem explicação.</p>
+  <div class="opts" data-q="mob"></div>
+
+  <h2>Folha · escolhas e peças fixas</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui sheet" data-theme="dark" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  chevD: '<path d="m6 9 6 6 6-6"/>', chevR: '<path d="m9 18 6-6-6-6"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+  cal: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  file: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/>',
+  upload: '<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
+  menu: '<path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/>',
+  home: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  msg: '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+  search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>', filter: '<path d="M22 3H2l8 9.46V19l4 2v-8.54Z"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+
+const Q = {
+  sec: [
+    { id: 'S1', name: 'Todas abertas, recolhíveis', src: 'Gaia / Vertex (Selection)', why: 'Seções com chevron e contagem; começam abertas e cada uma recolhe sozinha. O inspetor lembra a escolha.' },
+    { id: 'S2', name: 'Acordeão', src: 'Blueprint Collapse', why: 'Só uma seção aberta por vez. Inspetor curto; esconde o que o operador talvez precisasse comparar.' },
+    { id: 'S3', name: 'Sem recolher', src: 'inspetor atual (F08)', why: 'Tudo aberto, rolagem. Nenhuma peça nova; inspetor longo em objetos ricos.' },
+  ],
+  facet: [
+    { id: 'F1', name: 'Lista lateral de facetas', src: 'Workshop Filter List + histograma', why: 'Coluna à esquerda da tabela com cada campo, valores, contagem e barra; n, soma e média da seleção; “Filtrar para” e “Excluir”.' },
+    { id: 'F2', name: 'Facetas no chip', src: 'chips F08 + popover', why: 'O chip abre um popover com valores, contagem e barra. Mantém a largura da tabela; só um campo por vez.' },
+    { id: 'F3', name: 'Sem facetas', src: 'F08 (chips e busca)', why: 'Fica como está: chips e busca. Mais simples; o operador não vê a distribuição antes de filtrar.' },
+  ],
+  fresh: [
+    { id: 'D1', name: 'Carimbo sempre visível', src: 'design-palantir (estado Desatualizado)', why: 'Todo bloco de dados mostra “Lido às 14:32”; passou do limite, o carimbo vira aviso com “Recarregar”.' },
+    { id: 'D2', name: 'Só quando desatualizado', src: 'proposta', why: 'Nada aparece enquanto o dado é recente; quando passa do limite, um alerta em bloco. Menos ruído; o operador não sabe a idade de um dado “normal”.' },
+    { id: 'D3', name: 'Antigo esmaecido', src: 'REA (useObjectSet preserva dados)', why: 'Ao recarregar, os números anteriores ficam esmaecidos com selo “Atualizando”, até chegar o novo. Honesto na transição; sem carimbo fora dela.' },
+  ],
+  load: [
+    { id: 'C1', name: 'Esqueleto', src: 'Blueprint Skeleton', why: 'Blocos cinza na forma do conteúdo. O layout não pula quando os dados chegam.' },
+    { id: 'C2', name: 'Spinner central', src: 'Blueprint Spinner', why: 'Um spinner no meio do bloco. Simples; o layout pula na chegada.' },
+    { id: 'C3', name: 'Anterior e barra fina', src: 'proposta (com D3)', why: 'Na recarga, o conteúdo anterior fica e uma barra de 2 px corre no topo do bloco; na primeira carga, esqueleto.' },
+  ],
+  mark: [
+    { id: 'M1', name: 'Faixa no topo', src: 'Gotham (banner CBAC)', why: 'Faixa escura no topo da tela quando ela mostra dado de cliente: “Dado de cliente · LGPD · acesso registrado”.' },
+    { id: 'M2', name: 'Marcação por campo', src: 'Gotham (portion markings)', why: 'Etiqueta “Dado pessoal” no campo e no cabeçalho do objeto; o valor aparece mascarado até ser revelado, e a revelação fica no histórico.' },
+    { id: 'M3', name: 'Deixar de fora', src: 'DR-07 (dado real só após contrato)', why: 'Sem marcação até haver dado real de cliente; hoje tudo é sintético e a faixa dourada já diz isso.' },
+  ],
+  form: [
+    { id: 'A1', name: 'Diálogo com campos', src: 'Workshop (Action form)', why: 'O formulário abre no diálogo de confirmação (G2): campos acima, bloco de impacto que se atualiza abaixo, verbo no botão.' },
+    { id: 'A2', name: 'No inspetor', src: 'piloto', why: 'Os campos aparecem no próprio inspetor, com o impacto embaixo. Mantém a fila à vista; inspetor apertado.' },
+    { id: 'A3', name: 'Na gaveta', src: 'Blueprint Drawer', why: 'Gaveta lateral larga com campos e impacto. Cabe formulário longo; cobre a fila.' },
+  ],
+  date: [
+    { id: 'P1', name: 'Calendário com atalhos', src: 'Blueprint DateRangePicker', why: 'Popover com atalhos (Hoje, 7, 30, 90 dias, Este mês) à esquerda e calendário à direita.' },
+    { id: 'P2', name: 'Campos digitáveis', src: 'proposta (operador rápido)', why: 'Dois campos dd/mm/aaaa com máscara e o calendário só se pedido. Rápido no teclado; menos visual.' },
+    { id: 'P3', name: 'Atalhos e “Personalizado”', src: 'segmentado F10', why: 'Segmentado com 7, 30, 90 dias; “Personalizado” abre os campos. O caso comum em um clique.' },
+  ],
+  comm: [
+    { id: 'K1', name: 'Aba no objeto', src: 'Workshop Comments', why: 'Aba “Comentários” na página do objeto, com menção (@) que notifica. Conversa separada do histórico.' },
+    { id: 'K2', name: 'Ancorado à etapa', src: 'proposta (trace)', why: 'O comentário pendura numa etapa da cadeia (ex.: a falha). Contexto exato; mais difícil de ler como conversa.' },
+    { id: 'K3', name: 'Deixar de fora', src: 'PG-GC-09-05', why: 'Sem comentários no produto; a conversa fica no canal da equipe e o histórico registra decisões.' },
+  ],
+  file: [
+    { id: 'U1', name: 'Zona de soltar', src: 'Workshop Media Uploader', why: 'Área tracejada para arrastar ou escolher arquivos; lista com progresso e prévia de PDF.' },
+    { id: 'U2', name: 'Botão e lista', src: 'proposta', why: 'Botão “Anexar evidência” e a lista abaixo. Ocupa menos; sem arrastar.' },
+    { id: 'U3', name: 'Deixar de fora', src: 'DR-07', why: 'Sem anexos até haver dado real; a evidência fica na fonte ligada (linhagem).' },
+  ],
+  drawer: [
+    { id: 'G1', name: 'Gaveta com véu', src: 'Blueprint Drawer', why: 'Desliza da direita sobre o conteúdo, com véu; Esc ou clique no véu fecha. Foco preso na gaveta.' },
+    { id: 'G2', name: 'Sem véu', src: 'Gaia (painel lateral)', why: 'Sobrepõe o conteúdo sem véu; a fila continua clicável atrás. Menos modal; mais fácil perder o foco.' },
+    { id: 'G3', name: 'Empurra o conteúdo', src: 'proposta', why: 'A fila encolhe e a gaveta ocupa o espaço. Nada fica coberto; a fila fica estreita.' },
+  ],
+  mob: [
+    { id: 'N1', name: 'Barra inferior', src: 'Workshop Mobile Navigation Bar', why: 'Quatro destinos fixos embaixo (Fila, Decisões, Alertas, Mais), ao alcance do polegar.' },
+    { id: 'N2', name: 'Menu em gaveta', src: 'site DS atual (≤ 900 px)', why: 'Botão de menu no topo abre a navegação. Uma peça só; destinos escondidos.' },
+    { id: 'N3', name: 'Abas no topo', src: 'Blueprint Tabs', why: 'Abas roláveis abaixo do cabeçalho. Visíveis; longe do polegar.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f13';
+const DEFAULT = { pick: { sec: 'S1', facet: 'F2', fresh: 'D1', load: 'C3', mark: 'M2', form: 'A1', date: 'P3', comm: 'K1', file: 'U2', drawer: 'G1', mob: 'N1' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── prévias ── */
+const sec = (id) => {
+  const s = (t, n, open, body) => `<div class="sec"><div class="sec-h">${id === 'S3' ? '' : I(open ? 'chevD' : 'chevR')}${t}<span class="count">${n}</span></div>${open ? `<div class="sec-b"${id === 'S3' ? ' style="padding-left:0"' : ''}>${body}</div>` : ''}</div>`;
+  const props = '<dl class="props"><dt>Preço</dt><dd>R$ 7.725,00</dd><dt>Revisão</dt><dd>14</dd><dt>Fonte</dt><dd>ERP · v12</dd></dl>';
+  const prop = '<span class="meta">PC-20481 · aguardando aprovação</span>';
+  const hist = '<span class="meta">14:05 aprovada · 13:58 criada</span>';
+  const open = id === 'S2' ? [true, false, false] : id === 'S1' ? [true, true, false] : [true, true, true];
+  return `<div class="panel" style="gap:6px"><div class="row"><b>SKU-88</b><span class="tag tag-pending">${I('clock')}Aguardando</span></div>${s('Propriedades', 6, open[0], props)}${s('Propostas', 1, open[1], prop)}${s('Histórico', 4, open[2], hist)}</div>`;
+};
+
+const facetBlock = (wide = true) => `<div class="facet"><span class="cap">Risco</span>${[['Baixo', 42, 70, true], ['Médio', 18, 30, false], ['Alto', 6, 10, false], ['Irreversível', 2, 4, false]].map(([t, n, w, on]) => `<div class="facet-row${on ? ' on' : ''}"><span class="bar" style="width:${w}%"></span><span>${on ? I('check') : ''}</span><span>${t}</span><span class="meta">${n}</span></div>`).join('')}<span class="facet-stats">n 42 · soma R$ 81,2 mil · média R$ 1,9 mil</span><div class="row"><span class="btn btn-secondary" style="min-height:28px;font-size:13px;padding:0 8px">Filtrar para</span><span class="btn btn-minimal" style="min-height:28px;font-size:13px;padding:0 8px">Excluir</span></div></div>`;
+const facet = (id) => {
+  const table = `<div class="fake-table">${['PC-20481', 'PC-20477', 'PC-20470', 'OS-311'].map((c) => `<div><b>${c}</b><span class="meta" style="margin-left:auto">Baixo</span></div>`).join('')}</div>`;
+  if (id === 'F1') return `<div class="facets"><div style="display:grid;gap:12px">${facetBlock()}<div class="facet"><span class="cap">Owner</span><span class="meta">Operações 31 · Financeiro 17</span></div></div>${table}</div>`;
+  if (id === 'F2') return `<div class="row"><span class="chip" aria-pressed="true">Risco: baixo ${I('chevD')}</span><span class="chip">Owner ${I('chevD')}</span></div><div class="pop">${facetBlock()}</div>`;
+  return `<div class="row"><label class="field" style="min-width:160px"><span class="sr-only">Buscar</span><span class="input" style="display:flex;align-items:center;color:var(--text-muted)">${I('search')}&nbsp;Buscar</span></label><span class="chip" aria-pressed="true">Risco: baixo ${I('x')}</span><span class="chip">Owner ${I('chevD')}</span></div>${table}`;
+};
+
+const kpi = (inner, extra = '') => `<div class="kpi-mini">${extra}<span class="cap">Propostas pendentes</span>${inner}</div>`;
+const fresh = (id) => {
+  if (id === 'D2') return `${kpi('<span class="v">23</span>')}<div class="callout callout-warning">${I('alert')}<div><span class="callout-title">Dados de 47 min atrás</span>A leitura do ERP falhou às 14:20. <b>Recarregar</b></div></div>`;
+  if (id === 'D3') return `${kpi('<span class="v faded">23</span><span class="seal">Atualizando</span>')}<span class="meta">Os números anteriores ficam visíveis, esmaecidos, até o novo chegar.</span>`;
+  return `${kpi('<span class="v">23</span><span class="stamp">' + I('clock') + 'Lido às 14:32</span>')}${kpi('<span class="v">23</span><span class="stamp stale">' + I('alert') + 'Lido há 47 min · <u>Recarregar</u></span>')}`;
+};
+
+const load = (id) => {
+  if (id === 'C1') return kpi('<span class="sk" style="width:60px;height:28px"></span><span class="sk" style="width:120px"></span>') + `<div class="fake-table">${[1, 2, 3].map(() => '<div><span class="sk" style="width:80px"></span><span class="sk" style="width:60px;margin-left:auto"></span></div>').join('')}</div>`;
+  if (id === 'C2') return `<div class="kpi-mini"><div class="spin-center"><span class="spinner"></span><span class="meta">Carregando</span></div></div>`;
+  return kpi('<span class="v">23</span><span class="stamp">' + I('clock') + 'Lido às 14:32</span>', '<span class="topbar-progress"></span>') + '<span class="meta">Recarga: conteúdo anterior e barra no topo. Primeira carga: esqueleto.</span>';
+};
+
+const mark = (id) => {
+  const card = (masked) => `<div class="panel"><div class="row"><b>Cliente 0042</b>${masked ? `<span class="mark-tag">${I('lock')}Dado pessoal</span>` : ''}</div><dl class="props"><dt>Razão social</dt><dd>Cliente Exemplo Ltda.</dd><dt>CPF do sócio</dt><dd>${masked ? '<span class="masked">•••.•••.•••-••</span> <span style="color:var(--color-link);font-weight:600;font-size:13px">Revelar</span>' : '123.456.789-00'}</dd><dt>Limite</dt><dd>R$ 50.000,00</dd></dl></div>`;
+  if (id === 'M1') return `<div class="mark-band">${I('lock')}Dado de cliente · LGPD · acesso registrado</div>${card(false)}`;
+  if (id === 'M2') return card(true) + '<span class="meta">Revelar fica registrado no histórico, com quem e quando.</span>';
+  return `<div class="env-banner">${I('alert')}Ambiente sintético · dados ilustrativos, sem cliente real</div>${card(false)}`;
+};
+
+const formFields = () => `<div class="form-grid"><label class="field"><span class="field-label">Novo preço</span><span class="input" style="display:flex;align-items:center">R$ 7.980,50</span></label><label class="field"><span class="field-label">Justificativa</span><span class="input" style="display:flex;align-items:center;color:var(--text-muted)">Repasse do custo do fornecedor</span></label></div>`;
+const impact = () => `<dl class="props impact"><dt>Muda</dt><dd>R$ 7.725,00 → <b>R$ 7.980,50</b></dd><dt>Risco</dt><dd><span class="risk risk-medium">Médio</span></dd></dl>`;
+const form = (id) => {
+  if (id === 'A2') return `<div class="panel"><span class="cap">Inspetor · SKU-88</span>${formFields()}${impact()}<div class="row"><span class="btn btn-primary">Propor</span><span class="btn btn-minimal">Cancelar</span></div></div>`;
+  if (id === 'A3') return `<div class="drawer-mock"><div class="back"><div class="line" style="width:60%"></div><div class="line"></div><div class="line"></div></div><div class="scrim"></div><div class="drawer"><b>Ajustar preço · SKU-88</b>${formFields()}${impact()}<div class="row"><span class="btn btn-primary">Propor</span></div></div></div>`;
+  return `<div class="scrim-stage" style="padding:16px"><div class="dialog" style="max-width:100%"><span class="dialog-title">Ajustar preço do SKU-88</span>${formFields()}${impact()}<div class="dialog-actions"><span class="btn btn-secondary">Cancelar</span><span class="btn btn-primary">Propor</span></div></div></div>`;
+};
+
+const calGrid = () => `<div class="cal-grid">${['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d) => `<span class="h">${d}</span>`).join('')}${Array.from({ length: 30 }, (_, i) => { const d = i + 1; const c = d === 1 || d === 6 ? 'edge' : d < 6 ? 'in' : ''; return `<span class="${c}">${d}</span>`; }).join('')}</div>`;
+const date = (id) => {
+  if (id === 'P2') return `<div class="row"><label class="field" style="min-width:130px"><span class="field-label">De</span><span class="input" style="display:flex;align-items:center">01/11/2026</span></label><label class="field" style="min-width:130px"><span class="field-label">Até</span><span class="input is-focus" style="display:flex;align-items:center">06/11/20</span></label></div><span class="meta">Calendário com ${I('cal')} só se pedido.</span>`;
+  if (id === 'P3') return `<div class="segmented"><span class="segment">7 dias</span><span class="segment" aria-checked="true">30 dias</span><span class="segment">90 dias</span><span class="segment">Personalizado</span></div><span class="meta">Personalizado abre os campos De e Até.</span>`;
+  return `<span class="chip" aria-pressed="true">${I('cal')} 01/11 a 06/11</span><div class="cal"><div class="cal-quick"><span>Hoje</span><span class="on">7 dias</span><span>30 dias</span><span>90 dias</span><span>Este mês</span></div>${calGrid()}</div>`;
+};
+
+const comm = (id) => {
+  const c = (who, t, txt) => `<div class="cmt"><span class="avatar">${who}</span><div><b>${who === 'GO' ? 'Gerente de operações' : 'Analista'}</b> <span class="meta">${t}</span><p>${txt}</p></div></div>`;
+  const thread = c('GO', '14:09', 'Destino recusou a rev. 14. <span class="mention">@Analista</span>, reabre com a 15?') + c('AN', '14:12', 'Reaberta como PC-20482.');
+  if (id === 'K2') return `<div class="chain"><div class="chain-step is-failed"><span class="chain-dot">${I('x')}</span><div style="display:grid;gap:8px"><div><div class="chain-title">Reconciliação falhou</div><div class="chain-meta">14:07 · destino recusou a revisão 14</div></div><div style="border-left:2px solid var(--color-border);padding-left:10px;display:grid;gap:8px">${thread}</div></div></div></div>`;
+  if (id === 'K3') return `<div class="panel"><span class="cap">Histórico</span><span class="meta">14:12 PC-20482 criada por Analista · 14:07 reconciliação falhou</span></div><span class="meta">Conversa fora do produto; decisões no histórico.</span>`;
+  return `<div class="tabs" style="gap:16px"><span class="tab">Resumo</span><span class="tab" aria-selected="true">Comentários <span class="tab-count">2</span></span><span class="tab">Histórico</span></div>${thread}<label class="field" style="min-width:0"><span class="sr-only">Comentar</span><span class="input" style="display:flex;align-items:center;color:var(--text-muted)">Comentar; use @ para mencionar</span></label>`;
+};
+
+const fileRow = (name, size, prog) => `<div class="file"><span class="row">${I('file')}<b>${name}</b></span><span class="meta">${size}</span>${prog !== undefined ? `<div class="progress-track"><div class="progress-fill" style="--progress:${prog}%"></div></div>` : ''}</div>`;
+const file = (id) => {
+  if (id === 'U1') return `<div class="drop">${I('upload', 'ico ico-20')}<span>Arraste a evidência aqui ou <b style="color:var(--color-link)">escolha um arquivo</b></span><span>PDF, PNG, até 20 MB</span></div>${fileRow('nota-fiscal-8812.pdf', '312 KB')}${fileRow('contrato-ct1193.pdf', '1,2 MB · 60%', 60)}`;
+  if (id === 'U3') return `<div class="panel"><span class="cap">Evidência</span><span class="meta">Fonte: ERP sintético · v12 · tx 8812 (na linhagem)</span></div><span class="meta">Sem anexos; a evidência é a fonte ligada.</span>`;
+  return `<span class="btn btn-secondary" style="justify-self:start">${I('upload')}Anexar evidência</span>${fileRow('nota-fiscal-8812.pdf', '312 KB')}${fileRow('contrato-ct1193.pdf', '1,2 MB')}`;
+};
+
+const drawer = (id) => `<div class="drawer-mock${id === 'G3' ? ' push' : ''}"><div class="back"><span class="cap">Fila</span>${['PC-20481', 'PC-20477', 'PC-20470'].map((c, i) => `<div class="row" style="min-height:30px;border-bottom:1px solid var(--color-border);${i === 0 ? 'background:var(--color-selected)' : ''}"><b style="font-size:13px">${c}</b></div>`).join('')}</div>${id === 'G1' ? '<div class="scrim"></div>' : ''}<div class="drawer"><div class="row"><b>PC-20481</b><span class="btn btn-minimal btn-icon" style="margin-left:auto;min-height:28px;width:28px" aria-label="Fechar">${I('x')}</span></div><span class="tag tag-pending">${I('clock')}Aguardando</span><dl class="props"><dt>Preço</dt><dd>R$ 7.980,50</dd><dt>Risco</dt><dd>Médio</dd></dl><span class="btn btn-primary" style="justify-self:start">Aprovar…</span></div></div>`;
+
+const mob = (id) => {
+  const body = `<div class="phone-body">${['PC-20481', 'OS-311'].map((c, i) => `<div class="phone-card"><b>${c}</b><span class="row"><span class="tag ${i ? 'tag-danger' : 'tag-pending'}">${I(i ? 'x' : 'clock')}${i ? 'Falhou' : 'Aguardando'}</span></span></div>`).join('')}</div>`;
+  if (id === 'N2') return `<div class="phone"><div class="phone-top">${I('menu', 'ico ico-20')}Fila</div>${body}</div>`;
+  if (id === 'N3') return `<div class="phone"><div class="phone-top">Orison</div><div class="toptabs"><span class="on">Fila</span><span>Decisões</span><span>Alertas</span></div>${body}</div>`;
+  return `<div class="phone"><div class="phone-top">Fila</div>${body}<div class="tabbar"><span class="on">${I('clock', 'ico ico-20')}Fila</span><span>${I('badge', 'ico ico-20')}Decisões</span><span>${I('alert', 'ico ico-20')}Alertas</span><span>${I('menu', 'ico ico-20')}Mais</span></div></div>`;
+};
+
+const R = { sec, facet, fresh, load, mark, form, date, comm, file, drawer, mob };
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui mini">${R[q](o.id)}</div>
+    </button>`).join('');
+});
+
+/* Peças fixas: seletor de pessoa e “sem permissão”. */
+const userSelect = () => `<div class="pop" style="width:100%"><label class="field" style="min-width:0"><span class="sr-only">Buscar pessoa</span><span class="input" style="display:flex;align-items:center">${I('search')}&nbsp;Ana</span></label>${[['AN', 'Ana Nunes', 'Operações'], ['AS', 'Ana Souza', 'Financeiro']].map(([a, n, t], i) => `<div class="row" style="min-height:36px;padding:0 6px;${i === 0 ? 'background:var(--color-neutral-fill)' : ''}"><span class="avatar">${a}</span><span>${n}</span><span class="meta" style="margin-left:auto">${t}</span></div>`).join('')}</div>`;
+const noPerm = () => `<div class="empty" style="padding:0"><span class="empty-title">${I('lock')} Sem acesso a este objeto</span><span class="meta">O SKU-88 pertence ao espaço Controladoria. Seu perfil (Operador) não pode ver os valores.</span><div class="row"><span class="btn btn-secondary">Pedir acesso a Controladoria</span></div></div>`;
+
+function sheet() {
+  const p = state.pick;
+  const b = (t, html) => `<div><h3>${t}</h3><div style="display:grid;gap:10px">${html}</div></div>`;
+  return [b('Seções', sec(p.sec)), b('Filtro', facet(p.facet)), b('Frescor', fresh(p.fresh)), b('Carregamento', load(p.load)), b('Sensibilidade', mark(p.mark)), b('Formulário de action', form(p.form)), b('Data e período', date(p.date)), b('Comentários', comm(p.comm)), b('Anexos', file(p.file)), b('Gaveta', drawer(p.drawer)), b('Celular', mob(p.mob)), b('Seletor de pessoa (fixo)', userSelect()), b('Sem permissão (fixo)', noPerm())].join('');
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F13 · Componentes e estados\nSeções: ${p.sec} · Facetas: ${p.facet} · Frescor: ${p.fresh} · Carga: ${p.load} · Sensibilidade: ${p.mark} · Formulário: ${p.form} · Data: ${p.date} · Comentários: ${p.comm} · Anexos: ${p.file} · Gaveta: ${p.drawer} · Celular: ${p.mob}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

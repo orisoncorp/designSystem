@@ -1,0 +1,83 @@
+<!-- 13 · Campos e seleção -->
+<section id="sec-campos" class="doc-section" aria-labelledby="sec-campos-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F07, F10 e F13</p>
+    <h2 class="doc-title" id="sec-campos-title">Campos e seleção</h2>
+    <p class="doc-lead">
+      Rótulo sempre acima, ajuda abaixo, erro com ícone e instrução. O campo
+      nunca depende do placeholder para dizer o que pede.
+    </p>
+  </header>
+
+  <div class="specimen">
+    <label class="field"><span class="field-label">Justificativa</span><input class="input" value="Conforme baseline de outubro"><span class="field-help">Aparece no histórico da decisão.</span></label>
+    <label class="field"><span class="field-label">Revisão esperada</span><input class="input is-focus" value="15" inputmode="numeric"></label>
+    <label class="field"><span class="field-label">Valor aprovado</span><input class="input is-error" value="R$ 7.98O,50" aria-invalid="true" aria-describedby="err-valor"><span class="field-error" id="err-valor"><i class="ico" data-icon="falha-fechar"></i>Use só números e vírgula.</span></label>
+    <label class="field"><span class="field-label">Fonte</span><input class="input" value="ERP sintético" disabled></label>
+    <label class="field"><span class="field-label">Código</span><input class="input" value="SKU-88" readonly></label>
+    <label class="field"><span class="field-label">Risco</span><span class="select-wrap"><select class="input select"><option>Todos</option><option>Irreversível</option><option>Alto</option><option>Médio</option><option>Baixo</option></select><i class="ico" data-icon="expandir"></i></span></label>
+  </div>
+
+  <div class="specimen">
+    <label class="check"><input type="checkbox" checked> Notificar owner</label>
+    <label class="check"><input type="checkbox"> Exigir dupla aprovação</label>
+    <label class="check"><input type="radio" name="rev" checked> Revisão atual</label>
+    <label class="check"><input type="radio" name="rev"> Revisão anterior</label>
+    <span class="check"><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="sw-label" data-switch></button><span id="sw-label">Writeback automático: <b data-switch-state>ligado</b></span></span>
+  </div>
+
+  <div class="specimen">
+    <div class="field" style="min-width:min(340px, 100%)">
+      <label class="field-label" for="owners-input">Owners</label>
+      <div class="multi" data-multi>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Operações</span><button type="button" class="tag-remove" aria-label="Remover Operações"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Financeiro</span><button type="button" class="tag-remove" aria-label="Remover Financeiro"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <span class="tag tag-value tag-removable"><span class="tag-label">Comercial</span><button type="button" class="tag-remove" aria-label="Remover Comercial"><i class="ico" data-icon="falha-fechar"></i></button></span>
+        <input id="owners-input" placeholder="Adicionar">
+      </div>
+      <span class="field-help">Tag de valor é neutra; o X tem área própria (F10 · R2).</span>
+    </div>
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-vista">Vista</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-vista" data-segmented>
+        <button type="button" class="segment" role="radio" aria-checked="true"><i class="ico" data-icon="tabela"></i>Tabela</button>
+        <button type="button" class="segment" role="radio" aria-checked="false"><i class="ico" data-icon="rede"></i>Rede</button>
+        <button type="button" class="segment" role="radio" aria-checked="false"><i class="ico" data-icon="linha-do-tempo"></i>Linha do tempo</button>
+      </div>
+    </div>
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-janela">Janela</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-janela" data-segmented>
+        <button type="button" class="segment" role="radio" aria-checked="false">7 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="true">30 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false">90 dias</button>
+      </div>
+    </div>
+  </div>
+  <div class="specimen">
+    <div class="field" style="min-width:0">
+      <span class="field-label" id="seg-periodo">Período</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="seg-periodo" data-segmented data-period>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="7">7 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="true" data-value="30">30 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="90">90 dias</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="custom"><i class="ico" data-icon="calendario"></i>Personalizado</button>
+      </div>
+    </div>
+    <div class="row-3" data-period-custom hidden>
+      <label class="field" style="min-width:150px"><span class="field-label">De</span><input class="input" inputmode="numeric" placeholder="dd/mm/aaaa" value="01/11/2026" data-date-mask></label>
+      <label class="field" style="min-width:150px"><span class="field-label">Até</span><input class="input" inputmode="numeric" placeholder="dd/mm/aaaa" value="06/11/2026" data-date-mask></label>
+    </div>
+    <div class="field" style="min-width:min(280px, 100%)">
+      <label class="field-label" for="person-search">Owner</label>
+      <input class="input" id="person-search" role="combobox" aria-expanded="true" aria-controls="person-list" aria-autocomplete="list" value="Ana">
+      <div class="menu" id="person-list" role="listbox" aria-label="Pessoas encontradas">
+        <button type="button" class="person-option" role="option" aria-selected="true"><span class="avatar">AN</span>Ana Nunes<span class="meta">Operações</span></button>
+        <button type="button" class="person-option" role="option" aria-selected="false"><span class="avatar">AS</span>Ana Souza<span class="meta">Financeiro</span></button>
+      </div>
+    </div>
+  </div>
+  <p class="meta">Período (F13 · P3): o caso comum em um clique; “Personalizado” abre De e Até, digitáveis com máscara dd/mm/aaaa. Pessoa: busca por nome, com iniciais e área.</p>
+
+  <p class="meta">Controle segmentado (F10 · S1) troca vista ou janela do mesmo conteúdo, de 2 a 4 opções. Não usa a cor de ação; responde às setas do teclado.</p>
+</section>

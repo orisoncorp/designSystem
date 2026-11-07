@@ -1,0 +1,65 @@
+<!-- 24 · Recursos -->
+<section id="sec-recursos" class="doc-section" aria-labelledby="sec-recursos-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Recursos</p>
+    <h2 class="doc-title" id="sec-recursos-title">Tokens, arquivos e mudanças</h2>
+    <p class="doc-lead">Tudo o que outro projeto precisa para usar o sistema, e o que mudou desde a v3.0.</p>
+  </header>
+
+  <div class="grid-3">
+    <div class="block">
+      <h3 class="block-title">Tokens</h3>
+      <p class="meta"><code>src/tokens/tokens.css</code> (verdade executável) e <code>tokens/orison.tokens.json</code> no formato DTCG 2025.10, gerado por <code>npm run tokens:export</code>.</p>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Norma</h3>
+      <p class="meta"><code>DESIGN.md</code>: a única norma escrita, legível por pessoas e por agentes. Decisões e origem em <code>docs/fusao-palantir.md</code>.</p>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Arquivos</h3>
+      <ul class="prose meta">
+        <li><a href="downloads/logos/neutro/lockup-h-black.svg" download>Lockup horizontal (SVG)</a> · <a href="downloads/logos/neutro/lockup-v-black.svg" download>vertical</a> · <a href="downloads/logos/neutro/symbol-black.svg" download>símbolo</a></li>
+        <li><a href="downloads/logos/README.md">Construção e tamanhos do logo</a></li>
+        <li><a href="downloads/icones/LICENSE-lucide.txt">Ícones (49, licença ISC)</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="block-title">v4.6 → v4.7</h3>
+  <p class="meta">Rodada F16: movimento de interação. Diálogo, gaveta e busca rápida entram com véu e escala; aviso sobe e sai esmaecendo; vista pareada leva até o objeto e pulsa; números e barras passam do valor antigo ao novo; barra de recarga corre; cursor do assistente pisca; rede troca layout e zoom de forma contínua; histórico ganha “Reproduzir”; etapa nova da cadeia entra no lugar. Menu, dica e popover ficam sem movimento.</p>
+
+  <h3 class="block-title">v4.5 → v4.6</h3>
+  <p class="meta">Rodada F15: seção Telas de sistema (entrada com painel dividido e duas etapas, pessoas com inspetor, matriz de permissões com teto de risco, convite com impacto, configurações com barra de alterações, integrações e registro de acesso).</p>
+
+  <h3 class="block-title">v4.4 → v4.5</h3>
+  <p class="meta">Rodada F14: seção Interfaces de aplicação (shell com trilho, tabela, quadro e mapa do mesmo conjunto, vistas pareadas, inbox, busca rápida com Ctrl K, ícone de objeto), “Enviar para” no menu de ações, barra de ferramentas e expandir vizinhos na rede, assistente com resposta em andamento; 14 ícones novos (49).</p>
+
+  <h3 class="block-title">v4.3 → v4.4</h3>
+  <p class="meta">Rodada F13: seções recolhíveis no inspetor, filtro facetado no chip, frescor e carregamento dos dados, dado pessoal com revelação registrada, formulário de action no diálogo, período, seletor de pessoa, comentários, anexos, gaveta, barra inferior no celular e o estado “sem permissão”; três ícones novos (35). Correção: o texto dos gráficos fica em 13 px em qualquer largura.</p>
+
+  <h3 class="block-title">v4.2 → v4.3</h3>
+  <p class="meta">Rodada F12: seção Peças de marca (hero, banner, apresentação, capa de proposta, assinatura, LinkedIn e cartão) e o filete crimson de 3 px como única forma do crimson nas peças. O tema claro passa a responder também a <code>data-theme="light"</code>.</p>
+
+  <h3 class="block-title">v4.1 → v4.2</h3>
+  <p class="meta">Rodada F11: página do objeto com abas, comparação da proposta, trace, linhagem em grafo, rede (lista, grafo simples e aprofundado), histórico com janela e assistente fixo à direita; quatro ícones novos (32 no total) e o token <code>--layout-assistant-width</code>.</p>
+
+  <h3 class="block-title">v4.0 → v4.1</h3>
+  <p class="meta">Rodada F10: dica, tag removível, controle segmentado, menu de ações, confirmação com impacto, desfazer no aviso, progresso e seleção em massa; seis ícones novos (28 no total). Correção: o preenchimento de risco agora acompanha o tema escuro dentro de página clara.</p>
+
+  <h3 class="block-title">v3.0 → v4.0</h3>
+  <div class="scroll-x">
+    <table class="token-table">
+      <thead><tr><th>Área</th><th>v3.0</th><th>v4.0</th></tr></thead>
+      <tbody>
+        <tr><td>Logo</td><td class="wrap">Anéis finos com linha crimson; nome em serif</td><td class="wrap">D2 “Lâmina” em uma cor; nome Hanken 600 em contorno</td></tr>
+        <tr><td>Neutros</td><td class="wrap">Preto e off-white quentes, só tema escuro</td><td class="wrap">Neutra fria, tema claro (produto) e escuro (marca) dos mesmos tokens</td></tr>
+        <tr><td>Ação</td><td class="wrap">Crimson como CTA e como negativo</td><td class="wrap">Azul só para ação; crimson só identidade</td></tr>
+        <tr><td>Tipografia</td><td class="wrap">Serif editorial em peso leve e Montserrat leve e regular</td><td class="wrap">Montserrat 400/500/600, escala legível; Hanken 500 só em marca</td></tr>
+        <tr><td>Forma</td><td class="wrap">Zero raio; calha de 2 px entre blocos</td><td class="wrap">Raio 4 em controle, 3 em tag; bloco com borda e 12 px</td></tr>
+        <tr><td>Semântica</td><td class="wrap">Positivo, alerta, negativo</td><td class="wrap">Estado, risco e evidência em eixos separados</td></tr>
+        <tr><td>Dados</td><td class="wrap">Crimson como série principal</td><td class="wrap">Índigo, turquesa, rosa e ouro validados</td></tr>
+        <tr><td>Fora de escopo</td><td class="wrap">Motion System, command center, voz e narrativa</td><td class="wrap">Removidos; ficam na tag <code>ds-v3.0</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

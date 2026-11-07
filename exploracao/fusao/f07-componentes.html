@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F07 Componentes básicos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 90ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .mini { padding: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; position: relative; min-height: 64px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── tokens aprovados F01–F06 ── */
+  .th-light { --canvas: #f6f7f9; --surface: #fff; --raised: #fff; --border: #d3d8de; --control: #738091; --text: #1c2127; --muted: #5f6b7c;
+    --action: #2d72d2; --action-hover: #215db0; --action-active: #184a90; --focus: #215db0; --sel: #e8f0fc; --neutral-fill: #edeff2; --neutral-hover: #e5e8eb; --neutral-active: #d3d8de;
+    --ok: #238551; --ok-text: #1c6e42; --ok-tint: #e0eee7; --warn: #c87619; --warn-text: #935610; --warn-tint: #f7ecdf;
+    --bad: #cd4246; --bad-hover: #ac2f33; --bad-text: #ac2f33; --bad-tint: #f8e5e5; --info-tint: #e8f0fc; --info-text: #215db0;
+    --disabled-bg: #edeff2; --disabled-text: #738091;
+    --sh1: 0 0 0 1px rgba(17,20,24,.1), 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+    --sh3: 0 0 0 1px rgba(17,20,24,.1), 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 15px -3px rgba(0,0,0,.1); }
+  .th-dark { --canvas: #1c2127; --surface: #252a31; --raised: #2f343c; --border: #404854; --control: #738091; --text: #f6f7f9; --muted: #abb3bf;
+    --action: #2d72d2; --action-hover: #215db0; --action-active: #184a90; --focus: #8abbff; --sel: #1f3a5f; --neutral-fill: #2f343c; --neutral-hover: #383e47; --neutral-active: #404854;
+    --ok: #238551; --ok-text: #72ca9b; --ok-tint: #253735; --warn: #c87619; --warn-text: #fbb360; --warn-tint: #3c352e;
+    --bad: #cd4246; --bad-hover: #ac2f33; --bad-text: #fa999c; --bad-tint: #3d2d34; --info-tint: #1f3a5f; --info-text: #8abbff;
+    --disabled-bg: #2f343c; --disabled-text: #8f99a8;
+    --sh1: inset 0 0 0 1px rgba(255,255,255,.2), 0 1px 1px 0 rgba(0,0,0,.4), 0 1px 3px 0 rgba(0,0,0,.4);
+    --sh3: inset 0 0 0 1px rgba(255,255,255,.2), 0 4px 8px rgba(0,0,0,.4), 0 18px 46px 6px rgba(0,0,0,.4); }
+  .ui { font-family: 'Montserrat', sans-serif; font-size: 16px; line-height: 1.4; background: var(--canvas); color: var(--text); }
+  .ico { width: 16px; height: 16px; flex: none; }
+  .ico20 { width: 20px; height: 20px; flex: none; }
+  .fl { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .help { font-size: 14px; color: var(--muted); }
+
+  /* botões */
+  .btn { font: 600 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border-radius: 4px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; }
+  .btn-p { background: var(--action); color: #fff; } .btn-p.h { background: var(--action-hover); } .btn-p.a { background: var(--action-active); }
+  .btn-d { background: var(--bad); color: #fff; } .btn-d.h { background: var(--bad-hover); }
+  .sec-outline { background: var(--raised); color: var(--text); border-color: var(--control); } .sec-outline.h { background: var(--neutral-fill); } .sec-outline.a { background: var(--neutral-hover); }
+  .sec-filled { background: var(--neutral-fill); color: var(--text); box-shadow: inset 0 0 0 1px var(--border); } .sec-filled.h { background: var(--neutral-hover); } .sec-filled.a { background: var(--neutral-active); }
+  .btn-min { background: transparent; color: var(--text); } .btn-min.h { background: var(--neutral-fill); } .btn-min.a { background: var(--neutral-hover); }
+  .btn.f { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .btn.dis { background: var(--disabled-bg) !important; color: var(--disabled-text) !important; border-color: transparent !important; box-shadow: none !important; cursor: not-allowed; }
+  .spin { width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 9999px; }
+
+  /* campos */
+  .field { display: grid; gap: 4px; min-width: 220px; }
+  .input { font: 400 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border: 1px solid var(--control); border-radius: 4px; background: var(--raised); color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .input.f { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .input.err { border-color: var(--bad); box-shadow: inset 0 0 0 1px var(--bad); }
+  .input.dis { background: var(--disabled-bg); color: var(--disabled-text); border-color: var(--border); }
+  .input.ro { background: var(--canvas); border-style: dashed; }
+  .err-msg { font-size: 14px; color: var(--bad-text); display: flex; gap: 6px; align-items: center; }
+  .check { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; }
+  .box { width: 18px; height: 18px; border: 1px solid var(--control); border-radius: 3px; background: var(--raised); display: grid; place-items: center; color: #fff; }
+  .box.on { background: var(--action); border-color: var(--action); }
+  .radio { width: 18px; height: 18px; border: 1px solid var(--control); border-radius: 9999px; background: var(--raised); display: grid; place-items: center; }
+  .radio.on { border-color: var(--action); } .radio.on::after { content: ''; width: 8px; height: 8px; border-radius: 9999px; background: var(--action); }
+  .sw { width: 32px; height: 18px; border-radius: 9999px; background: var(--neutral-active); position: relative; }
+  .sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 9999px; background: #fff; }
+  .sw.on { background: var(--action); } .sw.on::after { left: 16px; }
+
+  /* tag */
+  .tag { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px solid currentColor; border-radius: 3px; }
+  .t-n { color: var(--muted); background: var(--neutral-fill); } .t-ok { color: var(--ok-text); background: var(--ok-tint); } .t-warn { color: var(--warn-text); background: var(--warn-tint); } .t-bad { color: var(--bad-text); background: var(--bad-tint); }
+
+  /* callouts */
+  .co { display: flex; gap: 10px; padding: 12px; font-size: 14px; width: 100%; align-items: flex-start; }
+  .co b { display: block; font-size: 16px; margin-bottom: 2px; }
+  .co-C1 { border-left: 3px solid var(--k); background: var(--kt); }
+  .co-C2 { border: 1px solid var(--k); background: var(--kt); border-radius: 4px; }
+  .co-C3 { padding-left: 0; }
+  .co .ico20, .co b { color: var(--kx); }
+
+  /* abas */
+  .tabs { display: flex; gap: 0; width: 100%; }
+  .tabs-A1 { border-bottom: 1px solid var(--border); gap: 20px; }
+  .tabs-A1 .tab { padding: 0 2px; height: 40px; display: flex; align-items: center; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+  .tabs-A1 .tab.on { color: var(--text); border-bottom-color: var(--action); }
+  .tabs-A2 { width: auto; border: 1px solid var(--control); border-radius: 4px; overflow: hidden; }
+  .tabs-A2 .tab { padding: 0 14px; height: 36px; display: flex; align-items: center; font-weight: 600; color: var(--text); background: var(--raised); border-left: 1px solid var(--control); }
+  .tabs-A2 .tab:first-child { border-left: 0; } .tabs-A2 .tab.on { background: var(--action); color: #fff; }
+  .tabs-A3 { border-bottom: 1px solid var(--border); }
+  .tabs-A3 .tab { padding: 0 14px; height: 40px; display: flex; align-items: center; font-weight: 600; color: var(--muted); border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; border-radius: 4px 4px 0 0; }
+  .tabs-A3 .tab.on { color: var(--text); background: var(--surface); border-color: var(--border); }
+  .tab .count { font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; margin-left: 6px; color: var(--muted); }
+
+  /* toast */
+  .stage { position: relative; height: 180px; width: 100%; background: var(--canvas); border: 1px dashed var(--border); overflow: hidden; }
+  .toast { position: absolute; width: 300px; background: var(--surface); box-shadow: var(--sh3); border-radius: 4px; padding: 10px 12px; font-size: 14px; display: flex; gap: 8px; align-items: flex-start; }
+  .toast .x { margin-left: auto; color: var(--muted); }
+  .pos-T1 .toast:nth-child(1) { right: 12px; bottom: 64px; } .pos-T1 .toast:nth-child(2) { right: 12px; bottom: 12px; }
+  .pos-T2 .toast:nth-child(1) { left: 50%; transform: translateX(-50%); top: 12px; } .pos-T2 .toast:nth-child(2) { left: 50%; transform: translateX(-50%); top: 64px; }
+  .inline-fb { font-size: 14px; display: flex; gap: 8px; align-items: center; padding: 8px 12px; border: 1px solid var(--border); background: var(--surface); }
+
+  /* folha */
+  .sheets { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 20px; display: grid; gap: 18px; border: 1px solid #404854; }
+  .sheet h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .grid-states { display: grid; grid-template-columns: 110px repeat(5, auto); gap: 8px 10px; align-items: center; justify-content: start; font-size: 13px; }
+  .grid-states .rl { color: var(--muted); font-weight: 600; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F07 · Componentes básicos</h1>
+  <p class="lead">
+    <strong>Já decidido (F01–F06):</strong> azul de ação, neutra fria, status
+    só em resultado, Montserrat 16/600, controles de 36 px, raio 4 (tag 3),
+    sombra só no que flutua, foco de 2 px, ícones Lucide retos, estado neutro
+    em andamento, risco acromático, selo de evidência.
+  </p>
+  <p class="lead">
+    Quatro perguntas sobre o que ainda é escolha. No fim, a folha completa
+    de componentes com todos os estados (normal, hover, pressionado, foco,
+    desabilitado, carregando), nos dois temas, para aprovar como conjunto.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Botão secundário</h2>
+  <p class="lead">O primário é azul e o de perigo é vermelho. A dúvida é o botão de apoio, o mais usado na tela.</p>
+  <div class="opts" data-q="sec"></div>
+
+  <h2>2 · Alerta em bloco (callout)</h2>
+  <p class="lead">Mensagem persistente dentro da página: falha, divergência, aviso de ambiente, informação.</p>
+  <div class="opts" data-q="callout"></div>
+
+  <h2>3 · Abas</h2>
+  <p class="lead">Troca entre vistas do mesmo objeto (Resumo, Trace, Evidência, Histórico).</p>
+  <div class="opts" data-q="tabs"></div>
+
+  <h2>4 · Aviso efêmero (toast)</h2>
+  <p class="lead">Confirmação de ação concluída. Pela DR-09, falha nunca some sozinha e o aviso não substitui o estado no objeto.</p>
+  <div class="opts" data-q="toast"></div>
+
+  <h2>Folha de componentes</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui th-light sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui th-dark sheet" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: aprovo a folha, mas o switch deve ter rótulo de estado)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+  file: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>',
+  search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>', chev: '<path d="m6 9 6 6 6-6"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+
+const Q = {
+  sec: [
+    { id: 'B1', name: 'Contorno', src: 'piloto', why: 'Fundo da superfície com borda de controle. Separação clara do primário; o mais usado no piloto.' },
+    { id: 'B2', name: 'Preenchido neutro', src: 'Blueprint (default)', why: 'Fundo cinza claro com contorno sutil, como o botão padrão do Blueprint. Mais macio; em tabela cinza perde um pouco de destaque.' },
+    { id: 'B3', name: 'Contorno + mínimo', src: 'Blueprint (minimal) + piloto', why: 'Contorno para a ação de apoio e uma terceira variante sem fundo (só texto e ícone) para ações de baixa ênfase em barras e tabelas.' },
+  ],
+  callout: [
+    { id: 'C1', name: 'Barra lateral', src: 'prévias F01', why: 'Barra de 3 px na cor do tipo e fundo tingido. Sóbrio e fácil de escanear numa coluna de blocos.' },
+    { id: 'C2', name: 'Bloco com borda', src: 'Blueprint Callout', why: 'Borda completa na cor do tipo, fundo tingido e raio 4. Mais presença; parece “caixa de aviso”.' },
+    { id: 'C3', name: 'Só ícone e texto', src: 'proposta (mínimo)', why: 'Sem fundo nem borda: o ícone e o título coloridos fazem o trabalho. Mínimo ruído; some no meio de muito conteúdo.' },
+  ],
+  tabs: [
+    { id: 'A1', name: 'Sublinhado', src: 'Blueprint Tabs', why: 'Texto com barra de 3 px em azul sob a aba ativa. O padrão de ferramenta; leve e escaneável.' },
+    { id: 'A2', name: 'Segmentado', src: 'Blueprint SegmentedControl', why: 'Botões agrupados; o ativo em azul. Bom para 2 a 4 vistas; usa a cor de ação para algo que não é ação.' },
+    { id: 'A3', name: 'Cartela', src: 'proposta', why: 'A aba ativa vira uma cartela ligada ao conteúdo abaixo. Relação aba–painel explícita; visual mais pesado.' },
+  ],
+  toast: [
+    { id: 'T1', name: 'Canto inferior direito', src: 'Blueprint Toaster', why: 'Empilha no canto inferior direito; sucesso some em 5 s (pausa com hover ou foco); falha fica até ser fechada.' },
+    { id: 'T2', name: 'Topo central', src: 'proposta', why: 'Mesmas regras, no topo central. Mais visível; pode cobrir cabeçalho e barra de ferramentas.' },
+    { id: 'T3', name: 'Sem toast', src: 'DR-09 (estado no objeto)', why: 'Nenhum aviso flutuante: o resultado aparece no próprio objeto e numa região de status anunciada a leitores de tela. Mais sóbrio; o feedback pode passar despercebido fora da vista.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f07';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"sec":"B3","callout":"C1","tabs":"A1","toast":"T1"},"notes":""}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+const secCls = (id) => (id === 'B2' ? 'sec-filled' : 'sec-outline');
+
+const callout = (id, kind) => {
+  const k = { bad: ['var(--bad)', 'var(--bad-tint)', 'var(--bad-text)', 'x', 'Writeback recusado pelo destino.', 'Owner: Operações. Remediação: reabrir com a revisão 15.'],
+    warn: ['var(--warn)', 'var(--warn-tint)', 'var(--warn-text)', 'alert', 'Divergência de 3,2% na reconciliação.', 'O destino aplicou R$ 7.725,00 em vez de R$ 7.980,50.'],
+    info: ['var(--action)', 'var(--info-tint)', 'var(--info-text)', 'info', 'Proposta gerada pelo agente v4.', 'Contexto capturado às 13:58; revisão esperada 14.'] }[kind];
+  return `<div class="co co-${id}" style="--k:${k[0]};--kt:${k[1]};--kx:${k[2]}">${I(k[3], 'ico20')}<div><b>${k[4]}</b>${k[5]}</div></div>`;
+};
+const tabs = (id) => `<div class="tabs tabs-${id}"><span class="tab on">Resumo</span><span class="tab">Trace<span class="count">12</span></span><span class="tab">Evidência<span class="count">3</span></span><span class="tab">Histórico</span></div>`;
+const toastStage = (id) => id === 'T3'
+  ? `<div class="stage" style="display:grid;place-items:center;padding:16px"><div class="inline-fb" role="status">${I('check')}<span>PC-20481 aprovada · aguardando writeback</span><span class="tag t-n">${I('clock')}Aprovada</span></div></div>`
+  : `<div class="stage pos-${id}"><div class="toast"><span style="color:var(--ok-text)">${I('check')}</span>Proposta PC-20481 aprovada.<span class="x">${I('x')}</span></div><div class="toast" style="border-left:3px solid var(--bad)"><span style="color:var(--bad-text)">${I('x')}</span><span><b>Writeback do SKU-88 falhou.</b> Fica até fechar.</span><span class="x">${I('x')}</span></div></div>`;
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui th-light mini">${
+        q === 'sec' ? `<span class="btn btn-p">Aprovar</span><span class="btn ${secCls(o.id)}">${I('file', 'ico20')}Evidência</span>${o.id === 'B3' ? `<span class="btn btn-min">${I('undo', 'ico20')}Reverter</span>` : `<span class="btn ${secCls(o.id)}">${I('undo', 'ico20')}Reverter</span>`}`
+        : q === 'callout' ? callout(o.id, 'bad')
+        : q === 'tabs' ? tabs(o.id)
+        : toastStage(o.id)}</div>
+    </button>`).join('');
+});
+
+function sheet() {
+  const sc = secCls(state.pick.sec), hasMin = state.pick.sec === 'B3';
+  const stateRow = (label, base, content) => `<span class="rl">${label}</span>` +
+    ['', 'h', 'a', 'f', 'dis'].map((m) => `<span class="btn ${base} ${m}">${content}</span>`).join('');
+  return `
+    <div><h3>Botões · normal · hover · pressionado · foco · desabilitado</h3>
+      <div class="grid-states">
+        ${stateRow('Primário', 'btn-p', `${I('badge', 'ico20')}Aprovar`)}
+        ${stateRow('Secundário', sc, `${I('file', 'ico20')}Evidência`)}
+        ${hasMin ? stateRow('Mínimo', 'btn-min', `${I('undo', 'ico20')}Reverter`) : ''}
+        ${stateRow('Perigo', 'btn-d', 'Reverter')}
+      </div>
+      <div class="row" style="margin-top:10px"><span class="btn btn-p"><span class="spin"></span>Aprovando…</span><span class="btn ${sc}" style="width:36px;justify-content:center;padding:0" aria-label="Buscar">${I('search', 'ico20')}</span></div>
+    </div>
+    <div><h3>Campos · normal · foco · erro · desabilitado · somente leitura</h3>
+      <div class="row">
+        <label class="field"><span class="fl">Justificativa</span><span class="input">Conforme baseline</span><span class="help">Aparece no histórico da decisão.</span></label>
+        <label class="field"><span class="fl">Revisão esperada</span><span class="input f">15</span></label>
+        <label class="field"><span class="fl">Valor aprovado</span><span class="input err">R$ 7.98O,50</span><span class="err-msg">${I('x')}Use só números e vírgula.</span></label>
+        <label class="field"><span class="fl">Fonte</span><span class="input dis">ERP sintético</span></label>
+        <label class="field"><span class="fl">Código</span><span class="input ro">SKU-88</span></label>
+        <label class="field"><span class="fl">Risco</span><span class="input">Todos<span style="margin-left:auto">${I('chev')}</span></span></label>
+      </div>
+    </div>
+    <div><h3>Seleção</h3>
+      <div class="row" style="gap:20px">
+        <span class="check"><span class="box on">${I('check')}</span>Notificar owner</span>
+        <span class="check"><span class="box"></span>Exigir dupla aprovação</span>
+        <span class="check"><span class="radio on"></span>Revisão atual</span>
+        <span class="check"><span class="radio"></span>Revisão anterior</span>
+        <span class="check"><span class="sw on"></span>Writeback automático: ligado</span>
+      </div>
+    </div>
+    <div><h3>Tags de estado</h3>
+      <div class="row"><span class="tag t-n">${I('file')}Proposta</span><span class="tag t-n">${I('clock')}Aguardando aprovação</span><span class="tag t-ok">${I('check')}Reconciliada</span><span class="tag t-warn">${I('alert')}Divergente</span><span class="tag t-bad">${I('x')}Falhou</span></div>
+    </div>
+    <div><h3>Alertas em bloco</h3><div style="display:grid;gap:8px">${callout(state.pick.callout, 'bad')}${callout(state.pick.callout, 'warn')}${callout(state.pick.callout, 'info')}</div></div>
+    <div><h3>Abas</h3>${tabs(state.pick.tabs)}</div>
+    <div><h3>Aviso efêmero</h3>${toastStage(state.pick.toast)}</div>`;
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F07 · Componentes básicos\nSecundário: ${p.sec} · Alerta: ${p.callout} · Abas: ${p.tabs} · Toast: ${p.toast}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

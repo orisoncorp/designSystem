@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F04 Forma e profundidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 88ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .spec { font: 12px/1.6 ui-monospace, monospace; background: #141416; padding: 8px 10px; white-space: pre-line; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── prévia: tokens F01 + F02 + F03 ── */
+  .pvs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .th-light { --canvas: #f6f7f9; --surface: #fff; --raised: #fff; --border: #d3d8de; --control: #738091; --text: #1c2127; --muted: #5f6b7c;
+    --action: #2d72d2; --focus: #215db0; --sel: #e8f0fc; --zebra: #f6f7f9; --danger: #cd4246; --danger-text: #ac2f33; --danger-tint: #f8e5e5;
+    --ok-text: #1c6e42; --ok-tint: #e0eee7; --warn-text: #935610; --warn-tint: #f7ecdf; --scrim: rgba(17,20,24,.45);
+    --sh1: 0 0 0 1px rgba(17,20,24,.1), 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+    --sh3: 0 0 0 1px rgba(17,20,24,.1), 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 15px -3px rgba(0,0,0,.1);
+    --tone1: #ffffff; --tone3: #ffffff; }
+  .th-dark { --canvas: #1c2127; --surface: #252a31; --raised: #2f343c; --border: #404854; --control: #738091; --text: #f6f7f9; --muted: #abb3bf;
+    --action: #2d72d2; --focus: #8abbff; --sel: #1f3a5f; --zebra: #2a2f37; --danger: #cd4246; --danger-text: #fa999c; --danger-tint: #3d2d34;
+    --ok-text: #72ca9b; --ok-tint: #253735; --warn-text: #fbb360; --warn-tint: #3c352e; --scrim: rgba(0,0,0,.6);
+    --sh1: inset 0 0 0 1px rgba(255,255,255,.2), 0 1px 1px 0 rgba(0,0,0,.4), 0 1px 3px 0 rgba(0,0,0,.4);
+    --sh3: inset 0 0 0 1px rgba(255,255,255,.2), 0 4px 8px rgba(0,0,0,.4), 0 18px 46px 6px rgba(0,0,0,.4);
+    --tone1: #2f343c; --tone3: #383e47; }
+  .pv { font-family: 'Montserrat', sans-serif; font-size: 16px; line-height: 1.4; background: var(--canvas); color: var(--text); border: 1px solid #404854; padding: 24px; display: grid; gap: 16px; position: relative; }
+  .num { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; font-weight: 500; }
+  .hlabel { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .flabel { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { font: 600 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border: 1px solid transparent; border-radius: var(--r-ctrl); display: inline-flex; align-items: center; gap: 6px; }
+  .btn-p { background: var(--action); color: #fff; }
+  .btn-s { background: var(--raised); color: var(--text); border-color: var(--control); }
+  .btn-d { background: var(--danger); color: #fff; }
+  .focus { outline: var(--f-width) solid var(--focus); outline-offset: var(--f-offset); box-shadow: var(--f-halo); }
+  .input { font: 400 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border: 1px solid var(--control); border-radius: var(--r-ctrl); background: var(--raised); color: var(--text); }
+  .select { position: relative; }
+  .select .input { display: inline-flex; align-items: center; justify-content: space-between; width: 220px; }
+  .tag { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px solid currentColor; border-radius: var(--r-tag); }
+  .ok { color: var(--ok-text); background: var(--ok-tint); } .warn { color: var(--warn-text); background: var(--warn-tint); } .bad { color: var(--danger-text); background: var(--danger-tint); }
+  .block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-surface); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 0 12px; height: 36px; text-align: left; white-space: nowrap; }
+  th { border-bottom: 1px solid var(--border); }
+  .div-h td { border-bottom: 1px solid var(--border); }
+  .div-h tr:last-child td { border-bottom: 0; }
+  .div-z tr:nth-child(even) td { background: var(--zebra); }
+  .div-g td, .div-g th { border: 1px solid var(--border); }
+  tr.sel td { background: var(--sel) !important; }
+  tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--action); }
+  .r { text-align: right; }
+  .menu { position: absolute; top: 42px; left: 0; width: 220px; background: var(--layer-bg-1); border: var(--layer-border); box-shadow: var(--layer-shadow-1); border-radius: var(--r-surface); padding: 4px 0; z-index: 2; font-size: 14px; }
+  .menu div { padding: 0 12px; height: 36px; display: flex; align-items: center; }
+  .menu .on { background: var(--sel); }
+  .stage { position: relative; height: 340px; background: var(--canvas); border: 1px dashed var(--border); overflow: hidden; }
+  .stage .scrim { position: absolute; inset: 0; background: var(--scrim); }
+  .dialog { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 360px; background: var(--layer-bg-3); border: var(--layer-border); box-shadow: var(--layer-shadow-3); border-radius: var(--r-surface); padding: 16px; display: grid; gap: 12px; }
+  .dialog h4 { margin: 0; font-size: 18px; font-weight: 600; }
+  .dialog p { margin: 0; font-size: 14px; color: var(--muted); }
+  .toast { position: absolute; right: 12px; top: 12px; width: 280px; background: var(--layer-bg-3); border: var(--layer-border); box-shadow: var(--layer-shadow-3); border-radius: var(--r-surface); padding: 10px 12px; font-size: 14px; display: flex; gap: 8px; align-items: center; z-index: 1; }
+
+  .facts { margin-top: 16px; }
+  .facts table { background: var(--card); color: var(--ink); font: 13px system-ui; border: 1px solid var(--line); }
+  .facts th, .facts td { border-bottom: 1px solid var(--line); height: 34px; padding: 0 10px; white-space: normal; }
+  .facts th { color: var(--muted); }
+  .warnc { color: #fbb360; } .passc { color: #7ddfa7; } .failc { color: #f28b82; font-weight: 600; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  @media (max-width: 1200px) { .pvs { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F04 · Forma e profundidade</h1>
+  <p class="lead">
+    <strong>Já decidido:</strong> F01 (N2 · A1 · S1), F02 (T3 · W2 · L3 · D2)
+    e F03 (E3 · H2 · R2 · G2). Esta rodada decide a forma dos controles, como
+    as camadas se separam do fundo, o anel de foco e os divisores de tabela.
+  </p>
+  <p class="lead">
+    A prévia mostra os dois temas com controles, foco de teclado, uma tabela,
+    um menu aberto, um diálogo de ação irreversível e um aviso (toast).
+  </p>
+</header>
+
+<main>
+  <h2>1 · Raio</h2>
+  <p class="lead">A v3.0 proíbe raio em superfície (invariante 5). O Blueprint e o piloto usam 4 px nos controles. Se o raio entrar, a invariante muda junto.</p>
+  <div class="opts" data-q="radius"></div>
+
+  <h2>2 · Camadas e elevação</h2>
+  <p class="lead">Como menu, diálogo e aviso se destacam do que está atrás. O piloto é plano; o Blueprint publica cinco níveis de sombra.</p>
+  <div class="opts" data-q="elev"></div>
+
+  <h2>3 · Anel de foco</h2>
+  <p class="lead">O que o operador vê ao navegar pelo teclado. A cor já é a de foco da F01 (azul).</p>
+  <div class="opts" data-q="focus"></div>
+
+  <h2>4 · Divisores de tabela</h2>
+  <p class="lead">Como o olho segue uma linha da esquerda para a direita.</p>
+  <div class="opts" data-q="div"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="pvs" id="pvs">
+    <div><div class="pv-title">Produto · claro</div><div class="pv th-light" id="pv-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="pv th-dark" id="pv-dark"></div></div>
+  </div>
+
+  <h2>Fatos da combinação</h2>
+  <div class="facts"><table id="facts"></table></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: K2 mas tag sem raio)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const Q = {
+  radius: [
+    { id: 'K1', name: 'Sem raio', src: 'Orison v3.0',
+      why: 'Zero em tudo: superfícies, controles e tags. A assinatura reta da v3.0; mantém a invariante 5 como está.',
+      v: { ctrl: '0', tag: '0', surface: '0' }, spec: 'controle 0 · tag 0 · superfície 0' },
+    { id: 'K2', name: '4 px nos controles', src: 'Blueprint / piloto',
+      why: 'Botão, campo, menu e diálogo com 4 px; tag com 3 px; painéis e regiões continuam retos. É o regime do piloto. A invariante 5 passa a aceitar 4 px em controle.',
+      v: { ctrl: '4px', tag: '3px', surface: '0' }, spec: 'controle 4 · tag 3 · região 0' },
+    { id: 'K3', name: '2 px nos controles', src: 'proposta',
+      why: 'Um arredondamento mínimo, que tira a aspereza do canto sem parecer “app”. Regiões retas. Meio-termo entre a v3.0 e o piloto.',
+      v: { ctrl: '2px', tag: '2px', surface: '0' }, spec: 'controle 2 · tag 2 · região 0' },
+  ],
+  elev: [
+    { id: 'P1', name: 'Plano', src: 'piloto',
+      why: 'Sem sombra. Menu, diálogo e aviso se separam só por borda e pelo véu escuro atrás do diálogo. Máxima sobriedade; camadas sobrepostas podem se confundir.',
+      v: { bg1: 'var(--surface)', bg3: 'var(--surface)', border: '1px solid var(--control)', s1: 'none', s3: 'none' }, spec: 'borda de controle · sem sombra' },
+    { id: 'P2', name: 'Sombra nas camadas', src: 'Blueprint (níveis 1 e 3)',
+      why: 'Sombra só no que flutua: menu (nível 1), diálogo e aviso (nível 3). Painéis da página continuam planos. É como o Blueprint organiza a profundidade.',
+      v: { bg1: 'var(--surface)', bg3: 'var(--surface)', border: '0', s1: 'var(--sh1)', s3: 'var(--sh3)' }, spec: 'menu: nível 1 · diálogo e aviso: nível 3' },
+    { id: 'P3', name: 'Tonal', src: 'Orison v3.0',
+      why: 'Profundidade por tom: quanto mais alto, mais claro (no escuro) ou mais branco (no claro), com borda fina. Sem sombra. No tema claro a diferença quase some.',
+      v: { bg1: 'var(--tone1)', bg3: 'var(--tone3)', border: '1px solid var(--border)', s1: 'none', s3: 'none' }, spec: 'camada sobe de tom · borda fina' },
+  ],
+  focus: [
+    { id: 'O1', name: '2 px, afastado 2', src: 'Blueprint / v3.0',
+      why: 'Contorno de 2 px a 2 px do controle, como no Blueprint e na v3.0. Discreto e preciso.',
+      v: { w: '2px', o: '2px', halo: 'none' }, spec: 'outline 2 · offset 2' },
+    { id: 'O2', name: '3 px, afastado 2', src: 'piloto',
+      why: 'Contorno de 3 px, como no piloto. Mais fácil de achar em telas densas e em monitores ruins.',
+      v: { w: '3px', o: '2px', halo: 'none' }, spec: 'outline 3 · offset 2' },
+    { id: 'O3', name: '2 px com halo', src: 'proposta',
+      why: 'Contorno de 2 px colado ao controle e um halo translúcido de 4 px. Visível sobre qualquer fundo, inclusive sobre o próprio azul de ação.',
+      v: { w: '2px', o: '0', halo: '0 0 0 6px color-mix(in srgb, var(--focus) 30%, transparent)' }, spec: 'outline 2 · offset 0 · halo 4 a 30%' },
+  ],
+  div: [
+    { id: 'V1', name: 'Só horizontais', src: 'piloto / Tatico',
+      why: 'Uma linha de 1 px entre registros, sem verticais. Limpo; o alinhamento das colunas faz o resto.',
+      v: { cls: 'div-h' }, spec: 'linha entre registros' },
+    { id: 'V2', name: 'Zebra', src: 'Blueprint (striped)',
+      why: 'Linhas alternadas com fundo levemente diferente, sem linha. Ajuda a seguir registros longos; no escuro o efeito é sutil.',
+      v: { cls: 'div-z' }, spec: 'fundo alternado' },
+    { id: 'V3', name: 'Grade completa', src: 'Blueprint (bordered)',
+      why: 'Bordas em todas as células, como planilha. Máxima separação; visual pesado em tabelas grandes.',
+      v: { cls: 'div-g' }, spec: 'borda em toda célula' },
+  ],
+};
+
+const KEY = 'orison-fusao-f04';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"radius":"K2","elev":"P2","focus":"O1","div":"V1"},"notes":""}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p><div class="spec">${o.spec}</div>
+    </button>`).join('');
+});
+
+const ICON = {
+  ok: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  warn: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 13H1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+  bad: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2"/></svg>',
+  chev: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+};
+
+function body(divCls) {
+  return `
+    <div class="row">
+      <button class="btn btn-p">Aprovar proposta</button>
+      <button class="btn btn-s focus">Ver evidência</button>
+      <div class="select"><span class="input">Risco: todos ${ICON.chev}</span>
+        <div class="menu"><div>Todos</div><div class="on">Alto</div><div>Médio</div><div>Baixo</div></div></div>
+    </div>
+    <div class="block" style="margin-top:112px"><table class="${divCls}">
+      <thead><tr><th class="hlabel">Código</th><th class="hlabel r">Valor</th><th class="hlabel">Estado</th></tr></thead>
+      <tbody>
+        <tr><td class="num">PC-20481</td><td class="r num">R$ 48.210,00</td><td><span class="tag ok">${ICON.ok}Reconciliado</span></td></tr>
+        <tr><td class="num">CT-1193</td><td class="r num">R$ 7.980,50</td><td><span class="tag warn">${ICON.warn}Divergência</span></td></tr>
+        <tr class="sel"><td class="num">SKU-88</td><td class="r num">R$ 112.400,00</td><td><span class="tag bad">${ICON.bad}Writeback falhou</span></td></tr>
+        <tr><td class="num">F-207</td><td class="r num">R$ 3.115,90</td><td><span class="tag ok">${ICON.ok}Reconciliado</span></td></tr>
+        <tr><td class="num">OS-311</td><td class="r num">R$ 5.402,10</td><td><span class="tag ok">${ICON.ok}Reconciliado</span></td></tr>
+      </tbody></table></div>
+    <div class="stage"><div class="scrim"></div>
+      <div class="dialog">
+        <h4>Reverter writeback do SKU-88?</h4>
+        <p>Ação irreversível · risco alto. A revisão 14 volta ao estado anterior no ERP e a reconciliação é refeita.</p>
+        <label class="flabel" style="display:grid;gap:4px">Digite SKU-88 para confirmar<input class="input focus" value="SKU-8" aria-label="Confirmação"></label>
+        <div class="row" style="justify-content:flex-end"><button class="btn btn-s">Cancelar</button><button class="btn btn-d">Reverter</button></div>
+      </div>
+      <div class="toast"><span class="tag ok">${ICON.ok}</span>Proposta PC-20481 aprovada.</div>
+    </div>`;
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  const r = find('radius', state.pick.radius).v, e = find('elev', state.pick.elev).v, f = find('focus', state.pick.focus).v, d = find('div', state.pick.div).v;
+  const vars = { '--r-ctrl': r.ctrl, '--r-tag': r.tag, '--r-surface': r.surface === '0' ? '0' : r.surface,
+    '--layer-bg-1': e.bg1, '--layer-bg-3': e.bg3, '--layer-border': e.border, '--layer-shadow-1': e.s1, '--layer-shadow-3': e.s3,
+    '--f-width': f.w, '--f-offset': f.o, '--f-halo': f.halo };
+  // menus e diálogos são controles flutuantes: seguem o raio de controle
+  vars['--r-surface'] = r.ctrl;
+  const st = Object.entries(vars).map(([k, x]) => `${k}:${x}`).join(';');
+  for (const t of ['light', 'dark']) { const el = document.getElementById('pv-' + t); el.setAttribute('style', st); el.innerHTML = body(d.cls); }
+  // regiões e blocos da página continuam retos em qualquer opção
+  document.querySelectorAll('.pv .block').forEach((b) => (b.style.borderRadius = '0'));
+
+  const facts = [
+    ['Invariante 5 (raio)', r.ctrl === '0' ? 'mantida' : `muda: aceita ${r.ctrl} em controle`, r.ctrl === '0' ? 'passc' : 'warnc'],
+    ['Diálogo distinguível do fundo sem cor', e.s3 === 'none' && e.border === '0' ? 'não' : 'sim (véu + ' + (e.s3 === 'none' ? 'borda' : 'sombra') + ')', 'passc'],
+    ['Foco sobre o botão azul', f.halo === 'none' ? 'contorno afastado 2 px' : 'halo visível sobre o azul', 'passc'],
+    ['Ação irreversível', 'confirmação por digitação + botão de perigo + rótulo de risco (DC-GC-09-004)', 'passc'],
+  ];
+  document.getElementById('facts').innerHTML = '<thead><tr><th>Fato</th><th>Leitura</th></tr></thead><tbody>' +
+    facts.map(([a, b, c]) => `<tr><td>${a}</td><td class="${c}">${b}</td></tr>`).join('') + '</tbody>';
+
+  const p = state.pick;
+  summaryEl.textContent = `F04 · Forma e profundidade\nRaio: ${p.radius} · Camadas: ${p.elev} · Foco: ${p.focus} · Divisores: ${p.div}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

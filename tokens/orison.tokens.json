@@ -1,0 +1,1311 @@
+{
+  "$description": "Orison Design System v4.7.0 · gerado de src/tokens/tokens.css · tema claro como base; escuro em $extensions[\"org.orison.theme.dark\"]",
+  "color": {
+    "canvas": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9647,
+          0.9686,
+          0.9765
+        ],
+        "hex": "#f6f7f9"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1098,
+            0.1294,
+            0.1529
+          ],
+          "hex": "#1c2127"
+        }
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1451,
+            0.1647,
+            0.1922
+          ],
+          "hex": "#252a31"
+        }
+      }
+    },
+    "raised": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.2039,
+            0.2353
+          ],
+          "hex": "#2f343c"
+        }
+      }
+    },
+    "border": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8275,
+          0.8471,
+          0.8706
+        ],
+        "hex": "#d3d8de"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.251,
+            0.2824,
+            0.3294
+          ],
+          "hex": "#404854"
+        }
+      }
+    },
+    "control": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.451,
+          0.502,
+          0.5686
+        ],
+        "hex": "#738091"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1765,
+          0.4471,
+          0.8235
+        ],
+        "hex": "#2d72d2"
+      }
+    },
+    "action-hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1294,
+          0.3647,
+          0.6902
+        ],
+        "hex": "#215db0"
+      }
+    },
+    "action-active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0941,
+          0.2902,
+          0.5647
+        ],
+        "hex": "#184a90"
+      }
+    },
+    "action-fg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      }
+    },
+    "link": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1294,
+          0.3647,
+          0.6902
+        ],
+        "hex": "#215db0"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5412,
+            0.7333,
+            1
+          ],
+          "hex": "#8abbff"
+        }
+      }
+    },
+    "focus": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1294,
+          0.3647,
+          0.6902
+        ],
+        "hex": "#215db0"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5412,
+            0.7333,
+            1
+          ],
+          "hex": "#8abbff"
+        }
+      }
+    },
+    "selected": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9098,
+          0.9412,
+          0.9882
+        ],
+        "hex": "#e8f0fc"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1216,
+            0.2275,
+            0.3725
+          ],
+          "hex": "#1f3a5f"
+        }
+      }
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1373,
+          0.5216,
+          0.3176
+        ],
+        "hex": "#238551"
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7843,
+          0.4627,
+          0.098
+        ],
+        "hex": "#c87619"
+      }
+    },
+    "danger": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8039,
+          0.2588,
+          0.2745
+        ],
+        "hex": "#cd4246"
+      }
+    },
+    "danger-hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6745,
+          0.1843,
+          0.2
+        ],
+        "hex": "#ac2f33"
+      }
+    },
+    "neutral-fill": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9294,
+          0.9373,
+          0.949
+        ],
+        "hex": "#edeff2"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.2039,
+            0.2353
+          ],
+          "hex": "#2f343c"
+        }
+      }
+    },
+    "neutral-hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.898,
+          0.9098,
+          0.9216
+        ],
+        "hex": "#e5e8eb"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2196,
+            0.2431,
+            0.2784
+          ],
+          "hex": "#383e47"
+        }
+      }
+    },
+    "neutral-active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8275,
+          0.8471,
+          0.8706
+        ],
+        "hex": "#d3d8de"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.251,
+            0.2824,
+            0.3294
+          ],
+          "hex": "#404854"
+        }
+      }
+    },
+    "disabled-bg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9294,
+          0.9373,
+          0.949
+        ],
+        "hex": "#edeff2"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.2039,
+            0.2353
+          ],
+          "hex": "#2f343c"
+        }
+      }
+    },
+    "disabled-text": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.451,
+          0.502,
+          0.5686
+        ],
+        "hex": "#738091"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5608,
+            0.6,
+            0.6588
+          ],
+          "hex": "#8f99a8"
+        }
+      }
+    },
+    "nav": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1098,
+          0.1294,
+          0.1529
+        ],
+        "hex": "#1c2127"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0667,
+            0.0784,
+            0.0941
+          ],
+          "hex": "#111418"
+        }
+      }
+    },
+    "nav-text": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6706,
+          0.702,
+          0.749
+        ],
+        "hex": "#abb3bf"
+      }
+    },
+    "nav-active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1843,
+          0.2039,
+          0.2353
+        ],
+        "hex": "#2f343c"
+      }
+    },
+    "nav-fg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      }
+    },
+    "crimson": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5451,
+          0.102,
+          0.102
+        ],
+        "hex": "#8b1a1a"
+      }
+    }
+  },
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1098,
+          0.1294,
+          0.1529
+        ],
+        "hex": "#1c2127"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9647,
+            0.9686,
+            0.9765
+          ],
+          "hex": "#f6f7f9"
+        }
+      }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3725,
+          0.4196,
+          0.4863
+        ],
+        "hex": "#5f6b7c"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6706,
+            0.702,
+            0.749
+          ],
+          "hex": "#abb3bf"
+        }
+      }
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1098,
+          0.4314,
+          0.2588
+        ],
+        "hex": "#1c6e42"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4471,
+            0.7922,
+            0.6078
+          ],
+          "hex": "#72ca9b"
+        }
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5765,
+          0.3373,
+          0.0627
+        ],
+        "hex": "#935610"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9843,
+            0.702,
+            0.3765
+          ],
+          "hex": "#fbb360"
+        }
+      }
+    },
+    "danger": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6745,
+          0.1843,
+          0.2
+        ],
+        "hex": "#ac2f33"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9804,
+            0.6,
+            0.6118
+          ],
+          "hex": "#fa999c"
+        }
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1294,
+          0.3647,
+          0.6902
+        ],
+        "hex": "#215db0"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5412,
+            0.7333,
+            1
+          ],
+          "hex": "#8abbff"
+        }
+      }
+    },
+    "title": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "section": {
+      "$type": "dimension",
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      }
+    },
+    "body": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "ui": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "ui-dense": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
+    },
+    "meta": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
+    },
+    "label": {
+      "$type": "dimension",
+      "$value": {
+        "value": 13,
+        "unit": "px"
+      }
+    },
+    "kpi": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      }
+    }
+  },
+  "bg": {
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8784,
+          0.9333,
+          0.9059
+        ],
+        "hex": "#e0eee7"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1451,
+            0.2157,
+            0.2078
+          ],
+          "hex": "#253735"
+        }
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9686,
+          0.9255,
+          0.8745
+        ],
+        "hex": "#f7ecdf"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2353,
+            0.2078,
+            0.1804
+          ],
+          "hex": "#3c352e"
+        }
+      }
+    },
+    "danger": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9725,
+          0.898,
+          0.898
+        ],
+        "hex": "#f8e5e5"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2392,
+            0.1765,
+            0.2039
+          ],
+          "hex": "#3d2d34"
+        }
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9098,
+          0.9412,
+          0.9882
+        ],
+        "hex": "#e8f0fc"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1216,
+            0.2275,
+            0.3725
+          ],
+          "hex": "#1f3a5f"
+        }
+      }
+    }
+  },
+  "evidence": {
+    "env-bg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.8157,
+          0.3961
+        ],
+        "hex": "#fbd065"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3608,
+            0.2667,
+            0.0196
+          ],
+          "hex": "#5c4405"
+        }
+      }
+    },
+    "env-text": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3608,
+          0.2667,
+          0.0196
+        ],
+        "hex": "#5c4405"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9843,
+            0.8157,
+            0.3961
+          ],
+          "hex": "#fbd065"
+        }
+      }
+    }
+  },
+  "risk": {
+    "fill-fg": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1098,
+            0.1294,
+            0.1529
+          ],
+          "hex": "#1c2127"
+        }
+      }
+    }
+  },
+  "data": {
+    "1": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4745,
+          0.3804,
+          0.8588
+        ],
+        "hex": "#7961db"
+      }
+    },
+    "2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.6392,
+          0.5882
+        ],
+        "hex": "#00a396"
+      }
+    },
+    "3": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8588,
+          0.1725,
+          0.4353
+        ],
+        "hex": "#db2c6f"
+      }
+    },
+    "4": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9294,
+          0.6314,
+          0
+        ],
+        "hex": "#eda100"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7882,
+            0.5216,
+            0
+          ],
+          "hex": "#c98500"
+        }
+      }
+    },
+    "context": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7725,
+          0.7961,
+          0.8275
+        ],
+        "hex": "#c5cbd3"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3725,
+            0.4196,
+            0.4863
+          ],
+          "hex": "#5f6b7c"
+        }
+      }
+    },
+    "grid": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.898,
+          0.9098,
+          0.9216
+        ],
+        "hex": "#e5e8eb"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.2039,
+            0.2353
+          ],
+          "hex": "#2f343c"
+        }
+      }
+    },
+    "axis": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.451,
+          0.502,
+          0.5686
+        ],
+        "hex": "#738091"
+      },
+      "$extensions": {
+        "org.orison.theme.dark": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5608,
+            0.6,
+            0.6588
+          ],
+          "hex": "#8f99a8"
+        }
+      }
+    },
+    "line-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "bar-radius": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "bar-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
+  "radius": {
+    "surface": {
+      "$type": "number",
+      "$value": 0
+    },
+    "tag": {
+      "$type": "dimension",
+      "$value": {
+        "value": 3,
+        "unit": "px"
+      }
+    },
+    "control": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": {
+        "value": 9999,
+        "unit": "px"
+      }
+    }
+  },
+  "focus": {
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "offset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
+  "border": {
+    "thin": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    }
+  },
+  "indicator": {
+    "indicator": {
+      "$type": "dimension",
+      "$value": {
+        "value": 3,
+        "unit": "px"
+      }
+    }
+  },
+  "font": {
+    "text": {
+      "$type": "fontFamily",
+      "$value": [
+        "Montserrat",
+        "system-ui",
+        "sans-serif"
+      ]
+    },
+    "display": {
+      "$type": "fontFamily",
+      "$value": [
+        "Hanken Grotesk",
+        "system-ui",
+        "sans-serif"
+      ]
+    },
+    "mono": {
+      "$type": "fontFamily",
+      "$value": [
+        "ui-monospace",
+        "SFMono-Regular",
+        "Menlo",
+        "Consolas",
+        "monospace"
+      ]
+    }
+  },
+  "display": {
+    "xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 56,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    }
+  },
+  "weight": {
+    "text": {
+      "$type": "fontWeight",
+      "$value": 400
+    },
+    "number": {
+      "$type": "fontWeight",
+      "$value": 500
+    },
+    "strong": {
+      "$type": "fontWeight",
+      "$value": 600
+    },
+    "display": {
+      "$type": "fontWeight",
+      "$value": 500
+    }
+  },
+  "leading": {
+    "display": {
+      "$type": "number",
+      "$value": 1.12
+    },
+    "title": {
+      "$type": "number",
+      "$value": 1.25
+    },
+    "ui": {
+      "$type": "number",
+      "$value": 1.4
+    },
+    "text": {
+      "$type": "number",
+      "$value": 1.5
+    }
+  },
+  "tracking": {
+    "none": {
+      "$type": "number",
+      "$value": 0
+    }
+  },
+  "space": {
+    "1": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "5": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    },
+    "7": {
+      "$type": "dimension",
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      }
+    },
+    "9": {
+      "$type": "dimension",
+      "$value": {
+        "value": 96,
+        "unit": "px"
+      }
+    },
+    "hairline": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
+  "height": {
+    "control": {
+      "$type": "dimension",
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "touch": {
+      "$type": "dimension",
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      }
+    },
+    "row": {
+      "$type": "dimension",
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "topbar": {
+      "$type": "dimension",
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    }
+  },
+  "icon": {
+    "inline": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "button": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "nav": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    }
+  },
+  "layout": {
+    "nav-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 200,
+        "unit": "px"
+      }
+    },
+    "inspector-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 360,
+        "unit": "px"
+      }
+    },
+    "assistant-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 320,
+        "unit": "px"
+      }
+    },
+    "sidebar-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 264,
+        "unit": "px"
+      }
+    },
+    "container": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1120,
+        "unit": "px"
+      }
+    }
+  },
+  "$extensions": {
+    "org.orison.css-raw": {
+      "risk-fill": "var(--text-primary)",
+      "elevation-1": {
+        "light": "0 0 0 1px rgba(17, 20, 24, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)",
+        "dark": "inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.4)"
+      },
+      "elevation-3": {
+        "light": "0 0 0 1px rgba(17, 20, 24, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+        "dark": "inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.4), 0 18px 46px 6px rgba(0, 0, 0, 0.4)"
+      },
+      "scrim": {
+        "light": "rgba(17, 20, 24, 0.45)",
+        "dark": "rgba(0, 0, 0, 0.6)"
+      },
+      "tracking-display": "-0.01em",
+      "tracking-header": "0.06em",
+      "tracking-wordmark": "0.1em",
+      "measure-prose": "68ch"
+    }
+  }
+}

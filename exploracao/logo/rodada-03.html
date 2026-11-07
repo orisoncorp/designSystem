@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Logo · Rodada 03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c;
+    --dark: #0a0a0a; --grafite: #27272a; --paper: #e8e6e1; --white: #ffffff;
+    --crimson: #8b1a1a; --mid: #6e6e70;
+    --ok: #2f8a55; --maybe: #b07a1e; --no: #9a3a3a;
+    --wm: 'Hanken Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 56px 0 4px; }
+  .lead { color: var(--muted); max-width: 80ch; margin: 0 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); padding: 16px; }
+  .card.s-ok { outline: 2px solid var(--ok); }
+  .card.s-maybe { outline: 2px solid var(--maybe); }
+  .card.s-no { opacity: .45; }
+  .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .id { font: 600 15px ui-monospace, monospace; }
+  .name { font-weight: 600; }
+  .tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.from { color: #9cc3e6; border-color: #2c4a63; }
+  .why { color: var(--muted); font-size: 14px; margin: 6px 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero > div { display: grid; place-items: center; height: 200px; }
+  .hero svg { width: 128px; height: 128px; }
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .strip > div { display: flex; align-items: center; justify-content: center; gap: 8px; height: 64px; }
+  .strip svg.m { width: 32px; height: 32px; }
+  .strip svg.s { width: 16px; height: 16px; }
+  .legend { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr; margin-top: 2px; }
+  .lockups > div { height: 88px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .lockups svg { width: 40px; height: 40px; }
+  .lockups .name-wm { font: 600 22px/1 var(--wm); letter-spacing: .1em; margin-right: -.1em; }
+  .on-dark { background: var(--dark); color: #f7f5f0; }
+  .on-grafite { background: var(--grafite); color: #f7f5f0; }
+  .on-paper { background: var(--paper); color: #111113; }
+  .on-white { background: var(--white); color: #111113; }
+  .on-crimson { background: var(--crimson); color: #ffffff; }
+  .on-mid { background: var(--mid); color: #ffffff; }
+  .on-photo { background: linear-gradient(135deg, #3d5a6c 0%, #a88a5f 55%, #e2c9a0 100%); color: #ffffff; }
+  .vote { display: flex; gap: 8px; margin-top: 12px; }
+  .vote button { font: 500 13px system-ui, sans-serif; padding: 6px 12px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .vote button[aria-pressed="true"][data-v="ok"] { background: var(--ok); border-color: var(--ok); }
+  .vote button[aria-pressed="true"][data-v="maybe"] { background: var(--maybe); border-color: var(--maybe); }
+  .vote button[aria-pressed="true"][data-v="no"] { background: var(--no); border-color: var(--no); }
+  .wm { display: grid; grid-template-columns: 1fr 1fr; }
+  .wm > div { height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-family: var(--wm); }
+  .wm .big { font-size: 44px; line-height: 1; }
+  .wm .sub { font-size: 12px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; opacity: .75; }
+  .wm-small { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2px; }
+  .wm-small > div { height: 56px; display: flex; align-items: center; justify-content: center; font-family: var(--wm); font-size: 13px; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; color: var(--ink); }
+  .bar textarea { grid-column: 1; width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui, sans-serif; padding: 6px 8px; resize: vertical; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui, sans-serif; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!--
+  Sprite. viewBox 120×120, centro (60,60). Todos em currentColor.
+  Rodada 03: além do círculo. Traço t = 8 (exceto a referência S2).
+-->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="slit8" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="56" height="120"/><rect x="64" y="0" width="56" height="120"/>
+    </clipPath>
+  </defs>
+
+  <!-- referência: S2, líder até aqui -->
+  <symbol id="s2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <circle cx="60" cy="60" r="29" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <rect x="57.75" y="11.75" width="4.5" height="96.5" fill="currentColor"/>
+  </symbol>
+
+  <!-- N1 · Loop que aprende: S2 vira um só traço contínuo que desce um nível -->
+  <symbol id="n1" viewBox="0 0 120 120">
+    <path d="M75.05 18.65 A44 44 0 1 1 60 16 L60 32 A28 28 0 1 1 50.42 33.69"
+          stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="miter" stroke-linecap="butt"
+          transform="rotate(180 60 60)"/>
+  </symbol>
+
+  <!-- N2 · Meandro: o mesmo loop, em ângulo reto (estrutura, processo) -->
+  <symbol id="n2" viewBox="0 0 120 120">
+    <path d="M72 16 H104 V104 H16 V16 H60 V32 H88 V88 H32 V32 H48"
+          stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
+  </symbol>
+
+  <!-- N3 · S2 em dados: a mesma forma, feita de pontos (gerado no script) -->
+  <symbol id="n3" viewBox="0 0 120 120"><g id="n3-dots" fill="currentColor"></g></symbol>
+
+  <!-- N4 · Estrutura e organismo: bloco quadrado, órbita vazada, incisão -->
+  <symbol id="n4" viewBox="0 0 120 120">
+    <path d="M12 12 H108 V108 H12 Z M60 30 A30 30 0 1 0 60 90 A30 30 0 1 0 60 30 Z"
+          fill="currentColor" fill-rule="evenodd" clip-path="url(#slit8)"/>
+  </symbol>
+
+  <!-- N5 · Objeto em foco: cantos de seleção em volta de um núcleo com eixo -->
+  <symbol id="n5" viewBox="0 0 120 120">
+    <path d="M12 36 V12 H36 M84 12 H108 V36 M108 84 V108 H84 M36 108 H12 V84"
+          stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>
+    <circle cx="60" cy="60" r="24" stroke="currentColor" stroke-width="8" fill="none"/>
+    <rect x="56" y="28" width="8" height="64" fill="currentColor"/>
+  </symbol>
+
+  <!-- N6 · Interseção: dois domínios que se cruzam; o eixo atravessa o que é comum -->
+  <symbol id="n6" viewBox="0 0 120 120">
+    <circle cx="43" cy="60" r="31" stroke="currentColor" stroke-width="6" fill="none"/>
+    <circle cx="77" cy="60" r="31" stroke="currentColor" stroke-width="6" fill="none"/>
+    <rect x="57" y="12" width="6" height="96" fill="currentColor"/>
+  </symbol>
+
+  <!-- N7 · Ontologia mínima: objeto no loop, ligado ao núcleo -->
+  <symbol id="n7" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+    <rect x="56" y="16" width="8" height="44" fill="currentColor"/>
+    <circle cx="60" cy="16" r="12" fill="currentColor"/>
+    <circle cx="60" cy="60" r="12" fill="currentColor"/>
+  </symbol>
+
+  <!-- N8 · Mudança de patamar: o eixo se desloca ao atravessar o núcleo -->
+  <symbol id="n8" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-width="8" fill="none"/>
+    <path d="M44 16 V60 H76 V104" stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="miter"/>
+  </symbol>
+</svg>
+
+<header>
+  <h1>Orison · Logo · Rodada 03</h1>
+  <p class="lead">
+    S2 e W3 lideram. Esta rodada sai do círculo puro e testa ideias mais
+    agressivas, cada uma presa a um conceito da pesquisa: o loop de runtime
+    que reconcilia e volta ao estado, a ontologia (objeto, link, ação), o
+    engine compartilhado × a semântica do cliente, dados, organismo e
+    mudança de patamar.
+  </p>
+  <p class="lead">
+    Traço mais grosso (8 em vez de 4,5) para ganhar impacto. Cada cartão traz
+    o símbolo ao lado do nome em W3 (Hanken 600, fechado).
+  </p>
+</header>
+
+<main>
+  <h2>Símbolo</h2>
+  <div class="grid" id="symbols"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: N1 com traço mais fino; N4 sem o corte)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+// N3: S2 desenhado como matriz de pontos (grade 11×11, passo 10).
+(() => {
+  const g = document.getElementById('n3-dots');
+  let out = '';
+  for (let i = 0; i < 11; i++) for (let j = 0; j < 11; j++) {
+    const x = 10 + i * 10, y = 10 + j * 10, d = Math.hypot(x - 60, y - 60);
+    const on = Math.abs(d - 46) < 5 || Math.abs(d - 27) < 5 || (x === 60 && d <= 50);
+    if (on) out += `<circle cx="${x}" cy="${y}" r="3.6"/>`;
+  }
+  g.innerHTML = out;
+})();
+
+const SYMBOLS = [
+  { id: 'S2', name: 'Três traços iguais', from: 'ref', concept: '—',
+    why: 'Líder até aqui. Referência de comparação.' },
+  { id: 'N1', name: 'Loop que aprende', concept: 'Runtime loop · feedback',
+    why: 'O S2 vira um traço contínuo: dá a volta, desce ao anel interno pela base e continua. Abertura embaixo para não ler como botão de energia. O loop não fecha em si; volta um nível mais fundo (SUSTAIN · DEEPEN · LEARN). Mantém o DNA do S2.' },
+  { id: 'N2', name: 'Meandro', concept: 'Processo · estrutura',
+    why: 'O mesmo loop em ângulo reto. Lê como processo, organização, labirinto resolvido. Mais duro e institucional; forte em 16 px.' },
+  { id: 'N3', name: 'S2 em dados', concept: 'Dados → forma',
+    why: 'A forma do S2 feita de pontos de uma grade: dados que, organizados, viram estrutura. Muito distintivo; frágil abaixo de 24 px.' },
+  { id: 'N4', name: 'Estrutura e organismo', concept: 'Empresa · organismo',
+    why: 'Bloco sólido (a estrutura da empresa) com a órbita vazada dentro (o organismo) e a incisão que atravessa os dois. O mais impactante como ícone de app e avatar.' },
+  { id: 'N5', name: 'Objeto em foco', concept: 'Ontologia · objeto',
+    why: 'Os cantos de seleção de uma interface em volta do núcleo com eixo: um objeto da operação, identificado e sob controle. Fala a língua do produto.' },
+  { id: 'N6', name: 'Interseção', concept: 'Engine × semântica do cliente',
+    why: 'Dois domínios que se cruzam (o engine da Orison e a semântica do cliente); o eixo atravessa exatamente o que é comum. Conceito mais claro; forma mais conhecida.' },
+  { id: 'N7', name: 'Ontologia mínima', concept: 'Objeto · link · estado',
+    why: 'Um objeto no loop, ligado ao núcleo por um link. Também lê como ponteiro de medidor: resultado medido. Simples e gráfico.' },
+  { id: 'N8', name: 'Mudança de patamar', concept: 'Transformação',
+    why: 'O eixo entra de um lado, atravessa o núcleo e sai deslocado: a operação muda de patamar. O mais narrativo; lembra um S dentro do O.' },
+];
+
+const SURFACES = [
+  ['on-dark', 'Preto'], ['on-grafite', 'Grafite'], ['on-paper', 'Off-white'],
+  ['on-white', 'Branco'], ['on-crimson', 'Crimson'], ['on-mid', 'Cinza'], ['on-photo', 'Foto'],
+];
+
+const KEY = 'orison-logo-r03';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"votes":{},"notes":""}');
+
+const use = (id, cls = '') =>
+  `<svg class="${cls}" role="img" aria-label="Símbolo ${id}"><use href="#${id.toLowerCase()}"/></svg>`;
+
+const vote = (id) => `
+  <div class="vote" data-id="${id}">
+    <button type="button" data-v="ok" aria-pressed="false">Aprovar</button>
+    <button type="button" data-v="maybe" aria-pressed="false">Talvez</button>
+    <button type="button" data-v="no" aria-pressed="false">Descartar</button>
+  </div>`;
+
+document.getElementById('symbols').innerHTML = SYMBOLS.map((s) => `
+  <article class="card" id="card-${s.id}">
+    <div class="head"><span class="id">${s.id}</span><span class="name">${s.name}</span>
+      ${s.from === 'ref' ? '<span class="tag">Líder</span>' : `<span class="tag from">${s.concept}</span>`}</div>
+    <p class="why">${s.why}</p>
+    <div class="hero">
+      <div class="on-dark">${use(s.id)}</div>
+      <div class="on-paper">${use(s.id)}</div>
+    </div>
+    <div class="strip">
+      ${SURFACES.map(([c]) => `<div class="${c}">${use(s.id, 'm')}${use(s.id, 's')}</div>`).join('')}
+    </div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    <div class="lockups">
+      <div class="on-dark">${use(s.id)}<span class="name-wm">ORISON</span></div>
+      <div class="on-white">${use(s.id)}<span class="name-wm">ORISON</span></div>
+    </div>
+    ${s.from === 'ref' ? '' : vote(s.id)}
+  </article>`).join('');
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+
+function render() {
+  document.querySelectorAll('.vote').forEach((g) => {
+    const v = state.votes[g.dataset.id];
+    g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+    const card = document.getElementById('card-' + g.dataset.id);
+    card.classList.remove('s-ok', 's-maybe', 's-no');
+    if (v) card.classList.add('s-' + v);
+  });
+  const pick = (v) => Object.keys(state.votes).filter((k) => state.votes[k] === v).sort().join(', ') || '—';
+  summaryEl.textContent =
+    `Rodada 03\nAprovados: ${pick('ok')}\nTalvez: ${pick('maybe')}\nDescartados: ${pick('no')}` +
+    (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.vote button');
+  if (!b) return;
+  const id = b.parentElement.dataset.id;
+  state.votes[id] = state.votes[id] === b.dataset.v ? undefined : b.dataset.v;
+  if (!state.votes[id]) delete state.votes[id];
+  render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { state.votes = {}; state.notes = ''; notesEl.value = ''; render(); });
+render();
+</script>
+</body>
+</html>

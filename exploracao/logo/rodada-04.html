@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Logo · Rodada 04</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c;
+    --dark: #0a0a0a; --grafite: #27272a; --paper: #e8e6e1; --white: #ffffff;
+    --crimson: #8b1a1a; --mid: #6e6e70;
+    --ok: #2f8a55; --maybe: #b07a1e; --no: #9a3a3a;
+    --wm: 'Hanken Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 56px 0 4px; }
+  .lead { color: var(--muted); max-width: 80ch; margin: 0 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); padding: 16px; }
+  .card.s-ok { outline: 2px solid var(--ok); }
+  .card.s-maybe { outline: 2px solid var(--maybe); }
+  .card.s-no { opacity: .45; }
+  .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .id { font: 600 15px ui-monospace, monospace; }
+  .name { font-weight: 600; }
+  .tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.from { color: #9cc3e6; border-color: #2c4a63; }
+  .why { color: var(--muted); font-size: 14px; margin: 6px 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero > div { display: grid; place-items: center; height: 200px; }
+  .hero svg { width: 128px; height: 128px; }
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 2px; }
+  .strip > div { display: flex; align-items: center; justify-content: center; gap: 8px; height: 64px; }
+  .strip svg.m { width: 32px; height: 32px; }
+  .strip svg.s { width: 16px; height: 16px; }
+  .legend { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr; margin-top: 2px; }
+  .lockups > div { height: 88px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .lockups svg { width: 40px; height: 40px; }
+  .lockups .name-wm { font: 600 22px/1 var(--wm); letter-spacing: .1em; margin-right: -.1em; }
+  .on-dark { background: var(--dark); color: #f7f5f0; }
+  .on-grafite { background: var(--grafite); color: #f7f5f0; }
+  .on-paper { background: var(--paper); color: #111113; }
+  .on-white { background: var(--white); color: #111113; }
+  .on-crimson { background: var(--crimson); color: #ffffff; }
+  .on-mid { background: var(--mid); color: #ffffff; }
+  .on-photo { background: linear-gradient(135deg, #3d5a6c 0%, #a88a5f 55%, #e2c9a0 100%); color: #ffffff; }
+  .vote { display: flex; gap: 8px; margin-top: 12px; }
+  .vote button { font: 500 13px system-ui, sans-serif; padding: 6px 12px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .vote button[aria-pressed="true"][data-v="ok"] { background: var(--ok); border-color: var(--ok); }
+  .vote button[aria-pressed="true"][data-v="maybe"] { background: var(--maybe); border-color: var(--maybe); }
+  .vote button[aria-pressed="true"][data-v="no"] { background: var(--no); border-color: var(--no); }
+  .wm { display: grid; grid-template-columns: 1fr 1fr; }
+  .wm > div { height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-family: var(--wm); }
+  .wm .big { font-size: 44px; line-height: 1; }
+  .wm .sub { font-size: 12px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; opacity: .75; }
+  .wm-small { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2px; }
+  .wm-small > div { height: 56px; display: flex; align-items: center; justify-content: center; font-family: var(--wm); font-size: 13px; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; color: var(--ink); }
+  .bar textarea { grid-column: 1; width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui, sans-serif; padding: 6px 8px; resize: vertical; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui, sans-serif; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .hero3 { grid-template-columns: 1fr 1fr 1fr; }
+  .on-build { background: #f2f1ee; }
+  .hero .on-build svg { width: 176px; height: 176px; }
+  .lead strong { color: var(--ink); font-weight: 600; }
+  .family + .family { margin-top: 24px; }
+  .card.failed { opacity: .5; }
+  .tag.agr { color: #e7a07a; border-color: #6b3b25; }
+</style>
+</head>
+<body>
+
+<!--
+  Sprite. viewBox 120×120, centro (60,60). currentColor.
+  Família S2: anel externo r=46, interno r=28,4 (46/φ), traço t=5.
+  Ângulo: 23,44° (inclinação do eixo da Terra / Trópico de Capricórnio).
+  O1/O2: contorno real do "O" da Hanken Grotesk 600 (fontTools), altura 100.
+-->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- corte inclinado de 4 (I3) -->
+    <clipPath id="tilt-cut4" clipPathUnits="userSpaceOnUse">
+      <rect x="-60" y="-60" width="118" height="240" transform="rotate(23.44 60 60)"/>
+      <rect x="62" y="-60" width="118" height="240" transform="rotate(23.44 60 60)"/>
+    </clipPath>
+    <!-- corte vertical fino de 2,5 = t/2 (D1) -->
+    <clipPath id="cut-half" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="58.75" height="120"/><rect x="61.25" y="0" width="58.75" height="120"/>
+    </clipPath>
+    <!-- fenda de 10 = linha 5 + vão 2,5 de cada lado (D2) -->
+    <clipPath id="cut-blade" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="55" height="120"/><rect x="65" y="0" width="55" height="120"/>
+    </clipPath>
+    <!-- corte vertical de 5 no O (O1) -->
+    <clipPath id="cut-o" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="57.5" height="120"/><rect x="62.5" y="0" width="57.5" height="120"/>
+    </clipPath>
+    <!-- corte inclinado de 5 no O (O2) -->
+    <clipPath id="tilt-cut-o" clipPathUnits="userSpaceOnUse">
+      <rect x="-60" y="-60" width="117.5" height="240" transform="rotate(23.44 60 60)"/>
+      <rect x="62.5" y="-60" width="117.5" height="240" transform="rotate(23.44 60 60)"/>
+    </clipPath>
+  </defs>
+
+  <symbol id="s2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <circle cx="60" cy="60" r="29" stroke="currentColor" stroke-width="4.5" fill="none"/>
+    <rect x="57.75" y="11.75" width="4.5" height="96.5" fill="currentColor"/>
+  </symbol>
+
+  <!-- I1 · eixo inclinado, contido no anel -->
+  <symbol id="i1" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="5" fill="none"/>
+    <circle cx="60" cy="60" r="28.4" stroke="currentColor" stroke-width="5" fill="none"/>
+    <rect x="57.5" y="11.5" width="5" height="97" fill="currentColor" transform="rotate(23.44 60 60)"/>
+  </symbol>
+
+  <!-- I2 · eixo inclinado que ultrapassa o anel -->
+  <symbol id="i2" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="42" stroke="currentColor" stroke-width="5" fill="none"/>
+    <circle cx="60" cy="60" r="26" stroke="currentColor" stroke-width="5" fill="none"/>
+    <rect x="57.5" y="2" width="5" height="116" fill="currentColor" transform="rotate(23.44 60 60)"/>
+  </symbol>
+
+  <!-- I3 · o eixo inclinado como corte, sem linha -->
+  <symbol id="i3" viewBox="0 0 120 120">
+    <g clip-path="url(#tilt-cut4)">
+      <circle cx="60" cy="60" r="45" stroke="currentColor" stroke-width="6" fill="none"/>
+      <circle cx="60" cy="60" r="27.8" stroke="currentColor" stroke-width="6" fill="none"/>
+    </g>
+  </symbol>
+
+  <!-- D1 · os anéis do S2 com um corte fino (t/2), sem linha -->
+  <symbol id="d1" viewBox="0 0 120 120">
+    <g clip-path="url(#cut-half)">
+      <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="60" r="28.4" stroke="currentColor" stroke-width="5" fill="none"/>
+    </g>
+  </symbol>
+
+  <!-- D2 · a linha passa por dentro do corte, sem tocar os anéis (vão t/2) -->
+  <symbol id="d2" viewBox="0 0 120 120">
+    <g clip-path="url(#cut-blade)">
+      <circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="60" r="28.4" stroke="currentColor" stroke-width="5" fill="none"/>
+    </g>
+    <rect x="57.5" y="11.5" width="5" height="97" fill="currentColor"/>
+  </symbol>
+
+  <!-- O1 · o "O" da Hanken 600, cortado na vertical -->
+  <symbol id="o1" viewBox="0 0 120 120">
+    <path id="hanken-o" clip-path="url(#cut-o)" fill="currentColor" d="M59.85 110Q46.35 110 36.11 103.75Q25.87 97.5 20.15 86.25Q14.44 75 14.44 60.07Q14.44 45 20.15 33.75Q25.87 22.5 36.11 16.25Q46.35 10 59.85 10Q73.57 10 83.85 16.23Q94.13 22.46 99.85 33.7Q105.56 44.94 105.56 60.07Q105.56 75.06 99.78 86.3Q93.99 97.54 83.71 103.77Q73.43 110 59.85 110ZM59.83 94.79Q69.02 94.79 75.62 90.51Q82.21 86.23 85.86 78.44Q89.5 70.64 89.5 60.07Q89.5 49.37 85.85 41.57Q82.2 33.77 75.6 29.49Q69 25.21 59.82 25.21Q50.89 25.21 44.22 29.42Q37.54 33.63 33.95 41.42Q30.36 49.21 30.36 60.06Q30.36 70.79 33.95 78.58Q37.54 86.37 44.22 90.58Q50.89 94.79 59.83 94.79Z"/>
+  </symbol>
+
+  <!-- O2 · o mesmo "O", cortado a 23,44° -->
+  <symbol id="o2" viewBox="0 0 120 120">
+    <path clip-path="url(#tilt-cut-o)" fill="currentColor" d="M59.85 110Q46.35 110 36.11 103.75Q25.87 97.5 20.15 86.25Q14.44 75 14.44 60.07Q14.44 45 20.15 33.75Q25.87 22.5 36.11 16.25Q46.35 10 59.85 10Q73.57 10 83.85 16.23Q94.13 22.46 99.85 33.7Q105.56 44.94 105.56 60.07Q105.56 75.06 99.78 86.3Q93.99 97.54 83.71 103.77Q73.43 110 59.85 110ZM59.83 94.79Q69.02 94.79 75.62 90.51Q82.21 86.23 85.86 78.44Q89.5 70.64 89.5 60.07Q89.5 49.37 85.85 41.57Q82.2 33.77 75.6 29.49Q69 25.21 59.82 25.21Q50.89 25.21 44.22 29.42Q37.54 33.63 33.95 41.42Q30.36 49.21 30.36 60.06Q30.36 70.79 33.95 78.58Q37.54 86.37 44.22 90.58Q50.89 94.79 59.83 94.79Z"/>
+  </symbol>
+</svg>
+
+<header>
+  <h1>Orison · Logo · Rodada 04</h1>
+  <p class="lead">
+    <strong>Por que a rodada 03 falhou:</strong> cada símbolo ilustrava uma
+    funcionalidade (loop, grafo, dados, foco) com formas prontas. O resultado
+    era diagrama, não marca, e quase todos lembravam ícones que já existem
+    (liga/desliga, cronômetro, foco de câmera, globo).
+  </p>
+  <p class="lead">
+    <strong>O que a Palantir ensina de fato:</strong> o símbolo é um objeto
+    com história (a pedra que vê, sobre seu suporte), não um diagrama do
+    produto. A construção é rigorosa: anel, chevron e vão com o mesmo peso,
+    ângulos medidos, uma cor. E ele dura: o nome trocou de fonte duas vezes,
+    o símbolo ficou.
+  </p>
+  <p class="lead">
+    <strong>Critérios desta rodada:</strong> (1) um conceito só, explicável em
+    uma frase e vindo da própria Orison; (2) no máximo três elementos;
+    (3) toda medida vem de uma regra, mostrada no painel de construção;
+    (4) não pode lembrar ícone de interface em 16 px; (5) uma cor. Base: o
+    S2, que continua líder, e a W3.
+  </p>
+</header>
+
+<main id="families"></main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: I1 com o eixo ultrapassando só em cima; D2 com vão maior)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const G = '#5b8def'; // cor das guias de construção
+const guide = (inner) => `<g fill="none" stroke="${G}" stroke-width=".6" font-family="system-ui" font-size="6" >${inner}</g>`;
+const label = (x, y, t, anchor = 'start') => `<text x="${x}" y="${y}" fill="${G}" stroke="none" text-anchor="${anchor}">${t}</text>`;
+
+const tiltGuides = guide(`
+  <line x1="60" y1="2" x2="60" y2="118" stroke-dasharray="2 2"/>
+  <circle cx="60" cy="60" r="1.2" fill="${G}"/>
+  <path d="M60 22 A38 38 0 0 1 75.1 25.1"/>
+  ${label(66, 18, '23,44°')}
+  ${label(104, 112, 'r₂ = r₁ / φ', 'end')}`);
+
+const s2Guides = guide(`
+  <line x1="2" y1="60" x2="118" y2="60" stroke-dasharray="2 2"/>
+  <line x1="60" y1="2" x2="60" y2="118" stroke-dasharray="2 2"/>
+  ${label(104, 112, 'r₂ ≈ r₁ / φ', 'end')}`);
+
+const cutGuides = (gap) => guide(`
+  <line x1="60" y1="2" x2="60" y2="118" stroke-dasharray="2 2"/>
+  <line x1="40" y1="6" x2="80" y2="6"/>
+  ${label(62, 4, gap)}
+  ${label(104, 112, 'traço t = 5', 'end')}`);
+
+const oGuides = guide(`
+  <rect x="14.4" y="10" width="91.2" height="100" stroke-dasharray="2 2"/>
+  <line x1="2" y1="110" x2="118" y2="110"/>
+  ${label(16, 117, 'O de ORISON · Hanken 600')}`);
+
+const FAMILIES = [
+  {
+    key: 'I', title: 'Inclinação · 23,44°',
+    story: [
+      'A Terra gira com o eixo inclinado 23,44°. Sem essa inclinação não haveria estações: é um desvio pequeno e constante que produz mudança permanente e previsível. É a promessa da Orison: transformação operacional permanente, não projeto pontual.',
+      'O ângulo também define o Trópico de Capricórnio, que atravessa o Brasil. O S2 continua o mesmo; só o eixo ganha uma razão de existir em vez de uma vertical arbitrária. Isso o tira da leitura de Φ.',
+    ],
+    items: [
+      { id: 'I1', name: 'Eixo inclinado', failed: true, why: 'Reprovado por mim no critério 4: com a linha cheia na diagonal, em 16 px e no lockup lê como o sinal ∅ (conjunto vazio). Fica visível só para registro.', guides: tiltGuides },
+      { id: 'I2', name: 'Eixo que atravessa', failed: true, why: 'Reprovado pelo mesmo motivo do I1: lê como ∅, e ainda como globo genérico.', guides: tiltGuides },
+      { id: 'I3', name: 'Eixo como corte', why: 'Sem linha: o eixo inclinado é um corte nos dois anéis. Como o corte é vazio, não lê como ∅. Une as famílias Inclinação e Decisão. O sobrevivente da família.', guides: tiltGuides },
+    ],
+  },
+  {
+    key: 'D', title: 'Decidir é cortar',
+    story: [
+      '“Decidir” vem do latim de-caedere, cortar fora. “Incisão” vem de in-caedere, a mesma raiz. O conceito do DS atual (Incisão: a linha vem primeiro) já apontava para isso, e a DR-09 pede uma gramática que abre pela decisão (DC-GC-09-013).',
+      'Aqui a linha deixa de ser um traço desenhado e vira o corte em si: fino e preciso como um bisturi. É o S2 sem cor e sem ornamento.',
+    ],
+    items: [
+      { id: 'D1', name: 'Corte fino', why: 'Os anéis do S2 com um corte de meia espessura, sem linha. Silencioso; a decisão está na ausência.', guides: cutGuides('vão = t/2') },
+      { id: 'D2', name: 'Lâmina', why: 'A linha do S2 passa por dentro do corte, sem tocar os anéis, com vão de meia espessura. A forma do S2 se mantém; a precisão aparece de perto.', guides: cutGuides('vão = t/2 de cada lado') },
+    ],
+  },
+  {
+    key: 'O', title: 'O do nome',
+    story: [
+      'A lição de sistema da Palantir: símbolo e nome precisam conversar. Aqui o símbolo nasce do próprio “O” da W3 (Hanken 600, contorno real da fonte); ORISON tem dois.',
+      'Ganho: coerência total entre símbolo e nome. Custo: o símbolo fica preso à fonte. A Palantir fez o contrário (símbolo independente, fonte trocável).',
+    ],
+    items: [
+      { id: 'O1', name: 'O cortado', why: 'O “O” da W3 com um corte vertical. Pesado e direto; o mais forte em 16 px.', guides: oGuides },
+      { id: 'O2', name: 'O cortado a 23,44°', why: 'O mesmo “O”, cortado no ângulo da Inclinação. Não lê como Ø porque o corte é vazio, não traço. Mais movimento que o O1.', guides: oGuides },
+    ],
+  },
+];
+
+const SURFACES = [
+  ['on-dark', 'Preto'], ['on-grafite', 'Grafite'], ['on-paper', 'Off-white'],
+  ['on-white', 'Branco'], ['on-crimson', 'Crimson'], ['on-mid', 'Cinza'], ['on-photo', 'Foto'],
+];
+
+const KEY = 'orison-logo-r04';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"votes":{},"notes":""}');
+
+const use = (id, cls = '') =>
+  `<svg class="${cls}" role="img" aria-label="Símbolo ${id}"><use href="#${id.toLowerCase()}"/></svg>`;
+
+const construction = (id, guides) =>
+  `<svg viewBox="0 0 120 120" role="img" aria-label="Construção de ${id}">
+     <use href="#${id.toLowerCase()}" color="#c8c6c1"/>${guides}
+   </svg>`;
+
+const vote = (id) => `
+  <div class="vote" data-id="${id}">
+    <button type="button" data-v="ok" aria-pressed="false">Aprovar</button>
+    <button type="button" data-v="maybe" aria-pressed="false">Talvez</button>
+    <button type="button" data-v="no" aria-pressed="false">Descartar</button>
+  </div>`;
+
+const card = (s, ref = false) => `
+  <article class="card${s.failed ? ' failed' : ''}" id="card-${s.id}">
+    <div class="head"><span class="id">${s.id}</span><span class="name">${s.name}</span>
+      ${ref ? '<span class="tag">Líder · referência</span>' : ''}${s.failed ? '<span class="tag agr">Reprovado · critério 4</span>' : ''}</div>
+    <p class="why">${s.why}</p>
+    <div class="hero hero3">
+      <div class="on-dark">${use(s.id)}</div>
+      <div class="on-paper">${use(s.id)}</div>
+      <div class="on-build">${construction(s.id, s.guides)}</div>
+    </div>
+    <div class="strip">
+      ${SURFACES.map(([c]) => `<div class="${c}">${use(s.id, 'm')}${use(s.id, 's')}</div>`).join('')}
+    </div>
+    <div class="legend">${SURFACES.map(([, l]) => `<span>${l}</span>`).join('')}</div>
+    <div class="lockups">
+      <div class="on-dark">${use(s.id)}<span class="name-wm">ORISON</span></div>
+      <div class="on-white">${use(s.id)}<span class="name-wm">ORISON</span></div>
+    </div>
+    ${ref || s.failed ? '' : vote(s.id)}
+  </article>`;
+
+document.getElementById('families').innerHTML =
+  `<section class="family"><h2>Referência</h2><div class="grid">${card({ id: 'S2', name: 'Três traços iguais', why: 'Líder das rodadas anteriores. Tudo abaixo parte dele.', guides: s2Guides }, true)}</div></section>` +
+  FAMILIES.map((f) => `
+  <section class="family">
+    <h2>${f.title}</h2>
+    ${f.story.map((p) => `<p class="lead">${p}</p>`).join('')}
+    <div class="grid">${f.items.map((s) => card(s)).join('')}</div>
+  </section>`).join('');
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+
+function render() {
+  document.querySelectorAll('.vote').forEach((g) => {
+    const v = state.votes[g.dataset.id];
+    g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+    const c = document.getElementById('card-' + g.dataset.id);
+    c.classList.remove('s-ok', 's-maybe', 's-no');
+    if (v) c.classList.add('s-' + v);
+  });
+  const pick = (v) => Object.keys(state.votes).filter((k) => state.votes[k] === v).sort().join(', ') || '—';
+  summaryEl.textContent =
+    `Rodada 04\nAprovados: ${pick('ok')}\nTalvez: ${pick('maybe')}\nDescartados: ${pick('no')}` +
+    (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.vote button');
+  if (!b) return;
+  const id = b.parentElement.dataset.id;
+  state.votes[id] = state.votes[id] === b.dataset.v ? undefined : b.dataset.v;
+  if (!state.votes[id]) delete state.votes[id];
+  render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { state.votes = {}; state.notes = ''; notesEl.value = ''; render(); });
+render();
+</script>
+</body>
+</html>

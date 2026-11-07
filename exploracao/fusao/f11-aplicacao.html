@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F11 Padrões de aplicação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens, componentes e padrões reais do site v4.1. Só os candidatos são CSS local. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/tokens/motion-tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<link rel="stylesheet" href="../../src/styles/patterns.css">
+<style>
+  /* ── cromo da página de votação (fora do sistema) ── */
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opts.wide { grid-template-columns: 1fr; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; max-width: 110ch; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── palco com tokens reais ── */
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .ui p, .ui h4, .ui h5, .ui dl, .ui dd, .ui ol, .ui ul { margin: 0; }
+  .ui ol, .ui ul { padding: 0; list-style: none; }
+  .mini { padding: 16px; flex: 1; display: grid; gap: 12px; align-content: start; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .label { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+  .cap { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); }
+  .panel { background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .nw { white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .delta { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+  .tabs { gap: 20px; }
+
+  /* objeto */
+  .obj-head { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 16px; }
+  .obj-head .obj-id { display: grid; gap: 2px; }
+  .obj-title { font-size: var(--text-title); font-weight: var(--weight-strong); line-height: 1.2; }
+  .obj-head .obj-actions { margin-left: auto; display: flex; gap: 8px; }
+  .obj-tabs { background: var(--color-surface); border: var(--border-thin) solid var(--color-border); border-top: 0; padding: 0 16px; }
+  .obj-tabs .tabs { border-bottom: 0; }
+  .obj-body { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 12px; }
+  .obj-wide { max-width: 560px; }
+
+  /* diff */
+  .diff td { white-space: normal; }
+  .diff td.old { color: var(--text-muted); }
+  .diff td.new { font-weight: var(--weight-strong); }
+  .inline-diff { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; font-size: var(--text-meta); align-items: baseline; }
+  .inline-diff dt { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+  .inline-diff b { font-weight: var(--weight-strong); }
+  .strike { text-decoration: line-through; color: var(--text-muted); margin-right: 8px; }
+  .ins { background: var(--color-selected); padding: 0 4px; font-weight: var(--weight-strong); }
+
+  /* trace */
+  .trace-list { display: grid; border: var(--border-thin) solid var(--color-border); background: var(--color-surface); }
+  .trace-item { display: grid; border-bottom: var(--border-thin) solid var(--color-border); font-size: var(--text-meta); }
+  .trace-item:last-child { border-bottom: 0; }
+  .trace-sum { display: flex; gap: 10px; align-items: center; min-height: 36px; padding: 0 12px; }
+  .trace-sum .t { margin-left: auto; color: var(--text-muted); }
+  .trace-sum .ico { color: var(--text-muted); }
+  .trace-item.open .trace-sum { background: var(--color-neutral-fill); }
+  .trace-code { font-family: var(--font-mono); font-size: var(--text-label); line-height: 1.5; padding: 8px 12px 10px 38px; white-space: pre; color: var(--text-primary); overflow: hidden; }
+  .chain-step .link { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--color-link); }
+  .wf { display: grid; grid-template-columns: 150px 1fr 56px; gap: 6px 10px; align-items: center; font-size: var(--text-meta); }
+  .wf .bar-lane { position: relative; height: 14px; }
+  .wf .bar { position: absolute; top: 0; height: 100%; background: var(--text-muted); }
+  .wf .bar.fail { background: var(--color-danger); }
+  .wf .ms { text-align: right; color: var(--text-muted); }
+  .wf .axis { grid-column: 2; display: flex; justify-content: space-between; font-size: var(--text-label); color: var(--text-muted); border-top: var(--border-thin) solid var(--color-border); padding-top: 2px; }
+
+  /* linhagem */
+  .lin { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; }
+  .lin-step { background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 8px 10px; display: grid; gap: 2px; min-width: 104px; }
+  .lin-step b { font-size: var(--text-meta); font-weight: var(--weight-strong); }
+  .lin-step.on { border-color: var(--color-action); box-shadow: inset 0 0 0 1px var(--color-action); }
+  .lin-arrow { display: grid; place-items: center; color: var(--text-muted); }
+  .graph { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .graph svg.edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .graph svg.edges path { fill: none; stroke: var(--color-control); stroke-width: 1.5; }
+  .graph svg.edges path.hot { stroke: var(--color-action); stroke-width: 2; }
+  .gnode { position: relative; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 6px 10px; font-size: var(--text-label); font-weight: var(--weight-strong); white-space: nowrap; display: grid; gap: 1px; }
+  .gnode span { font-weight: var(--weight-text); color: var(--text-muted); }
+  .gnode.on { border-color: var(--color-action); box-shadow: inset 0 0 0 1px var(--color-action); background: var(--color-selected); }
+  .gcol { display: flex; flex-direction: column; justify-content: center; gap: 16px; min-width: 0; }
+  .gcol .cap { align-self: flex-start; margin-bottom: auto; }
+  .gnode { overflow: hidden; text-overflow: ellipsis; }
+
+  /* assistente */
+  .app { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0; border: var(--border-thin) solid var(--color-border); min-height: 380px; position: relative; overflow: hidden; }
+  .app.with-ai { grid-template-columns: minmax(0, 1fr) 300px 320px; }
+  .app > .panel { border: 0; border-left: var(--border-thin) solid var(--color-border); }
+  .app > .panel:first-child { border-left: 0; background: var(--color-canvas); }
+  .ai { display: grid; gap: 10px; align-content: start; }
+  .ai-head { display: flex; gap: 8px; align-items: center; }
+  .ai-head h5 { font-size: var(--text-ui); font-weight: var(--weight-strong); }
+  .ai-head .seal { margin-left: auto; }
+  .ctx { display: flex; gap: 6px; flex-wrap: wrap; }
+  .msg { font-size: var(--text-meta); display: grid; gap: 4px; }
+  .msg.user { justify-self: end; background: var(--color-neutral-fill); padding: 6px 10px; max-width: 85%; }
+  .msg .cite { font-size: var(--text-label); color: var(--color-link); font-weight: var(--weight-strong); }
+  .tool { font-size: var(--text-label); color: var(--text-muted); display: flex; gap: 6px; align-items: center; border-left: var(--border-thin) solid var(--color-border); padding-left: 8px; }
+  .gen { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border: var(--border-thin) solid var(--color-border); background: var(--color-canvas); font-size: var(--text-meta); }
+  .gen .tag { margin-left: auto; }
+  .drawer { position: absolute; top: 0; right: 0; bottom: 0; width: 340px; background: var(--color-surface); box-shadow: var(--elevation-3); padding: 16px; }
+  .dim::after { content: ''; position: absolute; inset: 0; background: var(--scrim); }
+  .fake-line { height: 10px; background: var(--color-neutral-fill); }
+
+  /* rede */
+  .net { position: relative; height: 240px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+  .net > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .net line { stroke: var(--color-control); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .net line.hot { stroke: var(--color-action); stroke-width: 2; }
+  .nnode { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 4px; font-size: var(--text-label); font-weight: var(--weight-strong); }
+  .nnode i { width: 32px; height: 32px; border-radius: var(--radius-full); border: 2px solid var(--color-control); background: var(--color-surface); display: grid; place-items: center; color: var(--text-primary); }
+  .nnode b { font-weight: var(--weight-strong); background: var(--color-surface); padding: 0 4px; white-space: nowrap; }
+  .nnode.on i { border-color: var(--color-action); box-shadow: 0 0 0 3px var(--color-selected); }
+  .ncard { position: absolute; transform: translate(0, -50%); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 6px 8px; display: grid; gap: 4px; font-size: var(--text-label); font-weight: var(--weight-strong); }
+  .ncard.on { border-color: var(--color-action); box-shadow: inset 0 0 0 1px var(--color-action); }
+  .net-split { display: grid; grid-template-columns: minmax(0, 1fr) 170px; gap: 0; }
+  .net-split .panel { border-left: 0; }
+  .rel-group { display: grid; gap: 6px; }
+  .rel-group .table-wrap { border: var(--border-thin) solid var(--color-border); }
+
+  /* linha do tempo */
+  .hist { display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; align-items: end; height: 90px; position: relative; border-bottom: var(--border-thin) solid var(--data-axis); }
+  .hist .b { background: var(--data-1); border-radius: 2px 2px 0 0; }
+  .hist .b.dim { background: var(--data-context); }
+  .hist .brush { position: absolute; top: 0; bottom: 0; background: var(--color-selected); border-left: 2px solid var(--color-action); border-right: 2px solid var(--color-action); z-index: 0; }
+  .hist .b { position: relative; z-index: 1; }
+  .days { display: flex; justify-content: space-between; font-size: var(--text-label); color: var(--text-muted); }
+  .feed { display: grid; gap: 4px; font-size: var(--text-meta); }
+  .feed-day { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
+  .feed-item { display: grid; grid-template-columns: 48px 20px 1fr; gap: 8px; align-items: center; min-height: 32px; border-bottom: var(--border-thin) solid var(--color-border); }
+  .feed-item .t { color: var(--text-muted); }
+  .feed-item.fail { color: var(--text-danger); }
+  .lanes { display: grid; grid-template-columns: 90px 1fr; gap: 0 10px; font-size: var(--text-meta); }
+  .lane { position: relative; height: 36px; border-bottom: var(--border-thin) solid var(--color-border); }
+  .lane::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--color-border); }
+  .lane-name { height: 36px; display: flex; align-items: center; font-weight: var(--weight-strong); border-bottom: var(--border-thin) solid var(--color-border); }
+  .mk { position: absolute; top: 50%; width: 12px; height: 12px; transform: translate(-50%, -50%); background: var(--text-primary); border-radius: var(--radius-full); }
+  .mk.sq { border-radius: 0; transform: translate(-50%, -50%) rotate(45deg); }
+  .mk.fail { background: var(--color-danger); }
+  .mk.ok { background: var(--color-success); }
+  .lane-axis { grid-column: 2; display: flex; justify-content: space-between; font-size: var(--text-label); color: var(--text-muted); padding-top: 2px; }
+
+  /* ── folha ── */
+  .sheets { display: grid; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 24px; display: grid; gap: 28px; border: 1px solid #404854; }
+  .sheet h3 { margin: 0 0 10px; font-size: var(--text-label); font-weight: var(--weight-strong); text-transform: uppercase; letter-spacing: var(--tracking-header); color: var(--text-muted); }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F11 · Padrões de aplicação</h1>
+  <p class="lead">
+    <strong>Já decidido (F01–F10):</strong> fundamentos, semântica, componentes
+    e a bancada (navegação, fila, inspetor). As prévias usam o CSS real do site
+    v4.1; só a montagem de cada padrão é nova.
+  </p>
+  <p class="lead">
+    Sete telas que o produto vai precisar além da fila, tiradas do Foundry
+    (Object View, Data Lineage), do AIP (assistente, trace da Logic), do Gotham
+    (Graph, Timeline) e do piloto. Todas seguem o loop da DR-09 (MAP-GC-09-C):
+    fonte, proposta, autoridade, writeback, reconciliação, histórico. O gate de
+    simplicidade (PG-GC-09-05) vale aqui: “deixar de fora” é uma resposta válida.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Página do objeto</h2>
+  <p class="lead">Quando o inspetor não basta: o objeto inteiro, com propriedades, propostas, trace e histórico.</p>
+  <div class="opts wide" data-q="obj"></div>
+
+  <h2>2 · Proposta com comparação</h2>
+  <p class="lead">O que a proposta muda, valor atual contra proposto. Aparece no inspetor, na página do objeto e no diálogo de confirmação.</p>
+  <div class="opts" data-q="diff"></div>
+
+  <h2>3 · Trace da execução</h2>
+  <p class="lead">As etapas que o agente e o sistema executaram. Regra do piloto: só etapas observadas; nenhum raciocínio interno do modelo é inferido.</p>
+  <div class="opts" data-q="trace"></div>
+
+  <h2>4 · Linhagem</h2>
+  <p class="lead">De onde veio o dado: fonte, transformação, objeto, function, action. Responde “posso confiar neste número?” (DC-GC-09-009).</p>
+  <div class="opts" data-q="lin"></div>
+
+  <h2>5 · Assistente com contexto</h2>
+  <p class="lead">Regras comuns a qualquer opção: mostra o contexto capturado e a revisão; diz se é IA real ou fixture; cita a fonte; lista as ferramentas usadas; o que ele propõe vira Proposta na fila, nunca executa.</p>
+  <div class="opts wide" data-q="ai"></div>
+
+  <h2>6 · Visão de rede</h2>
+  <p class="lead">Relações do objeto: pedidos que usam o SKU, fornecedor, contratos. Útil para ver o impacto de uma proposta.</p>
+  <div class="opts" data-q="net"></div>
+
+  <h2>7 · Linha do tempo</h2>
+  <p class="lead">O que aconteceu e quando: propostas, aprovações, writebacks, falhas, num objeto ou num conjunto.</p>
+  <div class="opts" data-q="time"></div>
+
+  <h2>Folha · padrões escolhidos</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui sheet" data-theme="dark" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: rede fica de fora por enquanto)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+/* Desenhos Lucide (ISC) com pontas retas, como no catálogo da F05. */
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  chevR: '<path d="m9 18 6-6-6-6"/>', chevD: '<path d="m6 9 6 6 6-6"/>', arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+  file: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+  play: '<path d="M6 3v18l14-9Z"/>', box: '<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>',
+  truck: '<path d="M14 18V6H2v12h2"/><path d="M15 18H9"/><path d="M19 18h3v-6l-3-4h-5"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+  msg: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  net: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+  panel: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+const tagPend = (t, ic = 'clock') => `<span class="tag tag-pending">${I(ic)}${t}</span>`;
+
+const Q = {
+  obj: [
+    { id: 'V1', name: 'Cabeçalho e abas', src: 'Foundry Object View', why: 'Cabeçalho fixo com código, estado, risco, owner e ações; abaixo, abas (Resumo, Propostas, Trace, Linhagem, Histórico). Cada aba é uma pergunta; a tela não cresce sem fim.' },
+    { id: 'V2', name: 'Dossiê em duas colunas', src: 'Gotham (dossiê) + Workshop', why: 'Propriedades sempre visíveis à esquerda; à direita, proposta aberta, cadeia e histórico empilhados, sem abas. Tudo de uma vez; rola mais.' },
+    { id: 'V3', name: 'Inspetor ampliado', src: 'piloto', why: 'Nenhum padrão novo: o mesmo inspetor da bancada, em largura maior, numa coluna só. Mínimo de peças; desperdiça a largura da tela.' },
+  ],
+  diff: [
+    { id: 'P1', name: 'Tabela atual × proposto', src: 'piloto (proposal-diff)', why: 'Três colunas: propriedade, atual, proposto. Só as propriedades que mudam; o proposto em peso 600 e a variação ao lado.' },
+    { id: 'P2', name: 'Antes → depois em linha', src: 'proposta', why: 'Cada propriedade numa linha, “atual → proposto” e a variação. Cabe no inspetor de 360 px e no diálogo.' },
+    { id: 'P3', name: 'Riscado e inserido', src: 'diff de código', why: 'Valor antigo riscado em cinza, novo com fundo de seleção. Lê como revisão de texto; o riscado perde legibilidade.' },
+  ],
+  trace: [
+    { id: 'T1', name: 'Lista expansível', src: 'piloto (Trace da execução)', why: 'Etapas numeradas com tipo e hora; cada uma abre os dados brutos. Honesto e simples; dados em JSON pedem leitura técnica.' },
+    { id: 'T2', name: 'Cadeia com atores', src: 'cadeia de estado (F06 · E1)', why: 'A mesma cadeia vertical do inspetor: etapa, quem agiu, hora e duração; “Ver dados” abre o bruto. Uma linguagem só para estado e trace.' },
+    { id: 'T3', name: 'Cascata com durações', src: 'AIP Logic (depuração)', why: 'Cada etapa vira uma barra no tempo; mostra onde a execução demorou ou falhou. Ótimo para depurar; pouco útil para quem aprova.' },
+  ],
+  lin: [
+    { id: 'L1', name: 'Faixa de etapas', src: 'piloto (cadeia causal)', why: 'Cinco caixas em linha, com nome e versão de cada etapa; clicar abre o detalhe. Cabe em qualquer tela.' },
+    { id: 'L2', name: 'Grafo em colunas', src: 'Foundry Data Lineage', why: 'Nós por coluna (fontes, transformações, objetos, actions) ligados por linhas; o caminho do objeto em azul. Mostra ramificações; exige espaço.' },
+    { id: 'L3', name: 'Proveniência por propriedade', src: 'proposta (DC-GC-09-009)', why: 'Tabela: cada propriedade com fonte, versão ou transação e hora da captura. Responde “de onde veio este número” campo a campo.' },
+  ],
+  ai: [
+    { id: 'A1', name: 'Painel fixo à direita', src: 'piloto (Assistente contextual)', why: 'Uma quarta coluna ao lado do inspetor, sempre aberta. Contexto à vista o tempo todo; aperta a fila em telas menores.' },
+    { id: 'A2', name: 'Gaveta sob demanda', src: 'AIP (painel lateral)', why: 'Botão “Assistente” abre uma gaveta sobre a tela, com véu. A bancada fica inteira quando não se usa; esconde o inspetor enquanto aberta.' },
+    { id: 'A3', name: 'Seção no inspetor', src: 'proposta', why: 'Uma seção “Perguntar sobre este objeto” dentro do inspetor, com a última resposta. Nenhuma região nova; conversa curta, sem histórico longo.' },
+  ],
+  net: [
+    { id: 'R1', name: 'Grafo de nós', src: 'Gotham Graph / Vertex', why: 'Nós circulares com ícone por tipo, arestas retas, seleção em azul e painel da seleção. Explora relações; peça cara de manter.' },
+    { id: 'R2', name: 'Mapa de dependências', src: 'Workshop + piloto', why: 'Nós como cartões com código e estado, em colunas por tipo. Mostra o impacto com o estado de cada vizinho; menos livre que o grafo.' },
+    { id: 'R3', name: 'Lista de relações', src: 'PG-GC-09-05 (simplicidade)', why: 'Sem grafo: relações agrupadas por tipo, em tabelas curtas com estado. Responde “o que isso afeta” sem peça nova; não mostra relações de segundo grau.' },
+  ],
+  time: [
+    { id: 'H1', name: 'Histograma e lista', src: 'Gotham (filtro por histograma)', why: 'Eventos por dia em barras; arrastar seleciona uma janela e filtra a lista abaixo. Bom para conjuntos grandes.' },
+    { id: 'H2', name: 'Trilhas por objeto', src: 'Gotham Timeline', why: 'Uma trilha por objeto com marcadores por tipo de evento. Mostra concorrência entre objetos; marcadores pequenos pedem dica.' },
+    { id: 'H3', name: 'Feed por dia', src: 'piloto (Histórico)', why: 'Lista cronológica agrupada por dia: hora, ícone e o que aconteceu. A mais legível; não mostra volume de relance.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f11';
+const DEFAULT = { pick: { obj: 'V1', diff: 'P1', trace: 'T2', lin: 'L1', ai: 'A1', net: 'R3', time: 'H1' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── peças ── */
+const objHead = (compact = false) => `<div class="obj-head"${compact ? ' style="flex-direction:column;align-items:flex-start"' : ''}>
+  <div class="obj-id"><span class="meta">Item de estoque · ERP sintético</span><h4 class="obj-title">SKU-88</h4></div>
+  <div class="row">${tagPend('Aguardando aprovação')}<span class="risk risk-medium">${I('alert')}Médio</span><span class="meta">${I('user')} Operações</span></div>
+  <div class="obj-actions"${compact ? ' style="margin-left:0"' : ''}><span class="btn btn-secondary btn-icon" aria-label="Mais ações">${I('more')}</span><span class="btn btn-primary">${I('badge')}Aprovar…</span></div></div>`;
+const props = () => `<dl class="props"><dt>Preço</dt><dd class="nw">R$ 7.725,00</dd><dt>Estoque mín.</dt><dd>120 un.</dd><dt>Fornecedor</dt><dd>Fornecedor Alfa</dd><dt>Revisão</dt><dd>14</dd><dt>Fonte</dt><dd>ERP sintético · v12</dd><dt>Capturado</dt><dd>13:58</dd></dl>`;
+
+const diff = (id) => {
+  if (id === 'P2') return `<dl class="inline-diff"><dt>Preço</dt><dd><span class="nw">R$ 7.725,00</span> → <b class="nw">R$ 7.980,50</b> <span class="delta">+3,3%</span></dd><dt>Estoque mín.</dt><dd>120 → <b>140 un.</b> <span class="delta">+20</span></dd></dl>`;
+  if (id === 'P3') return `<dl class="inline-diff"><dt>Preço</dt><dd><span class="strike nw">R$ 7.725,00</span><span class="ins nw">R$ 7.980,50</span></dd><dt>Estoque mín.</dt><dd><span class="strike">120 un.</span><span class="ins">140 un.</span></dd></dl>`;
+  return `<div class="table-wrap"><table class="table diff"><thead><tr><th>Campo</th><th class="r">Atual</th><th class="r">Proposto</th></tr></thead><tbody><tr><td>Preço</td><td class="r old"><span class="nw">R$ 7.725,00</span></td><td class="r new"><span class="nw">R$ 7.980,50</span> <span class="delta">+3,3%</span></td></tr><tr><td>Estoque mín.</td><td class="r old">120 un.</td><td class="r new">140 un. <span class="delta">+20</span></td></tr></tbody></table></div>`;
+};
+const proposal = (d) => `<div class="panel"><div class="row"><b>PC-20481</b>${tagPend('Proposta', 'file')}<span class="meta" style="margin-left:auto">Base: revisão 14</span></div>${diff(d)}<span class="meta">Agente de preços v4 · aprovação separada obrigatória</span></div>`;
+
+const obj = (id, d = state.pick.diff) => {
+  if (id === 'V2') return `${objHead()}<div class="obj-body"><div class="panel"><span class="cap">Propriedades</span>${props()}</div><div style="display:grid;gap:12px">${proposal(d)}<div class="panel"><span class="cap">Histórico</span><span class="meta">14:05 aprovada · 13:58 proposta criada · ontem reconciliada rev. 13</span></div></div></div>`;
+  if (id === 'V3') return `<div class="obj-wide" style="display:grid;gap:12px">${objHead(true)}<div class="panel">${props()}</div>${proposal(d)}</div>`;
+  return `${objHead()}<div class="obj-tabs"><div class="tabs"><span class="tab" aria-selected="true">Resumo</span><span class="tab">Propostas <span class="tab-count">1</span></span><span class="tab">Trace <span class="tab-count">6</span></span><span class="tab">Linhagem</span><span class="tab">Histórico</span></div></div><div class="obj-body"><div class="panel"><span class="cap">Propriedades</span>${props()}</div>${proposal(d)}</div>`;
+};
+
+const trace = (id) => {
+  if (id === 'T1') {
+    const it = (n, k, t, open) => `<div class="trace-item${open ? ' open' : ''}"><div class="trace-sum">${I(open ? 'chevD' : 'chevR')}<b>${n}.</b> ${k}<span class="t">${t}</span></div>${open ? `<div class="trace-code">{ "tool": "consultar_historico",\n  "sku": "SKU-88", "janela": "90d",\n  "resultados": 3 }</div>` : ''}</div>`;
+    return `<div class="trace-list">${it(1, 'contexto_capturado', '13:58:02')}${it(2, 'ferramenta', '13:58:03', true)}${it(3, 'proposta_criada', '13:58:05')}${it(4, 'aprovacao', '14:05:11')}${it(5, 'writeback', '14:06:40')}${it(6, 'reconciliacao', '14:07:02')}</div><span class="meta">Etapas observadas; nenhum raciocínio interno é inferido.</span>`;
+  }
+  if (id === 'T3') {
+    const r = (n, s, w, ms, f) => `<span>${n}</span><span class="bar-lane"><span class="bar${f ? ' fail' : ''}" style="left:${s}%;width:${w}%"></span></span><span class="ms">${ms}</span>`;
+    return `<div class="wf">${r('Contexto', 0, 6, '0,4 s')}${r('Ferramenta', 6, 22, '1,5 s')}${r('Proposta', 28, 10, '0,7 s')}${r('Writeback', 40, 38, '2,6 s')}${r('Reconciliação', 78, 22, '1,5 s', true)}<span></span><span class="axis"><span>0 s</span><span>3,4 s</span><span>6,7 s</span></span></div><span class="meta">Execução automática; a espera pela aprovação humana fica fora da escala.</span>`;
+  }
+  const st = (t, m, cls = 'is-done', ic = 'check') => `<div class="chain-step ${cls}"><span class="chain-dot">${I(ic)}</span><div><div class="chain-title">${t}</div><div class="chain-meta">${m} · <span class="link">Ver dados</span></div></div></div>`;
+  return `<div class="chain">${st('Contexto capturado', 'agente v4 · 13:58:02 · 0,4 s')}${st('Ferramenta: consultar_historico', '3 resultados · 1,5 s')}${st('Proposta PC-20481 criada', 'agente v4 · 13:58:05')}${st('Aprovada', 'Gerente de operações · 14:05')}${st('Reconciliação falhou', 'destino recusou a revisão 14 · 14:07', 'is-failed', 'x')}</div>`;
+};
+
+const lin = (id) => {
+  if (id === 'L2') {
+    const n = (k, t, sub, on) => `<div class="gnode${on ? ' on' : ''}" data-node="${k}">${t}<span>${sub}</span></div>`;
+    const col = (t, nodes) => `<div class="gcol"><span class="cap">${t}</span>${nodes}</div>`;
+    return `<div class="graph" data-edges="erp>norm*,plan>norm,norm>sku88*,norm>sku91,sku88>act*,sku91>act">
+      <svg class="edges" aria-hidden="true"></svg>
+      ${col('Fontes', n('erp', 'ERP', 'v12', true) + n('plan', 'Planilha', 'v3'))}
+      ${col('Transf.', n('norm', 'normalizar', 'tx 8812', true))}
+      ${col('Objetos', n('sku88', 'SKU-88', 'rev 14', true) + n('sku91', 'SKU-91', 'rev 6'))}
+      ${col('Actions', n('act', 'ajustar', 'médio', true))}</div>`;
+  }
+  if (id === 'L3') return `<div class="table-wrap"><table class="table"><thead><tr><th>Campo</th><th>Fonte e versão</th><th class="r">Captura</th></tr></thead><tbody><tr><td>Preço</td><td>ERP · tx 8812</td><td class="r">13:58</td></tr><tr><td>Estoque mín.</td><td>Planilha · v3</td><td class="r">05/11</td></tr><tr><td>Fornecedor</td><td>ERP · v12</td><td class="r">13:58</td></tr></tbody></table></div>`;
+  const s = (t, d, on) => `<div class="lin-step${on ? ' on' : ''}"><span class="cap">${t}</span><b>${d[0]}</b><span class="meta">${d[1]}</span></div>`;
+  const a = `<span class="lin-arrow">${I('arrow')}</span>`;
+  return `<div class="lin">${s('Fonte', ['ERP sintético', 'v12'])}${a}${s('Transformação', ['normalizar_precos', 'tx 8812'])}${a}${s('Objeto', ['SKU-88', 'rev 14'], true)}${a}${s('Function', ['reposicao_v4', 'v4'])}${a}${s('Action', ['ajustar_preco', 'risco médio'])}</div>`;
+};
+
+const aiBody = (short = false) => `<div class="ai">
+  <div class="ai-head">${I('msg', 'ico ico-20')}<h5>Assistente</h5><span class="seal">IA via CLI</span></div>
+  <div class="ctx"><span class="tag tag-value">SKU-88 · rev 14</span><span class="tag tag-value">PC-20481</span></div>
+  ${short ? '' : '<div class="msg user">Por que o preço sobe 3,3%?</div>'}
+  <div class="msg"><span>O custo do Fornecedor Alfa subiu 4,1% em outubro; a proposta repassa 3,3% para manter a margem de 18%.</span><span class="cite">Fonte: ERP sintético v12 · tx 8812</span></div>
+  <div class="tool">${I('wrench')}consultar_historico · 3 resultados</div>
+  ${short ? '' : `<div class="gen">${I('file')}Proposta PC-20482 criada<span class="tag tag-pending">${I('file')}Proposta</span></div>`}
+  <label class="field" style="min-width:0"><span class="sr-only">Pergunta</span><span class="input" style="display:flex;align-items:center;color:var(--text-muted)">Perguntar sobre este objeto</span></label>
+</div>`;
+const queueMini = () => `<span class="cap">Fila</span>${['PC-20481', 'PC-20477', 'PC-20470', 'OS-311'].map((c, i) => `<div class="row" style="min-height:32px;border-bottom:1px solid var(--color-border);${i === 0 ? 'background:var(--color-selected);box-shadow:inset 3px 0 0 var(--color-action);padding-left:8px' : 'padding-left:8px'}"><b style="font-size:var(--text-meta)">${c}</b></div>`).join('')}`;
+const inspMini = (extra = '') => `<span class="cap">Inspetor</span><b>PC-20481</b>${diff('P2')}${extra}`;
+const ai = (id) => {
+  if (id === 'A2') return `<div class="app"><div class="panel dim" style="position:relative">${queueMini()}</div><div class="panel">${inspMini()}</div><div class="drawer">${aiBody()}</div></div>`;
+  if (id === 'A3') return `<div class="app"><div class="panel">${queueMini()}</div><div class="panel">${inspMini(`<div style="border-top:1px solid var(--color-border);padding-top:12px">${aiBody(true)}</div>`)}</div></div>`;
+  return `<div class="app with-ai"><div class="panel">${queueMini()}</div><div class="panel">${inspMini()}</div><div class="panel">${aiBody()}</div></div>`;
+};
+
+const net = (id) => {
+  if (id === 'R3') {
+    const g = (t, rows) => `<div class="rel-group"><span class="cap">${t}</span><div class="table-wrap"><table class="table"><tbody>${rows}</tbody></table></div></div>`;
+    return `${g('Pedidos que usam este SKU · 3', `<tr><td class="code">PC-20481</td><td>${tagPend('Aguardando aprovação')}</td></tr><tr><td class="code">PC-20455</td><td><span class="tag tag-success">${I('check')}Reconciliada</span></td></tr><tr><td class="code">PC-20450</td><td><span class="tag tag-warning">${I('alert')}Divergente</span></td></tr>`)}${g('Fornecedor · 1', `<tr><td class="code">Fornecedor Alfa</td><td><span class="meta">contrato CT-1193</span></td></tr>`)}<span class="btn btn-minimal" style="justify-self:start">${I('net')}Abrir na rede</span>`;
+  }
+  if (id === 'R2') {
+    const c = (x, y, t, tag, on) => `<div class="ncard${on ? ' on' : ''}" style="left:${x}%;top:${y}px">${t}${tag}</div>`;
+    return `<div class="net"><svg viewBox="0 0 100 240" preserveAspectRatio="none" aria-hidden="true"><line x1="34" y1="120" x2="42" y2="55"/><line x1="34" y1="120" x2="42" y2="120" class="hot"/><line x1="34" y1="120" x2="42" y2="185"/><line x1="72" y1="120" x2="77" y2="120"/></svg>
+      ${c(2, 120, 'SKU-88', tagPend('Aguardando'), true)}${c(42, 55, 'PC-20455', `<span class="tag tag-success">${I('check')}Reconciliada</span>`)}${c(42, 120, 'PC-20481', tagPend('Proposta', 'file'))}${c(42, 185, 'PC-20450', `<span class="tag tag-warning">${I('alert')}Divergente</span>`)}${c(77, 120, 'CT-1193', '<span class="meta">Fornecedor</span>')}</div>`;
+  }
+  const n = (x, y, ic, t, on) => `<div class="nnode${on ? ' on' : ''}" style="left:${x}%;top:${y}px"><i>${I(ic)}</i><b>${t}</b></div>`;
+  return `<div class="net-split"><div class="net"><svg viewBox="0 0 100 240" preserveAspectRatio="none" aria-hidden="true"><line x1="48" y1="112" x2="20" y2="45"/><line x1="48" y1="112" x2="20" y2="175"/><line x1="48" y1="112" x2="78" y2="45" class="hot"/><line x1="48" y1="112" x2="78" y2="175"/><line x1="78" y1="45" x2="78" y2="175"/></svg>
+    ${n(48, 112, 'box', 'SKU-88', true)}${n(20, 45, 'file', 'PC-20481')}${n(20, 175, 'file', 'PC-20455')}${n(78, 45, 'truck', 'Fornecedor')}${n(78, 175, 'file', 'CT-1193')}</div>
+    <div class="panel" style="border:1px solid var(--color-border);border-left:0"><span class="cap">Seleção</span><b>SKU-88</b><span class="meta">4 vínculos · 2 tipos</span><span class="btn btn-minimal" style="padding:0 6px">${I('panel')}Inspetor</span></div></div>`;
+};
+
+const time = (id) => {
+  if (id === 'H2') {
+    const lane = (name, mks) => `<span class="lane-name">${name}</span><span class="lane">${mks}</span>`;
+    const m = (x, cls = '') => `<span class="mk ${cls}" style="left:${x}%"></span>`;
+    return `<div class="lanes">${lane('SKU-88', m(20) + m(62, 'sq') + m(80, 'fail'))}${lane('PC-20481', m(55) + m(62, 'sq'))}${lane('CT-1193', m(10) + m(45, 'ok'))}<span class="lane-axis"><span>01/11</span><span>04/11</span><span>06/11</span></span></div><div class="row meta"><span class="row">● proposta</span><span class="row">◆ aprovação</span><span class="row" style="color:var(--text-danger)">● falha</span></div>`;
+  }
+  if (id === 'H3') {
+    const it = (t, ic, txt, cls = '') => `<div class="feed-item ${cls}"><span class="t">${t}</span>${I(ic)}<span>${txt}</span></div>`;
+    return `<div class="feed"><span class="feed-day">Hoje · 06/11</span>${it('14:07', 'x', 'Reconciliação falhou: destino recusou a revisão 14', 'fail')}${it('14:06', 'play', 'Writeback enviado ao ERP sintético')}${it('14:05', 'badge', 'PC-20481 aprovada por Gerente de operações')}${it('13:58', 'file', 'Proposta PC-20481 criada pelo agente v4')}<span class="feed-day">Ontem · 05/11</span>${it('18:20', 'check', 'Revisão 13 reconciliada')}</div>`;
+  }
+  const v = [2, 3, 1, 4, 2, 5, 3, 2, 6, 8, 4, 7, 9, 5];
+  return `<div class="hist"><span class="brush" style="left:${8 / 14 * 100}%;width:${4 / 14 * 100}%"></span>${v.map((n, i) => `<span class="b${i < 8 || i > 11 ? ' dim' : ''}" style="height:${n * 10}%"></span>`).join('')}</div><div class="days"><span>24/10</span><span>Janela: 01/11 a 04/11 · 25 eventos</span><span>06/11</span></div>
+    <div class="feed">${['04/11 · 9 eventos · 1 falha', '03/11 · 7 eventos', '02/11 · 4 eventos'].map((t) => `<div class="feed-item" style="grid-template-columns:1fr"><span>${t}</span></div>`).join('')}</div>`;
+};
+
+const R = { obj, diff, trace, lin, ai, net, time };
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui mini" data-pv="${q}:${o.id}"></div>
+    </button>`).join('');
+});
+
+function previews() {
+  document.querySelectorAll('[data-pv]').forEach((el) => { const [q, id] = el.dataset.pv.split(':'); el.innerHTML = R[q](id); });
+}
+
+/* Liga os nós do grafo de linhagem depois do layout. */
+function drawEdges() {
+  document.querySelectorAll('.graph[data-edges]').forEach((g) => {
+    const box = g.getBoundingClientRect();
+    const svg = g.querySelector('svg.edges');
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    svg.innerHTML = g.dataset.edges.split(',').map((e) => {
+      const hot = e.endsWith('*');
+      const [a, b] = e.replace('*', '').split('>').map((k) => g.querySelector(`[data-node="${k}"]`).getBoundingClientRect());
+      const x1 = a.right - box.left, y1 = a.top + a.height / 2 - box.top, x2 = b.left - box.left, y2 = b.top + b.height / 2 - box.top, m = (x1 + x2) / 2;
+      return `<path class="${hot ? 'hot' : ''}" d="M${x1} ${y1} C ${m} ${y1} ${m} ${y2} ${x2} ${y2}"/>`;
+    }).join('');
+  });
+}
+addEventListener('resize', drawEdges);
+
+function sheet() {
+  const p = state.pick;
+  return `
+    <div><h3>Página do objeto, com a comparação escolhida</h3><div style="display:grid;gap:0">${obj(p.obj, p.diff)}</div></div>
+    <div><h3>Bancada com assistente</h3>${ai(p.ai)}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px">
+      <div><h3>Trace</h3><div style="display:grid;gap:8px">${trace(p.trace)}</div></div>
+      <div><h3>Linhagem</h3>${lin(p.lin)}</div>
+      <div><h3>Rede</h3><div style="display:grid;gap:12px">${net(p.net)}</div></div>
+      <div><h3>Linha do tempo</h3><div style="display:grid;gap:8px">${time(p.time)}</div></div>
+    </div>`;
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  previews();
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F11 · Padrões de aplicação\nObjeto: ${p.obj} · Comparação: ${p.diff} · Trace: ${p.trace} · Linhagem: ${p.lin} · Assistente: ${p.ai} · Rede: ${p.net} · Linha do tempo: ${p.time}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+  requestAnimationFrame(drawEdges);
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

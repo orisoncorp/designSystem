@@ -1,0 +1,36 @@
+<!-- 09 · Forma e profundidade -->
+<section id="sec-forma" class="doc-section" aria-labelledby="sec-forma-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Fundamentos · F04</p>
+    <h2 class="doc-title" id="sec-forma-title">Forma e profundidade</h2>
+    <p class="doc-lead">
+      Superfícies retas, raio só em controle, sombra só no que flutua. A
+      página é plana; menus, diálogos e avisos se destacam dela.
+    </p>
+  </header>
+
+  <div class="grid-4">
+    <div class="block"><span class="doc-eyebrow">Superfície</span><div style="height:64px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:var(--radius-surface)"></div><span class="meta"><code>--radius-surface</code> · <span data-token-value="--radius-surface"></span></span></div>
+    <div class="block"><span class="doc-eyebrow">Controle</span><div style="height:64px;background:var(--color-canvas);border:1px solid var(--color-control);border-radius:var(--radius-control)"></div><span class="meta"><code>--radius-control</code> · <span data-token-value="--radius-control"></span></span></div>
+    <div class="block"><span class="doc-eyebrow">Tag</span><div style="height:64px;background:var(--color-canvas);border:1px solid var(--color-control);border-radius:var(--radius-tag)"></div><span class="meta"><code>--radius-tag</code> · <span data-token-value="--radius-tag"></span></span></div>
+    <div class="block"><span class="doc-eyebrow">Marca circular</span><div style="height:64px;width:64px;background:var(--color-canvas);border:1px solid var(--color-control);border-radius:var(--radius-full)"></div><span class="meta"><code>--radius-full</code> · só dot, rádio, switch</span></div>
+  </div>
+
+  <div class="specimen">
+    <div class="menu" role="listbox" aria-label="Exemplo de menu">
+      <div class="menu-item" role="option" aria-selected="false">Todos</div>
+      <div class="menu-item" role="option" aria-selected="true">Alto</div>
+      <div class="menu-item" role="option" aria-selected="false">Médio</div>
+    </div>
+    <div class="dialog" role="group" aria-label="Exemplo de diálogo">
+      <span class="dialog-title">Nível 3 · diálogo</span>
+      <span class="meta">Sombra só no que está acima da página.</span>
+    </div>
+    <button type="button" class="btn btn-secondary is-focus">Foco de 2 px, afastado 2</button>
+  </div>
+
+  <div class="grid-2">
+    <div class="rule"><span class="rule-name">Superfície reta.</span><span class="meta">Raio é propriedade de controle. Card arredondado não existe neste sistema.</span></div>
+    <div class="rule"><span class="rule-name">Sombra só no que flutua.</span><span class="meta">Menu no nível 1; diálogo e toast no nível 3, com véu atrás do diálogo. Painel da página não tem sombra.</span></div>
+  </div>
+</section>

@@ -1,0 +1,49 @@
+<!-- 01 · Como usar -->
+<section id="sec-como-usar" class="doc-section" aria-labelledby="sec-como-usar-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Início</p>
+    <h2 class="doc-title" id="sec-como-usar-title">Como usar</h2>
+    <p class="doc-lead">
+      Um site, um conjunto de tokens, dois temas. O tema claro é o produto; o
+      escuro é a marca e a comunicação. Use o botão de tema no índice para ver
+      qualquer página nos dois.
+    </p>
+  </header>
+
+  <div class="grid-3">
+    <div class="block">
+      <h3 class="block-title">A norma</h3>
+      <p class="meta"><code>DESIGN.md</code> é a única norma escrita. <code>src/tokens/tokens.css</code> é a verdade executável: se divergirem, o código vence e o documento é corrigido.</p>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Os valores</h3>
+      <p class="meta">Nenhum valor desta documentação é digitado. Cores, tamanhos e contrastes são lidos dos tokens no navegador; mudar o token muda a página.</p>
+    </div>
+    <div class="block">
+      <h3 class="block-title">A origem</h3>
+      <p class="meta">Cada decisão veio de uma rodada aprovada (F01 a F16), com referência à pesquisa da Palantir (DR-09). O registro está em <code>docs/fusao-palantir.md</code>.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Consumir em outro projeto</h3>
+    <pre class="code-block"><code>/* tokens: obrigatório, base de tudo */
+@import '@orison/design-system/tokens';
+/* camadas opcionais */
+@import '@orison/design-system/base';
+@import '@orison/design-system/components';
+@import '@orison/design-system/patterns';
+@import '@orison/design-system/dataviz';
+
+/* tema escuro num bloco ou na página inteira */
+&lt;html data-theme="dark"&gt;  ou  &lt;div data-theme="dark"&gt;</code></pre>
+    <p class="meta">Tokens também em JSON no formato DTCG 2025.10: <code>npm run tokens:export</code> gera <code>tokens/orison.tokens.json</code>.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="rule"><span class="rule-name">Uma só cor de ação.</span><span class="meta">Azul é clicável. Se algo é azul e não é clicável, está errado.</span></div>
+    <div class="rule"><span class="rule-name">Cor é resultado.</span><span class="meta">Verde, laranja e vermelho só descrevem algo que aconteceu.</span></div>
+    <div class="rule"><span class="rule-name">Crimson é identidade.</span><span class="meta">Não marca ação, erro, risco, dado nem texto.</span></div>
+    <div class="rule"><span class="rule-name">Três eixos que não se fundem.</span><span class="meta">Estado, risco e evidência nunca dividem o mesmo sinal visual.</span></div>
+  </div>
+</section>

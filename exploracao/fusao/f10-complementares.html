@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F10 Componentes complementares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens e componentes reais do site v4: o que já foi aprovado aparece
+     exatamente como está em produção. Só os candidatos são CSS local. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/tokens/motion-tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<style>
+  /* ── cromo da página de votação (fora do sistema) ── */
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── palco de prévia com tokens reais ── */
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .mini { padding: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; position: relative; min-height: 120px; flex: 1; align-content: flex-start; }
+  .mini.center { align-items: center; justify-content: center; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .ui p { margin: 0; }
+
+  /* 1 · dica */
+  .tip-anchor { position: relative; display: inline-flex; margin-top: 64px; }
+  .tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: max-content; max-width: 260px; padding: 6px 10px; border-radius: var(--radius-control); font-size: var(--text-meta); line-height: 1.35; font-weight: var(--weight-text); display: flex; gap: 8px; align-items: center; }
+  .tip::after { content: ''; position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; transform: translate(-50%, -50%) rotate(45deg); background: inherit; }
+  .tip-D1, .tip-D3 { background: var(--text-primary); color: var(--color-canvas); }
+  .tip-D2 { background: var(--color-surface); color: var(--text-primary); box-shadow: var(--elevation-1); }
+  .tip-D2::after { box-shadow: 1px 1px 0 0 var(--color-border); }
+  kbd { font-family: var(--font-text); font-size: var(--text-label); font-weight: var(--weight-strong); padding: 0 5px; border: 1px solid currentColor; border-radius: var(--radius-tag); line-height: 1.4; }
+
+  /* 2 · tag removível */
+  .multi { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: var(--height-control); padding: 4px 8px; border: var(--border-thin) solid var(--color-control); border-radius: var(--radius-control); background: var(--color-raised); width: 340px; }
+  .multi .ph { color: var(--text-muted); font-size: var(--text-meta); }
+  .tag-value { color: var(--text-primary); background: var(--color-neutral-fill); border-color: var(--color-border); }
+  .tag-R1 .x { display: inline-grid; place-items: center; color: var(--text-muted); margin-right: -2px; }
+  .tag-R1 .x .ico { width: 14px; height: 14px; }
+  .tag-R2 { padding-right: 0; gap: 0; }
+  .tag-R2 .lbl { padding-right: 6px; }
+  .tag-R2 .x { display: inline-grid; place-items: center; width: 24px; align-self: stretch; border-left: var(--border-thin) solid var(--color-border); color: var(--text-muted); }
+  .tag-R2 .x .ico { width: 14px; height: 14px; }
+  .chip .ico { width: 14px; height: 14px; }
+
+  /* 3 · seleção em massa */
+  .box { width: 18px; height: 18px; flex: none; border: var(--border-thin) solid var(--color-control); border-radius: var(--radius-tag); background: var(--color-raised); display: inline-grid; place-items: center; color: var(--color-action-fg); }
+  .box .ico { width: 14px; height: 14px; }
+  .box.on, .box.mixed-fill { background: var(--color-action); border-color: var(--color-action); }
+  .box.mixed-line { border-color: var(--color-action); color: var(--color-action); }
+  .mini .table-wrap { width: 100%; }
+  .table .cb { width: 44px; }
+  .bulk { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; min-height: 44px; padding: 4px 12px; background: var(--color-selected); border: var(--border-thin) solid var(--color-border); border-bottom: 0; }
+  .bulk .btn { min-height: 32px; padding: 0 10px; font-size: var(--text-meta); }
+  .bulk-block { display: grid; width: 100%; }
+  .filters + .table-wrap { margin-top: 8px; }
+  .nw { white-space: nowrap; }
+  .bulk .count { font-size: var(--text-meta); font-weight: var(--weight-strong); margin-right: 8px; }
+  .filters { display: flex; gap: 8px; width: 100%; }
+
+  /* 4 · segmentado */
+  .seg { display: inline-flex; font-size: var(--text-meta); font-weight: var(--weight-strong); }
+  .seg span { display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; }
+  .seg-S1 { background: var(--color-neutral-fill); border-radius: var(--radius-control); padding: 2px; gap: 2px; }
+  .seg-S1 span { min-height: 32px; border-radius: var(--radius-tag); color: var(--text-muted); }
+  .seg-S1 span.on { background: var(--color-raised); color: var(--text-primary); box-shadow: var(--elevation-1); }
+  .seg-S2 { border: var(--border-thin) solid var(--color-control); border-radius: var(--radius-control); overflow: hidden; }
+  .seg-S2 span { min-height: 34px; background: var(--color-raised); color: var(--text-primary); border-left: var(--border-thin) solid var(--color-control); }
+  .seg-S2 span:first-child { border-left: 0; }
+  .seg-S2 span.on { background: var(--color-selected); color: var(--color-link); box-shadow: inset 0 0 0 1px var(--color-action); }
+  .seg-wrap { display: grid; gap: 6px; justify-items: start; }
+
+  /* 5 · menu */
+  .menu { min-width: 260px; }
+  .menu-item { gap: 10px; }
+  .menu-item .ico { color: var(--text-muted); }
+  .menu-item.hover { background: var(--color-neutral-fill); }
+  .menu-item .key { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); }
+  .menu-head { font-size: var(--text-label); font-weight: var(--weight-strong); letter-spacing: var(--tracking-header); text-transform: uppercase; color: var(--text-muted); padding: 8px 12px 4px; }
+  .menu-sep { height: 1px; background: var(--color-border); margin: 4px 0; }
+  .menu-item.danger, .menu-item.danger .ico { color: var(--text-danger); }
+
+  /* 6 · diálogo */
+  .mini .scrim-stage { width: 100%; padding: 24px 16px; }
+  .dialog { max-width: 440px; width: 100%; }
+  .dialog p { font-size: var(--text-meta); color: var(--text-muted); }
+  .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+  .props { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: var(--text-meta); align-items: center; padding: 10px 12px; background: var(--color-canvas); border: var(--border-thin) solid var(--color-border); }
+  .props dt { font-size: var(--text-label); font-weight: var(--weight-strong); color: var(--text-muted); }
+  .props dd { margin: 0; }
+  .inspector { width: 100%; max-width: 380px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 16px; display: grid; gap: 10px; }
+  .inspector h4 { margin: 0; font-size: var(--text-section); font-weight: var(--weight-strong); }
+  .confirm-band { display: grid; gap: 8px; padding: 12px; border-top: var(--indicator) solid var(--color-action); background: var(--color-selected); }
+  .confirm-band b { font-size: var(--text-meta); }
+  .typed { display: grid; gap: 4px; }
+
+  /* 7 · toast com desfazer */
+  .stage { position: relative; width: 100%; height: 200px; border: 1px dashed var(--color-border); overflow: hidden; }
+  .stage .toast { position: absolute; right: 12px; bottom: 12px; width: 340px; align-items: center; overflow: hidden; }
+  .toast .btn-minimal { min-height: 28px; padding: 0 8px; font-size: var(--text-meta); }
+  .toast .btn-icon { margin-left: 0; }
+  .toast .grow { flex: 1; }
+  .toast-timer { position: absolute; left: 0; bottom: 0; height: 3px; width: 60%; background: var(--text-muted); }
+  .hist { position: absolute; left: 12px; top: 12px; width: 320px; font-size: var(--text-meta); background: var(--color-surface); border: var(--border-thin) solid var(--color-border); padding: 8px 12px; display: grid; gap: 6px; }
+  .hist-row { display: flex; gap: 8px; align-items: center; white-space: nowrap; }
+  .hist-row .btn { min-height: 28px; font-size: var(--text-meta); margin-left: auto; padding: 0 8px; }
+
+  /* 8 · progresso */
+  .prog { display: grid; gap: 6px; width: 100%; max-width: 420px; }
+  .prog-track { height: 4px; background: var(--color-neutral-fill); }
+  .prog-fill { height: 100%; width: 28%; }
+  .prog-P1 .prog-fill { background: var(--color-action); }
+  .prog-P2 .prog-fill { background: var(--text-primary); }
+  .prog-line { display: flex; justify-content: space-between; font-size: var(--text-meta); }
+  .prog-line b { font-weight: var(--weight-strong); }
+  .steps { display: grid; gap: 4px; font-size: var(--text-meta); }
+  .steps div { display: flex; gap: 8px; align-items: center; }
+  .steps .done { color: var(--text-primary); }
+  .steps .now { font-weight: var(--weight-strong); }
+  .steps .next { color: var(--text-muted); }
+
+  /* ── folha ── */
+  .sheets { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 16px; }
+  .sheet { padding: 24px; display: grid; gap: 28px; border: 1px solid #404854; }
+  .sheet h3 { margin: 0 0 10px; font-size: var(--text-label); font-weight: var(--weight-strong); text-transform: uppercase; letter-spacing: var(--tracking-header); color: var(--text-muted); }
+  .sheet .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+  .sheet .stage, .sheet .scrim-stage { max-width: 720px; }
+  .sheet .tip-anchor { margin: 64px 72px 0 110px; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F10 · Componentes complementares</h1>
+  <p class="lead">
+    <strong>Já decidido (F01–F09):</strong> cor, tipo, espaço, forma, ícones,
+    semântica e os componentes básicos. As prévias abaixo usam os tokens e o CSS
+    reais do site v4; só o candidato de cada pergunta é novo.
+  </p>
+  <p class="lead">
+    Oito peças que a bancada vai precisar e que ainda não existem: dica,
+    tag removível, seleção em massa, controle segmentado, menu, diálogo de
+    confirmação, aviso com desfazer e progresso. Fontes: réplicas do Blueprint
+    em <code>palantir-overview</code>, telas do Workshop e do Gaia no estudo de
+    frontend e o piloto. No fim, a folha com as escolhas nos dois temas.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Dica (tooltip)</h2>
+  <p class="lead">Complementa um controle, sobretudo botão só com ícone. Regra comum: nunca carrega informação que não exista em outro lugar; abre com hover e com foco; Esc fecha.</p>
+  <div class="opts" data-q="tip"></div>
+
+  <h2>2 · Tag removível</h2>
+  <p class="lead">Valores escolhidos num campo de seleção múltipla (owners, fontes). Não é tag de estado: é neutra e sai com um clique.</p>
+  <div class="opts" data-q="tagx"></div>
+
+  <h2>3 · Seleção em massa na tabela</h2>
+  <p class="lead">Checkbox no cabeçalho com estado parcial (algumas linhas marcadas) e o que acontece com a barra acima da tabela.</p>
+  <div class="opts" data-q="bulk"></div>
+
+  <h2>4 · Controle segmentado</h2>
+  <p class="lead">Troca de vista ou janela do mesmo conteúdo (Tabela, Rede, Linha do tempo; 7, 30, 90 dias). Na F07 ele foi recusado como aba por usar a cor de ação; aqui é um controle de valor.</p>
+  <div class="opts" data-q="seg"></div>
+
+  <h2>5 · Menu de ações</h2>
+  <p class="lead">Menu do botão “Mais” e menu de contexto da linha (clique direito no Workshop).</p>
+  <div class="opts" data-q="menu"></div>
+
+  <h2>6 · Confirmação de ação</h2>
+  <p class="lead">Antes de aprovar, executar ou reverter. Já é regra: ação irreversível exige confirmação digitada (aparece na folha, em qualquer opção).</p>
+  <div class="opts" data-q="dlg"></div>
+
+  <h2>7 · Aviso com desfazer</h2>
+  <p class="lead">Desfazer só existe antes do writeback. Depois que o destino aplicou, voltar atrás é “Reverter”: uma nova proposta, com o próprio risco.</p>
+  <div class="opts" data-q="undo"></div>
+
+  <h2>8 · Progresso de processo longo</h2>
+  <p class="lead">Writeback em lote, reconciliação, importação. A F06 decidiu que andamento é estado neutro.</p>
+  <div class="opts" data-q="prog"></div>
+
+  <h2>Folha de componentes complementares</h2>
+  <div class="sheets">
+    <div><div class="pv-title">Produto · claro</div><div class="ui sheet" id="sheet-light"></div></div>
+    <div><div class="pv-title">Marca · escuro</div><div class="ui sheet" data-theme="dark" id="sheet-dark"></div></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: aprovo, mas o menu não precisa de atalhos)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+/* Desenhos Lucide (ISC) com pontas retas, como no catálogo da F05. */
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', minus: '<path d="M5 12h14"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  history: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  copy: '<rect width="14" height="14" x="8" y="8"/><path d="M4 16V4h12"/>',
+  badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+  panel: '<rect width="18" height="18" x="3" y="3"/><path d="M15 3v18"/>',
+  more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+  table: '<rect width="18" height="18" x="3" y="3"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M12 3v18"/>',
+  network: '<rect x="16" y="16" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><rect x="9" y="2" width="6" height="6"/><path d="M5 16v-4h14v4"/><path d="M12 12V8"/>',
+  time: '<path d="M3 12h18"/><path d="M7 8v8"/><path d="M13 6v12"/><path d="M18 9v6"/>',
+  chev: '<path d="m6 9 6 6 6-6"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  play: '<path d="M6 3v18l14-9Z"/>', filter: '<path d="M22 3H2l8 9.46V19l4 2v-8.54Z"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+
+const Q = {
+  tip: [
+    { id: 'D1', name: 'Invertida', src: 'Blueprint Tooltip', why: 'Fundo escuro no tema claro e claro no escuro, texto de 14 px, seta. Lê como camada passageira, separada do conteúdo.' },
+    { id: 'D2', name: 'Superfície elevada', src: 'proposta (popover)', why: 'Mesmo fundo dos menus, com sombra de nível 1. Mais discreta; confunde-se com um menu aberto.' },
+    { id: 'D3', name: 'Invertida com atalho', src: 'Blueprint + Workshop', why: 'D1, mais o atalho de teclado quando existir. Ensina o atalho sem uma tela de ajuda; só aparece em ações que têm atalho.' },
+  ],
+  tagx: [
+    { id: 'R1', name: 'X dentro da tag', src: 'Blueprint Tag removable', why: 'Ícone de fechar de 14 px dentro da tag. Compacto; o alvo de clique fica pequeno (cerca de 16 px).' },
+    { id: 'R2', name: 'X em área própria', src: 'proposta (WCAG 2.2, alvo 24 px)', why: 'O X ocupa uma área de 24 px separada por um traço. Mesmo tamanho de tag, alvo de clique maior e mais claro.' },
+    { id: 'R3', name: 'Chip de filtro', src: 'F08 · F1 reaproveitado', why: 'Nenhuma peça nova: o chip de 32 px com X. Coerente com os filtros; o campo cresce e fica pesado com três valores.' },
+  ],
+  bulk: [
+    { id: 'X1', name: 'Parcial preenchido', src: 'Blueprint Checkbox', why: 'Caixa azul com traço branco no estado parcial. Barra de filtros continua igual; as ações ficam no menu da linha.' },
+    { id: 'X2', name: 'Parcial contornado', src: 'proposta', why: 'Caixa contornada em azul com traço azul. Diferencia “alguns” de “todos” com mais força; menos comum.' },
+    { id: 'X3', name: 'Parcial + barra de massa', src: 'Workshop Object Table + piloto', why: 'X1, e ao marcar a barra de filtros vira barra de ações: contagem, ações e “Limpar seleção”. Ação em massa só para o mesmo nível de risco; irreversível nunca vai em lote.' },
+  ],
+  seg: [
+    { id: 'S1', name: 'Trilho neutro', src: 'Blueprint 6 SegmentedControl', why: 'Trilho cinza; a opção ativa sobe como superfície branca com sombra leve. Não usa azul: seleção de vista não é ação.' },
+    { id: 'S2', name: 'Seleção azul', src: 'chip ativo (F08)', why: 'Botões agrupados; a ativa ganha o fundo e o contorno de seleção, como o chip de filtro ativo. Mais visível; mais um azul na tela.' },
+    { id: 'S3', name: 'Sem segmentado', src: 'proposta (mínimo)', why: 'Um campo de seleção comum. Uma peça a menos; a opção ativa fica escondida até abrir.' },
+  ],
+  menu: [
+    { id: 'M1', name: 'Lista simples', src: 'Blueprint Menu', why: 'Ícone e rótulo, sem divisão. Rápido para até cinco ações.' },
+    { id: 'M2', name: 'Seções e atalhos', src: 'Workshop (menu de contexto)', why: 'Grupos com título (Proposta, Objeto) e atalho à direita. Escala para muitas ações e ensina o teclado.' },
+    { id: 'M3', name: 'Seções e perigo isolado', src: 'Workshop + DR-09', why: 'M2, com a ação destrutiva sozinha no fim, depois de um divisor, em texto vermelho (sem fundo). Ela abre a confirmação, nunca executa direto.' },
+  ],
+  dlg: [
+    { id: 'G1', name: 'Diálogo simples', src: 'Blueprint Alert', why: 'Pergunta com verbo, uma frase de consequência, Cancelar e o verbo da ação. Rápido; não mostra o que muda.' },
+    { id: 'G2', name: 'Diálogo com impacto', src: 'DR-09 (DC-GC-09-005)', why: 'Mesma estrutura, mais um bloco com o que muda, risco, reversibilidade e owner. Quem aprova vê a consequência antes de clicar.' },
+    { id: 'G3', name: 'Confirmação no inspetor', src: 'piloto (sem modal)', why: 'Sem diálogo: o bloco de impacto e os botões aparecem no próprio inspetor. Mantém o contexto da fila; é mais fácil confirmar sem perceber.' },
+  ],
+  undo: [
+    { id: 'U1', name: 'Desfazer no aviso', src: 'Blueprint Toast action', why: 'O aviso de sucesso traz “Desfazer” e fica 10 s. O writeback só sai depois da janela.' },
+    { id: 'U2', name: 'Desfazer com tempo visível', src: 'proposta', why: 'U1, com uma linha que esvazia até o envio. Deixa claro quando o desfazer acaba; é movimento contínuo na tela.' },
+    { id: 'U3', name: 'Sem desfazer no aviso', src: 'DR-09 (estado no objeto)', why: 'O aviso só confirma. Voltar atrás fica no histórico do objeto, como “Reverter”. Mais sóbrio; mais lento para corrigir um clique errado.' },
+  ],
+  prog: [
+    { id: 'P1', name: 'Barra azul', src: 'Blueprint ProgressBar', why: 'Barra de 4 px na cor de ação, sem listras. Familiar; usa azul para algo que não é ação.' },
+    { id: 'P2', name: 'Barra neutra e texto', src: 'F06 (andamento neutro)', why: 'Barra de 4 px em tinta neutra, com etapa e contagem em texto. Coerente com o estado neutro; o número diz mais que a barra.' },
+    { id: 'P3', name: 'Só etapas', src: 'cadeia de estado (F06 · E1)', why: 'Sem barra: lista de etapas com a atual em destaque e a contagem. Mais legível para leitor de tela; não mostra proporção de relance.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f10';
+const DEFAULT = { pick: { tip: 'D3', tagx: 'R2', bulk: 'X3', seg: 'S1', menu: 'M3', dlg: 'G2', undo: 'U1', prog: 'P2' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── prévias por opção ── */
+const tip = (id) => `<span class="tip-anchor"><span class="tip tip-${id}">Abrir no inspetor${id === 'D3' ? '<kbd>I</kbd>' : ''}</span><span class="btn btn-secondary btn-icon" aria-label="Abrir no inspetor">${I('panel', 'ico ico-20')}</span></span>`;
+
+const tagx = (id) => {
+  const one = (t) => id === 'R3'
+    ? `<span class="chip">${t}${I('x')}</span>`
+    : id === 'R2'
+      ? `<span class="tag tag-value tag-R2"><span class="lbl">${t}</span><span class="x">${I('x')}</span></span>`
+      : `<span class="tag tag-value tag-R1">${t}<span class="x">${I('x')}</span></span>`;
+  return `<label class="field"><span class="field-label">Owners</span><span class="multi">${one('Operações')}${one('Financeiro')}${one('Comercial')}<span class="ph">Adicionar</span></span></label>`;
+};
+
+const box = (s, id) => s === 'on' ? `<span class="box on">${I('check')}</span>`
+  : s === 'mixed' ? (id === 'X2' ? `<span class="box mixed-line">${I('minus')}</span>` : `<span class="box mixed-fill">${I('minus')}</span>`)
+  : '<span class="box"></span>';
+const bulk = (id) => {
+  const top = id === 'X3'
+    ? `<div class="bulk"><span class="count">2 selecionadas</span><span class="btn btn-secondary">${I('user')}Atribuir owner</span><span class="btn btn-primary">${I('badge')}Aprovar 2</span><span class="btn btn-minimal">Limpar seleção</span></div>`
+    : `<div class="filters"><span class="chip" aria-pressed="true">Risco: baixo ${I('x')}</span><span class="chip">${I('filter')}Owner ${I('chev')}</span></div>`;
+  const row = (s, code, v) => `<tr${s === 'on' ? ' aria-selected="true"' : ''}><td class="cb">${box(s, id)}</td><td class="code">${code}</td><td class="r">${v}</td><td><span class="risk">Baixo</span></td></tr>`;
+  return `<div class="bulk-block">${top}<div class="table-wrap"><table class="table"><thead><tr><th class="cb">${box('mixed', id)}</th><th>Proposta</th><th class="r">Valor</th><th>Risco</th></tr></thead><tbody>${row('on', 'PC-20481', 'R$ 7.980,50')}${row('on', 'PC-20477', 'R$ 1.204,00')}${row('', 'PC-20470', 'R$ 312,90')}</tbody></table></div></div>`;
+};
+
+const seg = (id) => id === 'S3'
+  ? `<label class="field" style="min-width:200px"><span class="field-label">Vista</span><span class="select-wrap"><span class="input" style="display:flex;align-items:center">Tabela</span>${I('chev')}</span></label>`
+  : `<div class="seg-wrap"><span class="seg seg-${id}"><span class="on">${I('table')}Tabela</span><span>${I('network')}Rede</span><span>${I('time')}Linha do tempo</span></span><span class="seg seg-${id}"><span>7 dias</span><span class="on">30 dias</span><span>90 dias</span></span></div>`;
+
+const menu = (id) => {
+  const item = (ic, t, k, cls = '') => `<div class="menu-item ${cls}">${I(ic)}${t}${k && id !== 'M1' ? `<span class="key">${k}</span>` : ''}</div>`;
+  if (id === 'M1') return `<div class="menu">${item('panel', 'Abrir no inspetor', '', 'hover')}${item('badge', 'Aprovar')}${item('user', 'Atribuir owner')}${item('copy', 'Copiar ID')}${item('history', 'Ver histórico')}${item('undo', 'Reverter writeback')}</div>`;
+  const tail = id === 'M3'
+    ? `<div class="menu-sep"></div>${item('undo', 'Reverter writeback…', '', 'danger')}`
+    : item('undo', 'Reverter writeback…');
+  return `<div class="menu"><div class="menu-head">Proposta</div>${item('badge', 'Aprovar…', 'A', 'hover')}${item('user', 'Atribuir owner', 'O')}<div class="menu-sep"></div><div class="menu-head">Objeto</div>${item('panel', 'Abrir no inspetor', 'I')}${item('copy', 'Copiar ID', 'Ctrl C')}${item('history', 'Ver histórico', 'H')}${tail}</div>`;
+};
+
+const impact = () => `<dl class="props"><dt>Muda</dt><dd>Preço do SKU-88: <span class="nw">R$ 7.725,00</span> → <span class="nw">R$ 7.980,50</span></dd><dt>Risco</dt><dd><span class="risk risk-medium">${I('alert')}Médio</span></dd><dt>Reversível</dt><dd>Sim, por nova proposta</dd><dt>Owner</dt><dd>Operações</dd></dl>`;
+const dlg = (id, irreversible = false) => {
+  if (id === 'G3') return `<div class="inspector"><h4>PC-20481</h4><span class="meta">Proposta · agente de preços v4</span><div class="confirm-band"><b>Confirmar aprovação?</b>${impact()}<div class="dialog-actions" style="justify-content:flex-start"><span class="btn btn-primary">${I('badge')}Aprovar</span><span class="btn btn-minimal">Voltar</span></div></div></div>`;
+  if (irreversible) return `<div class="scrim-stage"><div class="dialog" role="group" aria-label="Exemplo de confirmação irreversível"><span class="dialog-title">Excluir o lote LT-0912 do destino?</span><p>O ERP não guarda versão anterior deste lote. Não há como reverter.</p><dl class="props"><dt>Muda</dt><dd>Remove 120 lançamentos do ERP</dd><dt>Risco</dt><dd><span class="risk risk-irreversible">${I('alert')}Irreversível</span></dd><dt>Owner</dt><dd>Controladoria</dd></dl><label class="field typed"><span class="field-label">Digite LT-0912 para confirmar</span><span class="input is-focus" style="display:flex;align-items:center">LT-09</span></label><div class="dialog-actions"><span class="btn btn-secondary">Cancelar</span><span class="btn btn-danger is-disabled">Excluir lote</span></div></div></div>`;
+  return `<div class="scrim-stage"><div class="dialog" role="group" aria-label="Exemplo de confirmação"><span class="dialog-title">Aprovar a proposta PC-20481?</span><p>O writeback vai para o ERP sintético assim que você aprovar.</p>${id === 'G2' ? impact() : ''}<div class="dialog-actions"><span class="btn btn-secondary">Cancelar</span><span class="btn btn-primary">${I('badge')}Aprovar</span></div></div></div>`;
+};
+
+const undo = (id) => {
+  const text = id === 'U3' ? 'Proposta PC-20481 aprovada.' : 'PC-20481 aprovada. Writeback em 10 s.';
+  const action = id === 'U3' ? '' : '<span class="btn btn-minimal">Desfazer</span>';
+  const timer = id === 'U2' ? '<span class="toast-timer"></span>' : '';
+  const hist = id === 'U3' ? `<div class="hist"><b>Histórico · PC-20481</b><div class="hist-row">${I('check')}Writeback aplicado 14:02<span class="btn btn-secondary">${I('undo')}Reverter</span></div></div>` : '';
+  return `<div class="stage">${hist}<div class="toast" role="status"><span style="color:var(--text-success)">${I('check')}</span><span class="grow">${text}</span>${action}<span class="btn btn-minimal btn-icon" aria-label="Fechar">${I('x')}</span>${timer}</div></div>`;
+};
+
+const prog = (id) => id === 'P3'
+  ? `<div class="steps"><div class="done">${I('check')}Validar lote · 120 de 120</div><div class="done">${I('check')}Enviar ao ERP · 120 de 120</div><div class="now">${I('clock')}Reconciliar · 34 de 120</div><div class="next">${I('clock')}Fechar lote</div></div>`
+  : `<div class="prog prog-${id}"><div class="prog-line"><b>Reconciliando lote LT-0912</b>${id === 'P2' ? '<span>34 de 120</span>' : ''}</div><div class="prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="120" aria-valuenow="34" aria-label="Reconciliação"><div class="prog-fill"></div></div>${id === 'P2' ? '<span class="meta">Etapa 3 de 4 · cerca de 2 min</span>' : ''}</div>`;
+
+const R = { tip, tagx, bulk, seg, menu, dlg, undo, prog };
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui mini${['tip', 'seg', 'menu', 'prog'].includes(q) ? ' center' : ''}">${R[q](o.id)}</div>
+    </button>`).join('');
+});
+
+function sheet() {
+  const p = state.pick;
+  return `
+    <div><h3>Dica e controle segmentado</h3><div class="row" style="align-items:center;gap:32px">${tip(p.tip)}${seg(p.seg)}</div></div>
+    <div><h3>Tag removível</h3><div class="row">${tagx(p.tagx)}</div></div>
+    <div><h3>Seleção em massa</h3><div class="row" style="max-width:720px">${bulk(p.bulk)}</div></div>
+    <div><h3>Menu de ações</h3><div class="row">${menu(p.menu)}</div></div>
+    <div><h3>Confirmação · reversível e irreversível (digitada)</h3><div class="row" style="display:grid;gap:16px">${dlg(p.dlg)}${dlg('G2', true)}</div></div>
+    <div><h3>Aviso com desfazer</h3>${undo(p.undo)}</div>
+    <div><h3>Progresso</h3><div class="row">${prog(p.prog)}</div></div>`;
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  document.getElementById('sheet-light').innerHTML = sheet();
+  document.getElementById('sheet-dark').innerHTML = sheet();
+  const p = state.pick;
+  summaryEl.textContent = `F10 · Componentes complementares\nDica: ${p.tip} · Tag: ${p.tagx} · Massa: ${p.bulk} · Segmentado: ${p.seg} · Menu: ${p.menu} · Confirmação: ${p.dlg} · Desfazer: ${p.undo} · Progresso: ${p.prog}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

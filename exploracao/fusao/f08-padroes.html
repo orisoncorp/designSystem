@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F08 Padrões de operação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 4px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: flex; gap: 12px; align-items: center; }
+  .pv-title button { font: 600 12px system-ui; padding: 4px 10px; background: transparent; color: var(--ink); border: 1px solid var(--line); cursor: pointer; }
+
+  .th-light { --canvas: #f6f7f9; --surface: #fff; --raised: #fff; --border: #d3d8de; --control: #738091; --text: #1c2127; --muted: #5f6b7c;
+    --action: #2d72d2; --sel: #e8f0fc; --neutral-fill: #edeff2; --nav: #1c2127; --nav-text: #abb3bf; --nav-on: #2f343c; --nav-fg: #fff;
+    --ok-text: #1c6e42; --ok-tint: #e0eee7; --warn-text: #935610; --warn-tint: #f7ecdf; --bad: #cd4246; --bad-text: #ac2f33; --bad-tint: #f8e5e5;
+    --env-bg: #fbd065; --env-text: #5c4405; --scrim: rgba(17,20,24,.45);
+    --sh3: 0 0 0 1px rgba(17,20,24,.1), 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 15px -3px rgba(0,0,0,.1); }
+  .th-dark { --canvas: #1c2127; --surface: #252a31; --raised: #2f343c; --border: #404854; --control: #738091; --text: #f6f7f9; --muted: #abb3bf;
+    --action: #2d72d2; --sel: #1f3a5f; --neutral-fill: #2f343c; --nav: #111418; --nav-text: #abb3bf; --nav-on: #2f343c; --nav-fg: #fff;
+    --ok-text: #72ca9b; --ok-tint: #253735; --warn-text: #fbb360; --warn-tint: #3c352e; --bad: #cd4246; --bad-text: #fa999c; --bad-tint: #3d2d34;
+    --env-bg: #5c4405; --env-text: #fbd065; --scrim: rgba(0,0,0,.6);
+    --sh3: inset 0 0 0 1px rgba(255,255,255,.2), 0 4px 8px rgba(0,0,0,.4), 0 18px 46px 6px rgba(0,0,0,.4); }
+  .ui { font-family: 'Montserrat', sans-serif; font-size: 16px; line-height: 1.4; background: var(--canvas); color: var(--text); border: 1px solid #404854; position: relative; overflow: hidden; }
+  .ico { width: 16px; height: 16px; flex: none; } .ico20 { width: 20px; height: 20px; flex: none; }
+  .num { font-variant-numeric: tabular-nums lining-nums; font-weight: 500; }
+  .hl { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .fl { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .meta { font-size: 14px; color: var(--muted); }
+  .btn { font: 600 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border-radius: 4px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .btn-p { background: var(--action); color: #fff; } .btn-s { background: var(--raised); color: var(--text); border-color: var(--control); } .btn-m { background: transparent; color: var(--text); }
+  .input { font: 400 16px 'Montserrat', sans-serif; min-height: 36px; padding: 0 12px; border: 1px solid var(--control); border-radius: 4px; background: var(--raised); color: var(--muted); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
+  .tag { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px solid currentColor; border-radius: 3px; white-space: nowrap; }
+  .t-n { color: var(--muted); background: var(--neutral-fill); } .t-ok { color: var(--ok-text); background: var(--ok-tint); } .t-warn { color: var(--warn-text); background: var(--warn-tint); } .t-bad { color: var(--bad-text); background: var(--bad-tint); }
+  .chip { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; font-weight: 600; padding: 0 10px; min-height: 30px; border: 1px solid var(--control); border-radius: 4px; background: var(--raised); }
+  .chip.on { border-color: var(--action); color: var(--action); background: var(--sel); }
+  .risk-ink { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 3px; background: var(--text); color: var(--canvas); white-space: nowrap; }
+  .risk-out { font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px solid var(--text); border-radius: 3px; white-space: nowrap; }
+  .envbar { display: flex; align-items: center; gap: 8px; padding: 6px 16px; background: var(--env-bg); color: var(--env-text); font-size: 13px; font-weight: 600; }
+  .topbar { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .topbar .wm { font-weight: 600; letter-spacing: .1em; font-size: 14px; display: inline-flex; gap: 8px; align-items: center; }
+  .topnav { display: flex; gap: 20px; margin-left: 24px; height: 100%; }
+  .topnav a { display: flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; border-bottom: 3px solid transparent; }
+  .topnav a.on { color: var(--text); border-bottom-color: var(--action); }
+  .side { width: 200px; padding: 12px 0; flex: none; }
+  .side a { display: flex; gap: 10px; align-items: center; min-height: 36px; padding: 0 16px; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .side-dark { background: var(--nav); } .side-dark a { color: var(--nav-text); } .side-dark a.on { color: var(--nav-fg); background: var(--nav-on); box-shadow: inset 3px 0 0 var(--action); }
+  .side-light { background: var(--surface); border-right: 1px solid var(--border); } .side-light a { color: var(--muted); } .side-light a.on { color: var(--text); background: var(--sel); box-shadow: inset 3px 0 0 var(--action); }
+  .count { margin-left: auto; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .body { display: flex; min-height: 640px; }
+  .work { flex: 1; display: flex; min-width: 0; }
+  .filters { width: 220px; flex: none; border-right: 1px solid var(--border); background: var(--surface); padding: 16px; display: grid; gap: 14px; align-content: start; }
+  .filters .grp { display: grid; gap: 6px; } .filters label { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+  .box { width: 16px; height: 16px; border: 1px solid var(--control); border-radius: 3px; background: var(--raised); display: grid; place-items: center; color: #fff; }
+  .box.on { background: var(--action); border-color: var(--action); }
+  .queue { flex: 1; padding: 24px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .qhead { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+  .qhead h3 { margin: 0; font-size: 24px; font-weight: 600; }
+  .bar1 { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .block { background: var(--surface); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { height: 36px; padding: 0 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  tr.sel td { background: var(--sel); } tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--action); }
+  .r { text-align: right; }
+  .qfoot { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .insp { width: 360px; flex: none; border-left: 1px solid var(--border); background: var(--canvas); padding: 24px; display: grid; gap: 14px; align-content: start; }
+  .insp-drawer { position: absolute; top: 0; right: 0; bottom: 0; background: var(--surface); box-shadow: var(--sh3); border-left: 0; z-index: 3; }
+  .scrim { position: absolute; inset: 0; background: var(--scrim); z-index: 2; }
+  .props { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; font-size: 14px; }
+  .props dt { color: var(--muted); font-weight: 600; font-size: 13px; } .props dd { margin: 0; }
+  .chain { display: grid; gap: 10px; font-size: 14px; }
+  .chain div { display: grid; grid-template-columns: 20px 1fr; gap: 8px; }
+  .chain .f b { color: var(--bad-text); }
+  .failbox { border-left: 3px solid var(--bad); background: var(--bad-tint); padding: 8px 10px; font-size: 14px; }
+  .tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--border); }
+  .tabs span { height: 40px; display: flex; align-items: center; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+  .tabs span.on { color: var(--text); border-bottom-color: var(--action); }
+  .crumb { font-size: 14px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .crumb a { color: var(--action); text-decoration: underline; }
+  .detail { flex: 1; padding: 24px; display: grid; gap: 16px; align-content: start; }
+  .detail-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
+  /* estados vazios */
+  .empty-E1 { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 40px 16px; }
+  .empty-E1 .big { width: 48px; height: 48px; color: var(--muted); }
+  .empty-E2 { display: grid; gap: 8px; padding: 24px; max-width: 520px; }
+  .empty-E3 td { color: var(--muted); }
+  .empty h4 { margin: 0; font-size: 18px; font-weight: 600; }
+  .empty p { margin: 0; font-size: 14px; color: var(--muted); }
+  .menu { position: absolute; background: var(--surface); box-shadow: var(--sh3); border-radius: 4px; padding: 8px; width: 240px; z-index: 2; display: grid; gap: 6px; font-size: 14px; }
+  .menu label { display: flex; gap: 8px; align-items: center; min-height: 32px; padding: 0 6px; }
+
+  .pvs { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 12px; align-items: start; }
+  .phone { width: 360px; outline: 8px solid #2a2a2e; }
+  .phone .item { padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); display: grid; gap: 6px; }
+  .phone .row { display: flex; justify-content: space-between; gap: 8px; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F08 · Padrões de operação</h1>
+  <p class="lead">
+    <strong>Já decidido (F01–F07):</strong> cores, tipografia, espaço, forma,
+    ícones, semântica de estado, risco e evidência, e os componentes. Agora,
+    como eles se organizam na tela onde o operador passa o dia.
+  </p>
+  <p class="lead">
+    Quatro perguntas: o arranjo fila–detalhe, a navegação, os filtros e o
+    estado vazio. Referências: piloto (navegação escura de 180 px, fila,
+    inspetor e assistente), Tatico (sidebar 240, inspetor 360) e as boas
+    práticas do Workshop (até 5 itens de navegação, filtros à esquerda, 30–40%
+    de espaço vazio). A prévia tem botão para alternar entre claro e escuro.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Fila e detalhe</h2>
+  <div class="opts" data-q="layout"></div>
+
+  <h2>2 · Navegação</h2>
+  <div class="opts" data-q="nav"></div>
+
+  <h2>3 · Filtros</h2>
+  <div class="opts" data-q="filter"></div>
+
+  <h2>4 · Estado vazio</h2>
+  <p class="lead">Quando o filtro não encontra nada, ou a fila zera. Nunca uma tela em branco.</p>
+  <div class="opts" data-q="empty"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="pv-title">Bancada de operação · desktop <button id="theme" type="button">Alternar tema</button></div>
+  <div class="pvs">
+    <div class="ui th-light" id="pv-desk"></div>
+    <div><div class="pv-title">Operador · 360 px</div><div class="ui th-light phone" id="pv-phone"></div></div>
+  </div>
+  <h2>Estado vazio na combinação</h2>
+  <div class="ui th-light" id="pv-empty" style="max-width:900px"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: L1, mas o inspetor recolhe abaixo de 1280 px)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  file: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/>',
+  search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>', funnel: '<path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"/>',
+  badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+  db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  hist: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  chev: '<path d="m6 9 6 6 6-6"/>', left: '<path d="m15 18-6-6 6-6"/>', info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+const SYMBOL = '<svg width="20" height="20" viewBox="0 0 120 120" aria-hidden="true"><path fill="currentColor" d="M65 11.75A48.5 48.5 0 0 1 65 108.25L65 103.24A43.5 43.5 0 0 0 65 16.76ZM55 11.75A48.5 48.5 0 0 0 55 108.25L55 103.24A43.5 43.5 0 0 1 55 16.76Z M65 29.49A30.9 30.9 0 0 1 65 90.51L65 85.42A25.9 25.9 0 0 0 65 34.58ZM55 29.49A30.9 30.9 0 0 0 55 90.51L55 85.42A25.9 25.9 0 0 1 55 34.58Z"/><rect x="57.5" y="11.5" width="5" height="97" fill="currentColor"/></svg>';
+
+const Q = {
+  layout: [
+    { id: 'L1', name: 'Três regiões fixas', src: 'piloto / Tatico', why: 'Navegação, fila e inspetor de 360 px sempre visíveis. Selecionar uma linha atualiza o inspetor sem sair da fila. Exige tela larga (≥ 1280 px); abaixo disso o inspetor vira gaveta.' },
+    { id: 'L2', name: 'Inspetor em gaveta', src: 'Blueprint Drawer', why: 'A fila ocupa a largura toda; selecionar abre uma gaveta de 360 px por cima, com véu. Mais espaço para a tabela; o contexto da fila fica escurecido enquanto decide.' },
+    { id: 'L3', name: 'Página de detalhe', src: 'Workshop Object View', why: 'A linha abre a página do objeto, com abas (Resumo, Trace, Evidência). Espaço máximo para o caminho causal; voltar à fila custa um clique e perde a visão do conjunto.' },
+  ],
+  nav: [
+    { id: 'N1', name: 'Lateral escura', src: 'piloto', why: 'Trilho escuro à esquerda, separado da área clara de trabalho. A navegação persiste sem competir com o conteúdo.' },
+    { id: 'N2', name: 'Lateral clara', src: 'proposta', why: 'Mesma posição, na cor da superfície. Tela mais homogênea e calma; navegação e conteúdo se separam só por borda.' },
+    { id: 'N3', name: 'Barra superior', src: 'Workshop (≤ 5 itens)', why: 'Itens no topo, com sublinhado na página ativa. Libera 200 px de largura para a fila; limite prático de 5 itens.' },
+  ],
+  filter: [
+    { id: 'F1', name: 'Chips acima da tabela', src: 'proposta', why: 'Busca e filtros como chips logo acima da fila; o ativo fica destacado. Mostra o que está filtrado sem ocupar coluna.' },
+    { id: 'F2', name: 'Painel à esquerda', src: 'Workshop', why: 'Coluna de filtros de 220 px com grupos de checkbox. Ótimo para muitos critérios; rouba largura da fila.' },
+    { id: 'F3', name: 'Busca + menu', src: 'piloto', why: 'Campo de busca e um botão “Filtrar” que abre um menu. O mínimo de tela; o filtro ativo fica escondido até abrir.' },
+  ],
+  empty: [
+    { id: 'E1', name: 'Centralizado com ícone', src: 'Blueprint NonIdealState', why: 'Ícone grande, título, explicação e ação, centralizados. Muito claro; ocupa o bloco inteiro.' },
+    { id: 'E2', name: 'Alinhado ao texto', src: 'proposta', why: 'Título, explicação e ação alinhados à esquerda, sem ícone grande. Mais sóbrio e mais rápido de ler.' },
+    { id: 'E3', name: 'Linha na tabela', src: 'proposta (mínimo)', why: 'A tabela mantém o cabeçalho e mostra uma linha: “Nenhum objeto com este filtro · Limpar filtros”. Mínimo; não serve para fila vazia sem filtro.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f08';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"layout":"L1","nav":"N1","filter":"F1","empty":"E2"},"notes":"","theme":"light"}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+    </button>`).join('');
+});
+
+const ROWS = [
+  ['PC-20481', 'Pedido de compra', 't-ok', 'check', 'Reconciliada', 'txt', 'Baixo', 'R$ 48.210,00'],
+  ['CT-1193', 'Contrato de serviço', 't-warn', 'alert', 'Divergente', 'out', 'Médio', 'R$ 7.980,50'],
+  ['SKU-88', 'Ajuste de estoque', 't-bad', 'x', 'Falhou', 'ink-lock', 'Irreversível', 'R$ 112.400,00'],
+  ['F-207', 'Cadastro de fornecedor', 't-n', 'clock', 'Aguardando aprovação', 'none', 'Não classificado', 'R$ 3.115,90'],
+  ['OS-311', 'Ordem de serviço', 't-n', 'file', 'Writeback enviado', 'ink', 'Alto', 'R$ 5.402,10'],
+  ['PC-20502', 'Pedido de compra', 't-n', 'file', 'Proposta', 'out', 'Médio', 'R$ 21.870,00'],
+  ['CT-1201', 'Contrato de serviço', 't-ok', 'check', 'Reconciliada', 'txt', 'Baixo', 'R$ 64.000,00'],
+];
+const risk = (k, l) => k === 'ink-lock' ? `<span class="risk-ink">${I('lock')}${l}</span>` : k === 'ink' ? `<span class="risk-ink">${I('shield')}${l}</span>`
+  : k === 'out' ? `<span class="risk-out">${l}</span>` : k === 'none' ? `<span class="meta" style="font-style:italic;display:inline-flex;gap:6px;align-items:center">${I('info')}${l}</span>` : `<span style="font-size:13px;font-weight:600">${l}</span>`;
+const table = (rows) => `<div class="block"><table><thead><tr><th class="hl">Código</th><th class="hl">Objeto</th><th class="hl">Estado</th><th class="hl">Risco</th><th class="hl r">Valor</th></tr></thead><tbody>${rows.map((r) => `<tr class="${r[0] === 'SKU-88' ? 'sel' : ''}"><td class="num" style="font-weight:600">${r[0]}</td><td>${r[1]}</td><td><span class="tag ${r[2]}">${I(r[3])}${r[4]}</span></td><td>${risk(r[5], r[6])}</td><td class="r num">${r[7]}</td></tr>`).join('')}</tbody></table></div>`;
+
+const inspector = (extra = '') => `<aside class="insp ${extra}">
+  <div><div class="hl">Inspetor</div><div style="font-size:18px;font-weight:600;margin-top:4px">SKU-88 · Ajuste de estoque</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag t-bad">${I('x')}Falhou</span>${risk('ink-lock', 'Irreversível')}</div>
+  <dl class="props"><dt>Owner</dt><dd>Operações</dd><dt>Revisão</dt><dd class="num">14</dd><dt>Fonte</dt><dd>ERP sintético</dd></dl>
+  <div class="chain"><div>${I('check')}<span>Proposta · 13:58</span></div><div>${I('check')}<span>Aprovada · gerente de operações · 14:05</span></div><div>${I('check')}<span>Writeback enviado · 14:06</span></div><div class="f"><span style="color:var(--bad-text)">${I('x')}</span><span><b>Reconciliação falhou · 14:07</b></span></div></div>
+  <div class="failbox">Destino recusou a revisão 14. Owner: Operações. Remediação: reabrir com a revisão 15.</div>
+  <div style="display:flex;gap:8px"><button class="btn btn-p">Reabrir com rev. 15</button><button class="btn btn-m">Trace</button></div>
+</aside>`;
+
+function filtersUI(kind) {
+  if (kind === 'F1') return `<div class="bar1"><span class="input" style="width:240px">${I('search')}Buscar código ou objeto</span><span class="chip on">Estado: falhou, divergente ${I('x')}</span><span class="chip">Risco ${I('chev')}</span><span class="chip">Owner ${I('chev')}</span><button class="btn btn-m">Limpar filtros</button></div>`;
+  if (kind === 'F3') return `<div class="bar1" style="position:relative"><span class="input" style="width:280px">${I('search')}Buscar código ou objeto</span><button class="btn btn-s">${I('funnel', 'ico20')}Filtrar · 2</button></div>`;
+  return `<div class="bar1"><span class="input" style="width:280px">${I('search')}Buscar código ou objeto</span></div>`;
+}
+const filterPanel = () => `<div class="filters"><div class="hl">Filtros</div>
+  <div class="grp"><span class="fl">Estado</span>${['Falhou', 'Divergente', 'Aguardando aprovação', 'Reconciliada'].map((x, i) => `<label><span class="box ${i < 2 ? 'on' : ''}">${i < 2 ? I('check') : ''}</span>${x}</label>`).join('')}</div>
+  <div class="grp"><span class="fl">Risco</span>${['Irreversível', 'Alto', 'Médio', 'Baixo', 'Não classificado'].map((x) => `<label><span class="box"></span>${x}</label>`).join('')}</div>
+  <button class="btn btn-m" style="justify-self:start">Limpar filtros</button></div>`;
+
+function navUI(kind) {
+  const items = [['Fila', 'clock', 7], ['Decisões', 'badge', 3], ['Dados', 'db', ''], ['Execuções', 'hist', '']];
+  if (kind === 'N3') return '';
+  return `<nav class="side ${kind === 'N1' ? 'side-dark' : 'side-light'}">${items.map(([n, ic, c], i) => `<a class="${i === 0 ? 'on' : ''}" href="#">${I(ic, 'ico20')}${n}${c !== '' ? `<span class="count">${c}</span>` : ''}</a>`).join('')}</nav>`;
+}
+const topbar = (kind) => `<div class="topbar"><span class="wm">${SYMBOL}ORISON</span>${kind === 'N3' ? `<nav class="topnav">${['Fila', 'Decisões', 'Dados', 'Execuções'].map((n, i) => `<a class="${i === 0 ? 'on' : ''}" href="#">${n}</a>`).join('')}</nav>` : '<span class="meta">Operação</span>'}<span class="meta" style="margin-left:auto">Operador · turno A</span></div>`;
+
+function desk() {
+  const p = state.pick;
+  const queue = `<div class="queue">
+      <div class="qhead"><div><h3>Fila de propostas</h3><div class="meta">7 objetos · atualizado 14:32</div></div><div style="margin-left:auto;display:flex;gap:8px"><button class="btn btn-p">${I('badge', 'ico20')}Aprovar selecionadas</button></div></div>
+      ${filtersUI(p.filter)}
+      ${table(ROWS)}
+      <div class="qfoot"><span>Valor em fila: <span class="num">R$ 263.978,50</span></span><span>1 selecionado</span></div>
+    </div>`;
+  let work;
+  if (p.layout === 'L3') {
+    work = `<div class="detail">
+      <div class="crumb">${I('left')}<a href="#">Fila de propostas</a> / SKU-88</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h3 style="margin:0;font-size:24px">SKU-88 · Ajuste de estoque</h3><span class="tag t-bad">${I('x')}Falhou</span>${risk('ink-lock', 'Irreversível')}<button class="btn btn-p" style="margin-left:auto">Reabrir com rev. 15</button></div>
+      <div class="tabs"><span class="on">Resumo</span><span>Trace</span><span>Evidência</span><span>Histórico</span></div>
+      <div class="detail-grid"><div class="block" style="padding:16px">${inspector().replace('<aside class="insp ">', '<div style="display:grid;gap:14px">').replace('</aside>', '</div>')}</div>
+      <div class="block" style="padding:16px;display:grid;gap:8px"><div class="hl">Propriedades</div><dl class="props"><dt>Quantidade</dt><dd class="num">1.240 un.</dd><dt>Depósito</dt><dd>CD Guarulhos</dd><dt>Valor</dt><dd class="num">R$ 112.400,00</dd><dt>Agente</dt><dd>Reposição v4</dd></dl></div></div>
+    </div>`;
+  } else if (p.layout === 'L2') {
+    work = `${p.filter === 'F2' ? filterPanel() : ''}${queue}<div class="scrim"></div>${inspector('insp-drawer')}`;
+  } else {
+    work = `${p.filter === 'F2' ? filterPanel() : ''}${queue}${inspector()}`;
+  }
+  let menu = '';
+  if (p.filter === 'F3' && p.layout !== 'L3') menu = `<div class="menu" style="left:${p.nav === 'N3' ? 330 : 530}px;top:${p.nav === 'N3' ? 196 : 196}px"><span class="fl">Estado</span><label><span class="box on">${I('check')}</span>Falhou</label><label><span class="box on">${I('check')}</span>Divergente</label><label><span class="box"></span>Aguardando aprovação</label><span class="fl">Risco</span><label><span class="box"></span>Irreversível</label></div>`;
+  return `${topbar(p.nav)}<div class="envbar">${I('alert')}Ambiente sintético · dados ilustrativos, sem cliente real</div><div class="body">${navUI(p.nav)}<div class="work" style="position:relative">${work}${menu}</div></div>`;
+}
+
+function phone() {
+  return `<div class="topbar"><span class="wm">${SYMBOL}ORISON</span><span class="meta" style="margin-left:auto">3 pendentes</span></div>
+    <div class="envbar">${I('alert')}Ambiente sintético</div>
+    <div style="padding:12px 16px;display:grid;gap:8px"><span class="input" style="width:100%">${I('search')}Buscar</span>${state.pick.filter === 'F1' ? `<div style="display:flex;gap:6px;overflow:hidden"><span class="chip on">Falhou, divergente ${I('x')}</span><span class="chip">Risco</span></div>` : `<button class="btn btn-s" style="justify-content:center">${I('funnel', 'ico20')}Filtrar · 2</button>`}</div>
+    ${ROWS.slice(1, 4).map((r) => `<div class="item"><div class="row"><span style="font-weight:600">${r[1]}</span><span class="num">${r[7]}</span></div><span class="meta">${r[0]}</span><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag ${r[2]}">${I(r[3])}${r[4]}</span>${risk(r[5], r[6])}</div></div>`).join('')}
+    <div style="padding:12px 16px;display:grid;gap:8px"><span class="meta">Tocar abre o objeto em tela cheia, com a cadeia de estados.</span></div>`;
+}
+
+function emptyUI() {
+  const p = state.pick.empty;
+  if (p === 'E3') return `<div style="padding:24px">${filtersUI('F1')}<div class="block empty-E3" style="margin-top:12px"><table><thead><tr><th class="hl">Código</th><th class="hl">Objeto</th><th class="hl">Estado</th><th class="hl">Risco</th><th class="hl r">Valor</th></tr></thead><tbody><tr><td colspan="5">Nenhum objeto com estes filtros · <a href="#" style="color:var(--action)">Limpar filtros</a></td></tr></tbody></table></div></div>`;
+  const body = `<h4>Nenhum objeto com risco irreversível e divergência</h4><p>Os filtros ativos não encontram nada na fila de hoje. A fila completa tem 7 objetos.</p><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-s">Limpar filtros</button><button class="btn btn-m">Ver fila completa</button></div>`;
+  if (p === 'E1') return `<div style="padding:24px">${filtersUI('F1')}<div class="block empty empty-E1" style="margin-top:12px">${I('search', 'big')}${body.replace('<div style="display:flex;gap:8px;margin-top:4px">', '<div style="display:flex;gap:8px;margin-top:4px;justify-content:center">')}</div></div>`;
+  return `<div style="padding:24px">${filtersUI('F1')}<div class="block empty empty-E2" style="margin-top:12px">${body}</div></div>`;
+}
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  for (const id of ['pv-desk', 'pv-phone', 'pv-empty']) { const el = document.getElementById(id); el.classList.toggle('th-dark', state.theme === 'dark'); el.classList.toggle('th-light', state.theme !== 'dark'); }
+  document.getElementById('pv-desk').innerHTML = desk();
+  document.getElementById('pv-phone').innerHTML = phone();
+  document.getElementById('pv-empty').innerHTML = emptyUI();
+  const p = state.pick;
+  summaryEl.textContent = `F08 · Padrões de operação\nFila e detalhe: ${p.layout} · Navegação: ${p.nav} · Filtros: ${p.filter} · Vazio: ${p.empty}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+document.getElementById('theme').addEventListener('click', () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- 08 · Espaço e layout -->
+<section id="sec-espaco" class="doc-section" aria-labelledby="sec-espaco-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Fundamentos · F03 e F08</p>
+    <h2 class="doc-title" id="sec-espaco-title">Espaço e layout</h2>
+    <p class="doc-lead">
+      Grade de 4 px dentro dos componentes, de 8 px entre regiões. Controles
+      de 36 px no desktop, 44 px no toque. Blocos com borda de 1 px e 12 px de
+      intervalo.
+    </p>
+  </header>
+
+  <div class="scroll-x">
+    <table class="token-table">
+      <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>--space-1</code></td><td data-token-value="--space-1"></td><td>ícone e texto na tag</td></tr>
+        <tr><td><code>--space-2</code></td><td data-token-value="--space-2"></td><td>intervalo entre controles</td></tr>
+        <tr><td><code>--space-3</code></td><td data-token-value="--space-3"></td><td>padding de controle e de célula; intervalo entre blocos</td></tr>
+        <tr><td><code>--space-4</code></td><td data-token-value="--space-4"></td><td>padding de bloco e painel</td></tr>
+        <tr><td><code>--space-5</code></td><td data-token-value="--space-5"></td><td>padding de região</td></tr>
+        <tr><td><code>--space-6</code></td><td data-token-value="--space-6"></td><td>intervalo entre seções da página</td></tr>
+        <tr><td><code>--height-control</code></td><td data-token-value="--height-control"></td><td>botão, campo, item de navegação</td></tr>
+        <tr><td><code>--height-touch</code></td><td data-token-value="--height-touch"></td><td>alvo mínimo abaixo de 900 px</td></tr>
+        <tr><td><code>--height-row</code></td><td data-token-value="--height-row"></td><td>linha de tabela</td></tr>
+        <tr><td><code>--layout-nav-width</code></td><td data-token-value="--layout-nav-width"></td><td>navegação lateral do produto</td></tr>
+        <tr><td><code>--layout-inspector-width</code></td><td data-token-value="--layout-inspector-width"></td><td>inspetor da bancada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-3">
+    <div class="block"><h3 class="block-title"><span class="num">1280 px</span></h3><p class="meta">O inspetor deixa de conviver com a fila e vira gaveta.</p></div>
+    <div class="block"><h3 class="block-title"><span class="num">900 px</span></h3><p class="meta">A navegação vira gaveta sob uma barra fixa; todo controle sobe para 44 px.</p></div>
+    <div class="block"><h3 class="block-title"><span class="num">600 px</span></h3><p class="meta">Coluna única. A fila vira lista; o objeto abre em tela cheia.</p></div>
+  </div>
+
+  <div class="rule"><span class="rule-name">O inspetor fica.</span><span class="meta">Decidir não pode custar a visão da fila. O inspetor convive com ela e só vira gaveta por falta de largura.</span></div>
+</section>

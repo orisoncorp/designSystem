@@ -1,0 +1,251 @@
+/* Tokens v4 aprovados nas rodadas de fusão — rascunho cumulativo.
+   Não é importado pelo site. Promovido para src/tokens/ na reorganização,
+   depois da F09. Cada bloco cita a rodada que o aprovou. */
+
+/* ── F01 · Cor base (06-11-2026): N2 · A1 · S1 ── */
+:root,
+[data-theme='dark'] {
+  /* N2 · neutra fria (Blueprint DARK_GRAY / GRAY) — tema escuro (marca).
+     Escolhida pela usabilidade em sessões longas; N1 era a preferida estética. */
+  --color-canvas:  #1c2127;
+  --color-surface: #252a31;
+  --color-raised:  #2f343c;
+  --color-border:  #404854;
+  --color-control: #738091;  /* borda de controle, ≥ 3:1 */
+  --text-primary:  #f6f7f9;
+  --text-muted:    #abb3bf;
+
+  /* A1 · ação em azul (Blueprint BLUE3) */
+  --color-action:    #2d72d2;
+  --color-action-fg: #ffffff;
+  --color-link:      #8abbff;
+  --color-focus:     #8abbff;
+
+  /* S1 · status = feedback e resultado (Blueprint intents) */
+  --color-success: #238551;  --text-success: #72ca9b;
+  --color-warning: #c87619;  --text-warning: #fbb360;
+  --color-danger:  #cd4246;  --text-danger:  #fa999c;
+
+  /* marca: crimson fica só na identidade, fora de ação e de status */
+  --color-crimson: #8b1a1a;
+}
+
+[data-theme='light'] {
+  /* N2 · neutra fria (Blueprint LIGHT_GRAY / GRAY) — tema claro (produto) */
+  --color-canvas:  #f6f7f9;
+  --color-surface: #ffffff;
+  --color-raised:  #ffffff;
+  --color-border:  #d3d8de;
+  --color-control: #738091;
+  --text-primary:  #1c2127;
+  --text-muted:    #5f6b7c;
+
+  --color-action:    #2d72d2;
+  --color-action-fg: #ffffff;
+  --color-link:      #215db0;
+  --color-focus:     #215db0;
+
+  --color-success: #238551;  --text-success: #1c6e42;
+  --color-warning: #c87619;  --text-warning: #935610;
+  --color-danger:  #cd4246;  --text-danger:  #ac2f33;
+}
+
+/* ── F02 · Tipografia (06-11-2026): T3 · W2 · L3 · D2 ── */
+:root {
+  --font-text:    'Montserrat', system-ui, sans-serif;   /* texto, interface e números */
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif; /* só expressão de marca */
+
+  /* T3 · escala legível; não encolhe no celular */
+  --text-title:   24px;
+  --text-section: 18px;
+  --text-body:    16px;
+  --text-ui:      16px;
+  --text-ui-dense: 14px;  /* tabela densa no desktop; no celular volta a 16 */
+  --text-meta:    14px;
+  --text-label:   13px;
+  --text-kpi:     28px;
+
+  /* W2 · pesos */
+  --weight-text:   400;
+  --weight-strong: 600;  /* rótulo, botão, título */
+  --weight-number: 500;
+
+  /* L3 · rótulos */
+  --label-case-default: none;        /* frase normal */
+  --label-case-header:  uppercase;   /* cabeçalho de tabela e nome de KPI */
+  --label-tracking-header: 0.06em;
+
+  /* D2 · títulos de marca */
+  --display-weight:   500;
+  --display-tracking: -0.01em;
+
+  --leading-text: 1.5;
+  --leading-ui:   1.4;
+  --numeric: tabular-nums lining-nums;
+}
+
+/* ── F03 · Espaço e densidade (06-11-2026): E3 · H2 · R2 · G2 ── */
+:root {
+  /* E3 · base 4 nos componentes, 8 no layout */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px;  --space-6: 32px;  --space-7: 48px;  --space-8: 64px;
+  --pad-control:  var(--space-3);   /* 12 */
+  --gap-control:  var(--space-2);   /* 8 */
+  --pad-panel:    var(--space-4);   /* 16 */
+  --pad-region:   var(--space-5);   /* 24 */
+  --gap-region:   var(--space-4);   /* 16 */
+  --pad-cell:     var(--space-3);   /* 12 */
+
+  /* H2 · controles */
+  --height-control: 36px;
+  --height-touch:   44px;   /* ≤ 900px */
+
+  /* R2 · tabela */
+  --height-row: 36px;
+
+  /* G2 · blocos no produto */
+  --block-border: 1px solid var(--color-border);
+  --block-gap:    var(--space-3);   /* 12 */
+  --space-hairline: 2px;            /* só em páginas de marca, tema escuro */
+}
+
+/* ── F04 · Forma e profundidade (06-11-2026): K2 · P2 · O1 · V1 ── */
+:root,
+[data-theme='light'] {
+  /* K2 · raio só em controle; superfície reta */
+  --radius-control: 4px;   /* botão, campo, menu, diálogo, aviso */
+  --radius-tag:     3px;
+  --radius-surface: 0;     /* painel, bloco, região */
+  --radius-full:    9999px;/* marca circular */
+
+  /* P2 · sombra só no que flutua (Blueprint, níveis 1 e 3) */
+  --elevation-1: 0 0 0 1px rgba(17,20,24,.1), 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+  --elevation-3: 0 0 0 1px rgba(17,20,24,.1), 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 15px -3px rgba(0,0,0,.1);
+  --scrim: rgba(17,20,24,.45);
+
+  /* O1 · foco */
+  --focus-width:  2px;
+  --focus-offset: 2px;
+
+  /* V1 · tabela */
+  --table-divider: 1px solid var(--color-border);
+  --table-selected-bg: #e8f0fc;
+  --table-selected-bar: 3px;
+}
+[data-theme='dark'] {
+  --elevation-1: inset 0 0 0 1px rgba(255,255,255,.2), 0 1px 1px 0 rgba(0,0,0,.4), 0 1px 3px 0 rgba(0,0,0,.4);
+  --elevation-3: inset 0 0 0 1px rgba(255,255,255,.2), 0 4px 8px rgba(0,0,0,.4), 0 18px 46px 6px rgba(0,0,0,.4);
+  --scrim: rgba(0,0,0,.6);
+  --table-selected-bg: #1f3a5f;
+}
+
+/* ── F05 · Iconografia (06-11-2026): I3 · T2 · Z2 ── */
+:root {
+  --icon-stroke: 2;          /* grade 24 · Lucide adaptado */
+  --icon-linecap: square;
+  --icon-linejoin: miter;
+  --icon-inline: 16px;       /* texto e tag */
+  --icon-button: 20px;       /* botão */
+  --icon-nav:    20px;       /* navegação */
+}
+
+/* ── F06 · Semântica operacional (06-11-2026): E1 · R1 · L3 ── */
+:root,
+[data-theme='light'] {
+  /* estado: em andamento é neutro; resultado usa as cores de status da F01 */
+  --state-pending-text: var(--text-muted);
+  --state-pending-bg:   #edeff2;
+  --state-ok-bg:        #e0eee7;   /* reconciliada */
+  --state-warning-bg:   #f7ecdf;   /* divergente */
+  --state-danger-bg:    #f8e5e5;   /* falhou */
+
+  /* risco: acromático, por forma */
+  --risk-ink:    var(--text-primary);  /* baixo: texto; médio: contorno */
+  --risk-fill:   var(--text-primary);  /* alto e irreversível: preenchido */
+  --risk-fill-fg: #ffffff;
+
+  /* evidência: faixa de ambiente e selo */
+  --evidence-env-bg:   #fbd065;   /* Blueprint GOLD5 · 6,3:1 com o texto GOLD1 */
+  --evidence-env-text: #5c4405;   /* GOLD1 */
+  --evidence-seal-border: 1px dashed currentColor;
+}
+[data-theme='dark'] {
+  --state-pending-bg: #2f343c;
+  --state-ok-bg:      #253735;
+  --state-warning-bg: #3c352e;
+  --state-danger-bg:  #3d2d34;
+  --risk-fill-fg:     #1c2127;
+  --evidence-env-bg:   #5c4405;   /* GOLD1 · 6,3:1 com o texto GOLD5 */
+  --evidence-env-text: #fbd065;
+}
+
+/* ── F07 · Componentes básicos (06-11-2026): B3 · C1 · A1 · T1 ── */
+:root,
+[data-theme='light'],
+[data-theme='dark'] {
+  /* hover e pressionado escurecem nos dois temas (texto branco ≥ 6,4:1) */
+  --color-action-hover:  #215db0;
+  --color-action-active: #184a90;
+  --color-danger-hover:  #ac2f33;
+
+  --callout-bar: 3px;          /* C1 */
+  --tab-indicator: 3px;        /* A1 */
+  --toast-width: 300px;        /* T1 · canto inferior direito */
+  --toast-timeout: 5000ms;     /* sucesso; falha não expira */
+}
+:root,
+[data-theme='light'] {
+  --color-neutral-fill:   #edeff2;  /* hover do secundário e do mínimo */
+  --color-neutral-hover:  #e5e8eb;
+  --color-neutral-active: #d3d8de;
+  --color-disabled-bg:    #edeff2;
+  --color-disabled-text:  #738091;
+  --color-info-bg:        #e8f0fc;
+}
+[data-theme='dark'] {
+  --color-neutral-fill:   #2f343c;
+  --color-neutral-hover:  #383e47;
+  --color-neutral-active: #404854;
+  --color-disabled-bg:    #2f343c;
+  --color-disabled-text:  #8f99a8;
+  --color-info-bg:        #1f3a5f;
+}
+
+/* ── F08 · Padrões de operação (06-11-2026): L1 · N1 · F1 · E2 ── */
+:root {
+  --layout-nav-width:       200px;   /* N1 · lateral escura */
+  --layout-inspector-width: 360px;   /* L1 · inspetor fixo */
+  --layout-topbar-height:   48px;
+  /* abaixo de 1280px o inspetor vira gaveta (literal em @media) */
+}
+:root,
+[data-theme='light'] { --color-nav: #1c2127; --color-nav-text: #abb3bf; --color-nav-active: #2f343c; }
+[data-theme='dark']  { --color-nav: #111418; --color-nav-text: #abb3bf; --color-nav-active: #2f343c; }
+
+/* ── F09 · Visualização de dados (06-11-2026): C3 · K3 · B2 ── */
+:root,
+[data-theme='light'] {
+  /* C3 · séries; ordem fixa, cor segue a entidade; máx. 4 por gráfico */
+  --data-1: #7961db;  /* índigo   · Blueprint INDIGO3 */
+  --data-2: #00a396;  /* turquesa · Blueprint TURQUOISE3 */
+  --data-3: #db2c6f;  /* rosa     · Blueprint ROSE3 */
+  --data-4: #eda100;  /* ouro · 2,2:1 → rótulo direto obrigatório */
+  --data-context: #c5cbd3;  /* séries de contexto (foco e contexto) */
+  --data-grid: #e5e8eb;
+  --data-axis: #738091;
+}
+[data-theme='dark'] {
+  --data-1: #7961db;
+  --data-2: #00a396;
+  --data-3: #db2c6f;
+  --data-4: #c98500;
+  --data-context: #5f6b7c;
+  --data-grid: #2f343c;
+  --data-axis: #8f99a8;
+}
+:root {
+  --data-line-width: 2px;
+  --data-bar-radius: 4px;   /* B2 · só a ponta livre */
+  --data-bar-gap: 2px;
+  --data-max-series: 4;
+}

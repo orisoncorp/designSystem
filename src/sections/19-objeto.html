@@ -1,0 +1,261 @@
+<!-- 19 · Página do objeto -->
+<section id="sec-objeto" class="doc-section" aria-labelledby="sec-objeto-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Padrões · F11, F13 e F14</p>
+    <h2 class="doc-title" id="sec-objeto-title">Página do objeto</h2>
+    <p class="doc-lead">
+      Quando o inspetor não basta: cabeçalho fixo com estado, risco, owner e
+      ações; abas para cada pergunta sobre o objeto; o assistente ao lado, com
+      o contexto à vista. Tudo segue o loop da DR-09: fonte, proposta,
+      autoridade, writeback, reconciliação, histórico.
+    </p>
+  </header>
+
+  <div class="object-page" role="group" aria-label="Exemplo de página do objeto SKU-88">
+    <div class="object-main">
+      <div class="object-head">
+        <div class="object-id"><span class="meta">Item de estoque · ERP sintético</span><h3 class="object-title">SKU-88</h3></div>
+        <div class="row">
+          <span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span>
+          <span class="risk risk-medium"><i class="ico" data-icon="alerta"></i>Médio</span>
+          <span class="meta"><i class="ico" data-icon="owner"></i> Operações</span>
+        </div>
+        <div class="object-actions">
+          <span class="has-tip" data-tip><button type="button" class="btn btn-secondary btn-icon" aria-labelledby="tip-obj-mais"><i class="ico" data-icon="mais"></i></button><span class="tooltip" role="tooltip" id="tip-obj-mais">Mais ações</span></span>
+          <button type="button" class="btn btn-primary"><i class="ico" data-icon="aprovar"></i>Aprovar…</button>
+        </div>
+      </div>
+
+      <div class="object-tabs">
+        <div class="tabs" role="tablist" aria-label="Vistas do SKU-88" data-tabs>
+          <button type="button" class="tab" role="tab" id="obj-tab-resumo" aria-controls="obj-panel-resumo" aria-selected="true">Resumo</button>
+          <button type="button" class="tab" role="tab" id="obj-tab-trace" aria-controls="obj-panel-trace" aria-selected="false">Trace <span class="tab-count num">5</span></button>
+          <button type="button" class="tab" role="tab" id="obj-tab-linhagem" aria-controls="obj-panel-linhagem" aria-selected="false">Linhagem</button>
+          <button type="button" class="tab" role="tab" id="obj-tab-rede" aria-controls="obj-panel-rede" aria-selected="false">Rede <span class="tab-count num">4</span></button>
+          <button type="button" class="tab" role="tab" id="obj-tab-historico" aria-controls="obj-panel-historico" aria-selected="false">Histórico</button>
+          <button type="button" class="tab" role="tab" id="obj-tab-comentarios" aria-controls="obj-panel-comentarios" aria-selected="false">Comentários <span class="tab-count num" data-comment-count>2</span></button>
+        </div>
+      </div>
+
+      <!-- Resumo: propriedades e proposta com comparação (F11 · P1) -->
+      <div class="object-panel object-summary" role="tabpanel" id="obj-panel-resumo" aria-labelledby="obj-tab-resumo">
+        <div class="panel">
+          <span class="panel-title">Propriedades</span>
+          <dl class="props">
+            <dt>Preço</dt><dd class="num nowrap">R$ 7.725,00</dd>
+            <dt>Estoque mín.</dt><dd><span class="num">120</span> un.</dd>
+            <dt>Fornecedor</dt><dd>Fornecedor Alfa</dd>
+            <dt>Revisão</dt><dd class="num">14</dd>
+            <dt>Fonte</dt><dd>ERP sintético · v12</dd>
+            <dt>Capturado</dt><dd class="num">13:58</dd>
+          </dl>
+        </div>
+        <div class="panel">
+          <div class="row"><b>PC-20481</b><span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span><span class="meta" style="margin-left:auto">Base: revisão <span class="num">14</span></span></div>
+          <div class="table-wrap">
+            <table class="table diff">
+              <thead><tr><th scope="col">Campo</th><th scope="col" class="r">Atual</th><th scope="col" class="r">Proposto</th></tr></thead>
+              <tbody>
+                <tr><td>Preço</td><td class="r diff-old"><span class="nowrap">R$ 7.725,00</span></td><td class="r diff-new"><span class="nowrap">R$ 7.980,50</span> <span class="delta">+3,3%</span></td></tr>
+                <tr><td>Estoque mín.</td><td class="r diff-old">120 un.</td><td class="r diff-new">140 un. <span class="delta">+20</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <span class="meta">Agente de preços v4 · só as propriedades que mudam · aprovação separada obrigatória</span>
+          <div class="stack-2" data-attach>
+            <span class="panel-title">Evidência anexada</span>
+            <div class="file-row"><i class="ico" data-icon="evidencia"></i><b>nota-fiscal-8812.pdf</b><span class="meta num">312 KB</span></div>
+            <label class="btn btn-secondary" style="justify-self:start"><i class="ico" data-icon="anexar"></i>Anexar evidência<input type="file" class="sr-only" data-attach-input></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trace: a cadeia do inspetor, com atores, hora e duração (F11 · T2) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-trace" aria-labelledby="obj-tab-trace" hidden>
+        <div class="chain">
+          <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div class="stack-1"><div class="chain-title">Contexto capturado</div><div class="chain-meta">agente v4 · <span class="num">13:58:02</span> · <span class="num">0,4</span> s · <button type="button" class="chain-link" aria-expanded="false" data-trace-toggle>Ver dados</button></div><pre class="chain-data" hidden>{ "objeto": "SKU-88", "revisao": 14,
+  "fonte": "ERP sintético", "versao": "v12" }</pre></div></div>
+          <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div class="stack-1"><div class="chain-title">Ferramenta: consultar_historico</div><div class="chain-meta"><span class="num">3</span> resultados · <span class="num">1,5</span> s · <button type="button" class="chain-link" aria-expanded="false" data-trace-toggle>Ver dados</button></div><pre class="chain-data" hidden>{ "tool": "consultar_historico",
+  "sku": "SKU-88", "janela": "90d", "resultados": 3 }</pre></div></div>
+          <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div class="stack-1"><div class="chain-title">Proposta PC-20481 criada</div><div class="chain-meta">agente v4 · <span class="num">13:58:05</span></div></div></div>
+          <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div class="stack-1"><div class="chain-title">Aprovada</div><div class="chain-meta">Gerente de operações · autoridade registrada · <span class="num">14:05</span></div></div></div>
+          <div class="chain-step is-failed"><span class="chain-dot"><i class="ico" data-icon="falha-fechar"></i></span><div class="stack-1"><div class="chain-title">Reconciliação falhou</div><div class="chain-meta">Destino recusou a revisão <span class="num">14</span> · <span class="num">14:07</span></div></div></div>
+        </div>
+        <p class="meta">Só etapas observadas; nenhum raciocínio interno do modelo é inferido.</p>
+      </div>
+
+      <!-- Linhagem: grafo em colunas, caminho do objeto em azul (F11 · L2) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-linhagem" aria-labelledby="obj-tab-linhagem" hidden>
+        <div class="lineage" data-graph="erp>norm*,plan>norm,norm>sku88*,norm>sku91,sku88>act*,sku91>act">
+          <svg class="graph-edges" aria-hidden="true"></svg>
+          <div class="lineage-col"><span class="panel-title">Fontes</span>
+            <button type="button" class="graph-node is-path" data-node="erp" aria-pressed="false" data-detail="ERP sintético · versão v12 · capturado às 13:58">ERP sintético<span>v12</span></button>
+            <button type="button" class="graph-node" data-node="plan" aria-pressed="false" data-detail="Planilha de compras · versão v3 · capturada em 05/11">Planilha de compras<span>v3</span></button>
+          </div>
+          <div class="lineage-col"><span class="panel-title">Transformações</span>
+            <button type="button" class="graph-node is-path" data-node="norm" aria-pressed="false" data-detail="normalizar_precos · transação 8812 · 2 entradas">normalizar_precos<span>tx 8812</span></button>
+          </div>
+          <div class="lineage-col"><span class="panel-title">Objetos</span>
+            <button type="button" class="graph-node is-path" data-node="sku88" aria-pressed="true" data-detail="SKU-88 · revisão 14 · objeto desta página">SKU-88<span>rev 14</span></button>
+            <button type="button" class="graph-node" data-node="sku91" aria-pressed="false" data-detail="SKU-91 · revisão 6 · mesmo fornecedor">SKU-91<span>rev 6</span></button>
+          </div>
+          <div class="lineage-col"><span class="panel-title">Actions</span>
+            <button type="button" class="graph-node is-path" data-node="act" aria-pressed="false" data-detail="ajustar_preco · risco médio · aprovação separada">ajustar_preco<span>risco médio</span></button>
+          </div>
+        </div>
+        <p class="meta" aria-live="polite" data-graph-detail>SKU-88 · revisão 14 · objeto desta página</p>
+      </div>
+
+      <!-- Rede: lista primeiro (R3); “Abrir na rede” leva ao grafo simples (R1) ou aprofundado (R2) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-rede" aria-labelledby="obj-tab-rede" hidden>
+        <div class="network" data-network>
+          <div class="stack-3" data-network-list>
+            <div class="stack-1"><span class="panel-title">Pedidos que usam este SKU · <span class="num">3</span></span>
+              <div class="table-wrap"><table class="table"><tbody>
+                <tr><td class="code">PC-20481</td><td><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span></td></tr>
+                <tr><td class="code">PC-20455</td><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span></td></tr>
+                <tr><td class="code">PC-20450</td><td><span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span></td></tr>
+              </tbody></table></div>
+            </div>
+            <div class="stack-1"><span class="panel-title">Fornecedor · <span class="num">1</span></span>
+              <div class="table-wrap"><table class="table"><tbody>
+                <tr><td class="code">Fornecedor Alfa</td><td class="meta">contrato CT-1193</td></tr>
+              </tbody></table></div>
+            </div>
+            <button type="button" class="btn btn-secondary" style="justify-self:start" data-network-open><i class="ico" data-icon="rede"></i>Abrir na rede</button>
+          </div>
+
+          <div class="stack-3" data-network-view hidden>
+            <div class="row">
+              <div class="segmented" role="radiogroup" aria-label="Profundidade da rede" data-segmented data-network-mode>
+                <button type="button" class="segment" role="radio" aria-checked="true" data-value="simple">Simples</button>
+                <button type="button" class="segment" role="radio" aria-checked="false" data-value="deep">Aprofundada</button>
+              </div>
+              <span class="meta" data-network-caption>Vínculos diretos do SKU-88.</span>
+              <button type="button" class="btn btn-minimal" style="margin-left:auto" data-network-close><i class="ico" data-icon="tabela"></i>Voltar à lista</button>
+            </div>
+            <div class="net-stage">
+              <!-- Simples (R1): vínculos diretos, nós por tipo -->
+              <div class="net-simple" data-network-canvas="simple" data-net-canvas>
+                <div class="canvas-toolbar" role="toolbar" aria-label="Ferramentas da rede">
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-pressed="true" aria-labelledby="tip-net-sel" data-net-mode="select"><i class="ico" data-icon="selecionar"></i></button><span class="tooltip" role="tooltip" id="tip-net-sel">Selecionar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-pressed="false" aria-labelledby="tip-net-move" data-net-mode="move"><i class="ico" data-icon="mover"></i></button><span class="tooltip" role="tooltip" id="tip-net-move">Mover</span></span>
+                  <span class="sep"></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-layout" data-net-layout><i class="ico" data-icon="layout"></i></button><span class="tooltip" role="tooltip" id="tip-net-layout">Layout: radial ou colunas</span></span>
+                  <span class="facet-anchor"><span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-expanded="false" aria-controls="net-expand-menu" aria-labelledby="tip-net-exp" data-net-expand><i class="ico" data-icon="expandir-vizinhos"></i></button><span class="tooltip" role="tooltip" id="tip-net-exp">Expandir vizinhos</span></span>
+                    <div class="menu" id="net-expand-menu" role="menu" aria-label="Expandir vizinhos" hidden style="position:absolute;left:0;top:calc(100% + 4px);z-index:5;min-width:220px">
+                      <div class="menu-head" role="presentation">Expandir vizinhos de SKU-88</div>
+                      <button type="button" class="menu-item" role="menuitem" data-expand="pc20470"><i class="ico" data-icon="evidencia"></i>Pedidos<span class="menu-key">1</span></button>
+                      <button type="button" class="menu-item" role="menuitem" data-expand="ct1193"><i class="ico" data-icon="evidencia"></i>Contratos<span class="menu-key">1</span></button>
+                    </div>
+                  </span>
+                  <span class="sep"></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-in" data-net-zoom="in"><i class="ico" data-icon="aproximar"></i></button><span class="tooltip" role="tooltip" id="tip-net-in">Aproximar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-out" data-net-zoom="out"><i class="ico" data-icon="afastar"></i></button><span class="tooltip" role="tooltip" id="tip-net-out">Afastar</span></span>
+                  <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-net-fit" data-net-zoom="fit"><i class="ico" data-icon="encaixar"></i></button><span class="tooltip" role="tooltip" id="tip-net-fit">Encaixar</span></span>
+                </div>
+                <div class="net-zoom" data-net-zoom-layer>
+                  <svg class="net-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <line data-a="sku88" data-b="pc20481"/><line data-a="sku88" data-b="pc20455"/><line data-a="sku88" data-b="alfa"/><line data-a="sku88" data-b="pc20450"/><line data-a="sku88" data-b="pc20470" hidden/><line data-a="sku88" data-b="ct1193" hidden/>
+                  </svg>
+                  <button type="button" class="net-node" style="left:50%;top:50%" data-node="sku88" data-radial="50,50" data-cols="18,50" aria-pressed="true" data-detail="SKU-88|Item de estoque|4 vínculos diretos"><span class="net-dot"><i class="ico" data-icon="item"></i></span><b>SKU-88</b></button>
+                  <button type="button" class="net-node" style="left:18%;top:22%" data-node="pc20481" data-radial="18,22" data-cols="72,14" aria-pressed="false" data-detail="PC-20481|Pedido · aguardando aprovação|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20481</b></button>
+                  <button type="button" class="net-node" style="left:18%;top:78%" data-node="pc20455" data-radial="18,78" data-cols="72,32" aria-pressed="false" data-detail="PC-20455|Pedido · reconciliado|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20455</b></button>
+                  <button type="button" class="net-node" style="left:82%;top:22%" data-node="alfa" data-radial="82,22" data-cols="72,50" aria-pressed="false" data-detail="Fornecedor Alfa|Fornecedor · contrato CT-1193|fornece o SKU-88"><span class="net-dot"><i class="ico" data-icon="fornecedor"></i></span><b>Fornecedor Alfa</b></button>
+                  <button type="button" class="net-node" style="left:82%;top:78%" data-node="pc20450" data-radial="82,78" data-cols="72,68" aria-pressed="false" data-detail="PC-20450|Pedido · divergente|usa o SKU-88"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20450</b></button>
+                  <button type="button" class="net-node" style="left:64%;top:12%" data-node="pc20470" data-radial="64,12" data-cols="72,86" aria-pressed="false" data-detail="PC-20470|Pedido · proposta|vizinho expandido" hidden><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20470</b></button>
+                  <button type="button" class="net-node" style="left:50%;top:88%" data-node="ct1193" data-radial="50,88" data-cols="40,86" aria-pressed="false" data-detail="CT-1193|Contrato · divergente|vizinho expandido" hidden><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>CT-1193</b></button>
+                </div>
+              </div>
+              <!-- Aprofundada (R2): primeiro e segundo grau, com estado em cada nó -->
+              <div class="net-deep" data-network-canvas="deep" data-graph="sku88d>pc20481d*,sku88d>pc20455d,sku88d>pc20450d,sku88d>alfad,pc20450d>os311d,alfad>ct1193d,alfad>sku91d" hidden>
+                <svg class="graph-edges" aria-hidden="true"></svg>
+                <div class="lineage-col"><span class="panel-title">Objeto</span>
+                  <button type="button" class="graph-node net-card" data-node="sku88d" aria-pressed="true" data-detail="SKU-88|Item de estoque|4 vínculos diretos, 3 de segundo grau">SKU-88<span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando</span></button>
+                </div>
+                <div class="lineage-col"><span class="panel-title">Primeiro grau</span>
+                  <button type="button" class="graph-node net-card is-path" data-node="pc20481d" aria-pressed="false" data-detail="PC-20481|Pedido · aguardando aprovação|afetado pela proposta">PC-20481<span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span></button>
+                  <button type="button" class="graph-node net-card" data-node="pc20455d" aria-pressed="false" data-detail="PC-20455|Pedido · reconciliado|usa o SKU-88">PC-20455<span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span></button>
+                  <button type="button" class="graph-node net-card" data-node="pc20450d" aria-pressed="false" data-detail="PC-20450|Pedido · divergente|liga a OS-311">PC-20450<span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span></button>
+                  <button type="button" class="graph-node net-card" data-node="alfad" aria-pressed="false" data-detail="Fornecedor Alfa|Fornecedor|contrato CT-1193 e SKU-91">Fornecedor Alfa<span class="meta">fornecedor</span></button>
+                </div>
+                <div class="lineage-col"><span class="panel-title">Segundo grau</span>
+                  <button type="button" class="graph-node net-card" data-node="os311d" aria-pressed="false" data-detail="OS-311|Ordem de serviço · writeback enviado|via PC-20450">OS-311<span class="tag tag-pending"><i class="ico" data-icon="executar"></i>Writeback enviado</span></button>
+                  <button type="button" class="graph-node net-card" data-node="ct1193d" aria-pressed="false" data-detail="CT-1193|Contrato · divergente|via Fornecedor Alfa">CT-1193<span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span></button>
+                  <button type="button" class="graph-node net-card" data-node="sku91d" aria-pressed="false" data-detail="SKU-91|Item de estoque · reconciliado|mesmo fornecedor">SKU-91<span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span></button>
+                </div>
+              </div>
+              <aside class="net-selection" aria-label="Seleção na rede" aria-live="polite">
+                <span class="panel-title">Seleção</span>
+                <b data-sel-name>SKU-88</b>
+                <span class="meta" data-sel-type>Item de estoque</span>
+                <span class="meta" data-sel-links>4 vínculos diretos</span>
+                <button type="button" class="btn btn-minimal" style="justify-self:start"><i class="ico" data-icon="inspetor"></i>Abrir no inspetor</button>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Histórico: histograma com janela que filtra a lista (F11 · H1) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-historico" aria-labelledby="obj-tab-historico" hidden>
+        <div class="timeline" data-timeline>
+          <div class="row"><span class="meta" data-timeline-label>Todos os dias</span><button type="button" class="btn btn-secondary" style="margin-left:auto" data-timeline-play aria-pressed="false"><i class="ico" data-icon="executar"></i><span>Reproduzir</span></button><button type="button" class="btn btn-minimal" data-timeline-clear>Limpar janela</button></div>
+          <div class="timeline-hist" role="group" aria-label="Eventos por dia. Clique num dia, arraste ou use Shift para escolher uma janela." data-timeline-hist>
+            <button type="button" class="timeline-bar" style="--h:20%" data-day="0" aria-pressed="false" aria-label="24/10: 2 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:30%" data-day="1" aria-pressed="false" aria-label="25/10: 3 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:10%" data-day="2" aria-pressed="false" aria-label="26/10: 1 evento"></button>
+            <button type="button" class="timeline-bar" style="--h:40%" data-day="3" aria-pressed="false" aria-label="27/10: 4 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:20%" data-day="4" aria-pressed="false" aria-label="28/10: 2 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:50%" data-day="5" aria-pressed="false" aria-label="29/10: 5 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:30%" data-day="6" aria-pressed="false" aria-label="30/10: 3 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:20%" data-day="7" aria-pressed="false" aria-label="31/10: 2 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:60%" data-day="8" aria-pressed="false" aria-label="01/11: 6 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:80%" data-day="9" aria-pressed="false" aria-label="02/11: 8 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:40%" data-day="10" aria-pressed="false" aria-label="03/11: 4 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:70%" data-day="11" aria-pressed="false" aria-label="04/11: 7 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:90%" data-day="12" aria-pressed="false" aria-label="05/11: 9 eventos"></button>
+            <button type="button" class="timeline-bar" style="--h:50%" data-day="13" aria-pressed="false" aria-label="06/11: 5 eventos"></button>
+          </div>
+          <div class="timeline-axis"><span>24/10</span><span>31/10</span><span>06/11</span></div>
+          <ol class="timeline-list">
+            <li data-day="13" class="is-failed"><span class="num">06/11 14:07</span><i class="ico" data-icon="falha-fechar"></i><span>Reconciliação falhou: destino recusou a revisão 14</span></li>
+            <li data-day="13"><span class="num">06/11 14:05</span><i class="ico" data-icon="aprovar"></i><span>PC-20481 aprovada por Gerente de operações</span></li>
+            <li data-day="13"><span class="num">06/11 13:58</span><i class="ico" data-icon="evidencia"></i><span>Proposta PC-20481 criada pelo agente v4</span></li>
+            <li data-day="12"><span class="num">05/11 18:20</span><i class="ico" data-icon="confirmado"></i><span>Revisão 13 reconciliada</span></li>
+            <li data-day="11"><span class="num">04/11 09:12</span><i class="ico" data-icon="executar"></i><span>Writeback da revisão 13 enviado</span></li>
+            <li data-day="9"><span class="num">02/11 16:40</span><i class="ico" data-icon="aprovar"></i><span>PC-20455 aprovada por Gerente de operações</span></li>
+            <li data-day="5"><span class="num">29/10 11:03</span><i class="ico" data-icon="alerta"></i><span>Divergência de 3,2% em PC-20450</span></li>
+          </ol>
+        </div>
+      </div>
+      <!-- Comentários: aba no objeto, com menção (F13 · K1) -->
+      <div class="object-panel" role="tabpanel" id="obj-panel-comentarios" aria-labelledby="obj-tab-comentarios" hidden>
+        <div class="stack-3" data-comments aria-live="polite">
+          <div class="comment"><span class="avatar">GO</span><div><b>Gerente de operações</b> <span class="meta num">14:09</span><p>Destino recusou a rev. 14. <span class="mention">@Analista</span>, reabre com a 15?</p></div></div>
+          <div class="comment"><span class="avatar">AN</span><div><b>Analista</b> <span class="meta num">14:12</span><p>Reaberta como PC-20482.</p></div></div>
+        </div>
+        <form class="row" data-comment-form onsubmit="return false"><label class="field" style="flex:1;min-width:0"><span class="sr-only">Comentário</span><input class="input" placeholder="Comentar; use @ para mencionar" data-comment-input></label><button type="submit" class="btn btn-secondary">Comentar</button></form>
+        <p class="meta">A conversa fica separada do histórico; a menção notifica a pessoa. Decisões continuam no histórico e no trace.</p>
+      </div>
+    </div>
+
+    <!-- Assistente: painel fixo à direita (F11 · A1) -->
+    <aside class="assistant" aria-label="Assistente contextual">
+      <div class="assistant-head"><i class="ico ico-20" data-icon="assistente"></i><h4>Assistente</h4><span class="seal seal-mock">Fixture</span></div>
+      <div class="assistant-context"><span class="tag tag-value">SKU-88 · rev <span class="num">14</span></span><span class="tag tag-value">PC-20481</span></div>
+      <div class="assistant-msg is-user">Por que o preço sobe 3,3%?</div>
+      <div class="assistant-msg"><span>O custo do Fornecedor Alfa subiu 4,1% em outubro; a proposta repassa 3,3% para manter a margem de 18%.</span><span class="assistant-cite">Fonte: ERP sintético v12 · tx 8812</span></div>
+      <div class="assistant-tool"><i class="ico" data-icon="ferramenta"></i>consultar_historico · <span class="num">3</span> resultados</div>
+      <div class="assistant-output"><i class="ico" data-icon="evidencia"></i><span>Proposta PC-20482 criada</span><span class="tag tag-pending">Proposta</span></div>
+      <div class="stack-2" data-stream-out aria-live="polite"></div>
+      <form class="row" data-stream-form onsubmit="return false"><label class="field" style="flex:1;min-width:0"><span class="sr-only">Pergunta ao assistente</span><input class="input" placeholder="Perguntar sobre este objeto" value="Mostre o preço nos últimos 6 meses" data-stream-input></label><button type="submit" class="btn btn-secondary">Perguntar</button></form>
+      <p class="meta">Mostra o contexto e a revisão, diz se é IA real ou fixture, cita a fonte e lista as ferramentas. O que propõe vira Proposta na fila; nunca executa.</p>
+    </aside>
+  </div>
+
+  <div class="grid-2">
+    <div class="rule"><span class="rule-name">Uma pergunta por aba.</span><span class="meta">Resumo, Trace, Linhagem, Rede e Histórico. O cabeçalho com estado, risco e ações nunca sai da tela.</span></div>
+    <div class="rule"><span class="rule-name">Rede começa em lista.</span><span class="meta">As relações aparecem em tabelas curtas; “Abrir na rede” leva ao grafo simples (vínculos diretos) ou aprofundado (segundo grau, com estado).</span></div>
+  </div>
+</section>

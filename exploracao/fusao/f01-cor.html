@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F01 Cor base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c;
+    --ok: #2f8a55; --bad: #b94a4a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 84ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--ok); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .sw { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .sw > div { display: flex; flex-wrap: wrap; gap: 2px; }
+  .chip { flex: 1 1 40px; height: 34px; position: relative; }
+  .chip span { position: absolute; left: 4px; bottom: 2px; font: 11px/1 ui-monospace, monospace; mix-blend-mode: difference; color: #fff; }
+  .sw .lbl { flex-basis: 100%; font-size: 12px; color: var(--muted); }
+
+  /* ── preview ── */
+  .previews { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .pv { font-family: 'Montserrat', system-ui, sans-serif; background: var(--canvas); color: var(--text); border: 1px solid var(--line); }
+  .pv .num { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; }
+  .pv-top { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .pv-top svg { width: 24px; height: 24px; color: var(--text); }
+  .pv-top .wm { font-weight: 600; letter-spacing: .1em; font-size: 14px; }
+  .pv-top .env { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--muted); border: 1px solid var(--border); padding: 2px 8px; }
+  .pv-body { padding: 20px 16px; display: grid; gap: 16px; }
+  .pv h3 { margin: 0; font-size: 20px; font-weight: 600; }
+  .pv .sub { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+  .pv .toolbar { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { font: 500 14px 'Montserrat', sans-serif; padding: 8px 14px; min-height: 36px; border: 1px solid transparent; cursor: pointer; }
+  .btn-primary { background: var(--action); color: var(--action-fg); }
+  .btn-secondary { background: var(--raised); color: var(--text); border-color: var(--control); }
+  .btn-danger { background: var(--danger); color: #ffffff; }
+  .btn.focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .kpi { background: var(--surface); padding: 12px; border: 1px solid var(--border); }
+  .kpi .k { font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .kpi .v { font-size: 20px; font-weight: 500; margin-top: 4px; white-space: nowrap; }
+  .kpi .d { font-size: 13px; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); font-size: 14px; }
+  th { text-align: left; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: 0; }
+  td.r, th.r { text-align: right; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 8px; border: 1px solid currentColor; }
+  .tag svg { width: 12px; height: 12px; }
+  .callout { display: flex; gap: 10px; padding: 12px; border-left: 3px solid var(--danger); background: var(--danger-tint); font-size: 14px; }
+  .callout b { color: var(--danger-text); }
+  .callout svg { width: 16px; height: 16px; color: var(--danger-text); flex: none; margin-top: 2px; }
+  .field { display: grid; gap: 4px; font-size: 12px; font-weight: 600; color: var(--muted); }
+  .field input { font: 14px 'Montserrat', sans-serif; padding: 8px 10px; background: var(--raised); color: var(--text); border: 1px solid var(--control); outline: 2px solid var(--focus); outline-offset: 2px; }
+  .link { color: var(--link); text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── contraste ── */
+  .ct { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .ct table { background: var(--card); border-color: var(--line); font: 13px system-ui; color: var(--ink); }
+  .ct th { color: var(--muted); border-color: var(--line); }
+  .ct td { border-color: var(--line); }
+  .pass { color: #7ddfa7; } .fail { color: #f28b82; font-weight: 600; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  @media (max-width: 1000px) { .previews, .ct { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F01 · Cor base</h1>
+  <p class="lead">
+    Três perguntas: a rampa neutra, a cor de ação e as cores de status.
+    Escolha uma opção em cada; a prévia abaixo monta a combinação nos dois
+    temas (escuro = marca, claro = produto), com os mesmos tokens.
+  </p>
+  <p class="lead">
+    <strong>Já decidido:</strong> o crimson sai da semântica de erro e risco;
+    números em Montserrat com algarismos tabulares; legibilidade máxima. A
+    tabela de contraste no fim mede cada par de texto e fundo da combinação
+    escolhida (WCAG, mínimo 4,5:1).
+  </p>
+</header>
+
+<main>
+  <h2>1 · Rampa neutra</h2>
+  <p class="lead">Fundos, superfícies, bordas e texto. É 90% da tela.</p>
+  <div class="opts" data-q="neutral"></div>
+
+  <h2>2 · Cor de ação</h2>
+  <p class="lead">O botão primário, o link e o anel de foco. A DR-09 pede que a cor de marca não classifique ação (DC-GC-09-002).</p>
+  <div class="opts" data-q="action"></div>
+
+  <h2>3 · Cores de status</h2>
+  <p class="lead">Sucesso, alerta e perigo. Cada uma tem cor de preenchimento e cor de texto própria para cada tema; a tag sempre leva ícone e rótulo, nunca só cor.</p>
+  <div class="opts" data-q="status"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="previews">
+    <div><div class="pv-title">Tema escuro · marca</div><div class="pv" id="pv-dark"></div></div>
+    <div><div class="pv-title">Tema claro · produto</div><div class="pv" id="pv-light"></div></div>
+  </div>
+
+  <h2>Contraste da combinação</h2>
+  <div class="ct">
+    <div><div class="pv-title">Escuro</div><table id="ct-dark"></table></div>
+    <div><div class="pv-title">Claro</div><table id="ct-light"></table></div>
+  </div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: N2 mas com texto um pouco mais quente)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const Q = {
+  neutral: [
+    { id: 'N1', name: 'Orison quente', src: 'Orison v3.0',
+      why: 'A base atual: preto quase puro e off-white quente. Identidade forte; no claro precisa de uma rampa nova, que a v3.0 não tem para produto.',
+      dark:  { canvas: '#0a0a0a', surface: '#111113', raised: '#1a1a1c', border: '#2e2e2e', control: '#6a6a6a', text: '#f7f5f0', muted: '#bcbab5' },
+      light: { canvas: '#f2f1ee', surface: '#fbfaf8', raised: '#ffffff', border: '#d6d3cc', control: '#8a877f', text: '#111113', muted: '#55534e' } },
+    { id: 'N2', name: 'Blueprint fria', src: 'Blueprint 6 / piloto',
+      why: 'Cinzas azulados do Blueprint, já usados no piloto (canvas #f6f7f9, tinta #1c2127). Feito para sessões longas de operação; menos identidade de marca.',
+      dark:  { canvas: '#1c2127', surface: '#252a31', raised: '#2f343c', border: '#404854', control: '#738091', text: '#f6f7f9', muted: '#abb3bf' },
+      light: { canvas: '#f6f7f9', surface: '#ffffff', raised: '#ffffff', border: '#d3d8de', control: '#738091', text: '#1c2127', muted: '#5f6b7c' } },
+    { id: 'N3', name: 'Grafite neutra', src: 'Orison grafite (terminal)',
+      why: 'A variante grafite aprovada no terminal em 20-10: cinza sem tom, menos contraste extremo que o preto. Meio-termo entre identidade e conforto.',
+      dark:  { canvas: '#1f1f21', surface: '#27272a', raised: '#303034', border: '#454548', control: '#7a7a7e', text: '#f7f5f0', muted: '#bcbab5' },
+      light: { canvas: '#f4f4f2', surface: '#ffffff', raised: '#ffffff', border: '#d4d4d0', control: '#8a8a86', text: '#1f1f21', muted: '#5c5c58' } },
+  ],
+  action: [
+    { id: 'A1', name: 'Azul de ação', src: 'Blueprint BLUE3 / piloto',
+      why: 'Ação separada da marca, como no Blueprint e no piloto. Azul é a convenção mais reconhecida para “clicável”; o crimson fica só para a marca.',
+      dark:  { action: '#2d72d2', 'action-fg': '#ffffff', link: '#8abbff', focus: '#8abbff' },
+      light: { action: '#2d72d2', 'action-fg': '#ffffff', link: '#215db0', focus: '#215db0' } },
+    { id: 'A2', name: 'Tinta neutra', src: 'site Palantir (acromático)',
+      why: 'O primário é a própria tinta do texto, invertida. Sistema todo acromático, como o site da Palantir; a cor fica livre para status. Foco em crimson claro.',
+      dark:  { action: '#f7f5f0', 'action-fg': '#0a0a0a', link: '#f7f5f0', focus: '#f06070' },
+      light: { action: '#111113', 'action-fg': '#ffffff', link: '#111113', focus: '#8b1a1a' } },
+    { id: 'A3', name: 'Crimson de ação', src: 'Orison v3.0',
+      why: 'Mantém o crimson como CTA, como na v3.0. Como ele sai de “perigo”, o conflito da DR-09 diminui, mas cor de marca continua classificando ação.',
+      dark:  { action: '#8b1a1a', 'action-fg': '#f7f5f0', link: '#f06070', focus: '#f06070' },
+      light: { action: '#8b1a1a', 'action-fg': '#ffffff', link: '#8b1a1a', focus: '#8b1a1a' } },
+  ],
+  status: [
+    { id: 'S1', name: 'Intents do Blueprint', src: 'Blueprint 6 / piloto',
+      why: 'Verde, laranja e vermelho do Blueprint, com tons de texto escurecidos (claro) e clareados (escuro) para passar 4,5:1. É o conjunto do piloto.',
+      dark:  { success: '#238551', warning: '#c87619', danger: '#cd4246', 'success-text': '#72ca9b', 'warning-text': '#fbb360', 'danger-text': '#fa999c' },
+      light: { success: '#238551', warning: '#c87619', danger: '#cd4246', 'success-text': '#1c6e42', 'warning-text': '#935610', 'danger-text': '#ac2f33' } },
+    { id: 'S2', name: 'Semântica Orison ajustada', src: 'Orison v3.0',
+      why: 'As cores semânticas da v3.0 (positive, alert, negative-md), sem o crimson. Mais terrosas; o perigo ainda é vizinho do crimson, o que pede cuidado se A3 vencer.',
+      dark:  { success: '#27834a', warning: '#c0622b', danger: '#c0392b', 'success-text': '#7ddfa7', 'warning-text': '#f2a77a', 'danger-text': '#f59a90' },
+      light: { success: '#27834a', warning: '#c0622b', danger: '#c0392b', 'success-text': '#1a5c2e', 'warning-text': '#8b4a1a', 'danger-text': '#a32d22' } },
+  ],
+};
+
+const KEY = 'orison-fusao-f01';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"neutral":"N2","action":"A1","status":"S1"},"notes":""}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+/* ── contraste WCAG ── */
+const hex2rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const lum = (h) => { const c = hex2rgb(h).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const mix = (a, b, t) => '#' + hex2rgb(a).map((v, i) => Math.round(v * t + hex2rgb(b)[i] * (1 - t)).toString(16).padStart(2, '0')).join('');
+
+/* ── cards de opção ── */
+function chips(set) { return Object.entries(set).map(([k, v]) => `<div class="chip" style="background:${v}" title="${k} ${v}"><span>${k}</span></div>`).join(''); }
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="sw"><div><span class="lbl">Escuro</span>${chips(o.dark)}</div><div><span class="lbl">Claro</span>${chips(o.light)}</div></div>
+    </button>`).join('');
+});
+
+const ICON = {
+  ok: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  warn: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 13H1z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6v4M8 11.5v1.5" stroke="currentColor" stroke-width="1.6"/></svg>',
+  bad: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2"/></svg>',
+  wait: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+};
+const SYMBOL = '<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="currentColor" d="M65 11.75A48.5 48.5 0 0 1 65 108.25L65 103.24A43.5 43.5 0 0 0 65 16.76ZM55 11.75A48.5 48.5 0 0 0 55 108.25L55 103.24A43.5 43.5 0 0 1 55 16.76Z M65 29.49A30.9 30.9 0 0 1 65 90.51L65 85.42A25.9 25.9 0 0 0 65 34.58ZM55 29.49A30.9 30.9 0 0 0 55 90.51L55 85.42A25.9 25.9 0 0 1 55 34.58Z"/><rect x="57.5" y="11.5" width="5" height="97" fill="currentColor"/></svg>';
+
+function themeVars(theme) {
+  const n = find('neutral', state.pick.neutral)[theme], a = find('action', state.pick.action)[theme], s = find('status', state.pick.status)[theme];
+  const v = { ...n, ...a, ...s };
+  for (const k of ['success', 'warning', 'danger']) v[k + '-tint'] = mix(v[k], v.surface, 0.14);
+  return v;
+}
+
+function preview(theme) {
+  const v = themeVars(theme);
+  const tag = (k, icon, label) => `<span class="tag" style="color:var(--${k}-text);background:var(--${k}-tint)">${ICON[icon]}${label}</span>`;
+  const el = document.getElementById('pv-' + theme);
+  el.setAttribute('style', Object.entries(v).map(([k, x]) => `--${k}:${x}`).join(';'));
+  el.innerHTML = `
+    <div class="pv-top">${SYMBOL}<span class="wm">ORISON</span><span>Operação</span><span class="env">Ambiente sintético</span></div>
+    <div class="pv-body">
+      <div><h3>Fila de propostas</h3><p class="sub">12 objetos aguardando decisão · atualizado 14:32</p></div>
+      <div class="toolbar">
+        <button class="btn btn-primary" type="button">Aprovar proposta</button>
+        <button class="btn btn-secondary focus" type="button">Ver evidência</button>
+        <button class="btn btn-danger" type="button">Reverter writeback</button>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="k">Valor em fila</div><div class="v num">R$ 1.284.930,00</div><div class="d num" style="color:var(--success-text)">+4,2% vs. ontem</div></div>
+        <div class="kpi"><div class="k">Propostas</div><div class="v num">47</div><div class="d num" style="color:var(--muted)">12 pendentes</div></div>
+        <div class="kpi"><div class="k">Reconciliadas</div><div class="v num">98,2%</div><div class="d num" style="color:var(--danger-text)">2 falhas</div></div>
+      </div>
+      <table>
+        <thead><tr><th>Objeto</th><th class="r">Valor</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Pedido PC-20481</td><td class="r num">R$ 48.210,00</td><td>${tag('success', 'ok', 'Reconciliado')}</td></tr>
+          <tr><td>Contrato CT-1193</td><td class="r num">R$ 7.980,50</td><td>${tag('warning', 'warn', 'Divergência')}</td></tr>
+          <tr><td>Estoque SKU-88</td><td class="r num">R$ 112.400,00</td><td>${tag('danger', 'bad', 'Writeback falhou')}</td></tr>
+          <tr><td>Fornecedor F-207</td><td class="r num">R$ 3.115,90</td><td><span class="tag" style="color:var(--muted)">${ICON.wait}Aguardando aprovação</span></td></tr>
+        </tbody>
+      </table>
+      <div class="callout">${ICON.bad}<div><b>Writeback falhou no SKU-88.</b> Owner: Operações. O destino recusou a revisão 14. <a class="link" href="#">Ver remediação</a></div></div>
+      <label class="field">Justificativa da aprovação<input value="Conforme baseline de outubro" aria-label="Justificativa"></label>
+    </div>`;
+  return v;
+}
+
+function contrast(theme, v) {
+  const rows = [
+    ['Texto · canvas', v.text, v.canvas], ['Texto · superfície', v.text, v.surface],
+    ['Secundário · canvas', v.muted, v.canvas], ['Secundário · superfície', v.muted, v.surface],
+    ['Botão primário', v['action-fg'], v.action], ['Link · superfície', v.link, v.surface],
+    ['Botão perigo (branco)', '#ffffff', v.danger],
+    ['Sucesso · tag', v['success-text'], v['success-tint']], ['Alerta · tag', v['warning-text'], v['warning-tint']],
+    ['Perigo · tag', v['danger-text'], v['danger-tint']],
+    ['Foco · canvas (3:1)', v.focus, v.canvas, 3], ['Borda de controle (3:1)', v.control, v.surface, 3],
+  ];
+  document.getElementById('ct-' + theme).innerHTML = '<thead><tr><th>Par</th><th>Cores</th><th class="r">Razão</th></tr></thead><tbody>' +
+    rows.map(([n, a, b, min = 4.5]) => { const r = ratio(a, b); return `<tr><td>${n}</td><td style="font-family:ui-monospace">${a} / ${b}</td><td class="r ${r >= min ? 'pass' : 'fail'}">${r.toFixed(2)}:1${r >= min ? '' : ' ✕'}</td></tr>`; }).join('') + '</tbody>';
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  for (const t of ['dark', 'light']) contrast(t, preview(t));
+  const p = state.pick;
+  summaryEl.textContent = `F01 · Cor base\nNeutra: ${p.neutral} · Ação: ${p.action} · Status: ${p.status}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  state.pick[b.dataset.q] = b.dataset.id; render();
+});
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

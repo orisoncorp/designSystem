@@ -1,0 +1,46 @@
+<!-- 11 · Acessibilidade -->
+<section id="sec-acessibilidade" class="doc-section" aria-labelledby="sec-acessibilidade-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Fundamentos · DR-09</p>
+    <h2 class="doc-title" id="sec-acessibilidade-title">Acessibilidade e legibilidade</h2>
+    <p class="doc-lead">
+      Design é custo de adoção (DC-GC-09-019). O operador lê no celular, com
+      pressa e com luz ruim: o sistema é desenhado para esse caso, não para o
+      melhor monitor.
+    </p>
+  </header>
+  <div class="grid-2">
+    <div class="block">
+      <h3 class="block-title">Contraste</h3>
+      <ul class="prose meta">
+        <li>Todo texto acima de 4,5:1 no tema em que aparece; medido em <a href="#sec-cor">Cor</a>.</li>
+        <li>Borda de controle e anel de foco acima de 3:1.</li>
+        <li>Séries de dados abaixo de 3:1 exigem rótulo direto e vista em tabela.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Redundância</h3>
+      <ul class="prose meta">
+        <li>Estado e risco sempre com texto, ícone e forma, nunca só cor (PG-GC-09-01).</li>
+        <li>Gráfico com duas séries ou mais tem legenda; até quatro, rótulo direto.</li>
+        <li>Ação irreversível pede confirmação digitada.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Teclado e leitor de tela</h3>
+      <ul class="prose meta">
+        <li>Um único anel de foco, sempre visível em <code>:focus-visible</code>.</li>
+        <li>Link para pular ao conteúdo; um <code>h1</code>; toda seção com <code>aria-labelledby</code>.</li>
+        <li>Confirmações efêmeras em região <code>aria-live</code>.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3 class="block-title">Toque e movimento</h3>
+      <ul class="prose meta">
+        <li>Alvo de 44 px abaixo de 900 px.</li>
+        <li>Texto de 16 px que não encolhe; piso absoluto de 12 px; sem peso 300.</li>
+        <li><code>prefers-reduced-motion</code> colapsa toda transição.</li>
+      </ul>
+    </div>
+  </div>
+</section>

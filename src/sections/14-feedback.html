@@ -1,0 +1,87 @@
+<!-- 14 · Tags, alertas e avisos -->
+<section id="sec-feedback" class="doc-section" aria-labelledby="sec-feedback-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Componentes · F06, F07, F10 e F13</p>
+    <h2 class="doc-title" id="sec-feedback-title">Tags, alertas, avisos e confirmação</h2>
+    <p class="doc-lead">
+      Tag diz o estado do objeto. Alerta em bloco fica na página até ser
+      resolvido. Toast só confirma, e falha nunca some sozinha. Antes de agir,
+      a confirmação mostra o que muda.
+    </p>
+  </header>
+
+  <div class="specimen">
+    <span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span>
+    <span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span>
+    <span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span>
+    <span class="tag tag-warning"><i class="ico" data-icon="alerta"></i>Divergente</span>
+    <span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span>
+  </div>
+
+  <div class="stack-2">
+    <div class="callout callout-danger"><i class="ico" data-icon="falha-fechar"></i><div><span class="callout-title">Writeback recusado pelo destino.</span>Owner: Operações. Remediação: reabrir com a revisão 15.</div></div>
+    <div class="callout callout-warning"><i class="ico" data-icon="alerta"></i><div><span class="callout-title">Divergência de 3,2% na reconciliação.</span>O destino aplicou <span class="num">R$ 7.725,00</span> em vez de <span class="num">R$ 7.980,50</span>.</div></div>
+    <div class="callout callout-info"><i class="ico" data-icon="informacao"></i><div><span class="callout-title">Proposta gerada pelo agente v4.</span>Contexto capturado às <span class="num">13:58</span>; revisão esperada <span class="num">14</span>.</div></div>
+  </div>
+
+  <div class="specimen">
+    <button type="button" class="btn btn-secondary" data-toast="success">Mostrar confirmação</button>
+    <button type="button" class="btn btn-secondary" data-toast="danger">Mostrar falha</button>
+    <button type="button" class="btn btn-secondary" data-toast="undo">Aprovar com desfazer</button>
+    <span class="meta">Sucesso some em 5 s (pausa com hover ou foco); falha fica até ser fechada. Desfazer dura 10 s e só existe antes do writeback: depois, voltar atrás é Reverter, uma nova proposta (F10 · U1).</span>
+  </div>
+
+  <div class="block">
+    <div class="progress">
+      <div class="progress-head"><b id="prog-lote">Reconciliando lote LT-0912</b><span class="num">34 de 120</span></div>
+      <div class="progress-track" role="progressbar" aria-labelledby="prog-lote" aria-valuemin="0" aria-valuemax="120" aria-valuenow="34" aria-valuetext="34 de 120, etapa 3 de 4"><div class="progress-fill" style="--progress:28%"></div></div>
+      <span class="meta">Etapa 3 de 4 · cerca de 2 min</span>
+    </div>
+    <p class="meta">Processo longo (F10 · P2): barra neutra, porque andamento não é resultado; etapa e contagem em texto.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="scrim-stage">
+      <div class="dialog" role="group" aria-labelledby="dlg-aprovar">
+        <span class="dialog-title" id="dlg-aprovar">Aprovar a proposta PC-20481?</span>
+        <p class="dialog-body">O writeback vai para o ERP sintético assim que você aprovar.</p>
+        <dl class="props impact">
+          <dt>Muda</dt><dd>Preço do SKU-88: <span class="num nowrap">R$ 7.725,00</span> → <span class="num nowrap">R$ 7.980,50</span></dd>
+          <dt>Risco</dt><dd><span class="risk risk-medium">Médio</span></dd>
+          <dt>Reversível</dt><dd>Sim, por nova proposta</dd>
+          <dt>Owner</dt><dd>Operações</dd>
+        </dl>
+        <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="button" class="btn btn-primary"><i class="ico" data-icon="aprovar"></i>Aprovar</button></div>
+      </div>
+    </div>
+    <div class="scrim-stage">
+      <div class="dialog" role="group" aria-labelledby="dlg-excluir">
+        <span class="dialog-title" id="dlg-excluir">Excluir o lote LT-0912 do destino?</span>
+        <p class="dialog-body">O ERP não guarda versão anterior deste lote. Não há como reverter.</p>
+        <dl class="props impact">
+          <dt>Muda</dt><dd>Remove 120 lançamentos do ERP</dd>
+          <dt>Risco</dt><dd><span class="risk risk-irreversible"><i class="ico" data-icon="autoridade"></i>Irreversível</span></dd>
+          <dt>Owner</dt><dd>Controladoria</dd>
+        </dl>
+        <label class="field"><span class="field-label">Digite LT-0912 para confirmar</span><input class="input" data-typed-confirm="LT-0912" autocomplete="off"></label>
+        <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="button" class="btn btn-danger" disabled data-typed-target>Excluir lote</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="scrim-stage">
+    <form class="dialog" role="group" aria-labelledby="dlg-form" data-action-form onsubmit="return false">
+      <span class="dialog-title" id="dlg-form">Ajustar preço do SKU-88</span>
+      <label class="field" style="min-width:0"><span class="field-label">Novo preço (R$)</span><input class="input" inputmode="decimal" value="7.980,50" data-action-price data-current="7725"></label>
+      <label class="field" style="min-width:0"><span class="field-label">Justificativa</span><input class="input" value="Repasse do custo do Fornecedor Alfa"><span class="field-help">Aparece no histórico da decisão.</span></label>
+      <dl class="props impact" aria-live="polite">
+        <dt>Muda</dt><dd><span class="num nowrap">R$ 7.725,00</span> → <b class="num nowrap" data-action-new>R$ 7.980,50</b> <span class="delta" data-action-delta>+3,3%</span></dd>
+        <dt>Risco</dt><dd><span class="risk risk-medium">Médio</span></dd>
+        <dt>Reversível</dt><dd>Sim, por nova proposta</dd>
+      </dl>
+      <div class="dialog-actions"><button type="button" class="btn btn-secondary">Cancelar</button><button type="submit" class="btn btn-primary">Propor</button></div>
+    </form>
+  </div>
+  <p class="meta">Formulário de action (F13 · A1): os campos abrem no próprio diálogo de confirmação, e o bloco de impacto se atualiza enquanto o operador digita.</p>
+
+  <p class="meta">Confirmação com impacto (F10 · G2): o que muda, risco, reversibilidade e owner antes do verbo. Irreversível exige digitar o código; o botão só habilita quando o texto confere.</p>
+</section>

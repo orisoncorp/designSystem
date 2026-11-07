@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F03 Espaço e densidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 88ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; justify-content: flex-start; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; }
+  .opt p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .spec { font: 12px/1.6 ui-monospace, monospace; background: #141416; padding: 8px 10px; }
+  .pv-title { font: 600 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* ── prévia (tokens F01 + F02) ── */
+  .pvs { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 16px; align-items: start; }
+  .app { --canvas: #f6f7f9; --surface: #fff; --border: #d3d8de; --control: #738091; --text: #1c2127; --muted: #5f6b7c; --action: #2d72d2; --nav: #1c2127;
+    font-family: 'Montserrat', sans-serif; font-size: 16px; line-height: 1.4; color: var(--text); background: var(--canvas); border: 1px solid #404854; }
+  .num { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; font-weight: 500; }
+  .hlabel { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .flabel { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .topbar { display: flex; align-items: center; gap: 12px; padding: 0 var(--pad-panel); height: 48px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .topbar b { font-weight: 600; letter-spacing: .1em; font-size: 14px; }
+  .topbar .env { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--muted); border: 1px solid var(--border); padding: 2px 8px; }
+  .shell { display: grid; grid-template-columns: 200px 1fr 300px; min-height: 560px; }
+  .nav { background: var(--nav); color: #f6f7f9; padding: var(--pad-panel) 0; }
+  .nav a { display: flex; align-items: center; min-height: var(--h-ctrl); padding: 0 var(--pad-panel); color: #abb3bf; text-decoration: none; font-size: 14px; font-weight: 600; }
+  .nav a.on { color: #fff; background: #2f343c; box-shadow: inset 3px 0 0 var(--action); }
+  .main, .insp { padding: var(--pad-region); display: grid; gap: var(--gap-region); align-content: start; }
+  .insp { background: var(--canvas); border-left: 1px solid var(--border); }
+  h3 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; }
+  .meta { font-size: 14px; color: var(--muted); }
+  .toolbar { display: flex; gap: var(--gap-ctrl); flex-wrap: wrap; align-items: center; }
+  .btn { font: 600 16px 'Montserrat', sans-serif; min-height: var(--h-ctrl); padding: 0 var(--pad-ctrl); border: 1px solid transparent; display: inline-flex; align-items: center; }
+  .btn-p { background: var(--action); color: #fff; }
+  .btn-s { background: var(--surface); color: var(--text); border-color: var(--control); }
+  .input { font: 400 16px 'Montserrat', sans-serif; min-height: var(--h-ctrl); padding: 0 var(--pad-ctrl); border: 1px solid var(--control); background: var(--surface); color: var(--text); width: 220px; }
+  .blocks { display: grid; gap: var(--block-gap); background: var(--block-bg); }
+  .block { background: var(--surface); border: var(--block-border); padding: var(--pad-panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; padding: 0 var(--pad-cell); height: var(--h-row); border-bottom: 1px solid var(--border); }
+  td { padding: 0 var(--pad-cell); height: var(--h-row); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tr.sel td { background: #e8f0fc; }
+  .r { text-align: right; }
+  .tag { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; padding: 1px 8px; border: 1px solid currentColor; }
+  .ok { color: #1c6e42; background: #e0eee7; } .warn { color: #935610; background: #f7ecdf; } .bad { color: #ac2f33; background: #f8e5e5; }
+  .props { display: grid; grid-template-columns: auto 1fr; gap: var(--gap-ctrl) var(--pad-ctrl); font-size: 14px; }
+  .props dt { color: var(--muted); font-weight: 600; font-size: 13px; }
+  .props dd { margin: 0; }
+
+  .phone { width: 360px; outline: 8px solid #2a2a2e; }
+  .phone .item { background: var(--surface); border-bottom: 1px solid var(--border); padding: var(--pad-panel); display: grid; gap: var(--gap-ctrl); }
+  .phone .row { display: flex; justify-content: space-between; gap: 8px; }
+  .phone .cta { padding: var(--pad-panel); display: grid; gap: var(--gap-ctrl); }
+  .phone .btn { min-height: var(--h-touch); width: 100%; justify-content: center; }
+  .phone .input { min-height: var(--h-touch); width: 100%; }
+
+  .facts { margin-top: 16px; }
+  .facts table { background: var(--card); color: var(--ink); font: 13px system-ui; border: 1px solid var(--line); }
+  .facts th, .facts td { border-color: var(--line); height: 34px; padding: 0 10px; }
+  .facts th { color: var(--muted); }
+  .warnc { color: #fbb360; } .passc { color: #7ddfa7; } .failc { color: #f28b82; font-weight: 600; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F03 · Espaço e densidade</h1>
+  <p class="lead">
+    <strong>Já decidido:</strong> cores da F01 (N2 · A1 · S1) e tipografia da
+    F02 (interface em 16, tabela densa em 14 no desktop, rótulos em 13, pesos
+    400 + 600). Esta rodada decide quanto ar existe entre as coisas.
+  </p>
+  <p class="lead">
+    Quatro perguntas: a unidade de espaço, a altura dos controles, a altura
+    da linha de tabela e como os blocos se separam. A prévia é uma bancada de
+    operação (navegação, fila e inspetor) e o celular do operador.
+  </p>
+</header>
+
+<main>
+  <h2>1 · Unidade de espaço</h2>
+  <p class="lead">De onde saem paddings e intervalos.</p>
+  <div class="opts" data-q="unit"></div>
+
+  <h2>2 · Altura dos controles</h2>
+  <p class="lead">Botões, campos e itens de navegação. Com texto de interface em 16 px, controles baixos ficam apertados. No celular o mínimo de toque continua 44 px.</p>
+  <div class="opts" data-q="ctrl"></div>
+
+  <h2>3 · Linha de tabela</h2>
+  <p class="lead">A tabela é onde o operador passa o dia. Mais alta lê melhor; mais baixa mostra mais linhas.</p>
+  <div class="opts" data-q="row"></div>
+
+  <h2>4 · Separação entre blocos</h2>
+  <p class="lead">A calha de 2 px é a assinatura da v3.0. O piloto e o Workshop separam por borda.</p>
+  <div class="opts" data-q="sep"></div>
+
+  <h2>Prévia da combinação</h2>
+  <div class="pvs" id="pvs">
+    <div><div class="pv-title">Bancada de operação · desktop</div><div class="app" id="pv-desk"></div></div>
+    <div><div class="pv-title">Operador · 360 px</div><div class="app phone" id="pv-phone"></div></div>
+  </div>
+
+  <h2>Fatos da combinação</h2>
+  <div class="facts"><table id="facts"></table></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres (ex.: H3 só para botão primário)"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const Q = {
+  unit: [
+    { id: 'E1', name: 'Base 8', src: 'Orison v3.0',
+      why: 'A escala atual (8, 16, 24, 32, 48, 64). Ar generoso; em componentes pequenos falta o degrau de 12.',
+      v: { padCtrl: 16, gapCtrl: 8, padPanel: 24, padRegion: 24, gapRegion: 24, padCell: 16 }, scale: '8 · 16 · 24 · 32 · 48 · 64' },
+    { id: 'E2', name: 'Base 4', src: 'Blueprint / piloto',
+      why: 'Unidade de 4 px, como o Blueprint 6 e o piloto (4, 8, 12, 16, 20, 24, 32). Ajuste fino em componente; densidade de ferramenta.',
+      v: { padCtrl: 12, gapCtrl: 8, padPanel: 16, padRegion: 16, gapRegion: 12, padCell: 12 }, scale: '4 · 8 · 12 · 16 · 20 · 24 · 32' },
+    { id: 'E3', name: 'Base 4, layout em 8', src: 'proposta',
+      why: 'Componentes no grid de 4 (padding 12, intervalo 8); regiões e painéis no grid de 8 (24 e 16). Precisão dentro, respiro fora.',
+      v: { padCtrl: 12, gapCtrl: 8, padPanel: 16, padRegion: 24, gapRegion: 16, padCell: 12 }, scale: 'componente 4 · 8 · 12 · 16 — layout 16 · 24 · 32 · 48' },
+  ],
+  ctrl: [
+    { id: 'H1', name: '30 px', src: 'Blueprint',
+      why: 'Altura padrão do Blueprint (pequeno 24, grande 40). Feita para texto de 14 px; com 16 px fica justa.',
+      v: { ctrl: 30, touch: 44 } },
+    { id: 'H2', name: '36 px', src: 'proposta (piloto + T3)',
+      why: 'O piloto usa 7 px de padding sobre 14 px (≈ 33). Com texto em 16, 36 mantém a mesma folga visual.',
+      v: { ctrl: 36, touch: 44 } },
+    { id: 'H3', name: '40 px', src: 'proposta (máxima leitura)',
+      why: 'Controles em 40 no desktop e 48 no celular. Alvos fáceis e texto confortável; ocupa mais espaço em barras de ferramenta.',
+      v: { ctrl: 40, touch: 48 } },
+  ],
+  row: [
+    { id: 'R1', name: '32 px', src: 'Blueprint (compacta)', why: 'Linha compacta de planilha. Máximo de linhas por tela; a linha selecionada é mais difícil de seguir.', v: { row: 32 } },
+    { id: 'R2', name: '36 px', src: 'Tatico', why: 'A proposta do estudo Tatico. Equilíbrio entre linhas visíveis e leitura com texto de 14 px.', v: { row: 36 } },
+    { id: 'R3', name: '44 px', src: 'proposta (confortável)', why: 'Linha confortável, também clicável no toque. Menos linhas por tela; boa para filas curtas de decisão.', v: { row: 44 } },
+  ],
+  sep: [
+    { id: 'G1', name: 'Calha de 2 px', src: 'Orison v3.0',
+      why: 'Blocos sem borda, separados por 2 px de fundo. A assinatura da v3.0; no tema claro o contraste da calha é baixo.',
+      v: { gap: '2px', border: '0', bg: 'var(--canvas)' } },
+    { id: 'G2', name: 'Borda + intervalo de 12', src: 'piloto',
+      why: 'Cada bloco com borda de 1 px e 12 px entre eles, como no piloto. Leitura clara de onde um bloco termina.',
+      v: { gap: '12px', border: '1px solid var(--border)', bg: 'transparent' } },
+    { id: 'G3', name: 'Borda contígua', src: 'Workshop / Blueprint',
+      why: 'Blocos encostados, dividindo a mesma borda de 1 px. Máxima densidade, aparência de ferramenta única.',
+      v: { gap: '0', border: '1px solid var(--border)', bg: 'transparent' } },
+  ],
+};
+
+const KEY = 'orison-fusao-f03';
+const state = JSON.parse(localStorage.getItem(KEY) || '{"pick":{"unit":"E3","ctrl":"H2","row":"R2","sep":"G2"},"notes":""}');
+const find = (q, id) => Q[q].find((o) => o.id === id);
+
+const specText = (q, o) => q === 'unit' ? `escala ${o.scale}\npadding de controle ${o.v.padCtrl} · painel ${o.v.padPanel} · região ${o.v.padRegion}`
+  : q === 'ctrl' ? `desktop ${o.v.ctrl} px · toque ${o.v.touch} px`
+  : q === 'row' ? `linha ${o.v.row} px · texto 14 px`
+  : `intervalo ${o.v.gap} · borda ${o.v.border === '0' ? 'nenhuma' : '1 px'}`;
+
+document.querySelectorAll('.opts').forEach((box) => {
+  const q = box.dataset.q;
+  box.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p><div class="spec" style="white-space:pre-line">${specText(q, o)}</div>
+    </button>`).join('');
+});
+
+const ICON = {
+  ok: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  warn: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 13H1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+  bad: '<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2"/></svg>',
+};
+const ROWS = [
+  ['PC-20481', 'Pedido de compra', 'R$ 48.210,00', 'ok', 'Reconciliado'],
+  ['CT-1193', 'Contrato de serviço', 'R$ 7.980,50', 'warn', 'Divergência'],
+  ['SKU-88', 'Ajuste de estoque', 'R$ 112.400,00', 'bad', 'Writeback falhou'],
+  ['F-207', 'Cadastro de fornecedor', 'R$ 3.115,90', 'ok', 'Reconciliado'],
+  ['PC-20502', 'Pedido de compra', 'R$ 21.870,00', 'warn', 'Divergência'],
+  ['OS-311', 'Ordem de serviço', 'R$ 5.402,10', 'ok', 'Reconciliado'],
+  ['CT-1201', 'Contrato de serviço', 'R$ 64.000,00', 'ok', 'Reconciliado'],
+];
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  const u = find('unit', state.pick.unit).v, c = find('ctrl', state.pick.ctrl).v, r = find('row', state.pick.row).v, s = find('sep', state.pick.sep).v;
+  const vars = { '--pad-ctrl': u.padCtrl + 'px', '--gap-ctrl': u.gapCtrl + 'px', '--pad-panel': u.padPanel + 'px', '--pad-region': u.padRegion + 'px',
+    '--gap-region': u.gapRegion + 'px', '--pad-cell': u.padCell + 'px', '--h-ctrl': c.ctrl + 'px', '--h-touch': c.touch + 'px', '--h-row': r.row + 'px',
+    '--block-gap': s.gap, '--block-border': s.border, '--block-bg': s.bg };
+  document.getElementById('pvs').setAttribute('style', Object.entries(vars).map(([k, x]) => `${k}:${x}`).join(';'));
+
+  document.getElementById('pv-desk').innerHTML = `
+    <div class="topbar"><b>ORISON</b><span class="meta">Operação</span><span class="env">Ambiente sintético</span></div>
+    <div class="shell">
+      <nav class="nav"><a class="on" href="#">Fila</a><a href="#">Decisões</a><a href="#">Agentes</a><a href="#">Dados</a><a href="#">Execuções</a></nav>
+      <div class="main">
+        <div><h3>Fila de propostas</h3><div class="meta">7 objetos · atualizado 14:32</div></div>
+        <div class="toolbar"><button class="btn btn-p">Aprovar proposta</button><button class="btn btn-s">Ver evidência</button><input class="input" value="Filtrar por código" aria-label="Filtro"></div>
+        <div class="blocks">
+          <div class="block" style="padding:0"><table>
+            <thead><tr><th class="hlabel">Código</th><th class="hlabel">Objeto</th><th class="hlabel r">Valor</th><th class="hlabel">Estado</th></tr></thead>
+            <tbody>${ROWS.map((x, i) => `<tr class="${i === 2 ? 'sel' : ''}"><td class="num" style="font-weight:600">${x[0]}</td><td>${x[1]}</td><td class="r num">${x[2]}</td><td><span class="tag ${x[3]}">${ICON[x[3]]}${x[4]}</span></td></tr>`).join('')}</tbody>
+          </table></div>
+          <div class="block"><div class="hlabel">Valor em fila</div><div class="num" style="font-size:28px">R$ 263.978,50</div></div>
+        </div>
+      </div>
+      <aside class="insp">
+        <div><div class="hlabel">Inspetor</div><h3 style="font-size:18px;margin-top:4px">SKU-88 · Ajuste de estoque</h3></div>
+        <div class="blocks">
+          <div class="block"><dl class="props"><dt>Owner</dt><dd>Operações</dd><dt>Revisão</dt><dd class="num">14</dd><dt>Risco</dt><dd>Alto</dd><dt>Fonte</dt><dd>ERP · sintético</dd></dl></div>
+          <div class="block"><span class="tag bad">${ICON.bad}Writeback falhou</span><div class="meta" style="margin-top:8px">O destino recusou a revisão 14.</div></div>
+        </div>
+        <div class="toolbar"><button class="btn btn-p">Reabrir</button><button class="btn btn-s">Trace</button></div>
+      </aside>
+    </div>`;
+
+  document.getElementById('pv-phone').innerHTML = `
+    <div class="topbar"><b>ORISON</b><span class="env">3 pendentes</span></div>
+    ${ROWS.slice(0, 3).map((x) => `<div class="item"><div class="row"><span style="font-weight:600">${x[1]}</span><span class="num">${x[2]}</span></div><span class="meta">${x[0]}</span><span class="tag ${x[3]}" style="justify-self:start">${ICON[x[3]]}${x[4]}</span></div>`).join('')}
+    <div class="cta"><input class="input" value="Justificativa" aria-label="Justificativa"><button class="btn btn-p">Revisar SKU-88</button><button class="btn btn-s">Ver todos</button></div>`;
+
+  const visible = Math.floor((900 - 48 - 2 * u.padRegion - 60 - c.ctrl - 2 * u.gapRegion - r.row) / r.row);
+  const facts = [
+    ['Linhas de tabela visíveis numa tela de 900 px', `${visible}`, visible >= 12 ? 'passc' : 'warnc', visible >= 12 ? 'denso' : 'confortável'],
+    ['Folga vertical do texto de 16 px no controle', `${((c.ctrl - 16 * 1.4) / 2).toFixed(1)} px`, c.ctrl >= 36 ? 'passc' : 'failc', c.ctrl >= 36 ? 'ok' : 'apertado para 16 px'],
+    ['Alvo de toque no celular', `${c.touch} px`, c.touch >= 44 ? 'passc' : 'failc', c.touch >= 44 ? 'ok (≥ 44)' : 'abaixo de 44'],
+    ['Linha de tabela tocável (≥ 44)', `${r.row} px`, r.row >= 44 ? 'passc' : 'warnc', r.row >= 44 ? 'sim' : 'só no desktop; celular usa lista'],
+  ];
+  document.getElementById('facts').innerHTML = '<thead><tr><th>Fato</th><th>Valor</th><th>Leitura</th></tr></thead><tbody>' +
+    facts.map(([a, b, cl, t]) => `<tr><td>${a}</td><td>${b}</td><td class="${cl}">${t}</td></tr>`).join('') + '</tbody>';
+
+  const p = state.pick;
+  summaryEl.textContent = `F03 · Espaço e densidade\nUnidade: ${p.unit} · Controles: ${p.ctrl} · Linha: ${p.row} · Separação: ${p.sep}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; state.pick[b.dataset.q] = b.dataset.id; render(); });
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+</script>
+</body>
+</html>

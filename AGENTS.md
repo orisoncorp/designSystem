@@ -1,239 +1,136 @@
 # Codex Project Instructions
 
-This is the Codex equivalent of `CLAUDE.md`. Keep it aligned with the same
-project intent, but prefer Codex-native wording and the current repository
-state when file inventory or package metadata has drifted.
+This is the Codex equivalent of `CLAUDE.md`; keep both aligned. Use the global
+RTK convention for shell commands (for example `rtk npm run build`).
 
-**Precedence:** `src/tokens/tokens.css` and `src/tokens/motion-tokens.css` are
-the executable truth. If any document in this repository — including this one,
-`CLAUDE.md`, `orisonDesign.md` or `orisonMotion.md` — disagrees with the code,
-the code wins and the document is the bug. That divergence is exactly what the
-v3.0 refactor existed to remove; do not reintroduce it.
+## Design norm (v4)
+
+`DESIGN.md` is the single written norm (v4.7.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F16, logged in `docs/fusao-palantir.md`).
+`src/tokens/tokens.css` is the executable truth: if the two disagree, the code
+wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, the v3 Motion
+System, command center, voice/narrative) lives only in the git tag `ds-v3.0`; do
+not reintroduce any of it without a decision from Nobel.
+
+New visual decisions go through approval rounds (HTML pages in
+`exploracao/fusao/`, registry in `docs/fusao-palantir.md`), never straight into
+tokens.
 
 ## Commands
 
-Use the global RTK convention for shell commands, for example `rtk npm run build`.
-
 ```bash
 npm run dev            # Dev server
-npm run verify         # Check the system invariants — <1s, prints file:line
+npm run verify         # Check the ten invariants — <1s, prints file:line
 npm run build          # Runs verify, then builds to dist/
 npm run preview        # Preview the production build
-npm run tokens:export  # Parse tokens.css → src/tokens/tokens.json
+npm run tokens:export  # tokens.css → tokens/orison.tokens.json (DTCG 2025.10)
 ```
 
-For code changes run `npm run build`; it will not complete if an invariant is
-violated. Run `npm run tokens:export` only when token export output is
-intentionally needed.
-
-## The nine invariants
-
-`scripts/verify-system.mjs` enforces these. Each corresponds to a defect that
-shipped in v2.0 and required a full refactor to remove. Do not weaken a check
-to make a change pass — fix the change.
-
-| # | Invariant | Rationale |
-|---|---|---|
-| 1 | No `font-size` below 12px | v2.0 had 301 (83.4% of all declarations) |
-| 2 | `letter-spacing` always in `em`, never `px` | 3px is 43% of the em at 7px, 9% at 32px |
-| 3 | `--color-crimson` is never a `color:` value | 2.09:1 on dark — use `--color-crimson-text` |
-| 4 | `--color-midnight` is never a `color:` value | Surface token; inverts under `[data-ground="light"]` |
-| 5 | `border-radius` only `0`, `50%`, `9999px` | Surfaces have no radius; circular marks do |
-| 6 | Every `--motion-*` token is consumed | A token nobody reads is documentation, not system |
-| 7 | All text ≥ 4.5:1 against its real background | `-light` selectors measure against off-white |
-| 8 | One `<h1>`, `aria-labelledby` per section, every SVG labeled | — |
-| 9 | No `tabindex="-1"` on specimen controls | That is what made v2.0's focus rules dead code |
+**`npm run verify` is the gate.** `build` depends on it. Run it before you claim
+anything is done.
 
 ## Architecture
 
-Static Orison brand book and design system, rendered as a single-page Vite app
-with vanilla JavaScript and CSS. No framework.
+Static design system site for Orison, a single-page Vite app in vanilla JS +
+CSS. No framework.
 
-`src/main.js` is the single runtime entry point. It:
+`src/main.js` is the single entry point. It imports CSS in layer order, loads
+every `src/sections/*.html` (sorted by filename) and every
+`src/assets/icons/*.svg` via `import.meta.glob`, injects the logo sprite
+(`src/assets/symbol.svg`), builds the sidebar from `NAV_ITEMS` + `GROUP_LABELS`,
+and wires: theme toggle, generated token values, swatches, measured contrast,
+icons, tabs, switch, toast and the two F09 charts, plus the F10 components
+(tooltip, removable tag, segmented control, action menu, typed confirmation,
+undo toast, bulk selection) and the F11 object page (trace toggles, column
+graphs drawn from `data-graph`, network list to simple/deep graph, timeline
+window), the F12 brand pieces scaler and the F13 pieces (collapsible sections,
+facet chip, date range, action form, reveal, comments, attachments, data reload,
+drawer with focus trap), and the F14 interfaces (shell rail, set views, paired
+views, inbox, Ctrl K quick search, canvas toolbar and neighbour expansion,
+streaming assistant), plus the F15 system screens (one-time code, people
+inspector, invite dialog, settings save bar).
 
-1. Imports CSS in the established layer order.
-2. Imports section HTML partials via Vite `?raw`.
-3. Adds `.js-ready` to `<html>` before mounting.
-4. Injects `src/assets/symbol.svg` so `<use href="#...">` works globally.
-5. Builds the sidebar from `NAV_ITEMS` + `GROUP_LABELS` into four collapsible
-   groups, with a `/`-focused filter and state persisted to `localStorage`.
-6. Concatenates section HTML into `<main id="app">`.
-7. Wires drawer, scroll-spy, reveal, clipboard, and motion demo behavior.
+### Sections (25, in seven groups)
 
-## Section System
+| Group       | Files                                                            |
+| ----------- | ---------------------------------------------------------------- |
+| Início      | `00-capa`, `01-como-usar`                                        |
+| Marca       | `02-simbolo`, `03-lockups`, `04-uso`, `05-pecas`                 |
+| Fundamentos | `06-cor` … `11-acessibilidade`                                   |
+| Componentes | `12-botoes` … `16-tabela`                                        |
+| Padrões     | `17-semantica` … `22-dados` (incl. `20-aplicacao`, `21-sistema`) |
+| Conteúdo    | `23-conteudo`                                                    |
+| Recursos    | `24-recursos`                                                    |
 
-- 38 HTML partials in `src/sections/` (`00`–`37`), in four groups: Design
-  System (00–13), Motion System (14–29), Data Viz (30–36), Colofão (37).
-- Adding a section: create the partial, add the raw import in `src/main.js`,
-  add a `NAV_ITEMS` entry with the correct `group`, give the `<section>` an
-  `aria-labelledby` pointing at its own `<h2>`, wire any demo behavior, then
-  run `npm run verify`.
-- Treat the actual `src/sections/` inventory as source of truth if older docs
-  list fewer sections.
+Marca sections (and the cover) are
+`<section class="doc-band" data-theme="dark">`; everything else is
+`<section class="doc-section">`.
 
-## Token System
+Adding a section: create the file with the next number, give the `<section>` an
+`aria-labelledby` pointing at its own `<h2>`, add a `NAV_ITEMS` entry with the
+right `group`, run `npm run verify`.
 
-- `src/tokens/tokens.css` is the source of truth for design tokens.
-- Naming: `--{category}-{key}` — `--color-crimson`, `--space-4`,
-  `--tracking-wide`.
-- `scripts/export-tokens.js` parses `tokens.css` and writes
-  `src/tokens/tokens.json`; generated output is not part of a change unless
-  requested.
-- Motion tokens live in `src/tokens/motion-tokens.css` with the
-  `--motion-{category}-{key}` prefix.
+### Conventions that the page relies on
 
-### Two typographic ramps — never mixed
+- **Values are generated, never typed.** `data-token-value="--token"` prints the
+  computed value; `.swatch[data-token][data-name]` renders a swatch;
+  `data-contrast="--fg|--bg|min"` prints the measured WCAG ratio. All are read
+  from the element, so they follow its theme scope and refresh on theme change.
+- **Icons by name:** `<i class="ico" data-icon="confirmado"></i>`, filled from
+  `src/assets/icons/` (Lucide drawing, stroke 2, square caps; ISC license in
+  `public/downloads/icones/`).
+- **Logo by sprite:** `#symbol-full`, `#symbol-small`, `#symbol-favicon`,
+  `#wordmark` (viewBox `0 -2 398.51 74`). Generated by
+  `exploracao/logo/gerador/`; never redraw by hand.
+- **Tabs** get their roving `tabindex` at runtime; markup never carries
+  `tabindex="-1"`.
 
-- `--display-{hero|xl|lg|md|sm}` — Cormorant Garamond, 64/44/34/26/20px.
-  Expression. Uppercase allowed.
-- `--text-{xl|lg|base|sm|xs|label}` — Montserrat, 20/18/16/14/13/12px.
-  Reading and UI. **12px is the floor.**
+### Tokens
 
-Uppercase is a structural marker: in the text ramp it is exclusive to
-`--text-label`; in the display ramp it is allowed on `hero`, `xl` and `sm`.
-Never on prose.
+`src/tokens/tokens.css`: light theme on `:root, [data-theme='light']`, dark
+theme on `[data-theme='dark']` (`data-theme="light"` restores light inside a
+dark band), same semantic names in both (`--color-*`, `--text-*`, `--bg-*`,
+`--data-*`, `--space-*`, `--radius-*`, `--elevation-*`, …).
+`src/tokens/motion-tokens.css` holds the F16 interaction motion: easings,
+durations per role (feedback, dialog, drawer, toast, exit, pan, pulse, data,
+progress, canvas, enter, caret) and the named keyframes. Menus, tooltips and
+popovers do not move. JS animations check `REDUCED()` in `main.js`.
 
-Section titles (`.sec-title`, every `<h2>`) are Cormorant at `--display-md`;
-block headers (`<h3>`) stay at `--text-label`. Two rungs of separation — do not
-collapse them back.
+### The ten invariants (`scripts/verify-system.mjs`)
 
-### Ground-aware color
+| #   | Invariant                                                                |
+| --- | ------------------------------------------------------------------------ |
+| 1   | No `font-size` below 12px                                                |
+| 2   | `letter-spacing` always in `em`                                          |
+| 3   | `--color-crimson` only in `brand.css`, `tokens.css`, brand sections, cor |
+| 4   | No hex colour outside `tokens.css` and `brand.css`                       |
+| 5   | `border-radius` only 0, 3px, 4px, 50%, 9999px or a radius token          |
+| 6   | Every `--motion-*` token is consumed                                     |
+| 7   | Token contrast pairs pass in both themes (text 4.5:1, control/focus 3:1) |
+| 8   | One `<h1>`, `aria-labelledby` per section, every SVG labelled or hidden  |
+| 9   | No `tabindex="-1"` in markup                                             |
+| 10  | No weight 300, no Cormorant                                              |
 
-`[data-ground="light"]` / `.ground-light` inverts the whole text ramp *and*
-`--color-crimson-text` (→ `#8B1A1A`, 7.45:1 on off-white). Applied
-automatically to `.panel-light`, `.card-preview-light` and
-`.lm-stage-inner.lm-light`.
+### CSS layer order (imported in `main.js`)
 
-Inside a light surface, use the same semantic tokens as anywhere else —
-`--text-primary` for ink, `--color-crimson-text` for accent type. The scope
-resolves. Do not hand-roll a `-light` variant; seven of those existed before
-v3.0 and the one that was missing shipped at 2.55:1.
+`tokens.css` · `motion-tokens.css` · `base.css` · `layout.css` · `docs.css` ·
+`components.css` · `patterns.css` · `dataviz.css` · `sidebar.css` · `brand.css`.
 
-### Documented values are generated
+### Responsive
 
-Any element printing a token's value carries
-`data-token-value="--motion-…"`; a pass in `main.js` fills its text from
-`getComputedStyle`. Never hand-type a value next to the token it documents.
+Breakpoints `1280px` · `900px` · `600px` (literals: custom properties don't work
+in `@media`). ≤1280 the bench inspector drops below the queue; ≤900 the sidebar
+becomes a drawer under a fixed top bar and controls go to 44px; ≤600 single
+column. The text scale never shrinks.
 
-## Utility layer (`layout.css`)
+### Accessibility contract
 
-Check these before writing an inline `style=`:
+Skip link, `<main id="app">`, `<noscript>`, one global `:focus-visible` ring,
+state and risk always with text + icon, toasts in an `aria-live` region,
+failures never auto-dismiss, `prefers-reduced-motion` collapses transitions,
+`@media print` hides chrome.
 
-`.stack-1` `.stack-2` `.stack-3` `.stack-hairline` · `.label-muted`
-`.label-accent` `.label-secondary` · `.token-name` · `.caption-center` ·
-`.mt-hairline` `.mt-2`
+### Exports (`package.json`)
 
-Animation initial states are `.anim-init` / `.anim-init-up`, both scoped to
-`.js-ready`. Never write a bare `opacity: 0` initial state in markup — without
-the scope a JS failure leaves that content permanently invisible, and it prints
-blank.
-
-## Section shape system
-
-One `.section` base plus modifiers that must differ materially:
-
-| Class | Difference |
-|---|---|
-| `.section` | Base — 1080px, midnight plate, hairline gutter |
-| `.section--prose` | 68ch measure |
-| `.section--gallery` | 120px vertical padding, 48px between specimens |
-| `.section--demo` | `surface` background — the stage reads as a stage |
-| `.section--spec` | 64px vertical padding |
-| `.opener` | Chapter opener — black ground, `display-xl`, one-sentence thesis |
-
-The twelve v2.0 wrapper names are kept as aliases on `.section`. Do not add a
-thirteenth, and do not add a modifier that compiles to the same bytes as an
-existing one.
-
-## CSS Layer Order
-
-Preserve the import order in `src/main.js`:
-
-1. `tokens.css`
-2. `motion-tokens.css`
-3. `base.css`
-4. `layout.css`
-5. `typography.css`
-6. `components.css`
-7. `animations.css`
-8. `sidebar.css`
-9. `motion-animations.css`
-10. `motion-components.css`
-
-## Motion System
-
-- Easing, duration, transform, opacity and stagger values live in motion
-  tokens. All 38 are consumed — invariant 6 keeps it that way.
-- `prefers-reduced-motion: reduce` and the `.reduced-motion` class collapse
-  durations to `0.01s` (never `0` — zero causes a flash) and zero transforms.
-- **The CSS `!important` does not reach JavaScript scheduling.** `setTimeout`,
-  `setInterval` and `rAF` do not read the media query. All scheduling goes
-  through the `schedule()` wrapper in `main.js`, which collapses the delay.
-- Every `setInterval` has a clear path and pauses on `visibilitychange`.
-- The scroll-reveal gate belongs to authored moments only — cover, chapter
-  openers, section dividers. Content blocks appear without a gate.
-- Motion demos are self-contained; add no framework dependency for them.
-
-## Naming
-
-Motion tokens are flat and categorized by the property they control:
-
-```text
---motion-[category]-[variant]
-```
-
-Categories: `easing` · `duration` · `ty` · `tx` · `scale` · `opacity` ·
-`stagger` · `exit`.
-
-Examples:
-
-- `--motion-easing-enter`
-- `--motion-duration-slow`
-- `--motion-ty-base`
-- `--motion-stagger-dense`
-
-The layer (atom / mol / org / tpl) describes *where* a token is applied and
-lives in the documentation, not in the name.
-
-> Until v3.0 this file specified `motion-[layer]-[type]-[variant]` with four
-> examples, none of which existed in the code. If you find that pattern
-> anywhere, it is stale.
-
-CSS classes follow their own component (`.m-reveal`, `.lm-stage`,
-`.dv-kpi-card`); only tokens carry the `--motion-` prefix.
-
-## Accessibility contract
-
-- One `<h1>` (the cover). Section titles are `<h2>`, block headers `<h3>`. No
-  skipped levels. Every `<section>` carries `aria-labelledby`.
-- `<main id="app">`, skip link as first focusable element, `<noscript>`
-  fallback, and a working `@media print`.
-- Every interactive target is a `<button>`/`<a>` or carries `role` +
-  `tabindex` + key handling. A delegated `keydown` handler operates any
-  `role="switch"` / `role="checkbox"` with Space and Enter.
-- One global `:focus-visible` rule using `--color-focus`.
-- Drawer and modal close on Escape, trap focus while open, and return it.
-- 44px minimum touch target at ≤900px.
-- `aria-current="page"` on the active nav item; `aria-live="polite"` on
-  ephemeral confirmations.
-
-## Exports
-
-`package.json` exposes individual CSS files and the SVG symbol as named
-exports. Preserve those entry points when reorganizing files.
-
-## Responsive Behavior
-
-Breakpoints are `1120px` · `900px` · `600px`. CSS custom properties do not work
-inside `@media`, so these are literals by necessity — keep them identical
-across every file.
-
-- `<= 1120px`: containers gain side margins.
-- `<= 900px`: grids collapse; sidebar becomes a drawer under a fixed 64px top
-  bar (never a floating hamburger over content); every interactive control gets
-  `min-height: 44px`.
-- `<= 600px`: single column, reduced padding. **The text ramp never shrinks** —
-  16px prose at 360px is still 16px. Only the display ramp scales down.
-
-Content wider than the column scrolls inside its own block (`.scroll-x`). The
-page never scrolls horizontally.
+`./tokens`, `./motion`, `./tokens.json`, `./base`, `./components`, `./patterns`,
+`./dataviz`, `./brand`, `./symbol`, `./icons/*`.

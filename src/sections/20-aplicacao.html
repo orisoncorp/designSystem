@@ -1,0 +1,113 @@
+<!-- 20 · Interfaces de aplicação -->
+<section id="sec-aplicacao" class="doc-section" aria-labelledby="sec-aplicacao-title">
+  <header class="doc-head">
+    <p class="doc-eyebrow">Padrões · F14</p>
+    <h2 class="doc-title" id="sec-aplicacao-title">Interfaces de aplicação</h2>
+    <p class="doc-lead">
+      As telas que Foundry, Gotham e AIP têm além da fila e do objeto,
+      convertidas para a Orison: o shell com trilho, as vistas de um conjunto
+      (tabela, quadro, mapa), vistas pareadas, a inbox de alertas e a busca
+      rápida. Todo objeto aparece com o mesmo ícone de tipo.
+    </p>
+  </header>
+
+  <div class="block">
+    <h3 class="block-title">Shell com trilho</h3>
+    <div class="shell" role="group" aria-label="Exemplo de shell com trilho de áreas" data-shell>
+      <nav class="shell-rail" aria-label="Áreas">
+        <span class="has-tip" data-tip><button type="button" aria-current="true" aria-labelledby="tip-area-op" data-area="op"><i class="ico" data-icon="aguardando"></i></button><span class="tooltip" role="tooltip" id="tip-area-op">Operação</span></span>
+        <span class="has-tip" data-tip><button type="button" aria-current="false" aria-labelledby="tip-area-dados" data-area="dados"><i class="ico" data-icon="dados"></i></button><span class="tooltip" role="tooltip" id="tip-area-dados">Dados</span></span>
+        <span class="has-tip" data-tip><button type="button" aria-current="false" aria-labelledby="tip-area-ag" data-area="ag"><i class="ico" data-icon="assistente"></i></button><span class="tooltip" role="tooltip" id="tip-area-ag">Agentes</span></span>
+        <span class="has-tip" data-tip><button type="button" aria-current="false" aria-labelledby="tip-area-aj" data-area="aj"><i class="ico" data-icon="ajustes"></i></button><span class="tooltip" role="tooltip" id="tip-area-aj">Ajustes</span></span>
+      </nav>
+      <nav class="shell-nav" aria-label="Navegação da área" data-shell-nav></nav>
+      <div class="shell-main"><b data-shell-title>Fila de propostas</b><span class="meta">O trilho troca a área; a navegação ao lado mostra só as telas da área ativa. Abaixo de 900 px a navegação da área sai e o celular usa a barra inferior (F13).</span></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Vistas do conjunto</h3>
+    <div class="row">
+      <div class="segmented" role="radiogroup" aria-label="Vista do conjunto" data-segmented data-views>
+        <button type="button" class="segment" role="radio" aria-checked="true" data-value="tabela"><i class="ico" data-icon="tabela"></i>Tabela</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="quadro"><i class="ico" data-icon="quadro"></i>Quadro</button>
+        <button type="button" class="segment" role="radio" aria-checked="false" data-value="mapa"><i class="ico" data-icon="mapa"></i>Mapa</button>
+      </div>
+      <span class="meta">6 objetos · os mesmos nas três vistas</span>
+    </div>
+    <div data-view="tabela">
+      <div class="table-wrap"><table class="table"><thead><tr><th scope="col">Objeto</th><th scope="col">Tipo</th><th scope="col">Estado</th><th scope="col">Risco</th><th scope="col">Owner</th></tr></thead><tbody><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20490</span></td><td class="meta">Pedido</td><td><span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span></td><td><span class="risk">Baixo</span></td><td>Ops</td></tr><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20481</span></td><td class="meta">Pedido</td><td><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span></td><td><span class="risk">Médio</span></td><td>Ops</td></tr><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20477</span></td><td class="meta">Pedido</td><td><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span></td><td><span class="risk">Baixo</span></td><td>Fin</td></tr><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>OS-311</span></td><td class="meta">Ordem de serviço</td><td><span class="tag tag-pending"><i class="ico" data-icon="executar"></i>Writeback enviado</span></td><td><span class="risk">Alto</span></td><td>Ops</td></tr><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20455</span></td><td class="meta">Pedido</td><td><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span></td><td><span class="risk">Baixo</span></td><td>Ops</td></tr><tr><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>SKU-88</span></td><td class="meta">Item de estoque</td><td><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span></td><td><span class="risk">Irreversível</span></td><td>Ops</td></tr></tbody></table></div>
+    </div>
+    <div data-view="quadro" hidden>
+      <div class="board"><div class="board-col"><div class="board-head"><span>Proposta</span><span class="num">1</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20490</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de PC-20490" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de PC-20490" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-pending"><i class="ico" data-icon="evidencia"></i>Proposta</span><span class="meta">Baixo · Ops</span></div></div><div class="board-col"><div class="board-head"><span>Aprovação</span><span class="num">2</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20481</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de PC-20481" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de PC-20481" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span><span class="meta">Médio · Ops</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20477</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de PC-20477" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de PC-20477" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-pending"><i class="ico" data-icon="aguardando"></i>Aguardando aprovação</span><span class="meta">Baixo · Fin</span></div></div><div class="board-col"><div class="board-head"><span>Writeback</span><span class="num">1</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>OS-311</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de OS-311" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de OS-311" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-pending"><i class="ico" data-icon="executar"></i>Writeback enviado</span><span class="meta">Alto · Ops</span></div></div><div class="board-col"><div class="board-head"><span>Resultado</span><span class="num">2</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20455</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de PC-20455" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de PC-20455" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-success"><i class="ico" data-icon="confirmado"></i>Reconciliada</span><span class="meta">Baixo · Ops</span></div><div class="board-card"><div class="row"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>SKU-88</span><span class="facet-anchor" data-card-menu><button type="button" class="btn btn-minimal btn-icon" aria-label="Ações de SKU-88" aria-expanded="false"><i class="ico" data-icon="mais"></i></button><div class="menu" role="menu" aria-label="Ações de SKU-88" hidden style="position:absolute;right:0;top:100%;z-index:5;min-width:200px"><button type="button" class="menu-item" role="menuitem" data-card-action="Abre a confirmação da action">Avançar estado…</button><button type="button" class="menu-item" role="menuitem" data-card-action="Owner atribuído"><i class="ico" data-icon="owner"></i>Atribuir owner</button><button type="button" class="menu-item" role="menuitem" data-card-action="Enviado para a rede"><i class="ico" data-icon="enviar"></i>Enviar para a rede</button></div></span></div><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span><span class="meta">Irreversível · Ops</span></div></div></div>
+      <p class="meta">Quadro (F14 · B1): uma coluna por estado. Mudar de coluna só pela action no menu do cartão, com a confirmação da action; nunca arrastando.</p>
+    </div>
+    <div data-view="mapa" hidden>
+      <div class="map-view" role="group" aria-label="Mapa com os objetos do conjunto">
+        <svg class="map-base" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C 20 35, 30 45, 50 38 S 80 30, 100 34"/><path d="M12 0 C 16 20, 26 30, 20 60"/><path d="M62 0 C 60 20, 72 35, 66 60"/><path d="M0 15 L 100 22"/></svg>
+        <button type="button" class="map-pin" style="left:30%;top:50%" aria-pressed="true" data-pin><span class="obj-icon"><i class="ico" data-icon="item"></i></span><b>CD Guarulhos</b></button>
+        <button type="button" class="map-pin" style="left:58%;top:32%" aria-pressed="false" data-pin><span class="obj-icon"><i class="ico" data-icon="loja"></i></span><b>Loja Centro</b></button>
+        <button type="button" class="map-pin" style="left:78%;top:70%" aria-pressed="false" data-pin><span class="obj-icon"><i class="ico" data-icon="fornecedor"></i></span><b>Fornecedor Alfa</b></button>
+        <span class="map-cluster" style="left:16%;top:78%" aria-label="12 objetos agrupados">12</span>
+      </div>
+      <p class="meta">Mapa como vista (F14 · M2): marcadores com o ícone do tipo e agrupamento; sem camadas nem ferramentas, até existir um caso geográfico real.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Vistas pareadas e “Enviar para”</h3>
+    <div class="paired" data-paired>
+      <div class="table-wrap"><table class="table"><tbody>
+        <tr data-pair="sku88" aria-selected="true"><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>SKU-88</span></td><td class="meta">Item</td></tr>
+        <tr data-pair="pc20481" aria-selected="false"><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>PC-20481</span></td><td class="meta">Pedido</td></tr>
+        <tr data-pair="alfa" aria-selected="false"><td><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="fornecedor"></i></span>Fornecedor Alfa</span></td><td class="meta">Fornecedor</td></tr>
+      </tbody></table></div>
+      <div class="paired-canvas net-simple" style="height:auto">
+        <div class="paired-layer" data-pair-layer>
+        <svg class="net-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="30" y1="50" x2="70" y2="25" data-a="sku88" data-b="pc20481"/><line x1="30" y1="50" x2="70" y2="75" data-a="sku88" data-b="alfa"/></svg>
+        <button type="button" class="net-node" style="left:30%;top:50%" data-pair="sku88" aria-pressed="true"><span class="net-dot"><i class="ico" data-icon="item"></i></span><b>SKU-88</b></button>
+        <button type="button" class="net-node" style="left:70%;top:25%" data-pair="pc20481" aria-pressed="false"><span class="net-dot"><i class="ico" data-icon="evidencia"></i></span><b>PC-20481</b></button>
+        <button type="button" class="net-node" style="left:70%;top:75%" data-pair="alfa" aria-pressed="false"><span class="net-dot"><i class="ico" data-icon="fornecedor"></i></span><b>Fornecedor Alfa</b></button>
+        </div>
+      </div>
+    </div>
+    <p class="meta">Vistas pareadas (F14 · C1, F16 · S3): selecionar na tabela leva a rede até o objeto e o faz pulsar uma vez; selecionar na rede destaca a linha. “Enviar para” (Rede, Mapa, Quadro) fica no menu de ações e leva a seleção como contexto.</p>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Inbox de alertas</h3>
+    <div class="inbox" data-inbox>
+      <div class="inbox-list">
+        <div class="inbox-filters"><button type="button" class="chip" aria-pressed="true">Não lidos <span class="num" data-unread>2</span></button><button type="button" class="chip" aria-pressed="false">Falhas</button><button type="button" class="chip" aria-pressed="false">Menções</button></div>
+        <div role="listbox" aria-label="Alertas" data-inbox-items>
+          <button type="button" class="inbox-item is-unread" role="option" aria-selected="true" data-title="SKU-88" data-body="Destino recusou a revisão 14 às 14:07. Owner: Operações. Remediação: reabrir com a revisão 15." data-kind="d"><span class="row"><span class="obj-icon"><i class="ico" data-icon="item"></i></span><b>Reconciliação falhou · SKU-88</b><span class="inbox-time">14:07</span></span><span class="meta">Destino recusou a revisão 14</span></button>
+          <button type="button" class="inbox-item is-unread" role="option" aria-selected="false" data-title="PC-20482" data-body="Analista mencionou você: “Reaberta como PC-20482.”" data-kind="p"><span class="row"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span><b>@Você em PC-20482</b><span class="inbox-time">14:12</span></span><span class="meta">Analista mencionou você</span></button>
+          <button type="button" class="inbox-item" role="option" aria-selected="false" data-title="CT-1193" data-body="O destino aplicou R$ 7.725,00 em vez de R$ 7.980,50 (3,2%)." data-kind="w"><span class="row"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span><b>Divergência 3,2% · CT-1193</b><span class="inbox-time">09:40</span></span><span class="meta">Valor aplicado diferente</span></button>
+        </div>
+      </div>
+      <div class="inbox-reader" aria-live="polite">
+        <div class="row" data-reader-head><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>SKU-88</span><span class="tag tag-danger"><i class="ico" data-icon="falha-fechar"></i>Falhou</span></div>
+        <p class="meta" data-reader-body>Destino recusou a revisão 14 às 14:07. Owner: Operações. Remediação: reabrir com a revisão 15.</p>
+        <div class="row">
+          <button type="button" class="btn btn-primary">Abrir</button>
+          <button type="button" class="btn btn-secondary"><i class="ico" data-icon="owner"></i>Atribuir</button>
+          <button type="button" class="btn btn-minimal"><i class="ico" data-icon="enviar"></i>Enviar para</button>
+          <span class="has-tip" data-tip><button type="button" class="btn btn-minimal btn-icon" aria-labelledby="tip-arquivar" data-archive><i class="ico" data-icon="arquivar"></i></button><span class="tooltip" role="tooltip" id="tip-arquivar">Arquivar</span></span>
+        </div>
+      </div>
+    </div>
+    <p class="meta">Inbox (F14 · I1): não lidos com barra azul e peso 600; abrir marca como lido; arquivar tira da lista. Falhas, divergências, menções e propostas atribuídas.</p>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Busca rápida</h3>
+    <div class="row"><button type="button" class="btn btn-secondary" data-omnibar-open><i class="ico" data-icon="buscar"></i>Buscar</button><span class="meta">ou <kbd>Ctrl</kbd> <kbd>K</kbd> em qualquer ponto desta página</span></div>
+    <p class="meta">Busca rápida (F14 · S1): abre no centro, com resultados agrupados por tipo; setas navegam, Enter abre, Esc fecha. Neste site ela busca as seções e objetos de exemplo; no produto, a página de resultados completa filtra por tipo.</p>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title">Ícone de objeto</h3>
+    <div class="row-3"><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="item"></i></span>Item de estoque</span><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="evidencia"></i></span>Pedido</span><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="fornecedor"></i></span>Fornecedor</span><span class="obj-label"><span class="obj-icon"><i class="ico" data-icon="loja"></i></span>Loja</span></div>
+    <p class="meta">Representação de objeto (F14 · R1): bloco de 24 px em neutro com o ícone do tipo, antes do código, igual em tabela, quadro, mapa, busca e inbox. Sem cor por tipo: a cor fica para resultado e dados.</p>
+  </div>
+</section>
