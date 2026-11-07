@@ -215,6 +215,8 @@
 }
 
 .toast-danger { border-left: var(--indicator) solid var(--color-danger); }
+.toast { animation: motion-rise-in var(--motion-duration-toast) var(--motion-easing-feedback); }
+.toast.is-leaving { animation: motion-fade-out var(--motion-duration-exit) var(--motion-easing-exit) forwards; }
 .toast .btn-icon { margin-left: auto; min-height: 28px; width: 28px; }
 
 /* Desfazer (F10 · U1): só antes do writeback; a janela é o atraso do envio. */
@@ -324,10 +326,9 @@ button.menu-item:focus-visible { outline-offset: -2px; }
   font-weight: var(--weight-text);
   line-height: 1.35;
   pointer-events: none;
-  opacity: 0;
   visibility: hidden;
   transform: translateX(-50%);
-  transition: opacity var(--motion-duration-feedback) var(--motion-easing-feedback), visibility 0s linear var(--motion-duration-feedback);
+  transition: visibility 0s;   /* F16 · P3: aparece sem movimento */
 }
 
 .tooltip::after {
@@ -344,8 +345,8 @@ button.menu-item:focus-visible { outline-offset: -2px; }
 .has-tip:hover .tooltip { transition-delay: 300ms; }
 .has-tip:hover .tooltip,
 .has-tip:focus-within .tooltip,
-.tooltip.is-open { opacity: 1; visibility: visible; }
-.has-tip.is-dismissed .tooltip { opacity: 0; visibility: hidden; }
+.tooltip.is-open { visibility: visible; }
+.has-tip.is-dismissed .tooltip { visibility: hidden; }
 
 /* ── tag removível (F10 · R2) ──
    Valor neutro de seleção múltipla; o X tem área própria de 24 px. */
@@ -486,7 +487,7 @@ button.menu-item:focus-visible { outline-offset: -2px; }
 .data-stamp.is-stale { color: var(--text-warning); font-weight: var(--weight-strong); }
 .data-stamp button { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .is-loading { position: relative; overflow: hidden; }
-.is-loading::before { content: ''; position: absolute; top: 0; left: 0; height: 2px; width: 40%; background: var(--color-action); }
+.is-loading::before { content: ''; position: absolute; top: 0; left: 0; height: 2px; width: 40%; background: var(--color-action); animation: motion-progress var(--motion-duration-progress) linear infinite; }
 .skeleton { display: block; height: 12px; background: var(--color-neutral-fill); }
 
 /* ── dado pessoal (F13 · M2) ──
@@ -513,8 +514,9 @@ button.menu-item:focus-visible { outline-offset: -2px; }
 /* ── gaveta (F13 · G1) ──
    Desliza da direita sobre o conteúdo, com véu; Esc ou véu fecham; o foco
    fica preso na gaveta e volta ao botão que a abriu. */
-.drawer-scrim { position: fixed; inset: 0; z-index: 400; background: var(--scrim); }
+.drawer-scrim { position: fixed; inset: 0; z-index: 400; background: var(--scrim); animation: motion-fade-in var(--motion-duration-dialog) var(--motion-easing-feedback); }
 .drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 401; display: grid; grid-template-rows: auto 1fr; width: min(var(--layout-inspector-width), 100vw); background: var(--color-surface); box-shadow: var(--elevation-3); }
+.drawer { animation: motion-drawer-in var(--motion-duration-drawer) var(--motion-easing-feedback); }
 .drawer-head { display: flex; align-items: center; gap: var(--space-2); min-height: var(--height-topbar); padding: 0 var(--space-2) 0 var(--space-4); border-bottom: var(--border-thin) solid var(--color-border); font-weight: var(--weight-strong); }
 .drawer-head .btn-icon { margin-left: auto; }
 .drawer-body { display: grid; gap: var(--space-3); align-content: start; overflow-y: auto; padding: var(--space-4); }
@@ -529,8 +531,8 @@ button.menu-item:focus-visible { outline-offset: -2px; }
 /* ── busca rápida (F14 · S1) ──
    Ctrl K abre no centro, nível 3 com véu; resultados agrupados por tipo,
    setas navegam, Enter abre, Esc fecha. */
-.omnibar-scrim { position: fixed; inset: 0; z-index: 500; background: var(--scrim); display: grid; justify-items: center; align-items: start; padding: 12vh var(--space-4) 0; }
-.omnibar { width: min(560px, 100%); max-height: 70vh; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; background: var(--color-surface); border-radius: var(--radius-control); box-shadow: var(--elevation-3); }
+.omnibar-scrim { position: fixed; inset: 0; z-index: 500; background: var(--scrim); animation: motion-fade-in var(--motion-duration-dialog) var(--motion-easing-feedback); display: grid; justify-items: center; align-items: start; padding: 12vh var(--space-4) 0; }
+.omnibar { animation: motion-dialog-in var(--motion-duration-dialog) var(--motion-easing-feedback); width: min(560px, 100%); max-height: 70vh; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; background: var(--color-surface); border-radius: var(--radius-control); box-shadow: var(--elevation-3); }
 .omnibar-input { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: var(--border-thin) solid var(--color-border); }
 .omnibar-input input { flex: 1; min-height: 48px; border: 0; outline: 0; background: transparent; color: var(--text-primary); font-family: var(--font-text); font-size: var(--text-ui); }
 .omnibar-results { overflow-y: auto; padding: var(--space-1) 0; }

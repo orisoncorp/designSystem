@@ -147,3 +147,9 @@ Fora do alicerce da Palantir, o Nobel acrescentou depois a F15 · telas de
 sistema (login, usuários e permissões, configurações); o movimento passou a F16.
 Depois da F16: exportar as decisões para a Elpis e juntar `refactor/ds-v4` no
 `main`.
+
+## Fechamento
+
+06-11-2026: F13, F14, F15 e F16 foram aprovadas e implantadas (v4.4.0 a v4.7.0).
+Todo item marcado como Parcial ou Falta nesta auditoria passou a Coberto; os
+itens Fora continuam fora, pelos motivos registrados.

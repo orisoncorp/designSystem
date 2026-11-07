@@ -31,13 +31,15 @@
   <div class="grid-2">
     <div class="block">
       <h3 class="block-title">Cadeia no inspetor</h3>
-      <div class="chain">
+      <div class="chain" data-chain-demo>
         <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Proposta</div><div class="chain-meta">Função de reposição · <span class="num">13:58</span> · agente v4</div></div></div>
         <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Aprovada</div><div class="chain-meta">Gerente de operações · autoridade registrada · <span class="num">14:05</span></div></div></div>
         <div class="chain-step is-done"><span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title">Writeback enviado</div><div class="chain-meta">ERP sintético · revisão <span class="num">14</span> · <span class="num">14:06</span></div></div></div>
         <div class="chain-step is-failed"><span class="chain-dot"><i class="ico" data-icon="falha-fechar"></i></span><div class="stack-2"><div><div class="chain-title">Reconciliação falhou</div><div class="chain-meta">Destino recusou a revisão <span class="num">14</span> · <span class="num">14:07</span></div></div><div class="callout callout-danger"><div>Motivo: revisão desatualizada. Owner: Operações. Remediação: reabrir com a revisão <span class="num">15</span>.</div></div></div></div>
-        <div class="chain-step"><span class="chain-dot"><i class="ico" data-icon="aguardando"></i></span><div><div class="chain-title">Resultado</div><div class="chain-meta">não medido</div></div></div>
+        <div class="chain-step" data-chain-last><span class="chain-dot"><i class="ico" data-icon="aguardando"></i></span><div><div class="chain-title">Resultado</div><div class="chain-meta">não medido</div></div></div>
       </div>
+      <button type="button" class="btn btn-secondary" style="justify-self:start" data-chain-next><i class="ico" data-icon="avancar"></i>Simular próxima etapa</button>
+      <p class="meta">A etapa nova entra no lugar onde fica, em 200 ms (F16 · E1).</p>
     </div>
     <div class="stack-3">
       <div class="block">

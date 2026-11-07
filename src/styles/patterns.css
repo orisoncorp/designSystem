@@ -293,7 +293,7 @@
 /* ── vistas pareadas (F14 · C1) ──
    Duas vistas lado a lado; selecionar numa acende o mesmo objeto na outra. */
 .paired { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); }
-.paired-canvas { position: relative; min-height: 220px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
+.paired-canvas { position: relative; overflow: hidden; min-height: 220px; background: var(--color-surface); border: var(--border-thin) solid var(--color-border); }
 
 /* ── inbox (F14 · I1) ──
    Lista com não lidos (barra azul, peso 600) e painel de leitura com ações. */
@@ -407,4 +407,19 @@
 }
 
 /* Camada de zoom do grafo simples (F14 · T1). */
-.net-zoom { position: absolute; inset: 0; transform-origin: 50% 50%; transition: transform var(--motion-duration-feedback) var(--motion-easing-feedback); }
+.net-zoom { position: absolute; inset: 0; transform-origin: 50% 50%; transition: transform var(--motion-duration-canvas) var(--motion-easing-feedback); }
+/* F16 · C1: nós deslizam para o novo layout; linhas acompanham. */
+.net-zoom .net-node { transition: left var(--motion-duration-canvas) var(--motion-easing-feedback), top var(--motion-duration-canvas) var(--motion-easing-feedback); }
+/* F16 · S3: a vista pareada leva até o objeto e pulsa uma vez. */
+.paired-layer { position: absolute; inset: 0; transition: transform var(--motion-duration-pan) var(--motion-easing-feedback); }
+.net-node.is-pulsing .net-dot { animation: motion-pulse var(--motion-duration-pulse) var(--motion-easing-exit) 1; }
+/* F16 · E1: etapa nova entra no lugar onde fica. */
+.chain-step.is-new { animation: motion-enter var(--motion-duration-enter) var(--motion-easing-feedback); }
+/* F16 · V1: barras do assistente passam do valor antigo ao novo. */
+.assistant-bars span { transition: height var(--motion-duration-data) var(--motion-easing-feedback); }
+/* F16 · A1: cursor pisca até a resposta terminar. */
+.stream-caret { animation: motion-blink var(--motion-duration-caret) steps(1) infinite; }
+/* F16 · D1: diálogo de convite entra com véu e escala. */
+.invite-dialog:not([hidden]) { animation: motion-dialog-in-centered var(--motion-duration-dialog) var(--motion-easing-feedback); }
+/* F16 · R1: dia atual da reprodução. */
+.timeline-bar.is-now { background: var(--data-1); box-shadow: 0 0 0 2px var(--color-focus); }

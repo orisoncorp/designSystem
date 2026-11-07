@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orison · Fusão · F16 Movimento de interação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Montserrat:wght@400;500;600&display=swap">
+<!-- Tokens, componentes e padrões reais do site v4.6. Os movimentos candidatos são CSS local. -->
+<link rel="stylesheet" href="../../src/tokens/tokens.css">
+<link rel="stylesheet" href="../../src/styles/components.css">
+<link rel="stylesheet" href="../../src/styles/patterns.css">
+<style>
+  :root { --page: #161618; --card: #1e1e21; --line: #2e2e32; --ink: #e8e6e1; --muted: #a3a19c; --okc: #2f8a55;
+    /* curvas candidatas: padrão do Blueprint (entrada) e saída acelerada */
+    --ease-in-std: cubic-bezier(0.4, 1, 0.75, 0.9); --ease-out-std: cubic-bezier(0.55, 0.06, 0.68, 0.19); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; padding-bottom: 150px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 48px 0 4px; }
+  .lead { color: var(--muted); max-width: 92ch; margin: 0 0 8px; }
+  .lead strong { color: var(--ink); }
+  .replay-all { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; margin-top: 8px; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-top: 16px; }
+  .opt { background: var(--card); border: 1px solid var(--line); padding: 14px; cursor: pointer; text-align: left; color: inherit; font: inherit; display: flex; flex-direction: column; }
+  .opt[aria-pressed="true"] { outline: 2px solid var(--okc); }
+  .opt .head { display: flex; gap: 10px; align-items: baseline; }
+  .opt .id { font: 600 14px ui-monospace, monospace; }
+  .opt .name { font-weight: 600; }
+  .opt .src { font-size: 12px; color: var(--muted); margin-left: auto; text-align: right; }
+  .opt > p { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  .ui { font-family: var(--font-text); font-size: var(--text-ui); line-height: var(--leading-ui); background: var(--color-canvas); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .stage { position: relative; height: 200px; overflow: hidden; padding: 14px; }
+  .meta { font-size: var(--text-meta); color: var(--text-muted); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  /* 1 · camadas */
+  .pop { position: absolute; left: 14px; top: 58px; width: 220px; }
+  .m-pop-P1 .pop { opacity: 0; transition: opacity 120ms var(--ease-in-std); }
+  .m-pop-P2 .pop { opacity: 0; transform: translateY(-4px); transition: opacity 160ms var(--ease-in-std), transform 160ms var(--ease-in-std); }
+  .m-pop-P3 .pop { opacity: 0; }
+  .go.m-pop-P1 .pop, .go.m-pop-P2 .pop, .go.m-pop-P3 .pop { opacity: 1; transform: none; }
+
+  /* 2 · diálogo e gaveta */
+  .dlg-stage { position: absolute; inset: 0; }
+  .dlg-stage .scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; }
+  .dlg-stage .dialog { position: absolute; left: 50%; top: 50%; width: 260px; transform: translate(-50%, -50%); opacity: 0; padding: 14px; }
+  .dlg-stage .drw { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; background: var(--color-surface); box-shadow: var(--elevation-3); padding: 12px; transform: translateX(100%); }
+  .m-dlg-D1 .scrim { transition: opacity 200ms var(--ease-in-std); }
+  .m-dlg-D1 .dialog { transform: translate(-50%, -50%) scale(0.98); transition: opacity 200ms var(--ease-in-std), transform 200ms var(--ease-in-std); }
+  .m-dlg-D1 .drw { transition: transform 240ms var(--ease-in-std); transition-delay: 900ms; }
+  .m-dlg-D2 .scrim, .m-dlg-D2 .dialog { transition: opacity 160ms var(--ease-in-std); }
+  .m-dlg-D2 .drw { opacity: 0; transform: none; transition: opacity 160ms var(--ease-in-std) 900ms; }
+  .m-dlg-D3 .drw { transform: translateX(100%); }
+  .go.m-dlg-D1 .scrim, .go.m-dlg-D2 .scrim, .go.m-dlg-D3 .scrim { opacity: 1; }
+  .go.m-dlg-D1 .dialog { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .go.m-dlg-D2 .dialog, .go.m-dlg-D3 .dialog { opacity: 1; }
+  .go.m-dlg-D1 .drw, .go.m-dlg-D3 .drw { transform: none; }
+  .go.m-dlg-D2 .drw { opacity: 1; }
+  .go2 .dialog { opacity: 0 !important; }
+
+  /* 3 · toast */
+  .stage .toast { position: absolute; right: 14px; bottom: 14px; width: 280px; }
+  .m-toast-T1 .toast { opacity: 0; transform: translateY(8px); transition: opacity 200ms var(--ease-in-std), transform 200ms var(--ease-in-std); }
+  .m-toast-T2 .toast { opacity: 0; transition: opacity 160ms var(--ease-in-std); }
+  .m-toast-T3 .toast { opacity: 0; }
+  .go.m-toast-T1 .toast, .go.m-toast-T2 .toast, .go.m-toast-T3 .toast { opacity: 1; transform: none; }
+
+  /* 4 · seleção sincronizada */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pair .r { min-height: 30px; display: flex; align-items: center; padding: 0 8px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); font-size: var(--text-meta); }
+  .pair .r.sel { background: var(--color-selected); box-shadow: inset 3px 0 0 var(--color-action); }
+  .pair .nodes { position: relative; background: var(--color-surface); border: 1px solid var(--color-border); height: 120px; overflow: hidden; }
+  .pair .n { position: absolute; width: 26px; height: 26px; border-radius: var(--radius-full); border: 2px solid var(--color-control); background: var(--color-surface); transform: translate(-50%, -50%); }
+  .pair .n.sel { border-color: var(--color-action); background: var(--color-selected); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--color-focus); } 100% { box-shadow: 0 0 0 10px transparent; } }
+  .go.m-sync-S1 .n.sel, .go.m-sync-S3 .n.sel { animation: pulse 600ms var(--ease-out-std) 1; }
+  .m-sync-S3 .nodes-inner { transition: transform 300ms var(--ease-in-std); transform: translate(40px, 30px); }
+  .go.m-sync-S3 .nodes-inner { transform: none; }
+  .nodes-inner { position: absolute; inset: 0; }
+
+  /* 5 · dados que mudam */
+  .bars { display: flex; gap: 8px; align-items: flex-end; height: 110px; border-bottom: 1px solid var(--data-axis); }
+  .bars span { flex: 1; height: 100%; background: var(--data-1); border-radius: var(--data-bar-radius) var(--data-bar-radius) 0 0; transform-origin: bottom; transform: scaleY(var(--a)); }
+  .m-data-V1 .bars span { transition: transform 300ms var(--ease-in-std); }
+  .go.m-data-V1 .bars span, .go.m-data-V2 .bars span, .go.m-data-V3 .bars span { transform: scaleY(var(--b)); }
+  .kpiv { font-size: var(--text-kpi); font-weight: var(--weight-number); padding: 0 4px; }
+  @keyframes flash { 0% { background: var(--color-selected); } 100% { background: transparent; } }
+  .go.m-data-V2 .kpiv { animation: flash 800ms var(--ease-out-std) 1; }
+
+  /* 6 · carregamento */
+  .lbar { position: absolute; left: 0; top: 0; height: 2px; width: 40%; background: var(--color-action); }
+  @keyframes run { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+  .m-load-L1 .lbar, .m-load-L2 .lbar { animation: run 1.2s linear infinite; }
+  @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+  .m-load-L2 .skeleton { animation: glow 1.4s ease-in-out infinite; }
+  .kblock { position: relative; overflow: hidden; background: var(--color-surface); border: 1px solid var(--color-border); padding: 12px; display: grid; gap: 8px; margin-bottom: 10px; }
+
+  /* 7 · streaming */
+  .caret { display: inline-block; width: 2px; height: 1em; background: var(--text-primary); vertical-align: -2px; margin-left: 2px; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .m-stream-A1 .caret { animation: blink 1s steps(1) infinite; }
+  .m-stream-A2 .caret, .m-stream-A3 .caret { display: none; }
+  .answer { font-size: var(--text-meta); background: var(--color-surface); border: 1px solid var(--color-border); padding: 10px; min-height: 90px; }
+
+  /* 8 · canvas */
+  .cv { position: relative; height: 170px; background: var(--color-surface); border: 1px solid var(--color-border); overflow: hidden; }
+  .cv .layer { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .cv .n { position: absolute; width: 24px; height: 24px; border-radius: var(--radius-full); border: 2px solid var(--color-control); background: var(--color-surface); transform: translate(-50%, -50%); }
+  .cv .n.c { border-color: var(--color-action); background: var(--color-selected); }
+  .m-canvas-C1 .n { transition: left 300ms var(--ease-in-std), top 300ms var(--ease-in-std); }
+  .m-canvas-C1 .layer, .m-canvas-C3 .layer { transition: transform 300ms var(--ease-in-std); }
+
+  /* 9 · reprodução */
+  .tl { display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; align-items: end; height: 90px; border-bottom: 1px solid var(--data-axis); }
+  .tl span { background: var(--data-context); border-radius: 2px 2px 0 0; }
+  .tl span.on { background: var(--data-1); }
+  .tl span.now { background: var(--data-1); box-shadow: 0 0 0 2px var(--color-focus); }
+
+  /* 10 · cadeia */
+  .chain-step.new { opacity: 1; }
+  .m-chain-E1 .chain-step.new { opacity: 0; transform: translateY(-4px); transition: opacity 200ms var(--ease-in-std), transform 200ms var(--ease-in-std); }
+  .m-chain-E2 .chain-step.new, .m-chain-E3 .chain-step.new { opacity: 0; }
+  .go.m-chain-E1 .chain-step.new, .go.m-chain-E2 .chain-step.new, .go.m-chain-E3 .chain-step.new { opacity: 1; transform: none; }
+  @keyframes flashStep { 0% { background: var(--color-selected); } 100% { background: transparent; } }
+  .go.m-chain-E3 .chain-step.new { animation: flashStep 900ms var(--ease-out-std) 1; }
+
+  .tokens { margin-top: 16px; background: var(--card); border: 1px solid var(--line); padding: 16px; font: 13px/1.6 ui-monospace, monospace; white-space: pre-wrap; }
+
+  @media (prefers-reduced-motion: reduce) { .ui *, .ui *::before { animation-duration: 0.01s !important; animation-iteration-count: 1 !important; transition-duration: 0.01s !important; transition-delay: 0s !important; } }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0f11; border-top: 1px solid var(--line); padding: 12px 24px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; z-index: 10; }
+  .bar pre { margin: 0; font: 13px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  .bar textarea { width: 100%; height: 38px; background: var(--card); color: var(--ink); border: 1px solid var(--line); font: 13px system-ui; padding: 6px 8px; }
+  .bar .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+  .bar button { font: 600 13px system-ui; padding: 8px 14px; cursor: pointer; background: var(--ink); color: #111; border: 0; }
+  .bar button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fusão · F16 · Movimento de interação</h1>
+  <p class="lead">
+    <strong>Reaberto pelo Nobel.</strong> Regra da DR-09 (DC-GC-09-011): movimento
+    comunica transição de estado, progresso, falha ou conclusão; nunca é teatro.
+    O estudo de frontend da Palantir usa 120 a 340 ms; o Blueprint, 100 ms com a
+    curva <code>cubic-bezier(0.4, 1, 0.75, 0.9)</code>, que já é a do DS.
+  </p>
+  <p class="lead">
+    Dez perguntas, cada uma animada. <strong>Clique numa opção para escolher e
+    rever o movimento.</strong> Fica fixo, sem votação: o feedback de controle de
+    120 ms que já existe, a preferência de movimento reduzido (tudo vira
+    instantâneo, inclusive o JavaScript) e nada de entrada de página ou lista em
+    cascata.
+  </p>
+  <button type="button" class="replay-all" id="replay-all">Reproduzir todos</button>
+</header>
+
+<main>
+  <h2>1 · Menu, dica e popover</h2>
+  <p class="lead">Camadas pequenas que abrem perto do controle.</p>
+  <div class="opts" data-q="pop"></div>
+
+  <h2>2 · Diálogo e gaveta</h2>
+  <p class="lead">Camadas grandes, com véu. A prévia abre o diálogo e, em seguida, a gaveta.</p>
+  <div class="opts" data-q="dlg"></div>
+
+  <h2>3 · Aviso (toast)</h2>
+  <p class="lead">Entra no canto inferior direito; some sozinho só quando é sucesso.</p>
+  <div class="opts" data-q="toast"></div>
+
+  <h2>4 · Seleção sincronizada</h2>
+  <p class="lead">Selecionar na tabela acende o mesmo objeto na rede ou no mapa (F14 · C1).</p>
+  <div class="opts" data-q="sync"></div>
+
+  <h2>5 · Dados que mudam</h2>
+  <p class="lead">Recarga trouxe valores novos: barras e números.</p>
+  <div class="opts" data-q="data"></div>
+
+  <h2>6 · Carregamento</h2>
+  <p class="lead">Barra fina de recarga e esqueleto da primeira carga (F13 · C3).</p>
+  <div class="opts" data-q="load"></div>
+
+  <h2>7 · Resposta do assistente</h2>
+  <p class="lead">O texto que chega aos poucos (F14 · A1).</p>
+  <div class="opts" data-q="stream"></div>
+
+  <h2>8 · Zoom e layout no canvas</h2>
+  <p class="lead">A prévia troca o layout da rede e aproxima.</p>
+  <div class="opts" data-q="canvas"></div>
+
+  <h2>9 · Reprodução no tempo</h2>
+  <p class="lead">Do Gaia (reprodução de trilhas): percorrer o histórico dia a dia.</p>
+  <div class="opts" data-q="replay"></div>
+
+  <h2>10 · Nova etapa na cadeia de estado</h2>
+  <p class="lead">Writeback enviado, reconciliação concluída: a etapa nova aparece na cadeia do inspetor.</p>
+  <div class="opts" data-q="chain"></div>
+
+  <h2>Tokens que as escolhas geram</h2>
+  <div class="tokens" id="tokens"></div>
+</main>
+
+<div class="bar" role="region" aria-label="Resumo das escolhas">
+  <pre id="summary"></pre>
+  <textarea id="notes" placeholder="Notas livres"></textarea>
+  <div class="actions">
+    <button id="copy" type="button">Copiar resumo</button>
+    <button id="reset" type="button" class="ghost">Limpar</button>
+  </div>
+</div>
+
+<script>
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  play: '<path d="M6 3v18l14-9Z"/>', pause: '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+  more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+};
+const I = (n, c = 'ico') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${P[n]}</svg>`;
+
+const Q = {
+  pop: [
+    { id: 'P1', name: 'Esmaecer, 120 ms', src: 'feedback atual do DS', why: 'Só opacidade, na duração do feedback. O mais discreto que ainda mostra de onde veio.' },
+    { id: 'P2', name: 'Esmaecer e deslizar 4 px, 160 ms', src: 'Blueprint Popover', why: 'Opacidade e um deslocamento de 4 px a partir do controle. Diz de onde a camada saiu.' },
+    { id: 'P3', name: 'Sem movimento', src: 'proposta', why: 'Aparece na hora. Zero distração; a camada parece “piscar” na tela.' },
+  ],
+  dlg: [
+    { id: 'D1', name: 'Diálogo 200 ms, gaveta desliza 240 ms', src: 'Blueprint Dialog e Drawer', why: 'Véu e diálogo esmaecem, com o diálogo crescendo de 98% a 100%; a gaveta desliza da direita. Mostra a relação com a página.' },
+    { id: 'D2', name: 'Só esmaecer, 160 ms', src: 'proposta', why: 'Diálogo e gaveta só esmaecem. Mais calmo; a gaveta perde a direção de onde veio.' },
+    { id: 'D3', name: 'Sem movimento', src: 'proposta', why: 'Tudo aparece na hora. Rápido; a mudança de contexto é brusca.' },
+  ],
+  toast: [
+    { id: 'T1', name: 'Sobe 8 px e esmaece, 200 ms', src: 'Blueprint Toast', why: 'Entra de baixo, perto de onde fica; sai esmaecendo em 160 ms com curva de saída.' },
+    { id: 'T2', name: 'Só esmaecer, 160 ms', src: 'proposta', why: 'Aparece e some por opacidade. Discreto; chama menos a atenção para a falha.' },
+    { id: 'T3', name: 'Sem movimento', src: 'proposta', why: 'Aparece na hora. Pode passar despercebido no canto.' },
+  ],
+  sync: [
+    { id: 'S1', name: 'Pulso único', src: 'Gotham (App Pairing)', why: 'O objeto que acende na outra vista ganha um pulso de foco que some em 600 ms. Uma vez, nunca em loop.' },
+    { id: 'S2', name: 'Só troca de estado', src: 'proposta', why: 'O objeto muda para selecionado, sem pulso. Calmo; num grafo cheio, difícil de achar.' },
+    { id: 'S3', name: 'Leva até o objeto e pulsa', src: 'Graph (centralizar seleção)', why: 'A outra vista desliza até o objeto (300 ms) e pulsa. Acha sempre; mexe a vista que o operador estava olhando.' },
+  ],
+  data: [
+    { id: 'V1', name: 'Do antigo ao novo, 300 ms', src: 'estudo de frontend (barras animadas)', why: 'Barras crescem ou encolhem do valor antigo ao novo, só com transform. Mostra o quanto mudou.' },
+    { id: 'V2', name: 'Troca e destaca', src: 'proposta', why: 'Valor troca na hora e o que mudou ganha fundo de seleção que some em 800 ms.' },
+    { id: 'V3', name: 'Troca direta', src: 'proposta', why: 'Valor novo aparece na hora, sem sinal. Mais simples; a mudança passa despercebida.' },
+  ],
+  load: [
+    { id: 'L1', name: 'Barra corre, esqueleto parado', src: 'proposta', why: 'Na recarga, a barra de 2 px corre no topo do bloco (é progresso); o esqueleto da primeira carga fica parado.' },
+    { id: 'L2', name: 'Barra corre, esqueleto pulsa', src: 'Blueprint Skeleton (glow)', why: 'Os dois se movem: a barra corre e o esqueleto pulsa suave. Mais vivo; mais movimento parado na tela.' },
+    { id: 'L3', name: 'Tudo parado', src: 'proposta', why: 'Barra estática e esqueleto parado, com “Carregando” em texto. Zero movimento; parece travado.' },
+  ],
+  stream: [
+    { id: 'A1', name: 'Aos poucos, com cursor', src: 'AIP Analyst', why: 'O texto chega em pedaços com um cursor que pisca até o fim; o cursor some quando a resposta termina.' },
+    { id: 'A2', name: 'Aos poucos, sem cursor', src: 'proposta', why: 'O texto chega em pedaços, sem cursor. Mais limpo; menos claro se ainda está chegando.' },
+    { id: 'A3', name: 'Por frase', src: 'proposta', why: 'Uma frase inteira por vez. Mais fácil de ler enquanto chega; espera maior entre blocos.' },
+  ],
+  canvas: [
+    { id: 'C1', name: 'Layout e zoom interpolados, 300 ms', src: 'Graph (layouts interpolados)', why: 'Os nós deslizam para o novo layout e o zoom é contínuo. O operador acompanha onde cada nó foi parar.' },
+    { id: 'C2', name: 'Instantâneo', src: 'proposta', why: 'Nós e zoom saltam para o lugar novo. Rápido; perde-se a referência de onde cada nó estava.' },
+    { id: 'C3', name: 'Só o zoom anima', src: 'proposta', why: 'Zoom contínuo, troca de layout instantânea.' },
+  ],
+  replay: [
+    { id: 'R1', name: 'Reproduzir o histórico', src: 'Gaia (reprodução de trilhas)', why: 'Botão Reproduzir no histograma percorre os dias (um por segundo), acendendo os eventos de cada dia; Pausar a qualquer momento.' },
+    { id: 'R2', name: 'Deixar de fora', src: 'PG-GC-09-05', why: 'Sem reprodução; a janela arrastável (F11 · H1) já responde “o que aconteceu quando”.' },
+  ],
+  chain: [
+    { id: 'E1', name: 'Entra esmaecendo, 200 ms', src: 'proposta', why: 'A etapa nova surge com opacidade e 4 px de deslocamento, no lugar onde fica.' },
+    { id: 'E2', name: 'Instantânea', src: 'proposta', why: 'A etapa nova aparece na hora. O operador pode não notar que algo mudou.' },
+    { id: 'E3', name: 'Entra e destaca', src: 'proposta (com V2)', why: 'Aparece e ganha fundo de seleção que some em 900 ms. Chama a atenção para a mudança de estado.' },
+  ],
+};
+
+const KEY = 'orison-fusao-f16';
+const DEFAULT = { pick: { pop: 'P2', dlg: 'D1', toast: 'T1', sync: 'S1', data: 'V1', load: 'L1', stream: 'A1', canvas: 'C1', replay: 'R1', chain: 'E1' }, notes: '' };
+const state = JSON.parse(localStorage.getItem(KEY) || JSON.stringify(DEFAULT));
+
+/* ── prévias ── */
+const V = {
+  pop: () => `<span class="btn btn-secondary btn-icon" aria-label="Mais ações">${I('more')}</span><div class="menu pop"><button type="button" class="menu-item">Aprovar…</button><button type="button" class="menu-item">Atribuir owner</button><button type="button" class="menu-item">Ver histórico</button></div>`,
+  dlg: () => `<div class="dlg-stage"><div style="padding:14px;display:grid;gap:6px"><b>Fila</b><span class="meta">PC-20481 · PC-20477</span></div><div class="scrim"></div><div class="dialog"><span class="dialog-title">Aprovar a PC-20481?</span><div class="dialog-actions"><span class="btn btn-secondary">Cancelar</span><span class="btn btn-primary">Aprovar</span></div></div><div class="drw"><b>SKU-88</b><p class="meta">Gaveta do inspetor</p></div></div>`,
+  toast: () => `<div class="meta">Proposta aprovada…</div><div class="toast" role="status">${I('check')}<span>PC-20481 aprovada.</span></div>`,
+  sync: () => `<div class="pair"><div><div class="r">SKU-91</div><div class="r sel">SKU-88</div><div class="r">PC-20481</div></div><div class="nodes"><div class="nodes-inner"><span class="n" style="left:25%;top:30%"></span><span class="n sel" style="left:55%;top:55%"></span><span class="n" style="left:80%;top:25%"></span></div></div></div>`,
+  data: () => `<div class="row" style="justify-content:space-between"><span class="meta">Valor reconciliado</span><span class="kpiv num" data-kpi>R$ 70,1 mil</span></div><div class="bars">${[[.4, .45], [.5, .48], [.55, .62], [.6, .58], [.7, .82], [.75, .94]].map(([a, b]) => `<span style="--a:${a};--b:${b}"></span>`).join('')}</div>`,
+  load: () => `<div class="kblock"><span class="lbar"></span><span class="meta">Propostas pendentes · recarregando</span><b class="num" style="font-size:var(--text-kpi)">23</b></div><div class="kblock"><span class="meta">Primeira carga</span><span class="skeleton" style="width:90px;height:24px"></span><span class="skeleton" style="width:70%"></span></div>`,
+  stream: () => `<div class="answer"><span data-stream></span><span class="caret"></span></div>`,
+  canvas: () => `<div class="cv"><div class="layer" data-layer><span class="n c" style="left:50%;top:50%" data-r="50,50" data-c="20,50"></span>${[[20, 25, 75, 20], [20, 75, 75, 50], [80, 25, 75, 80], [80, 75, 45, 85]].map(([rx, ry, cx, cy]) => `<span class="n" style="left:${rx}%;top:${ry}%" data-r="${rx},${ry}" data-c="${cx},${cy}"></span>`).join('')}</div></div>`,
+  replay: (id) => id === 'R2' ? `<div class="tl">${[2, 3, 1, 4, 2, 5, 3, 2, 6, 8, 4, 7, 9, 5].map((v) => `<span class="on" style="height:${v * 10}%"></span>`).join('')}</div><span class="meta">Janela arrastável; sem reprodução.</span>` : `<div class="row"><span class="btn btn-secondary" style="min-height:30px;font-size:13px">${I('pause')}Pausar</span><span class="meta" data-day>Dia 01/11 · 6 eventos</span></div><div class="tl" data-tl>${[2, 3, 1, 4, 2, 5, 3, 2, 6, 8, 4, 7, 9, 5].map((v) => `<span style="height:${v * 10}%"></span>`).join('')}</div>`,
+  chain: () => `<div class="chain"><div class="chain-step is-done"><span class="chain-dot">${I('check')}</span><div><div class="chain-title">Aprovada</div><div class="chain-meta">14:05</div></div></div><div class="chain-step is-done new"><span class="chain-dot">${I('check')}</span><div><div class="chain-title">Writeback enviado</div><div class="chain-meta">14:06 · agora</div></div></div></div>`,
+};
+
+const ANSWER = 'O preço subiu 4,1% em outubro. A proposta repassa 3,3% para manter a margem. Fonte: ERP v12.';
+const timers = new WeakMap();
+function play(stage, q, id) {
+  clearInterval(timers.get(stage)); clearTimeout(timers.get(stage));
+  stage.className = `ui stage m-${q}-${id}`;
+  stage.innerHTML = V[q](id);
+  void stage.offsetWidth;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(() => stage.classList.add('go'));
+  if (q === 'data') setTimeout(() => { stage.querySelector('[data-kpi]').textContent = 'R$ 94,2 mil'; }, 30);
+  if (q === 'stream') {
+    const el = stage.querySelector('[data-stream]'); let i = 0;
+    if (reduced || id === 'A3') {
+      const parts = ANSWER.split(/(?<=\.)\s/); let k = 0;
+      if (reduced) { el.textContent = ANSWER; return; }
+      const t = setInterval(() => { k += 1; el.textContent = parts.slice(0, k).join(' '); if (k >= parts.length) clearInterval(t); }, 700); timers.set(stage, t); return;
+    }
+    const t = setInterval(() => { i += 2; el.textContent = ANSWER.slice(0, i); if (i >= ANSWER.length) { clearInterval(t); stage.querySelector('.caret')?.remove(); } }, 35); timers.set(stage, t);
+  }
+  if (q === 'canvas') {
+    const t = setTimeout(() => {
+      stage.querySelectorAll('.n').forEach((n) => { const [x, y] = n.dataset.c.split(','); n.style.left = `${x}%`; n.style.top = `${y}%`; });
+      setTimeout(() => { stage.querySelector('[data-layer]').style.transform = 'scale(1.25)'; }, 500);
+    }, 400); timers.set(stage, t);
+  }
+  if (q === 'replay' && id === 'R1') {
+    const bars = [...stage.querySelectorAll('[data-tl] span')]; let d = 0;
+    const step = () => { bars.forEach((b, k) => { b.className = k < d ? 'on' : k === d ? 'now' : ''; }); stage.querySelector('[data-day]').textContent = `Dia ${String(24 + d > 31 ? d - 7 : 24 + d).padStart(2, '0')}/${24 + d > 31 ? '11' : '10'} · ${[2, 3, 1, 4, 2, 5, 3, 2, 6, 8, 4, 7, 9, 5][d]} eventos`; d += 1; if (d >= bars.length) clearInterval(t); };
+    step(); const t = setInterval(step, reduced ? 0 : 450); timers.set(stage, t);
+  }
+  if (q === 'dlg') setTimeout(() => stage.classList.add('go2'), 900);
+}
+
+document.querySelectorAll('.opts').forEach((boxEl) => {
+  const q = boxEl.dataset.q;
+  boxEl.innerHTML = Q[q].map((o) => `
+    <button type="button" class="opt" data-q="${q}" data-id="${o.id}" aria-pressed="false">
+      <div class="head"><span class="id">${o.id}</span><span class="name">${o.name}</span><span class="src">${o.src}</span></div>
+      <p>${o.why}</p>
+      <div class="ui stage" data-stage="${q}:${o.id}"></div>
+      <span class="hint">Clique para escolher e rever</span>
+    </button>`).join('');
+});
+
+const playAll = () => document.querySelectorAll('[data-stage]').forEach((s) => { const [q, id] = s.dataset.stage.split(':'); play(s, q, id); });
+
+const TOK = {
+  pop: { P1: ['--motion-duration-overlay: 120ms;', 'opacidade'], P2: ['--motion-duration-overlay: 160ms;', 'opacidade + translateY(-4px)'], P3: ['--motion-duration-overlay: 0ms;', 'nenhum'] },
+  dlg: { D1: ['--motion-duration-dialog: 200ms; --motion-duration-drawer: 240ms;', 'escala 0,98→1; gaveta translateX'], D2: ['--motion-duration-dialog: 160ms; --motion-duration-drawer: 160ms;', 'opacidade'], D3: ['--motion-duration-dialog: 0ms; --motion-duration-drawer: 0ms;', 'nenhum'] },
+  toast: { T1: ['--motion-duration-toast: 200ms; /* saída 160ms */', 'translateY(8px) + opacidade'], T2: ['--motion-duration-toast: 160ms;', 'opacidade'], T3: ['--motion-duration-toast: 0ms;', 'nenhum'] },
+  sync: { S1: ['--motion-duration-pulse: 600ms;', 'pulso de foco, uma vez'], S2: ['/* sem token */', 'troca de estado'], S3: ['--motion-duration-pulse: 600ms; --motion-duration-pan: 300ms;', 'pan até o objeto + pulso'] },
+  data: { V1: ['--motion-duration-data: 300ms;', 'transform do valor antigo ao novo'], V2: ['--motion-duration-highlight: 800ms;', 'destaque do valor mudado'], V3: ['/* sem token */', 'troca direta'] },
+  load: { L1: ['--motion-duration-progress: 1200ms; /* barra indeterminada */', 'esqueleto parado'], L2: ['--motion-duration-progress: 1200ms; --motion-duration-skeleton: 1400ms;', 'barra e esqueleto'], L3: ['/* sem token */', 'tudo parado'] },
+  stream: { A1: ['/* streaming do conteúdo; cursor 1s steps(1) */', 'cursor pisca até o fim'], A2: ['/* streaming sem cursor */', ''], A3: ['/* por frase */', ''] },
+  canvas: { C1: ['--motion-duration-canvas: 300ms;', 'layout e zoom'], C2: ['/* sem token */', 'instantâneo'], C3: ['--motion-duration-canvas: 300ms; /* só zoom */', ''] },
+  replay: { R1: ['/* reprodução: 1 dia por passo, Pausar */', ''], R2: ['/* sem reprodução */', ''] },
+  chain: { E1: ['--motion-duration-enter: 200ms;', 'opacidade + translateY(-4px)'], E2: ['/* sem token */', ''], E3: ['--motion-duration-enter: 200ms; --motion-duration-highlight: 900ms;', ''] },
+};
+
+function render() {
+  document.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(state.pick[b.dataset.q] === b.dataset.id)));
+  const p = state.pick;
+  document.getElementById('tokens').textContent = ':root {\n  --motion-duration-feedback: 120ms;   /* fixo */\n  --motion-easing-feedback: cubic-bezier(0.4, 1, 0.75, 0.9);   /* entrada, fixo */\n  --motion-easing-exit: cubic-bezier(0.55, 0.06, 0.68, 0.19);\n' + Object.keys(TOK).map((q) => `  ${TOK[q][p[q]][0]}${TOK[q][p[q]][1] ? `   /* ${TOK[q][p[q]][1]} */` : ''}`).join('\n') + '\n}\n@media (prefers-reduced-motion: reduce) { /* todas as durações a 0,01s; JS sem intervalos */ }';
+  summaryEl.textContent = `F16 · Movimento\nCamadas: ${p.pop} · Diálogo e gaveta: ${p.dlg} · Toast: ${p.toast} · Seleção: ${p.sync} · Dados: ${p.data} · Carga: ${p.load} · Assistente: ${p.stream} · Canvas: ${p.canvas} · Reprodução: ${p.replay} · Cadeia: ${p.chain}` + (state.notes ? `\nNotas: ${state.notes}` : '');
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+const summaryEl = document.getElementById('summary');
+const notesEl = document.getElementById('notes');
+notesEl.value = state.notes || '';
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  state.pick[b.dataset.q] = b.dataset.id; render();
+  const s = b.querySelector('[data-stage]'); play(s, b.dataset.q, b.dataset.id);
+});
+document.getElementById('replay-all').addEventListener('click', playAll);
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; render(); });
+document.getElementById('copy').addEventListener('click', () => navigator.clipboard.writeText(summaryEl.textContent));
+document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(KEY); location.reload(); });
+render();
+playAll();
+</script>
+</body>
+</html>

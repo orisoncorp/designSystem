@@ -201,6 +201,8 @@ function refreshComputed() {
    Sucesso some em 5 s, com pausa em hover ou foco; falha fica até fechar. */
 const toastRegion = document.getElementById('toast-region');
 
+const REDUCED = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 function toast(message, kind = 'success', { undo } = {}) {
   const el = document.createElement('div');
   el.className = `toast ${kind === 'danger' ? 'toast-danger' : ''}`;
@@ -209,15 +211,17 @@ function toast(message, kind = 'success', { undo } = {}) {
     ${undo ? '<button type="button" class="btn btn-minimal toast-action" data-undo>Desfazer</button>' : ''}
     <button type="button" class="btn btn-minimal btn-icon" aria-label="Fechar aviso" data-close><i class="ico" data-icon="falha-fechar"></i></button>`;
   renderIcons(el);
-  el.querySelector('[data-close]').addEventListener('click', () => el.remove());
-  el.querySelector('[data-undo]')?.addEventListener('click', () => { el.remove(); undo(); });
+  /* F16 · T1: sai esmaecendo em 160 ms; com movimento reduzido, na hora. */
+  const leave = () => { if (el.classList.contains('is-leaving')) return; el.classList.add('is-leaving'); setTimeout(() => el.remove(), REDUCED() ? 0 : 160); };
+  el.querySelector('[data-close]').addEventListener('click', leave);
+  el.querySelector('[data-undo]')?.addEventListener('click', () => { leave(); undo(); });
   toastRegion.appendChild(el);
   if (kind === 'danger') return;
   // Desfazer (F10 · U1): janela de 10 s, que é o atraso antes do writeback.
   const life = undo ? 10000 : 5000;
-  let timer = setTimeout(() => el.remove(), life);
+  let timer = setTimeout(leave, life);
   const pause = () => clearTimeout(timer);
-  const resume = () => { timer = setTimeout(() => el.remove(), life); };
+  const resume = () => { timer = setTimeout(leave, life); };
   el.addEventListener('mouseenter', pause);
   el.addEventListener('mouseleave', resume);
   el.addEventListener('focusin', pause);
@@ -455,7 +459,28 @@ document.querySelectorAll('[data-timeline]').forEach((tl) => {
     if (bar && bars.includes(bar)) apply(anchor, bars.indexOf(bar));
   });
   addEventListener('pointerup', () => { dragging = false; });
-  tl.querySelector('[data-timeline-clear]').addEventListener('click', () => { anchor = null; apply(null); });
+  tl.querySelector('[data-timeline-clear]').addEventListener('click', () => { stopReplay(); anchor = null; apply(null); bars.forEach((b) => b.classList.remove('is-now')); });
+
+  /* F16 · R1: Reproduzir percorre os dias; Pausar para onde estiver. */
+  const play = tl.querySelector('[data-timeline-play]');
+  let replay = null;
+  let day = 0;
+  const playLabel = (playing) => { play.querySelector('span').textContent = playing ? 'Pausar' : 'Reproduzir'; play.querySelector('i').dataset.icon = playing ? 'parar' : 'executar'; renderIcons(play); };
+  const stopReplay = () => { clearInterval(replay); replay = null; play.setAttribute('aria-pressed', 'false'); playLabel(false); };
+  const step = () => {
+    apply(0, day);
+    bars.forEach((b, i) => b.classList.toggle('is-now', i === day));
+    day += 1;
+    if (day >= bars.length) { stopReplay(); day = 0; }
+  };
+  play.addEventListener('click', () => {
+    if (replay) { stopReplay(); return; }
+    play.setAttribute('aria-pressed', 'true');
+    playLabel(true);
+    if (REDUCED()) { day = bars.length - 1; step(); stopReplay(); return; }
+    step();
+    replay = setInterval(step, 450);
+  });
 });
 
 /* ── Componentes e estados da F13 ── */
@@ -574,6 +599,14 @@ document.querySelectorAll('[data-reload]').forEach((b) => b.addEventListener('cl
   setTimeout(() => {
     block.classList.remove('is-loading');
     block.removeAttribute('aria-busy');
+    /* F16 · V1: o número passa do valor antigo ao novo em 300 ms. */
+    const value = block.querySelector('.kpi-value');
+    if (value) {
+      const from = 94.2, to = 96.8;
+      const show = (v) => { value.textContent = `R$ ${v.toFixed(1).replace('.', ',')} mil`; };
+      if (REDUCED()) show(to);
+      else { const t0 = performance.now(); const tick = (now) => { const t = Math.min(1, (now - t0) / 300); show(from + (to - from) * (1 - (1 - t) ** 3)); if (t < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
+    }
     stamp.classList.remove('is-stale');
     stamp.innerHTML = `<i class="ico" data-icon="aguardando"></i>Lido às <span class="num">${nowHM()}</span>`;
     renderIcons(stamp);
@@ -662,7 +695,18 @@ document.querySelectorAll('[data-paired]').forEach((box) => {
     box.querySelectorAll('.net-node[data-pair]').forEach((n) => n.setAttribute('aria-pressed', String(n.dataset.pair === key)));
     box.querySelectorAll('.net-lines line').forEach((l) => l.classList.toggle('is-hot', [l.dataset.a, l.dataset.b].includes(key)));
   };
-  box.addEventListener('click', (e) => { const el = e.target.closest('[data-pair]'); if (el) select(el.dataset.pair); });
+  /* F16 · S3: vindo da tabela, a rede desliza até o objeto e ele pulsa. */
+  const layer = box.querySelector('[data-pair-layer]');
+  const focusNode = (key) => {
+    const n = box.querySelector(`.net-node[data-pair="${key}"]`);
+    layer.style.transform = `translate(${50 - parseFloat(n.style.left)}%, ${50 - parseFloat(n.style.top)}%)`;
+    n.classList.remove('is-pulsing'); void n.offsetWidth; n.classList.add('is-pulsing');
+  };
+  box.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-pair]'); if (!el) return;
+    select(el.dataset.pair);
+    if (el.tagName === 'TR') focusNode(el.dataset.pair);
+  });
   select('sku88');
 });
 
@@ -747,12 +791,20 @@ document.querySelectorAll('[data-net-canvas]').forEach((canvas) => {
       const [x, y] = n.dataset[layout === 'radial' ? 'radial' : 'cols'].split(',');
       n.style.left = `${x}%`; n.style.top = `${y}%`;
     });
-    canvas.querySelectorAll('.net-lines line').forEach((l) => {
+    /* F16 · C1: as linhas acompanham os nós durante os 300 ms do layout. */
+    const lines = [...canvas.querySelectorAll('.net-lines line')].map((l) => {
       const a = canvas.querySelector(`.net-node[data-node="${l.dataset.a}"]`);
       const b = canvas.querySelector(`.net-node[data-node="${l.dataset.b}"]`);
-      l.setAttribute('x1', parseFloat(a.style.left)); l.setAttribute('y1', parseFloat(a.style.top));
-      l.setAttribute('x2', parseFloat(b.style.left)); l.setAttribute('y2', parseFloat(b.style.top));
+      const to = [parseFloat(a.style.left), parseFloat(a.style.top), parseFloat(b.style.left), parseFloat(b.style.top)];
+      const from = ['x1', 'y1', 'x2', 'y2'].map((k, i) => (l.hasAttribute(k) ? Number(l.getAttribute(k)) : to[i]));
+      return { l, from, to };
     });
+    const set = (t) => lines.forEach(({ l, from, to }) => ['x1', 'y1', 'x2', 'y2'].forEach((k, i) => l.setAttribute(k, from[i] + (to[i] - from[i]) * t)));
+    if (REDUCED()) { set(1); return; }
+    const start = performance.now();
+    const ease = (t) => 1 - (1 - t) ** 3;
+    const tick = (now) => { const t = Math.min(1, (now - start) / 300); set(ease(t)); if (t < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
   };
   canvas.querySelectorAll('[data-net-mode]').forEach((b) => b.addEventListener('click', () => {
     canvas.querySelectorAll('[data-net-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
@@ -805,11 +857,31 @@ document.querySelectorAll('[data-stream-form]').forEach((form) => {
       if (bars) { bars.outerHTML = `<table class="table"><tbody>${['mai', 'jun', 'jul', 'ago', 'set', 'out'].map((m, i) => `<tr><td>${m}</td><td class="r">R$ ${[7420, 7430, 7430, 7440, 7420, 7725][i].toLocaleString('pt-BR')},00</td></tr>`).join('')}</tbody></table>`; e.target.textContent = 'Ver gráfico'; }
       else { chart.querySelector('table').outerHTML = `<div class="assistant-bars">${[56, 57, 57, 58, 58, 61].map((v) => `<span style="height:${(v - 40) * 4}%"></span>`).join('')}</div>`; e.target.textContent = 'Ver tabela'; }
     };
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { text.textContent = ANSWER; finish(false); return; }
+    if (REDUCED()) { text.textContent = ANSWER; finish(false); return; }
     let i = 0;
     timer = setInterval(() => { i += 3; text.textContent = ANSWER.slice(0, i); if (i >= ANSWER.length) finish(false); }, 30);
   };
   form.addEventListener('submit', () => { const q = form.querySelector('[data-stream-input]').value.trim(); if (q) run(q); });
+});
+
+/* ── Nova etapa na cadeia (F16 · E1) ── */
+document.querySelectorAll('[data-chain-next]').forEach((btn) => {
+  const chain = btn.parentElement.querySelector('[data-chain-demo]');
+  const NEXT = [['Reaberta com a revisão 15', 'Operações · agora'], ['Writeback enviado', 'ERP sintético · revisão 15 · agora'], ['Reconciliada', 'destino confirmou a revisão 15 · agora']];
+  let k = 0;
+  btn.addEventListener('click', () => {
+    if (k >= NEXT.length) { btn.disabled = true; return; }
+    const [title, meta] = NEXT[k];
+    const step = document.createElement('div');
+    step.className = 'chain-step is-done is-new';
+    step.innerHTML = '<span class="chain-dot"><i class="ico" data-icon="confirmado"></i></span><div><div class="chain-title"></div><div class="chain-meta"></div></div>';
+    step.querySelector('.chain-title').textContent = title;
+    step.querySelector('.chain-meta').textContent = meta;
+    renderIcons(step);
+    chain.insertBefore(step, chain.querySelector('[data-chain-last]'));
+    k += 1;
+    if (k >= NEXT.length) btn.disabled = true;
+  });
 });
 
 /* ── Telas de sistema (F15) ── */

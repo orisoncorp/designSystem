@@ -3,7 +3,7 @@ name: Orison Design System
 description: >
   Sistema visual v4 da Orison: marca neutra, produto operacional legível e
   semântica explícita de estado, risco e evidência.
-version: 4.6.0
+version: 4.7.0
 colors:
   # Neutra fria (F01 · N2) — tema claro, produto
   canvas: "#f6f7f9"
@@ -273,7 +273,7 @@ components:
 ---
 
 <!--
-Estado: v4.6.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F15
+Estado: v4.7.0, aprovado pelo Nobel em 06-11-2026 nas rodadas F01 a F16
 (docs/fusao-palantir.md) e implantado no código em src/tokens/tokens.css.
 Se os dois divergirem, o código vence e este documento é corrigido.
 -->
@@ -807,9 +807,35 @@ abrindo o título ou fechando a assinatura.
 
 ### Motion
 
-Fora de escopo até nova decisão. Permitido só o feedback: hover, foco, abertura
-de gaveta e diálogo. `prefers-reduced-motion` colapsa durações para `0.01s` e
-alcança também o agendamento em JavaScript.
+Movimento comunica transição de estado, continuidade, progresso ou conclusão;
+nunca é teatro (DC-GC-09-011). Entrada com a curva do Blueprint
+(`cubic-bezier(0.4, 1, 0.75, 0.9)`); saída acelerada
+(`cubic-bezier(0.55, 0.06, 0.68, 0.19)`). Tokens em `motion-tokens.css`:
+
+- **Feedback (120 ms):** hover, pressão, chevron de seção.
+- **Menu, dica e popover:** sem movimento. A dica mantém só o atraso de 300 ms
+  no hover.
+- **Diálogo (200 ms):** véu esmaece e o diálogo cresce de 98% a 100%; a busca
+  rápida também. **Gaveta (240 ms):** desliza da direita.
+- **Aviso (200 ms):** sobe 8 px enquanto aparece; sai esmaecendo em 160 ms com a
+  curva de saída.
+- **Seleção pareada:** vinda da outra vista, a vista desliza até o objeto (300
+  ms) e ele pulsa uma vez (600 ms). Nunca em loop.
+- **Dados que mudam (300 ms):** barras e números passam do valor antigo ao novo,
+  só com transform ou interpolação do número.
+- **Carregamento:** a barra de recarga corre (1200 ms, linear, enquanto
+  carrega), porque é progresso; o esqueleto fica parado.
+- **Resposta do assistente:** chega aos poucos com cursor que pisca (1 s) até o
+  fim; o cursor some quando a resposta termina.
+- **Rede (300 ms):** troca de layout e zoom contínuos; as linhas acompanham os
+  nós.
+- **Histórico:** "Reproduzir" percorre os dias, um a cada 450 ms, com Pausar.
+- **Etapa nova na cadeia (200 ms):** aparece esmaecendo e desliza 4 px, no lugar
+  onde fica.
+
+Nada de entrada de página nem de lista em cascata. `prefers-reduced-motion`
+colapsa todas as durações para `0.01s`, para animações infinitas e alcança o
+JavaScript: streaming, reprodução e interpolações saem na hora.
 
 ## Do's and Don'ts
 

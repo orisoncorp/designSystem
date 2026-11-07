@@ -1,12 +1,44 @@
-/* Motion · v4
-   O Motion System está fora de escopo até nova decisão (DESIGN.md,
-   Components → Motion; a versão completa está na tag ds-v3.0). Fica só
-   o feedback de interface: hover, foco, abertura de gaveta. */
+/* Motion · v4.7 (F16 · movimento de interação)
+   Movimento comunica transição de estado, progresso, falha ou conclusão;
+   nunca é teatro (DR-09, DC-GC-09-011). Menu, dica e popover não se movem
+   (F16 · P3). Com movimento reduzido, tudo vira instantâneo. */
 :root {
-  --motion-duration-feedback: 120ms;
-  --motion-easing-feedback:   cubic-bezier(0.4, 1, 0.75, 0.9);   /* curva do Blueprint */
+  /* curvas */
+  --motion-easing-feedback: cubic-bezier(0.4, 1, 0.75, 0.9);    /* entrada · curva do Blueprint */
+  --motion-easing-exit:     cubic-bezier(0.55, 0.06, 0.68, 0.19); /* saída acelerada */
+
+  /* durações */
+  --motion-duration-feedback: 120ms;   /* hover, pressão, chevron */
+  --motion-duration-dialog:   200ms;   /* D1 · véu e diálogo, escala 0,98 → 1 */
+  --motion-duration-drawer:   240ms;   /* D1 · gaveta desliza da direita */
+  --motion-duration-toast:    200ms;   /* T1 · sobe 8 px e aparece */
+  --motion-duration-exit:     160ms;   /* T1 · saída do aviso */
+  --motion-duration-pan:      300ms;   /* S3 · leva a vista até o objeto */
+  --motion-duration-pulse:    600ms;   /* S3 · pulso único de foco */
+  --motion-duration-data:     300ms;   /* V1 · do valor antigo ao novo */
+  --motion-duration-progress: 1200ms;  /* L1 · barra de recarga indeterminada */
+  --motion-duration-canvas:   300ms;   /* C1 · layout e zoom da rede */
+  --motion-duration-enter:    200ms;   /* E1 · etapa nova na cadeia */
+  --motion-duration-caret:    1000ms;  /* A1 · cursor da resposta */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --motion-duration-feedback: 0.01s; }
+  :root {
+    --motion-duration-feedback: 0.01s; --motion-duration-dialog: 0.01s; --motion-duration-drawer: 0.01s;
+    --motion-duration-toast: 0.01s; --motion-duration-exit: 0.01s; --motion-duration-pan: 0.01s;
+    --motion-duration-pulse: 0.01s; --motion-duration-data: 0.01s; --motion-duration-progress: 0.01s;
+    --motion-duration-canvas: 0.01s; --motion-duration-enter: 0.01s; --motion-duration-caret: 0.01s;
+  }
 }
+
+/* ── animações nomeadas ── */
+@keyframes motion-fade-in { from { opacity: 0; } }
+@keyframes motion-dialog-in { from { opacity: 0; transform: scale(0.98); } }
+@keyframes motion-dialog-in-centered { from { opacity: 0; transform: translate(-50%, -50%) scale(0.98); } }
+@keyframes motion-drawer-in { from { transform: translateX(100%); } }
+@keyframes motion-rise-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes motion-fade-out { to { opacity: 0; } }
+@keyframes motion-enter { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes motion-pulse { from { box-shadow: 0 0 0 0 var(--color-focus); } to { box-shadow: 0 0 0 10px transparent; } }
+@keyframes motion-progress { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+@keyframes motion-blink { 50% { opacity: 0; } }

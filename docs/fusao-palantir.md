@@ -65,6 +65,8 @@ Em toda rodada:
 |     |                         | canvas, vizinhos, assistente, ícone de objeto     |
 | F15 | Telas de sistema        | entrada, pessoas, permissões, convite,            |
 |     |                         | configurações, salvar                             |
+| F16 | Movimento de interação  | camadas, diálogo, aviso, seleção, dados, carga,   |
+|     |                         | assistente, canvas, reprodução, cadeia            |
 
 Depois da F09: fundir `orisonDesign.md` e o `DESIGN.md` grafite num único
 `DESIGN.md`, reorganizar o site na navegação da arquitetura v4 e gerar o export
@@ -296,6 +298,24 @@ Nobel.
 - Configurações com seções à esquerda e barra de alterações até salvar.
 - Peças fixas: duas etapas, registro de acesso, integrações com estado.
 
+### F16 · Movimento de interação · 06-11-2026
+
+Escolhas: P3 · D1 · T1 · S3 · V1 · L1 · A1 · C1 · R1 · E1. Página:
+`exploracao/fusao/f16-movimento.html`.
+
+- Menu, dica e popover sem movimento. O Nobel preferiu P3 ao deslize de 4 px
+  recomendado.
+- Diálogo 200 ms com véu e escala; gaveta desliza em 240 ms.
+- Aviso sobe 8 px em 200 ms e sai esmaecendo em 160 ms.
+- Seleção pareada: a outra vista desliza até o objeto e ele pulsa uma vez. O
+  Nobel escolheu S3 no lugar do pulso simples recomendado ("adorei essa").
+- Dados do valor antigo ao novo em 300 ms.
+- Barra de recarga corre; esqueleto parado.
+- Assistente com texto aos poucos e cursor.
+- Rede com layout e zoom contínuos em 300 ms ("também adorei essa").
+- Histórico com "Reproduzir" e Pausar.
+- Etapa nova da cadeia entra em 200 ms.
+
 ## Notas para o novo DESIGN.md
 
 Decisões que o `DESIGN.md` unificado precisa registrar como norma, além dos
@@ -413,15 +433,16 @@ tokens em `exploracao/fusao/tokens-v4.css`:
   assistente, a resposta em andamento; o menu de ações, "Enviar para".
 - 06-11-2026: F15 implantada (v4.6.0) na seção nova "Telas de sistema" (21);
   dados, conteúdo e recursos passaram a 22–24.
+- 06-11-2026: F16 implantada (v4.7.0): tokens de movimento por papel em
+  `motion-tokens.css`, aplicados aos componentes e padrões existentes. Com isso,
+  a auditoria de cobertura (`docs/cobertura-palantir.md`) ficou fechada.
 
 ## Próximas rodadas
 
-- **F16 · Movimento de interação:** reaberto pelo Nobel, aplicado a tudo o que
-  as rodadas anteriores aprovaram.
-
-Depois da F16: exportar as decisões para a Elpis e juntar `refactor/ds-v4` no
-`main`. Peças novas seguem o mesmo método: página em `exploracao/fusao/`,
-votação item a item e registro aqui antes de qualquer token.
+Todas as rodadas abertas foram fechadas (F01 a F16). Próximos passos: exportar
+as decisões para a Elpis e juntar `refactor/ds-v4` no `main`. Peças novas seguem
+o mesmo método: página em `exploracao/fusao/`, votação item a item e registro
+aqui antes de qualquer token.
 
 Fontes: `~/Orison/Tatico/palantir-overview/` (réplicas de botão, campo, tag,
 callout, seleção, navegação, sobreposição, feedback, tabela, inspetor e rede),

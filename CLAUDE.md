@@ -5,12 +5,12 @@ code in this repository.
 
 ## Design norm (v4)
 
-`DESIGN.md` is the single written norm (v4.6.0, approved by Nobel on 06-11-2026
-through fusion rounds F01–F15, logged in `docs/fusao-palantir.md`).
+`DESIGN.md` is the single written norm (v4.7.0, approved by Nobel on 06-11-2026
+through fusion rounds F01–F16, logged in `docs/fusao-palantir.md`).
 `src/tokens/tokens.css` is the executable truth: if the two disagree, the code
-wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, Motion System,
-command center, voice/narrative) lives only in the git tag `ds-v3.0`; do not
-reintroduce any of it without a decision from Nobel.
+wins and `DESIGN.md` is the bug. v3.0 (Cormorant, crimson CTA, the v3 Motion
+System, command center, voice/narrative) lives only in the git tag `ds-v3.0`; do
+not reintroduce any of it without a decision from Nobel.
 
 New visual decisions go through approval rounds (HTML pages in
 `exploracao/fusao/`, registry in `docs/fusao-palantir.md`), never straight into
@@ -91,7 +91,10 @@ right `group`, run `npm run verify`.
 theme on `[data-theme='dark']` (`data-theme="light"` restores light inside a
 dark band), same semantic names in both (`--color-*`, `--text-*`, `--bg-*`,
 `--data-*`, `--space-*`, `--radius-*`, `--elevation-*`, …).
-`src/tokens/motion-tokens.css` holds only feedback motion.
+`src/tokens/motion-tokens.css` holds the F16 interaction motion: easings,
+durations per role (feedback, dialog, drawer, toast, exit, pan, pulse, data,
+progress, canvas, enter, caret) and the named keyframes. Menus, tooltips and
+popovers do not move. JS animations check `REDUCED()` in `main.js`.
 
 ### The ten invariants (`scripts/verify-system.mjs`)
 
